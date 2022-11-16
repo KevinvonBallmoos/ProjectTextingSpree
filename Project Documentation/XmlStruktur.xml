@@ -1,5 +1,5 @@
 ﻿<!-- Name of Xml File has to be the same as the name of the Dialogue Editor -->
-<!-- 1 Chapter or Section. TODO: Figure out the naming -->
+<!-- 1 Chapter or Section. -->
 <Chapter1>
 	<!-- Root Node is the start. In the Editor mark the first Node as "RootNode" -->
 	<RootNode>Let us start talking</RootNode>
@@ -11,7 +11,7 @@
 		<Choice id="3">Choice 3</Choice>
 		<Choice id="3">Choice 4</Choice>
 	</DialogueChoices>
-	<!-- All NPC Dialogue or Dialogue that doesn't is a choice -->
+	<!-- All NPC Dialogue or Dialogue that isn't a choice -->
 	<DialogueNPC>
 		<!-- The Editor reads from top to bottom. Make sure to have the right sequence -->
 		<Npc id="1">Talk 1</Npc>
@@ -20,4 +20,6 @@
 		<Npc id="4">Talk 4</Npc>
 	</DialogueNPC>
 </Chapter1>
-		<!-- Additional to know:-->
+		<!-- Additional TODO:
+			1. Maybe add Dialogue Node for Player, non-choice
+			2. Naming for Speakers -->
