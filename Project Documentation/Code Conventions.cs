@@ -8,6 +8,11 @@ using Unity.Engine;
 // Curly Brackets are below the Code and not on the same Line
 namespace DefaultNamespace
 {
+    /// <summary>
+    /// Class shows Code Convetions
+    /// </summary>
+    /// <param name="author">Kevin von Ballmoos</param>
+    /// <param name="date">24.11.2022</param>
     public class Code_Convention
     {
         // ## 2.2 Class Variables ## //
