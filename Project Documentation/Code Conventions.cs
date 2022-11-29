@@ -4,6 +4,9 @@ using Unity.Engine;
 // Own Class
 // using Other.OwnClass; 
 
+// Logger Using
+// using Code.Logger;
+
 // Adjust namespaces, according to Folder structure
 // Curly Brackets are below the Code and not on the same Line
 namespace DefaultNamespace
@@ -15,6 +18,9 @@ namespace DefaultNamespace
     /// <param name="date">24.11.2022</param>
     public class Code_Convention
     {
+        // Logger Instantiate
+        private readonly GameLogger _logger = new GameLogger("DialogueEditor");
+        
         // ## 2.2 Class Variables ## //
         // private Variable beginns with a underscore
         // [SerializeField] only when needed 
@@ -63,6 +69,9 @@ namespace DefaultNamespace
             // Simplifiedd While
             while (int i < number)
                 text = GetCarName();
+                
+            // Logger Needs Type (Test, Info, Exception, ...), Message and the Method _logger.GetLineNumber() returns the current Line Number
+            _logger.LogEntry("Test", "Logging Info", _logger.GetLineNumber());
         }
         
         
