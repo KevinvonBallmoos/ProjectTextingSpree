@@ -65,7 +65,8 @@ namespace DefaultNamespace
                 number += i;
             // Simplified Foreach
             foreach (var item in userList)
-                text += user + ";";
+                text += user
+                        sin+ ";";
             // Simplifiedd While
             while (int i < number)
                 text = GetCarName();
@@ -109,5 +110,26 @@ namespace DefaultNamespace
         private string ID { get; set; }
 
         #endregion
+        
+        
+        // Exception Handling
+        private void ExceptionHandling()
+        {
+            try
+            {
+                // Some Code
+            }
+            catch (Exception ex)
+            {
+                // Alternative to ex.Message is ex.GetBaseException().ToString(), this gets the InnerException and is more detailed
+                // The new StackTrace Line Number returns the excat line where the exception has been thrown
+                _logger.LogEntry("Exception or Error", _ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber);
+            }
+
+            using ()
+            {
+                //does automatically dispose of all, that is not used anymore
+            }
+        }
     }
 }
