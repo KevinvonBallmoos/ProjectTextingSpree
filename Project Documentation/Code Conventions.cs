@@ -14,8 +14,8 @@ namespace DefaultNamespace
     /// <summary>
     /// Class shows Code Convetions
     /// </summary>
-    /// <param name="author">Kevin von Ballmoos</param>
-    /// <param name="date">24.11.2022</param>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">24.11.2022</para>
     public class Code_Convention
     {
         // Logger Instantiate
@@ -23,8 +23,9 @@ namespace DefaultNamespace
         
         // ## 2.2 Class Variables ## //
         // private Variable beginns with a underscore
-        // [SerializeField] only when needed 
-        [SerializeField] private string _nameOfCar;
+        private string _nameOfCar;
+        // [SerializeField] only when needed  and no underscore
+        [SerializeField] private string nameOfCar;
         
         // Readonly: Can be initialized at Compiletime or Runtime
         private readonly string PathToStoryFile;
@@ -123,7 +124,7 @@ namespace DefaultNamespace
             {
                 // Alternative to ex.Message is ex.GetBaseException().ToString(), this gets the InnerException and is more detailed
                 // The new StackTrace Line Number returns the excat line where the exception has been thrown
-                _logger.LogEntry("Exception or Error", _ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber);
+                _logger.LogEntry("Exception or Error", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber);
             }
 
             using ()
