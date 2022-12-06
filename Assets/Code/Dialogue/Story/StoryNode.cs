@@ -14,11 +14,11 @@ namespace Code.Dialogue.Story
     public class StoryNode : ScriptableObject
     {
         // Logger
-        private readonly GameLogger _logger = new GameLogger("DialogueEditor");
+        private readonly GameLogger _logger = new GameLogger("StoryNode");
+        
+        public  string text;
 
-        public string text;
-
-        [SerializeField] private bool isStoryChoice = false;
+        [SerializeField] private bool isChoiceNode = false;
         [SerializeField] private bool isRootNode = false;
         
         [SerializeField] private List<string> childNodes = new List<string>();
@@ -30,10 +30,10 @@ namespace Code.Dialogue.Story
         /// Sets the value of isStoryChoice to true or false
         /// </summary>
         /// <param name="newIsStoryChoice"></param>
-        public void SetStoryChoice(bool newIsStoryChoice)
+        public void SetChoiceNode(bool newIsStoryChoice)
         {
             Undo.RecordObject(this, "Change Story or Dialogue");
-            isStoryChoice = newIsStoryChoice;
+            isChoiceNode = newIsStoryChoice;
             EditorUtility.SetDirty(this);
         }
         
@@ -71,9 +71,9 @@ namespace Code.Dialogue.Story
             storyRect.position = vector;
         }
         
-        public bool IsStoryChoice()
+        public bool IsChoiceNode()
         {
-            return isStoryChoice;
+            return isChoiceNode;
         }
         
         public bool IsRootNode()
@@ -86,7 +86,7 @@ namespace Code.Dialogue.Story
             return text;
         }
 
-        public List<string> GetChildren()
+        public List<string> GetChildNodes()
         {
             return childNodes;
         }

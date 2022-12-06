@@ -1,17 +1,52 @@
-﻿using Code.Logger;
+﻿using System;
+using System.Reflection;
+using System.Xml;
 using UnityEditor;
+using UnityEngine;
 
-namespace Code.Dialogue 
+using Code.Logger;
+using UnityEditor.Callbacks;
+
+namespace Code.Dialogue.Story 
 {
     /// <summary>
     /// Story Editor, Creates Nodes used for the Story
     /// </summary>
     /// <para name="author">Kevin von Ballmoos></para>
     /// <para name="date">04.12.2022</para>
-    public class DialogueEditor : EditorWindow
+    public class StoryEditor : EditorWindow
     {
-        private readonly GameLogger _logger = new GameLogger("DialogueEditor");
-     
+        // Logger
+        private readonly GameLogger _logger = new GameLogger("StoryEditor");
+        // Story
+        private Story _selectedChapter = null;
+        // Vector
+        private Vector2 _scrollPosition;
+        // Float
+        private const float CanvasSize = 4000;
+        private const float BackGround = 50;
+        // Xml
+        private XmlDocument _xmlDoc;
+        private XmlNode _rootNode;
+        // Node style
+        [NonSerialized] private GUIStyle _storyNodeStyle;
+        [NonSerialized] private GUIStyle _choiceNodeStyle;
+        [NonSerialized] private GUIStyle _textAreaStyle;
+        // Drag
+        [NonSerialized] private StoryNode _storyNode = null;
+        [NonSerialized] private bool _dragCanvas = false;
+        [NonSerialized] private Vector2 _dragOffset;
+        [NonSerialized] private Vector2 _dragCanvasOffset;
+        // Node
+        [NonSerialized] private StoryNode _createNextNode = null;
+        [NonSerialized] private StoryNode _createStoryNode = null;
+        [NonSerialized] private StoryNode _deleteNode = null;
+        [NonSerialized] private StoryNode _linkParentNode = null;
+        // Count
+        [NonSerialized] private int _choiceCount; 
+        [NonSerialized] private int _nodeCount;
+
+        #region StoryWindow
         
         /// <summary>
         /// Extends Unity with the Story Editor
@@ -22,8 +57,367 @@ namespace Code.Dialogue
             GetWindow(typeof(StoryEditor), false, "Story Editor");
         }
         
-        private void OnEnable(){
-            _logger.LogEntry("Test", "Logging Info", _logger.GetLineNumber());
+        /// <summary>
+        /// Shows the Editor Window, depending if a Story is loaded or not
+        /// Asset Callback : In computer programming, a callback is executable code that is passed as an argument to other code.
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <returns>true when a Story is loaded and false when not</returns>
+        [OnOpenAsset(1)]
+        public static bool OnOpenAsset(int instanceId)
+        {
+            Story story = EditorUtility.InstanceIDToObject(instanceId) as Story;
+            if (story != null)
+            {
+                ShowEditorWindow();
+                return true;
+            }
+            return false;
         }
+        
+        #endregion
+        
+        /// <summary>
+        /// When the Dialog is Enabled, initialize the node Styles.
+        /// </summary>
+        private void OnEnable()
+        {
+            Selection.selectionChanged += OnSelectionChanged;
+
+            _storyNodeStyle = new GUIStyle
+            {
+                normal =
+                {
+                    background = EditorGUIUtility.Load("node0") as Texture2D,
+                    textColor = Color.white
+                },
+                padding = new RectOffset(20, 20, 20, 20),
+                border = new RectOffset(12, 12, 12, 12)
+            };
+
+            _choiceNodeStyle = new GUIStyle
+            {
+                normal =
+                {
+                    background = EditorGUIUtility.Load("node1") as Texture2D,
+                    textColor = Color.white
+                },
+                padding = new RectOffset(20, 20, 20, 20),
+                border = new RectOffset(12, 12, 12, 12)
+            };
+            _logger.LogEntry("LogStart", "Initializing Node Styles!", _logger.GetLineNumber());
+        }
+        
+        /// <summary>
+        /// When an other Chapter is selected
+        /// </summary>
+        private void OnSelectionChanged()
+        {
+            Story newChapter = Selection.activeObject as Story;
+            if (newChapter != null)
+            {
+                _selectedChapter = newChapter;
+                Repaint();
+            }
+        }
+
+        #region Draw GUI
+
+        /// <summary>
+        /// Creates the Rect, the Editor and the Nodes 
+        /// </summary>
+        private void OnGUI()
+        {
+            // If no Dialogue is selected, displays message below
+            if (_selectedChapter == null)
+            {
+                EditorGUILayout.LabelField("No Dialogue Selected.");
+            }
+            else
+            {
+                // Draw GUI
+                ProcessEvents();
+                _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+
+                // Draws canvas
+                Rect canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
+                // Draw Background
+                Texture2D backGroundTex = Resources.Load("background") as Texture2D;
+                // Width and Height are how many times the images has to appear (tile)
+                Rect texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
+                // Draw Surface
+                GUI.DrawTextureWithTexCoords(canvas, backGroundTex, texCoords);
+                
+                _choiceCount = 0;
+                _nodeCount = 0;
+                foreach (var node in _selectedChapter.GetAllNodes())
+                {
+                    if (node.IsChoiceNode() && !node.IsRootNode())
+                        _choiceCount++;
+                    else if (!node.IsChoiceNode() && !node.IsRootNode())
+                        _nodeCount++;
+                    if(DrawNode(node))
+                        DrawConnections(node);
+                    else
+                    {
+                        _createStoryNode = null;
+                        _createNextNode = null;
+                    }
+                }
+                
+                EditorGUILayout.EndScrollView();
+
+                if (_createStoryNode != null)
+                {
+                    _selectedChapter.AddNode(_createStoryNode, false);
+                    _createStoryNode = null;
+                }
+
+                if (_createNextNode != null)
+                {
+                    _selectedChapter.AddNode(_createNextNode);
+                    _createNextNode = null;
+                }
+
+                if (_deleteNode != null)
+                {
+                    _selectedChapter.DeleteNode(_deleteNode);
+                    _deleteNode = null;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Draw Nodes and Connections
+
+        /// <summary>
+        /// Draws node from Xml File
+        /// </summary>
+        /// <param name="node">Next Node to Draw</param>
+        private bool DrawNode(StoryNode node)
+        {
+            _xmlDoc = new XmlDocument();
+            _xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_selectedChapter.name}.xml"); // Not static path
+            _rootNode = _xmlDoc.SelectSingleNode($"//{_selectedChapter.name}"); // In Doc rein
+            
+            if (!CheckCount()) return false;
+            
+            GUIStyle style = _storyNodeStyle;
+            if (node.IsChoiceNode())
+                style = _choiceNodeStyle;
+            
+            GUILayout.BeginArea(node.GetRect(), style);
+            
+            // Create LabelField and pass the text from the xml File
+            
+            var text = "";
+            if (node.IsRootNode())
+                text = _rootNode.ChildNodes[0].Name;
+            else
+            {
+                if (node.IsChoiceNode())
+                {
+                    text = _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].Name + " " +
+                           _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].Attributes?["id"].Value;
+                }
+                else
+                {
+                    text = _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].Name + " " +
+                           _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].Attributes?["id"].Value;
+                }
+            }
+            EditorGUILayout.LabelField(text);
+            
+            // Create TextField
+            _textAreaStyle = new GUIStyle();
+            _textAreaStyle.normal.textColor = Color.white;
+
+            EditorGUILayout.TextArea(node.text);
+            
+            EditorGUI.BeginChangeCheck();
+            
+            SetText(node);
+            
+            GUILayout.BeginHorizontal();
+            
+            if (GUILayout.Button(" Story "))
+                _createStoryNode = node;
+            
+            if (GUILayout.Button(" Next "))
+                _createNextNode = node;
+            
+            DrawLinkButtons(node);
+
+            if (GUILayout.Button(" Remove "))
+                _deleteNode = node;
+
+            GUILayout.EndHorizontal();
+            EditorGUI.EndChangeCheck();
+            GUILayout.EndArea();
+            
+            return true;
+        }
+        /// <summary>
+        /// Checks if the count of nodes in Editor is not higher than the count of Nodes in the Xml
+        /// </summary>
+        /// <returns>true when the count is node higher than the count of Nodes in the File</returns>
+        private bool CheckCount()
+        {
+            var choices = _rootNode.ChildNodes[1].ChildNodes.Count;
+            var nodes = _rootNode.ChildNodes[2].ChildNodes.Count;
+            
+            if (_choiceCount > choices || _nodeCount > nodes)
+                return false;
+            
+            return true;
+        }
+
+        /// <summary>
+        /// Sets the Text from the Xml to the according node
+        /// </summary>
+        /// <param name="node"></param>
+        private void SetText(StoryNode node)
+        {
+            if (node.IsRootNode())
+            {
+                node.text = _rootNode.ChildNodes[0].InnerText;
+            }
+            else
+            {
+                if (node.IsChoiceNode())
+                    node.text = _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].InnerText;
+                else if (!node.IsChoiceNode())
+                    node.text = _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].InnerText;
+            }
+        }
+        
+        /// <summary>
+        /// Draws additional Buttons
+        /// </summary>
+        /// <param name="node">Node to draw the Buttons on</param>
+        private void DrawLinkButtons(StoryNode node)
+        {
+            if (_linkParentNode == null)
+            {
+                if (GUILayout.Button("Link"))
+                    _linkParentNode = node;
+            }
+            else if (_linkParentNode == node)
+            {
+                if (GUILayout.Button("Cancel"))
+                    _linkParentNode = null;
+            }
+            else if (_linkParentNode.GetChildNodes().Contains(node.name))
+            {
+                if (GUILayout.Button("Unlink"))
+                {
+                    _linkParentNode.RemoveChildNode(node.name);
+                    _linkParentNode = null;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Child"))
+                {
+                    _linkParentNode.AddChildNode(node.name);
+                    _linkParentNode = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add Bezier Curve between the nodes to connect parent and child nodes
+        /// </summary>
+        /// <param name="node"></param>
+        private void DrawConnections(StoryNode node)
+        {
+            // Set the start point of the Bezier - parentNode
+            Vector2 startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);
+            foreach (StoryNode childNode in _selectedChapter.GetAllChildNodes(node))
+            {
+                // Set the end point of the Bezier - childNode
+                Vector2 endPos = new Vector2(childNode.GetRect().xMin, childNode.GetRect().center.y);
+                // Set a offset for the Tangent
+                Vector2 controlPointOffset = endPos - startPos;
+                controlPointOffset.y = 0;
+                controlPointOffset.x *= 0.8f;
+                // Create Bezier
+                Handles.DrawBezier(startPos, endPos,
+                    startPos + controlPointOffset, endPos - controlPointOffset,
+                    Color.white, null, 4f);
+            }
+        }
+
+
+        #endregion
+        
+        #region ProcessEvents
+        
+        /// <summary>
+        /// Different Mouse Events such as
+        /// Mouse Down
+        /// Mouse Up
+        /// Mouse Dragging
+        /// </summary>
+        private void ProcessEvents()
+        {
+            switch (Event.current.type)
+            {
+                // Mouse Down is true 
+                case EventType.MouseDown when _storyNode == null:
+                {
+                    _storyNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPosition);
+                    if (_storyNode != null)
+                    {
+                        _dragOffset = new Vector2(_storyNode.GetRect().position.x - Event.current.mousePosition.x,
+                            _storyNode.GetRect().position.y - Event.current.mousePosition.y);
+                        Selection.activeObject = _storyNode;
+                    }
+                    else
+                    {
+                        _dragCanvas = true;
+                        _dragCanvasOffset = Event.current.mousePosition + _scrollPosition;
+                        Selection.activeObject = _selectedChapter;
+                    }
+                    break;
+                }
+                // Mouse Drag is true
+                case EventType.MouseDrag when _storyNode != null:
+                    _storyNode.SetRect(Event.current.mousePosition + _dragOffset);
+                    GUI.changed = true;
+                    break;
+                // Mouse Drag and draggingCanvas is true
+                case EventType.MouseDrag when _dragCanvas:
+                    _scrollPosition = _dragCanvasOffset - Event.current.mousePosition;
+                    GUI.changed = true;
+                    break;
+                // Mouse Up is true 
+                case EventType.MouseUp when _storyNode != null:
+                    _storyNode = null;
+                    break;
+                // MouseUp and draggingCanvas is true
+                case EventType.MouseUp when _dragCanvas:
+                    _dragCanvas = false;
+                    break;
+            }
+        }
+        
+        /// <summary>
+        /// Returns the current selected node
+        /// If node contains the Mouse position return node
+        /// </summary>
+        /// <param name="point">Point where the Mouse currently is</param>
+        /// <returns>node</returns>
+        private StoryNode GetNodeAtPoint(Vector2 point)
+        {
+            StoryNode selectedNode = null;
+            foreach (var node in _selectedChapter.GetAllNodes())
+                if (node.GetRect().Contains(point))
+                    selectedNode = node;
+                
+            return selectedNode;
+        }
+        #endregion
     }
 }
