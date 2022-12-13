@@ -19,10 +19,10 @@ namespace Code.Dialogue.Story
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryEditor");
         // Story
-        private Story _selectedChapter = null;
+        private Story _selectedChapter;
         // Vector
         private Vector2 _scrollPosition;
-        // Float
+        // Rect
         private const float CanvasSize = 4000;
         private const float BackGround = 50;
         // Xml
@@ -33,15 +33,15 @@ namespace Code.Dialogue.Story
         [NonSerialized] private GUIStyle _choiceNodeStyle;
         [NonSerialized] private GUIStyle _textAreaStyle;
         // Drag
-        [NonSerialized] private StoryNode _storyNode = null;
-        [NonSerialized] private bool _dragCanvas = false;
+        [NonSerialized] private StoryNode _storyNode;
+        [NonSerialized] private bool _dragCanvas;
         [NonSerialized] private Vector2 _dragOffset;
         [NonSerialized] private Vector2 _dragCanvasOffset;
         // Node
-        [NonSerialized] private StoryNode _createNextNode = null;
-        [NonSerialized] private StoryNode _createStoryNode = null;
-        [NonSerialized] private StoryNode _deleteNode = null;
-        [NonSerialized] private StoryNode _linkParentNode = null;
+        [NonSerialized] private StoryNode _createNextNode ;
+        [NonSerialized] private StoryNode _createStoryNode ;
+        [NonSerialized] private StoryNode _deleteNode;
+        [NonSerialized] private StoryNode _linkParentNode;
         // Count
         [NonSerialized] private int _choiceCount; 
         [NonSerialized] private int _nodeCount;
@@ -66,7 +66,7 @@ namespace Code.Dialogue.Story
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceId)
         {
-            Story story = EditorUtility.InstanceIDToObject(instanceId) as Story;
+            var story = EditorUtility.InstanceIDToObject(instanceId) as Story;
             if (story != null)
             {
                 ShowEditorWindow();
@@ -166,7 +166,6 @@ namespace Code.Dialogue.Story
                 }
                 
                 EditorGUILayout.EndScrollView();
-
                 if (_createStoryNode != null)
                 {
                     _selectedChapter.AddNode(_createStoryNode, false);
@@ -178,10 +177,9 @@ namespace Code.Dialogue.Story
                     _selectedChapter.AddNode(_createNextNode);
                     _createNextNode = null;
                 }
-
                 if (_deleteNode != null)
                 {
-                    _selectedChapter.DeleteNode(_deleteNode);
+                   _selectedChapter.DeleteNode(_deleteNode);
                     _deleteNode = null;
                 }
             }
@@ -203,7 +201,7 @@ namespace Code.Dialogue.Story
             
             if (!CheckCount()) return false;
             
-            GUIStyle style = _storyNodeStyle;
+            var style = _storyNodeStyle;
             if (node.IsChoiceNode())
                 style = _choiceNodeStyle;
             
@@ -233,22 +231,21 @@ namespace Code.Dialogue.Story
             _textAreaStyle = new GUIStyle();
             _textAreaStyle.normal.textColor = Color.white;
 
-            EditorGUILayout.TextArea(node.text);
+            EditorGUILayout.TextArea(node.Text);
             
             EditorGUI.BeginChangeCheck();
             
             SetText(node);
             
             GUILayout.BeginHorizontal();
-            
+
             if (GUILayout.Button(" Story "))
                 _createStoryNode = node;
-            
             if (GUILayout.Button(" Next "))
                 _createNextNode = node;
-            
+           
             DrawLinkButtons(node);
-
+            
             if (GUILayout.Button(" Remove "))
                 _deleteNode = node;
 
@@ -281,14 +278,14 @@ namespace Code.Dialogue.Story
         {
             if (node.IsRootNode())
             {
-                node.text = _rootNode.ChildNodes[0].InnerText;
+                node.Text = _rootNode.ChildNodes[0].InnerText;
             }
             else
             {
                 if (node.IsChoiceNode())
-                    node.text = _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].InnerText;
+                    node.Text = _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].InnerText;
                 else if (!node.IsChoiceNode())
-                    node.text = _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].InnerText;
+                    node.Text = _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].InnerText;
             }
         }
         
@@ -384,7 +381,7 @@ namespace Code.Dialogue.Story
                 }
                 // Mouse Drag is true
                 case EventType.MouseDrag when _storyNode != null:
-                    _storyNode.SetRect(Event.current.mousePosition + _dragOffset);
+                    _storyNode.SetRect(Event.current.mousePosition.x + _dragOffset.x, Event.current.mousePosition.y + _dragOffset.y );
                     GUI.changed = true;
                     break;
                 // Mouse Drag and draggingCanvas is true

@@ -4,6 +4,7 @@
 		<Choice id="1">Do This</Choice>
 		<Choice id="2">Do That</Choice>
 		<Choice id="3">Go There</Choice>
+		<Choice id="4">Go Here</Choice>
 	</DialogueChoices>
 	<DialogueNPC>
 		<Node id="1">Buy</Node>

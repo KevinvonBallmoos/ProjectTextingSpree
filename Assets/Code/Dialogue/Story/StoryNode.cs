@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,13 +17,13 @@ namespace Code.Dialogue.Story
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryNode");
         
-        public  string text;
+        [NonSerialized] public string Text;
 
-        [SerializeField] private bool isChoiceNode = false;
+        private bool _isChoiceNode = false;
         [SerializeField] private bool isRootNode = false;
         
         [SerializeField] private List<string> childNodes = new List<string>();
-        [SerializeField] private Rect storyRect = new Rect(10, 10, 400, 200);
+        [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
 #if UNITY_EDITOR
         
@@ -33,7 +34,7 @@ namespace Code.Dialogue.Story
         public void SetChoiceNode(bool newIsStoryChoice)
         {
             Undo.RecordObject(this, "Change Story or Dialogue");
-            isChoiceNode = newIsStoryChoice;
+            _isChoiceNode = newIsStoryChoice;
             EditorUtility.SetDirty(this);
         }
         
@@ -65,15 +66,15 @@ namespace Code.Dialogue.Story
         /// Sets the rect to a new position
         /// </summary>
         /// <param name="vector"></param>
-        public void SetRect(Vector2 vector)
+        public void SetRect(float x, float y)
         {
             Undo.RecordObject(this, "Move Story Node");
-            storyRect.position = vector;
+            storyRect.position = new Vector2(x,y);
         }
         
         public bool IsChoiceNode()
         {
-            return isChoiceNode;
+            return _isChoiceNode;
         }
         
         public bool IsRootNode()
@@ -83,7 +84,7 @@ namespace Code.Dialogue.Story
 
         public string GetText()
         {
-            return text;
+            return Text;
         }
 
         public List<string> GetChildNodes()

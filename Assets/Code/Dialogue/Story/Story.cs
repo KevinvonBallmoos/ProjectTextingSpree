@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 using Code.Logger;
@@ -16,11 +17,9 @@ namespace Code.Dialogue.Story
     public class Story : ScriptableObject, ISerializationCallbackReceiver
     {
         // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryEditor");
+        private readonly GameLogger _logger = new GameLogger("Story");
         // List with nodes
         [SerializeField] public List<StoryNode> nodes = new List<StoryNode>();
-        // Vector 2
-        [SerializeField] private Vector2 newNodeOffset = new Vector2(250, 0);
         // Dictionary to store nodes 
         [NonSerialized] private readonly Dictionary<string, StoryNode> _nodeLookup = new Dictionary<string, StoryNode>();
 
@@ -189,8 +188,8 @@ namespace Code.Dialogue.Story
             if (parentNode != null)
             {
                 parentNode.AddChildNode(child.name);
-                child.SetChoiceNode(!parentNode.IsChoiceNode());
-                child.SetRect(parentNode.GetRect().position + newNodeOffset);
+                child.SetChoiceNode(!parentNode.IsChoiceNode()); // if child count != 0 place node down below
+                child.SetRect(parentNode.GetRect().position.x + 350, parentNode.GetRect().position.y);
             }
             return child;
         }
@@ -211,7 +210,7 @@ namespace Code.Dialogue.Story
             {
                 parentNode.AddChildNode(child.name);
                 child.SetChoiceNode(isChoice);
-                child.SetRect(parentNode.GetRect().position + newNodeOffset);
+                child.SetRect(parentNode.GetRect().position.x + 350, parentNode.GetRect().position.y);
             }
             return child;
         }
