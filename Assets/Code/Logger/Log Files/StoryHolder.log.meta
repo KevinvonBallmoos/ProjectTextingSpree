@@ -1,3 +1,13 @@
+<<<<<<< HEAD
 ﻿fileFormatVersion: 2
 guid: 9c19bbcbc60446af9796645fba2ee59a
 timeCreated: 1671047659
+=======
+fileFormatVersion: 2
+guid: ce2237e91e951894693ac099ae6d226e
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> origin/feature/storyDialogue
