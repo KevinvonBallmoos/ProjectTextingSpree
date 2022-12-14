@@ -16,7 +16,7 @@ namespace Code.Dialogue.Story
     {
         private StoryHolder _storyHolder;
         //[SerializeField] private TextMeshProUGUI storyText;
-        [SerializeField] private GameObject storyResponse;
+        [SerializeField] private GameObject story;
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
@@ -28,8 +28,9 @@ namespace Code.Dialogue.Story
         private void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
+            story.GetComponent<TextMeshPro>().text = _storyHolder.GetRootNodeText() == null? "" : _storyHolder.GetRootNodeText();
             // Add the Next Function Method as new Event
-            nextButton.onClick.AddListener(Next);
+            
             UpdateUI();
         }
         
@@ -42,6 +43,7 @@ namespace Code.Dialogue.Story
         
         private void UpdateUI()
         {
+            nextButton.onClick.AddListener(Next);
             nextButton.gameObject.SetActive(!_storyHolder.IsChoosing());
             choiceRoot.gameObject.SetActive(_storyHolder.IsChoosing());
 
@@ -54,7 +56,7 @@ namespace Code.Dialogue.Story
             {
                 _logger.LogEntry("LogStart", "Is not Choosing", _logger.GetLineNumber());
 
-                storyResponse.GetComponent<TextMeshProUGUI>().text = _storyHolder.GetText();
+                story.GetComponent<TextMeshProUGUI>().text = _storyHolder.GetText();
                 nextButton.enabled = _storyHolder.HasNext();
             }
         }
