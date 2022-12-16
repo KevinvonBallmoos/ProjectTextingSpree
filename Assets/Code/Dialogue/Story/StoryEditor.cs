@@ -38,13 +38,13 @@ namespace Code.Dialogue.Story
         [NonSerialized] private Vector2 _dragOffset;
         [NonSerialized] private Vector2 _dragCanvasOffset;
         // Node
-        [NonSerialized] private StoryNode _createNextNode ;
+        [NonSerialized] private StoryNode _createChoiceNode ;
         [NonSerialized] private StoryNode _createStoryNode ;
         [NonSerialized] private StoryNode _deleteNode;
         [NonSerialized] private StoryNode _linkParentNode;
         // Count
-        [NonSerialized] private int _choiceCount; 
-        [NonSerialized] private int _nodeCount;
+        [NonSerialized] private int _choiceNodeCount; 
+        [NonSerialized] private int _storyNodeCount;
 
         #region StoryWindow
         
@@ -75,8 +75,6 @@ namespace Code.Dialogue.Story
             return false;
         }
         
-        #endregion
-        
         /// <summary>
         /// When the Dialog is Enabled, initialize the node Styles.
         /// </summary>
@@ -105,9 +103,9 @@ namespace Code.Dialogue.Story
                 padding = new RectOffset(20, 20, 20, 20),
                 border = new RectOffset(12, 12, 12, 12)
             };
-            _logger.LogEntry("LogStart", "Initializing Node Styles!", _logger.GetLineNumber());
+           // _logger.LogEntry("LogStart", "Initializing Node Styles!", _logger.GetLineNumber());
         }
-        
+        #endregion
         /// <summary>
         /// When an other Chapter is selected
         /// </summary>
@@ -135,61 +133,75 @@ namespace Code.Dialogue.Story
             }
             else
             {
-                // Draw GUI
+                // Mouse Events
                 ProcessEvents();
-                _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-
-                // Draws canvas
-                Rect canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
-                // Draw Background
-                Texture2D backGroundTex = Resources.Load("background") as Texture2D;
-                // Width and Height are how many times the images has to appear (tile)
-                Rect texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
-                // Draw Surface
-                GUI.DrawTextureWithTexCoords(canvas, backGroundTex, texCoords);
                 
-                _choiceCount = 0;
-                _nodeCount = 0;
+                _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+                // Draw Surface
+                DrawSurface();
+                    
+                _choiceNodeCount = 0;
+                 _storyNodeCount = 0;
                 foreach (var node in _selectedChapter.GetAllNodes())
                 {
-                    if (node.IsChoiceNode() && !node.IsRootNode())
-                        _choiceCount++;
+                   // _logger.LogEntry("Log", $"NodeName : {node.name}, NodeIsChoice:  {node.IsChoiceNode().ToString()}", _logger.GetLineNumber());
+                
+                    if (node.IsChoiceNode())
+                        _choiceNodeCount++;
                     else if (!node.IsChoiceNode() && !node.IsRootNode())
-                        _nodeCount++;
-                    if(DrawNode(node))
+                        _storyNodeCount++;
+                    if (DrawNode(node))
                         DrawConnections(node);
                     else
                     {
                         _createStoryNode = null;
-                        _createNextNode = null;
+                        _createChoiceNode = null;
                     }
-                }
                 
+                   // _logger.LogEntry("Log", $"Choice : {_choiceNodeCount}, Story : {_storyNodeCount}", _logger.GetLineNumber());
+                
+                }
+
                 EditorGUILayout.EndScrollView();
                 if (_createStoryNode != null)
                 {
+                    _logger.LogEntry("Log", "Add Story Node", _logger.GetLineNumber());
+
                     _selectedChapter.AddNode(_createStoryNode, false);
                     _createStoryNode = null;
                 }
 
-                if (_createNextNode != null)
+                if (_createChoiceNode != null)
                 {
-                    _selectedChapter.AddNode(_createNextNode);
-                    _createNextNode = null;
+                    _logger.LogEntry("Log", "Add Choice Node", _logger.GetLineNumber());
+
+                    _selectedChapter.AddNode(_createChoiceNode, true);
+                    _createChoiceNode = null;
                 }
 
                 if (_deleteNode != null)
                 {
                     if (_deleteNode.IsChoiceNode())
-                        _choiceCount--;
+                        _choiceNodeCount--;
                     else if (!_deleteNode.IsChoiceNode())
-                        _nodeCount--;
+                        _storyNodeCount--;
                     _selectedChapter.DeleteNode(_deleteNode);
                     _deleteNode = null;
                 }
             }
         }
 
+        private void DrawSurface()
+        {
+            // Draws canvas
+            Rect canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
+            // Draw Background
+            Texture2D backGroundTex = Resources.Load("background") as Texture2D;
+            // Width and Height are how many times the images has to appear (tile)
+            Rect texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
+            // Draw Surface
+            GUI.DrawTextureWithTexCoords(canvas, backGroundTex, texCoords);
+        }
         #endregion
 
         #region Draw Nodes and Connections
@@ -201,14 +213,14 @@ namespace Code.Dialogue.Story
         private bool DrawNode(StoryNode node)
         {
             _xmlDoc = new XmlDocument();
-            _xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_selectedChapter.name}.xml"); // Not static path
-            _rootNode = _xmlDoc.SelectSingleNode($"//{_selectedChapter.name}"); // In Doc rein
+            _xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_selectedChapter.name}.xml");
+            _rootNode = _xmlDoc.SelectSingleNode($"//{_selectedChapter.name}"); // TODO In Doc rein
             
             if (!CheckCount()) return false;
             
             var style = _storyNodeStyle;
             if (node.IsChoiceNode())
-                style = _choiceNodeStyle;
+                style = _choiceNodeStyle; 
             
             GUILayout.BeginArea(node.GetRect(), style);
             
@@ -221,13 +233,13 @@ namespace Code.Dialogue.Story
             {
                 if (node.IsChoiceNode())
                 {
-                    text = _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].Name + " " +
-                           _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].Attributes?["id"].Value;
+                    text = _rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].Name + " " +
+                           _rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].Attributes?["id"].Value;
                 }
                 else
                 {
-                    text = _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].Name + " " +
-                           _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].Attributes?["id"].Value;
+                    text = _rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].Name + " " +
+                           _rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].Attributes?["id"].Value;
                 }
             }
             EditorGUILayout.LabelField(text);
@@ -236,7 +248,7 @@ namespace Code.Dialogue.Story
             _textAreaStyle = new GUIStyle();
             _textAreaStyle.normal.textColor = Color.white;
 
-            EditorGUILayout.TextArea(node.Text);
+            EditorGUILayout.TextArea(node.GetText());
             
             EditorGUI.BeginChangeCheck();
             
@@ -245,10 +257,19 @@ namespace Code.Dialogue.Story
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button(" Story "))
-                _createStoryNode = node;
-            if (GUILayout.Button(" Next "))
-                _createNextNode = node;
-           
+            {
+                 _createStoryNode = node;
+                 _logger.LogEntry("Log", "Story", _logger.GetLineNumber());
+
+            }
+            
+            if (GUILayout.Button(" Choice "))
+            {
+                _createChoiceNode = node;
+                _logger.LogEntry("Log", "Choice", _logger.GetLineNumber());
+
+            }
+
             DrawLinkButtons(node);
             
             if (GUILayout.Button(" Remove "))
@@ -269,7 +290,7 @@ namespace Code.Dialogue.Story
             var choices = _rootNode.ChildNodes[1].ChildNodes.Count;
             var nodes = _rootNode.ChildNodes[2].ChildNodes.Count;
             
-            if (_choiceCount > choices || _nodeCount > nodes)
+            if (_choiceNodeCount > choices || _storyNodeCount > nodes)
                 return false;
             
             return true;
@@ -283,14 +304,14 @@ namespace Code.Dialogue.Story
         {
             if (node.IsRootNode())
             {
-                node.Text = _rootNode.ChildNodes[0].InnerText;
+                node.SetText(_rootNode.ChildNodes[0].InnerText);
             }
             else
             {
                 if (node.IsChoiceNode())
-                    node.Text = _rootNode.ChildNodes[1].ChildNodes[_choiceCount - 1].InnerText;
+                    node.SetText(_rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].InnerText);
                 else if (!node.IsChoiceNode())
-                    node.Text = _rootNode.ChildNodes[2].ChildNodes[_nodeCount - 1].InnerText;
+                    node.SetText(_rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].InnerText);
             }
         }
         

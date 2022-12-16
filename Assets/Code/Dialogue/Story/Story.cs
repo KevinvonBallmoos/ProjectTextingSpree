@@ -120,28 +120,17 @@ namespace Code.Dialogue.Story
 
 #if UNITY_EDITOR
 
-        /// <summary>
-        /// Adds new Node and adds it to the Node List
-        /// </summary>
-        /// <param name="parentNode">Parent Node to add the child Node</param>
-        public void AddNode(StoryNode parentNode)
-        {
-            var child = CreateNode(parentNode);
-            Undo.RegisterCreatedObjectUndo(child, "Created Dialogue Node");
-            
-            Undo.RecordObject(this, "Added Dialogue Node");
-            AddNodeToList(child);
-        }
+
         
         /// <summary>
         /// Adds new Node and adds it to the Node List
-        /// Overload #1 takes an additional parameter to determine if it is a Choice Node or a Story Node
-        /// This and the Overload of MakeNode() is needed that the nodes are not generated alternately
         /// </summary>
         /// <param name="parentNode">Parent Node to add the child Node</param>
         /// <param name="isChoice">Declares if Node is a choice or not</param>
         public void AddNode(StoryNode parentNode, bool isChoice)
         {
+            _logger.LogEntry("Log", isChoice.ToString(), _logger.GetLineNumber());
+
             var child = CreateNode(parentNode, isChoice);
             Undo.RegisterCreatedObjectUndo(child, "Created Dialogue Node");
             
@@ -179,33 +168,12 @@ namespace Code.Dialogue.Story
         /// Create a new Node and add it to the parent
         /// </summary>
         /// <param name="parentNode">Parent Node to add the child Node</param>
-        /// <returns>new child Node</returns>
-        public StoryNode CreateNode(StoryNode parentNode)
-        {
-            StoryNode child = CreateInstance<StoryNode>();
-            child.name = Guid.NewGuid().ToString();
-            
-            if (parentNode != null)
-            {
-                parentNode.AddChildNode(child.name);
-                child.SetChoiceNode(!parentNode.IsChoiceNode()); // if child count != 0 place node down below
-                child.SetRect(parentNode.GetRect().position.x + 350, parentNode.GetRect().position.y);
-            }
-            return child;
-        }
-
-        /// <summary>
-        /// Create a new Node and add it to the parent
-        /// Overload #1 takes an additional parameter to determine if it is a Choice Node or a Story Node
-        /// </summary>
-        /// <param name="parentNode">Parent Node to add the child Node</param>
         /// <param name="isChoice">Declares if Node is a choice or not</param>
         /// <returns>new child Node</returns>
-        public StoryNode CreateNode(StoryNode parentNode, bool isChoice)
+        private StoryNode CreateNode(StoryNode parentNode, bool isChoice)
         {
             StoryNode child = CreateInstance<StoryNode>();
             child.name = Guid.NewGuid().ToString();
-
             if (parentNode != null)
             {
                 parentNode.AddChildNode(child.name);
@@ -238,7 +206,7 @@ namespace Code.Dialogue.Story
         {
 #if UNITY_EDITOR
             if (nodes.Count == 0)
-                AddNodeToList(CreateNode(null));
+                AddNodeToList(CreateNode(null, false));
 
             // Add new Node to Asset Database
             if (AssetDatabase.GetAssetPath(this) == "") return;

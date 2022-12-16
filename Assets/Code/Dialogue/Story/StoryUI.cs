@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace Code.Dialogue.Story
     {
         private StoryHolder _storyHolder;
         //[SerializeField] private TextMeshProUGUI storyText;
-        [SerializeField] private GameObject story;
+        [SerializeField] private TextMeshProUGUI story;
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
@@ -28,37 +29,63 @@ namespace Code.Dialogue.Story
         private void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            story.GetComponent<TextMeshPro>().text = _storyHolder.GetRootNodeText() == null? "" : _storyHolder.GetRootNodeText();
-            // Add the Next Function Method as new Event
-            
+            _logger.LogEntry("Click", _storyHolder.GetRootNodeText(), _logger.GetLineNumber());
+            //story.text = _storyHolder.GetRootNodeText();
+            nextButton.onClick.AddListener(Next);
             UpdateUI();
         }
         
         private void Next()
         {
-            _logger.LogEntry("Click", "Start", _logger.GetLineNumber());
             _storyHolder.Next();
             UpdateUI();
         }
         
         private void UpdateUI()
         {
-            nextButton.onClick.AddListener(Next);
-            nextButton.gameObject.SetActive(!_storyHolder.IsChoosing());
-            choiceRoot.gameObject.SetActive(_storyHolder.IsChoosing());
+            _logger.LogEntry("LogStart", "Null or not", _logger.GetLineNumber());
 
-            if (_storyHolder.IsChoosing())
+            if (!_storyHolder.IsNull())
             {
-                _logger.LogEntry("LogStart", "Is Choosing", _logger.GetLineNumber());
-                BuildChoiceList();
+                if (_storyHolder.IsStoryNode())
+                {
+                    if (_storyHolder.HasNext())
+                    {
+                        nextButton.gameObject.SetActive(true);
+                        choiceRoot.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        NextChapter();
+                    }
+                }
+                else if (!_storyHolder.IsStoryNode())
+                {
+                    _logger.LogEntry("LogStart", "Is Choice", _logger.GetLineNumber());
+                    nextButton.gameObject.SetActive(false);
+                    choiceRoot.gameObject.SetActive(true);
+                    BuildChoiceList();
+                }
             }
             else
             {
-                _logger.LogEntry("LogStart", "Is not Choosing", _logger.GetLineNumber());
+                nextButton.gameObject.SetActive(true);
+                choiceRoot.gameObject.SetActive(false);
+                _logger.LogEntry("Click", "Next 40", _logger.GetLineNumber());
 
-                story.GetComponent<TextMeshProUGUI>().text = _storyHolder.GetText();
-                nextButton.enabled = _storyHolder.HasNext();
+                NextChapter();
+                // When no more Nodes are available
+                // Continue with Game
             }
+            story.text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
+        }
+
+        private void NextChapter()
+        {
+            // If No more nodes then Button Text = "Next Chapter", and switch Listener
+            nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
+            nextButton.onClick.RemoveListener(Next);
+            // Add new Listener
         }
 
         private void BuildChoiceList()
@@ -66,18 +93,19 @@ namespace Code.Dialogue.Story
             foreach (Transform item in choiceRoot)
                 Destroy(item.gameObject);
 
-            foreach (StoryNode choice in _storyHolder.GetChoices())
+            foreach (var choice in _storyHolder.GetChoices())
             {
-                GameObject choiceInstance = Instantiate(choicePrefab, choiceRoot);
-                // Get the TextMeshProUGUI Component from Children
-                TextMeshProUGUI textMeshComp = choiceInstance.GetComponentInChildren<TextMeshProUGUI>();
-                // Set Choice Text
-                textMeshComp.text = choice.GetText();
-                Button button = choiceInstance.GetComponentInChildren<Button>();
-                // Lambda Function
+                var choiceInstance = Instantiate(choicePrefab, choiceRoot);
+                
+                // Set Text
+                var choiceText = choiceInstance.GetComponentInChildren<Text>();
+                choiceText.text = choice.GetText();
+                
+                // Add listener
+                var button = choiceInstance.GetComponentInChildren<Button>();
                 button.onClick.AddListener(() =>
                 {
-                    _storyHolder.SelectChoice(choice);
+                    _storyHolder.Next(choice);
                     UpdateUI();
                 });
             }

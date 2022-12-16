@@ -18,8 +18,11 @@ namespace Code.Dialogue.Story
     {
         // Current Dialogue only for Testing purposes
         [SerializeField] private Story selectedChapter;
-        [NonSerialized] public StoryNode currentNode = null;
-        public bool isChoosing = false;
+        private StoryNode parentNode = null;
+        private StoryNode currentNode = null;
+
+        private bool _isStoryNode = false;
+        private bool _isNull = false;
 
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryHolder");
@@ -27,35 +30,55 @@ namespace Code.Dialogue.Story
         private void Awake()
         {
             currentNode = selectedChapter.GetRootNode();
+            parentNode = currentNode;
         }
         
-        public bool IsChoosing()
+        /// <summary>
+        /// Get next Choice Nodes
+        /// </summary>
+        /// <param name="node"></param>
+        public void Next(StoryNode node)
         {
-            return isChoosing;
+            foreach (var n in selectedChapter.GetStoryNodes(node))
+                currentNode = n;
+            
+            parentNode = currentNode;
+
+            if (!CheckNodeCount()) return;
+            {
+                foreach (var n in selectedChapter.GetAllChildNodes(parentNode))
+                    _isStoryNode = !n.IsChoiceNode();
+            }
         }
 
         /// <summary>
-        /// Gets the text of the Root node of the Dialog Editor
+        /// Get next Story Node
         /// </summary>
-        /// <returns></returns>
-        public string GetText()
+        public void Next()
         {
-            if (currentNode == null)
-                return "";
-            else
-                return currentNode.GetText();
+            if (!CheckNodeCount()) return;
+            foreach (var n in selectedChapter.GetStoryNodes(currentNode))
+                currentNode = n;
+
+            parentNode = currentNode;
+        }
+        
+        private bool CheckNodeCount()
+        {
+            if (selectedChapter.GetAllChildNodes(parentNode).Any())
+                return true;
+
+            _isNull = true;
+            return false;
         }
         
         /// <summary>
-        /// Gets the text of the Root node of the Dialog Editor
+        /// If there is more dialog returns true
         /// </summary>
         /// <returns></returns>
-        public string GetRootNodeText()
+        public bool HasNext()
         {
-                foreach (StoryNode node in selectedChapter.GetAllNodes())
-                    if (node.IsRootNode())
-                        return node.GetText();
-                return null;
+            return selectedChapter.GetAllChildNodes(currentNode).Any();
         }
         
         /// <summary>
@@ -66,45 +89,36 @@ namespace Code.Dialogue.Story
         {
             return selectedChapter.GetChoiceNodes(currentNode);
         }
-        
-        /// <summary>
-        /// Select the choices
-        /// </summary>
-        /// <param name="node"></param>
-        public void SelectChoice(StoryNode node)
-        {
-            currentNode = node;
-            isChoosing = false;
-            Next();
-        }
 
         /// <summary>
-        /// When the next Button is clicked
-        /// The next Dialogue should appear
-        /// </summary>
-        public void Next()
-        {
-            _logger.LogEntry("Click", "Start", _logger.GetLineNumber());
-
-            int numOfPlayerResponses = selectedChapter.GetChoiceNodes(currentNode).Count();
-            if (numOfPlayerResponses > 0)
-            {
-                isChoosing = true;
-                return;
-            }
-            
-            StoryNode[] children = selectedChapter.GetStoryNodes(currentNode).ToArray();
-            int index = Random.Range(0, children.Length);
-            currentNode = children[index];
-        }
-
-        /// <summary>
-        /// If there is more dialog returns true
+        /// Gets the text of the Root node of the Dialog Editor
         /// </summary>
         /// <returns></returns>
-        public bool HasNext()
+        public string GetRootNodeText()
+        { 
+            return selectedChapter.GetRootNode().GetText();
+        }
+        
+        public string GetParentNodeText()
         {
-            return selectedChapter.GetAllChildNodes(currentNode).Any();
+            return parentNode.GetText();
+        }
+
+        public bool IsNull()
+        {
+            _logger.LogEntry("LogStart", _isNull.ToString(), _logger.GetLineNumber());
+
+            return _isNull;
+        }
+        
+        public bool IsStoryNode()
+        {
+            return _isStoryNode;
+        }
+        
+        public bool IsRootNode()
+        {
+            return parentNode.IsRootNode();
         }
     }
 }

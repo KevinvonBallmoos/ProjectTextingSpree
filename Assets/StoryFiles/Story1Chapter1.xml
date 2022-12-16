@@ -1,24 +1,20 @@
 <Story1Chapter1>
-	<RootNode>Let us start talking</RootNode>
+	<RootNode>Start Story</RootNode>
 	<DialogueChoices>
-		<Choice id="1">Do This</Choice>
-		<Choice id="2">Do That</Choice>
-		<Choice id="3">Go There</Choice>
-		<Choice id="4">Go Here</Choice>
+		<Choice id="1">First Path</Choice>
+		<Choice id="2">Second Path</Choice>
+		<Choice id="3">First Path Go on</Choice>
+		<Choice id="4">Third Path</Choice>
 	</DialogueChoices>
 	<DialogueNPC>
-		<Node id="1">Buy</Node>
-		<Node id="2">Sell</Node>
-		<Node id="3">Over There!</Node>
-		<Node id="4">Not Today</Node>
-		<Node id="5">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
+		<Node id="1">Story 1</Node>
+		<Node id="2">Story 2</Node>
+		<Node id="3">Story 1 Continue</Node>
+		<Node id="4">Story 3</Node>
+		<Node id="5">Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
 sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
 sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
 Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor 
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
-no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
-no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, </Node>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor </Node>
 	</DialogueNPC>
 </Story1Chapter1>

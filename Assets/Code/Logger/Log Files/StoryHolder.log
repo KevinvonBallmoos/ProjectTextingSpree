@@ -1,15 +1,48 @@
-LogTime = 12.12.2022 23:11:40 | LogType: Click 
-LogMessage: Start 
-Line Number: 75
-LogTime = 13.12.2022 22:46:48 | LogType: Click 
-LogMessage: Start 
-Line Number: 87
-LogTime = 13.12.2022 22:46:49 | LogType: Click 
-LogMessage: Start 
-Line Number: 87
-LogTime = 13.12.2022 22:46:49 | LogType: Click 
-LogMessage: Start 
-Line Number: 87
-LogTime = 13.12.2022 23:05:03 | LogType: Click 
-LogMessage: Start 
-Line Number: 87
+LogTime = 16.12.2022 13:56:03 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 13:56:11 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 13:56:18 | LogType: LogStart 
+LogMessage: True 
+Line Number: 109
+LogTime = 16.12.2022 14:00:52 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:00:54 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:00:55 | LogType: LogStart 
+LogMessage:  
+Line Number: 109
+LogTime = 16.12.2022 14:01:47 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:01:56 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:01:57 | LogType: LogStart 
+LogMessage: True 
+Line Number: 109
+LogTime = 16.12.2022 14:07:46 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:07:49 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:07:50 | LogType: LogStart 
+LogMessage: True 
+Line Number: 109
+LogTime = 16.12.2022 14:08:15 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:15:39 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
+LogTime = 16.12.2022 14:15:40 | LogType: LogStart 
+LogMessage: True 
+Line Number: 109
+LogTime = 16.12.2022 21:08:50 | LogType: LogStart 
+LogMessage: False 
+Line Number: 109
