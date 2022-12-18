@@ -18,7 +18,7 @@ namespace Code.Dialogue.Story
     {
         // Current Dialogue only for Testing purposes
         [SerializeField] private Story selectedChapter;
-        public StoryNode currentNode = null;
+        [NonSerialized] public StoryNode currentNode = null;
         public bool isChoosing = false;
 
         // Logger
@@ -47,6 +47,18 @@ namespace Code.Dialogue.Story
         }
         
         /// <summary>
+        /// Gets the text of the Root node of the Dialog Editor
+        /// </summary>
+        /// <returns></returns>
+        public string GetRootNodeText()
+        {
+                foreach (StoryNode node in selectedChapter.GetAllNodes())
+                    if (node.IsRootNode())
+                        return node.GetText();
+                return null;
+        }
+        
+        /// <summary>
         /// Returns Choices
         /// </summary>
         /// <returns></returns>
@@ -58,7 +70,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Select the choices
         /// </summary>
-        /// <param name="chosenNode"></param>
+        /// <param name="node"></param>
         public void SelectChoice(StoryNode node)
         {
             currentNode = node;

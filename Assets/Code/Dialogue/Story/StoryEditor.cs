@@ -177,9 +177,14 @@ namespace Code.Dialogue.Story
                     _selectedChapter.AddNode(_createNextNode);
                     _createNextNode = null;
                 }
+
                 if (_deleteNode != null)
                 {
-                   _selectedChapter.DeleteNode(_deleteNode);
+                    if (_deleteNode.IsChoiceNode())
+                        _choiceCount--;
+                    else if (!_deleteNode.IsChoiceNode())
+                        _nodeCount--;
+                    _selectedChapter.DeleteNode(_deleteNode);
                     _deleteNode = null;
                 }
             }
