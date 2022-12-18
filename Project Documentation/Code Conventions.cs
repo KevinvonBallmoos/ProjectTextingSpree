@@ -124,7 +124,7 @@ namespace DefaultNamespace
             {
                 // Alternative to ex.Message is ex.GetBaseException().ToString(), this gets the InnerException and is more detailed
                 // The new StackTrace Line Number returns the excat line where the exception has been thrown
-                _logger.LogEntry("Exception or Error", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber);
+                _logger.LogEntry("Exception or Error", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
 
             using ()

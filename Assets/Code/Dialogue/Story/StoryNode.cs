@@ -17,24 +17,36 @@ namespace Code.Dialogue.Story
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryNode");
         
-        [NonSerialized] public string Text;
+        [SerializeField] private string text;
 
-        private bool _isChoiceNode = false;
+        [SerializeField] private bool _isChoiceNode = false;
         [SerializeField] private bool isRootNode = false;
-        
+
         [SerializeField] private List<string> childNodes = new List<string>();
         [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
 #if UNITY_EDITOR
+        /// <summary>
+        /// Sets the Text of the node
+        /// </summary>
+        /// <param name="txt"></param>
+        public void SetText(string txt)
+        {
+            Undo.RecordObject(this, "Update Dialogue Text");
+            text = txt;
+            _logger.LogEntry("Log", text, _logger.GetLineNumber());
+
+            EditorUtility.SetDirty(this);
+        }
         
         /// <summary>
         /// Sets the value of isStoryChoice to true or false
         /// </summary>
-        /// <param name="newIsStoryChoice"></param>
-        public void SetChoiceNode(bool newIsStoryChoice)
+        /// <param name="isChoiceNode"></param>
+        public void SetChoiceNode(bool isChoiceNode)
         {
             Undo.RecordObject(this, "Change Story or Dialogue");
-            _isChoiceNode = newIsStoryChoice;
+            _isChoiceNode = isChoiceNode;
             EditorUtility.SetDirty(this);
         }
         
@@ -65,7 +77,8 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Sets the rect to a new position
         /// </summary>
-        /// <param name="vector"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void SetRect(float x, float y)
         {
             Undo.RecordObject(this, "Move Story Node");
@@ -84,7 +97,7 @@ namespace Code.Dialogue.Story
 
         public string GetText()
         {
-            return Text;
+            return text;
         }
 
         public List<string> GetChildNodes()
