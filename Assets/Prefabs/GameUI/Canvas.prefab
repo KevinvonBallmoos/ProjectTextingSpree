@@ -310,11 +310,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2909635190695316367, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2909635190695316367, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2909635190695316367, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_SizeDelta.y
@@ -326,7 +326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2909635190695316367, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -160
       objectReference: {fileID: 0}
     - target: {fileID: 3231745420318795501, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchorMax.y
