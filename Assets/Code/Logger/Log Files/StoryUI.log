@@ -877,3 +877,66 @@ Line Number: 47
 LogTime = 18.12.2022 15:39:55 | LogType: LogStart 
 LogMessage: Null or not 
 Line Number: 47
+LogTime = 18.12.2022 15:44:16 | LogType: Click 
+LogMessage: Start Story 
+Line Number: 33
+LogTime = 18.12.2022 15:44:16 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:44:16 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 18.12.2022 15:44:21 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:44:21 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 18.12.2022 15:44:21 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:44:21 | LogType: Click 
+LogMessage: Next 40 
+Line Number: 75
+LogTime = 18.12.2022 15:44:29 | LogType: Click 
+LogMessage: Start Story 
+Line Number: 33
+LogTime = 18.12.2022 15:44:29 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:44:29 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 18.12.2022 15:44:48 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:44:48 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 18.12.2022 15:45:05 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:45:06 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:45:34 | LogType: Click 
+LogMessage: Start Story 
+Line Number: 33
+LogTime = 18.12.2022 15:45:34 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:45:34 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 18.12.2022 15:45:37 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:45:37 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 18.12.2022 15:45:39 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 18.12.2022 15:45:40 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
