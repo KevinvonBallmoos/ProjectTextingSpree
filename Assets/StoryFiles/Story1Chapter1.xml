@@ -7,7 +7,7 @@
 		<Choice id="4">Third Path</Choice>
 	</DialogueChoices>
 	<DialogueNPC>
-		<Node id="1">Story 1</Node>
+		<Node id="1">Story 1, Text, Text, Text</Node>
 		<Node id="2">Story 2</Node>
 		<Node id="3">Story 1 Continue</Node>
 		<Node id="4">Story 3</Node>

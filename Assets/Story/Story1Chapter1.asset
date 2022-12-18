@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
   m_Name: eb556d3e-52d2-430b-8c3f-a361ca016ad6
   m_EditorClassIdentifier: 
-  text: Story 1
+  text: Story 1, Text, Text, Text
   _isChoiceNode: 0
   isRootNode: 0
   childNodes:
@@ -161,8 +161,8 @@ MonoBehaviour:
   - 01dcae9e-8cad-4523-8b07-3719c9c017c8
   storyRect:
     serializedVersion: 2
-    x: 350
-    y: 175
+    x: 358
+    y: 179
     width: 300
     height: 150
 --- !u!114 &4960830739465449200
@@ -253,7 +253,7 @@ MonoBehaviour:
   childNodes: []
   storyRect:
     serializedVersion: 2
-    x: 723
-    y: 172
+    x: 705
+    y: 187
     width: 300
     height: 150

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
@@ -77,9 +78,27 @@ namespace Code.Dialogue.Story
                 // When no more Nodes are available
                 // Continue with Game
             }
-            story.text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
+
+            story.text = "";
+            StartCoroutine(TextSlower(0.02f));
         }
 
+        private IEnumerator TextSlower(float time)
+        {
+            string text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
+            string[] strArray = text.Split(' ');
+            foreach (var t in strArray)
+            {
+                foreach (var c in t)
+                {
+                    story.text += c;
+                    yield return new WaitForSeconds(time);
+                }
+
+                story.text += " ";
+            }
+        }
+        
         private void NextChapter()
         {
             // If No more nodes then Button Text = "Next Chapter", and switch Listener
