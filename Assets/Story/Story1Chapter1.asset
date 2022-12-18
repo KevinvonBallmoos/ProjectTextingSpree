@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8610553613539763841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 4d5dc896-2403-45ef-aaf1-1c90fadad446
+  m_EditorClassIdentifier: 
+  text: Story 1 END
+  _isChoiceNode: 0
+  isRootNode: 0
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 2089
+    y: 29
+    width: 300
+    height: 150
 --- !u!114 &-3267085956094990536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +87,8 @@ MonoBehaviour:
     sed diam nonumy eirmod tempor "
   _isChoiceNode: 0
   isRootNode: 0
-  childNodes: []
+  childNodes:
+  - 4d5dc896-2403-45ef-aaf1-1c90fadad446
   storyRect:
     serializedVersion: 2
     x: 1739
@@ -95,6 +118,7 @@ MonoBehaviour:
   - {fileID: 8727403197361836870}
   - {fileID: -1003580978695718627}
   - {fileID: -315747949196341632}
+  - {fileID: -8610553613539763841}
 --- !u!114 &98232808622427970
 MonoBehaviour:
   m_ObjectHideFlags: 0

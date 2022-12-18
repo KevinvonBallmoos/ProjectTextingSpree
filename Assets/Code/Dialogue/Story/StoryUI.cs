@@ -31,13 +31,13 @@ namespace Code.Dialogue.Story
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             _logger.LogEntry("Click", _storyHolder.GetRootNodeText(), _logger.GetLineNumber());
-            //story.text = _storyHolder.GetRootNodeText();
             nextButton.onClick.AddListener(Next);
             UpdateUI();
         }
         
         private void Next()
         {
+            //StopCoroutine(TextSlower(0f));
             _storyHolder.Next();
             UpdateUI();
         }

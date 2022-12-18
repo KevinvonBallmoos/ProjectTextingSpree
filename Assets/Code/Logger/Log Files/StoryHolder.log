@@ -1,468 +1,75 @@
-LogTime = 16.12.2022 13:56:03 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:08 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 13:56:11 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:10 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 13:56:18 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 16.12.2022 14:00:52 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:00:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:00:55 | LogType: LogStart 
-LogMessage:  
-Line Number: 109
-LogTime = 16.12.2022 14:01:47 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:01:56 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:01:57 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 16.12.2022 14:07:46 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:07:49 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:07:50 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 16.12.2022 14:08:15 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:15:39 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 14:15:40 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 16.12.2022 21:08:50 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:09 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:11 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:12 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:13 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:56 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:58 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:14 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:16 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:17 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:17 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:43 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:49 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:43 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:45 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:46 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:47 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:49:57 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:00 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:03 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:07 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:23 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:25 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:26 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:28 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:44 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:46 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:48 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:49 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:05 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:07 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:09 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:12 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:27 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:30 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:31 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:32 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:48 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:52 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:51 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:13 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:15 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:16 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:18 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 12:06:49 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:10 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 12:06:52 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:11 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 12:06:53 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:41 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 12:06:54 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:42 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 13:02:22 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:43 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 13:02:24 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:44 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 13:02:26 | LogType: LogStart 
+LogTime = 18.12.2022 15:26:45 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 13:02:27 | LogType: LogStart 
+LogTime = 18.12.2022 15:27:15 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 13:02:42 | LogType: LogStart 
+LogTime = 18.12.2022 15:27:30 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 17.12.2022 13:02:44 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 17.12.2022 13:02:49 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:50 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:51 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 17.12.2022 13:04:10 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:16 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:17 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:18 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:44 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:47 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 16.12.2022 21:28:09 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:11 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:12 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:13 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:56 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:28:58 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:14 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:16 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:17 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:29:17 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:43 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:49 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:38:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:43 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:45 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:46 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:41:47 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:49:57 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:00 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:03 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:07 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:50:23 | LogType: LogStart 
+LogTime = 18.12.2022 15:27:31 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:50:25 | LogType: LogStart 
+LogTime = 18.12.2022 15:27:31 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:50:26 | LogType: LogStart 
+LogTime = 18.12.2022 15:27:32 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:50:28 | LogType: LogStart 
+LogTime = 18.12.2022 15:27:33 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:50:44 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:05 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:50:46 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:07 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:50:48 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:08 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:50:49 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:08 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:54:05 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:16 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:54:07 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:21 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:54:09 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:22 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:54:12 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:23 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:54:27 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:23 | LogType: LogStart 
 LogMessage: False 
 Line Number: 109
-LogTime = 16.12.2022 21:54:30 | LogType: LogStart 
+LogTime = 18.12.2022 15:28:24 | LogType: LogStart 
 LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:31 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:32 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:48 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:52 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:54:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:51 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:55:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:13 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:15 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:16 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 16.12.2022 21:56:18 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 12:06:49 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 12:06:52 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 12:06:53 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 12:06:54 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:22 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:24 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:26 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:27 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:42 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:44 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 17.12.2022 13:02:49 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:50 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:02:51 | LogType: LogStart 
-LogMessage: True 
-Line Number: 109
-LogTime = 17.12.2022 13:04:10 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:16 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:17 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:18 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:44 | LogType: LogStart 
-LogMessage: False 
-Line Number: 109
-LogTime = 17.12.2022 13:04:47 | LogType: LogStart 
-LogMessage: True 
 Line Number: 109
