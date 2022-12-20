@@ -19,9 +19,13 @@ namespace Code.Dialogue.Story
         
         [SerializeField] private string text;
 
-        [SerializeField] private bool _isChoiceNode = false;
+        [SerializeField] private bool isChoiceNode = false;
         [SerializeField] private bool isRootNode = false;
+        [SerializeField] private bool isEndOfChapter = false;
+        [SerializeField] private bool isGameOver = false;
 
+        [SerializeField] private string image;
+        
         [SerializeField] private List<string> childNodes = new List<string>();
         [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
@@ -42,11 +46,11 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Sets the value of isStoryChoice to true or false
         /// </summary>
-        /// <param name="isChoiceNode"></param>
-        public void SetChoiceNode(bool isChoiceNode)
+        /// <param name="isChoice"></param>
+        public void SetChoiceNode(bool isChoice)
         {
             Undo.RecordObject(this, "Change Story or Dialogue");
-            _isChoiceNode = isChoiceNode;
+            this.isChoiceNode = isChoice;
             EditorUtility.SetDirty(this);
         }
         
@@ -87,17 +91,32 @@ namespace Code.Dialogue.Story
         
         public bool IsChoiceNode()
         {
-            return _isChoiceNode;
+            return isChoiceNode;
         }
         
         public bool IsRootNode()
         {
             return isRootNode;
+        }        
+        
+        public bool IsEndOfChapter()
+        {
+            return isEndOfChapter;
+        }        
+        
+        public bool IsGameOver()
+        {
+            return isGameOver;
         }
 
         public string GetText()
         {
             return text;
+        }
+        
+        public string GetImage()
+        {
+            return !image.Equals("") ? image : "";
         }
 
         public List<string> GetChildNodes()

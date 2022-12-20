@@ -120,5 +120,20 @@ namespace Code.Dialogue.Story
         {
             return parentNode.IsRootNode();
         }
+        
+        public bool IsEndOfChapter()
+        {
+            return currentNode.IsEndOfChapter();
+        }
+
+        public bool IsGameOver()
+        {
+            return currentNode.IsGameOver();
+        }
+
+        public string GetImage()
+        {
+            return currentNode.GetImage();
+        }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Code.Dialogue.Story;
 using Code.Logger;
+using Debug = UnityEngine.Debug;
 
 namespace Code.Dialogue.Story
 {
@@ -17,7 +18,11 @@ namespace Code.Dialogue.Story
     public class StoryUI : MonoBehaviour
     {
         private StoryHolder _storyHolder;
+        private Image _imageHolder;
+        private GameObject _MapHolder;
+        
         //[SerializeField] private TextMeshProUGUI storyText;
+        [SerializeField] private GameObject menu;
         [SerializeField] private TextMeshProUGUI story;
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
@@ -81,6 +86,18 @@ namespace Code.Dialogue.Story
 
             story.text = "";
             StartCoroutine(TextSlower(0.02f));
+            if (!_storyHolder.GetImage().Equals(""))
+            {
+                GameObject.FindGameObjectWithTag("Map").GetComponent<Image>().enabled = false;
+                GameObject.FindGameObjectWithTag("Image").GetComponent<Image>().enabled = true;
+                GameObject.FindGameObjectWithTag("Image").GetComponent<Image>().sprite = Resources.Load <Sprite>(_storyHolder.GetImage());;
+                
+            }
+            else
+            {
+                GameObject.FindGameObjectWithTag("Image").GetComponent<Image>().enabled = false;
+                GameObject.FindGameObjectWithTag("Map").GetComponent<Image>().enabled = true;
+            }
         }
 
         private IEnumerator TextSlower(float time)
@@ -101,10 +118,17 @@ namespace Code.Dialogue.Story
         
         private void NextChapter()
         {
-            // If No more nodes then Button Text = "Next Chapter", and switch Listener
-            nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
-            nextButton.onClick.RemoveListener(Next);
-            // Add new Listener
+            if (_storyHolder.IsEndOfChapter())
+            {
+                // If No more nodes then Button Text = "Next Chapter", and switch Listener
+                nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
+                nextButton.onClick.RemoveListener(Next);
+                // Add new Listener - Gamemanager
+            }
+            else if (_storyHolder.IsGameOver())
+            {
+                //Load GameOver scene
+            }
         }
 
         private void BuildChoiceList()
