@@ -196,7 +196,7 @@ namespace Code.Dialogue.Story
             // Draws canvas
             Rect canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
             // Draw Background
-            Texture2D backGroundTex = Resources.Load("background") as Texture2D;
+            Texture2D backGroundTex = Resources.Load("Editor/background") as Texture2D;
             // Width and Height are how many times the images has to appear (tile)
             Rect texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
             // Draw Surface

@@ -17,12 +17,9 @@ namespace Code.Dialogue.Story
     /// <para name="date">12.12.2022</para>
     public class StoryUI : MonoBehaviour
     {
+        // Story Holder
         private StoryHolder _storyHolder;
-        private Image _imageHolder;
-        private GameObject _MapHolder;
-        
-        //[SerializeField] private TextMeshProUGUI storyText;
-        [SerializeField] private GameObject menu;
+        // SerializedFields
         [SerializeField] private TextMeshProUGUI story;
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
