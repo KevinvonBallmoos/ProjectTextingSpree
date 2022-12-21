@@ -27,7 +27,7 @@ namespace Code.Dialogue.Story
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
-        [SerializeField] private Button quitButton;
+        [SerializeField] private GameObject[] imageHolder;
         
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryUI");
@@ -77,8 +77,6 @@ namespace Code.Dialogue.Story
             {
                 nextButton.gameObject.SetActive(true);
                 choiceRoot.gameObject.SetActive(false);
-                _logger.LogEntry("Click", "Next 40", _logger.GetLineNumber());
-
                 NextChapter();
                 // When no more Nodes are available
                 // Continue with Game
@@ -88,15 +86,14 @@ namespace Code.Dialogue.Story
             StartCoroutine(TextSlower(0.02f));
             if (!_storyHolder.GetImage().Equals(""))
             {
-                GameObject.FindGameObjectWithTag("Map").GetComponent<Image>().enabled = false;
-                GameObject.FindGameObjectWithTag("Image").GetComponent<Image>().enabled = true;
-                GameObject.FindGameObjectWithTag("Image").GetComponent<Image>().sprite = Resources.Load <Sprite>(_storyHolder.GetImage());;
-                
+                imageHolder[0].SetActive(false);
+                imageHolder[1].SetActive(true);
+                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("StoryImage/" + _storyHolder.GetImage());
             }
             else
             {
-                GameObject.FindGameObjectWithTag("Image").GetComponent<Image>().enabled = false;
-                GameObject.FindGameObjectWithTag("Map").GetComponent<Image>().enabled = true;
+                imageHolder[1].SetActive(false);
+                imageHolder[0].SetActive(true);
             }
         }
 
@@ -127,6 +124,7 @@ namespace Code.Dialogue.Story
             }
             else if (_storyHolder.IsGameOver())
             {
+                nextButton.enabled = false;
                 //Load GameOver scene
             }
         }
