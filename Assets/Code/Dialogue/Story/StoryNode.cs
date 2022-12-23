@@ -16,17 +16,18 @@ namespace Code.Dialogue.Story
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryNode");
-        
+        // Text that is in the node
         [SerializeField] private string text;
-
+        // Different Types of Nodes
         [SerializeField] private bool isChoiceNode = false;
         [SerializeField] private bool isRootNode = false;
         [SerializeField] private bool isEndOfChapter = false;
         [SerializeField] private bool isGameOver = false;
-
+        // Image
         [SerializeField] private string image;
-        
+        // ChildNodes
         [SerializeField] private List<string> childNodes = new List<string>();
+        // Rect of Editor
         [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
 #if UNITY_EDITOR
@@ -38,8 +39,6 @@ namespace Code.Dialogue.Story
         {
             Undo.RecordObject(this, "Update Dialogue Text");
             text = txt;
-            _logger.LogEntry("Log", text, _logger.GetLineNumber());
-
             EditorUtility.SetDirty(this);
         }
         

@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7698099681996123948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 9717f005-b679-4fd3-8f4a-edebad3c3892
+  m_EditorClassIdentifier: 
+  text: Do it NOW!
+  isChoiceNode: 1
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes:
+  - b6e5f783-7dee-40fa-9f5f-d5cadf2762a3
+  - 88b4f64a-a0a2-4e6c-bf35-ed263710c51a
+  storyRect:
+    serializedVersion: 2
+    x: 360
+    y: 10
+    width: 300
+    height: 150
+--- !u!114 &-4462986761364630347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: b6e5f783-7dee-40fa-9f5f-d5cadf2762a3
+  m_EditorClassIdentifier: 
+  text: GET TO TA CHOPPA!
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 710
+    y: 10
+    width: 300
+    height: 150
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 740c456fab9f4f3b93a6d2325665af0c, type: 3}
+  m_Name: Story1Chapter2
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 6592397699426546697}
+  - {fileID: -7698099681996123948}
+  - {fileID: -4462986761364630347}
+  - {fileID: 7447185270877768800}
+--- !u!114 &6592397699426546697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: abb2f049-9211-4a6f-b573-00973aa46529
+  m_EditorClassIdentifier: 
+  text: Maaaaac
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes:
+  - 9717f005-b679-4fd3-8f4a-edebad3c3892
+  storyRect:
+    serializedVersion: 2
+    x: 10
+    y: 10
+    width: 300
+    height: 150
+--- !u!114 &7447185270877768800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 88b4f64a-a0a2-4e6c-bf35-ed263710c51a
+  m_EditorClassIdentifier: 
+  text: Mac!
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 710
+    y: 10
+    width: 300
+    height: 150

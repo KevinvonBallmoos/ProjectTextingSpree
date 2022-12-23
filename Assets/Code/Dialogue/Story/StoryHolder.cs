@@ -16,21 +16,20 @@ namespace Code.Dialogue.Story
     /// <para name="date">12.12.2022</para>
     public class StoryHolder : MonoBehaviour
     {
-        // Current Dialogue only for Testing purposes
+        // Logger
+        private readonly GameLogger _logger = new GameLogger("StoryHolder");
+        // Dialogue and Nodes
         [SerializeField] private Story selectedChapter;
-        private StoryNode parentNode = null;
-        private StoryNode currentNode = null;
-
+        private StoryNode _parentNode = null;
+        private StoryNode _currentNode = null;
+        // Booleans
         private bool _isStoryNode = false;
         private bool _isNull = false;
 
-        // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryHolder");
-        
         private void Awake()
         {
-            currentNode = selectedChapter.GetRootNode();
-            parentNode = currentNode;
+            _currentNode = selectedChapter.GetRootNode();
+            _parentNode = _currentNode;
         }
         
         /// <summary>
@@ -40,13 +39,13 @@ namespace Code.Dialogue.Story
         public void Next(StoryNode node)
         {
             foreach (var n in selectedChapter.GetStoryNodes(node))
-                currentNode = n;
+                _currentNode = n;
             
-            parentNode = currentNode;
+            _parentNode = _currentNode;
 
             if (!CheckNodeCount()) return;
             {
-                foreach (var n in selectedChapter.GetAllChildNodes(parentNode))
+                foreach (var n in selectedChapter.GetAllChildNodes(_parentNode))
                     _isStoryNode = !n.IsChoiceNode();
             }
         }
@@ -57,15 +56,15 @@ namespace Code.Dialogue.Story
         public void Next()
         {
             if (!CheckNodeCount()) return;
-            foreach (var n in selectedChapter.GetStoryNodes(currentNode))
-                currentNode = n;
+            foreach (var n in selectedChapter.GetStoryNodes(_currentNode))
+                _currentNode = n;
 
-            parentNode = currentNode;
+            _parentNode = _currentNode;
         }
         
         private bool CheckNodeCount()
         {
-            if (selectedChapter.GetAllChildNodes(parentNode).Any())
+            if (selectedChapter.GetAllChildNodes(_parentNode).Any())
                 return true;
 
             _isNull = true;
@@ -78,7 +77,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public bool HasNext()
         {
-            return selectedChapter.GetAllChildNodes(currentNode).Any();
+            return selectedChapter.GetAllChildNodes(_currentNode).Any();
         }
         
         /// <summary>
@@ -87,7 +86,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public IEnumerable<StoryNode> GetChoices()
         {
-            return selectedChapter.GetChoiceNodes(currentNode);
+            return selectedChapter.GetChoiceNodes(_currentNode);
         }
 
         /// <summary>
@@ -101,13 +100,11 @@ namespace Code.Dialogue.Story
         
         public string GetParentNodeText()
         {
-            return parentNode.GetText();
+            return _parentNode.GetText();
         }
 
         public bool IsNull()
         {
-            _logger.LogEntry("LogStart", _isNull.ToString(), _logger.GetLineNumber());
-
             return _isNull;
         }
         
@@ -118,22 +115,22 @@ namespace Code.Dialogue.Story
         
         public bool IsRootNode()
         {
-            return parentNode.IsRootNode();
+            return _parentNode.IsRootNode();
         }
         
         public bool IsEndOfChapter()
         {
-            return currentNode.IsEndOfChapter();
+            return _currentNode.IsEndOfChapter();
         }
 
         public bool IsGameOver()
         {
-            return currentNode.IsGameOver();
+            return _currentNode.IsGameOver();
         }
 
         public string GetImage()
         {
-            return currentNode.GetImage();
+            return _currentNode.GetImage();
         }
     }
 }

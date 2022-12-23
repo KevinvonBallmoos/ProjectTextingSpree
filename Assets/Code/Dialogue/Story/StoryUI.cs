@@ -32,7 +32,6 @@ namespace Code.Dialogue.Story
         private void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            _logger.LogEntry("Click", _storyHolder.GetRootNodeText(), _logger.GetLineNumber());
             nextButton.onClick.AddListener(Next);
             UpdateUI();
         }
@@ -46,8 +45,6 @@ namespace Code.Dialogue.Story
         
         private void UpdateUI()
         {
-            _logger.LogEntry("LogStart", "Null or not", _logger.GetLineNumber());
-
             if (!_storyHolder.IsNull())
             {
                 if (_storyHolder.IsStoryNode())
@@ -64,7 +61,6 @@ namespace Code.Dialogue.Story
                 }
                 else if (!_storyHolder.IsStoryNode())
                 {
-                    _logger.LogEntry("LogStart", "Is Choice", _logger.GetLineNumber());
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
                     BuildChoiceList();
@@ -96,8 +92,8 @@ namespace Code.Dialogue.Story
 
         private IEnumerator TextSlower(float time)
         {
-            string text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
-            string[] strArray = text.Split(' ');
+            var text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
+            var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
                 foreach (var c in t)
