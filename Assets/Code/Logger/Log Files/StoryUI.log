@@ -1129,3 +1129,24 @@ Line Number: 47
 LogTime = 22.12.2022 22:05:40 | LogType: LogStart 
 LogMessage: Null or not 
 Line Number: 47
+LogTime = 23.12.2022 10:09:29 | LogType: Click 
+LogMessage: Start Story 
+Line Number: 33
+LogTime = 23.12.2022 10:09:29 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 23.12.2022 10:09:29 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 23.12.2022 10:09:35 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 23.12.2022 10:09:35 | LogType: LogStart 
+LogMessage: Is Choice 
+Line Number: 65
+LogTime = 23.12.2022 10:09:38 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
+LogTime = 23.12.2022 10:09:38 | LogType: LogStart 
+LogMessage: Null or not 
+Line Number: 47
