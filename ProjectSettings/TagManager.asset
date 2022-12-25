@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Story
-  - MapImage
-  - InventoryPanel
+  - Image
+  - Map
   layers:
   - Default
   - TransparentFX

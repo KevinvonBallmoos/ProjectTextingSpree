@@ -16,13 +16,18 @@ namespace Code.Dialogue.Story
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryNode");
-        
+        // Text that is in the node
         [SerializeField] private string text;
-
-        [SerializeField] private bool _isChoiceNode = false;
+        // Different Types of Nodes
+        [SerializeField] private bool isChoiceNode = false;
         [SerializeField] private bool isRootNode = false;
-
+        [SerializeField] private bool isEndOfChapter = false;
+        [SerializeField] private bool isGameOver = false;
+        // Image
+        [SerializeField] private string image;
+        // ChildNodes
         [SerializeField] private List<string> childNodes = new List<string>();
+        // Rect of Editor
         [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
 #if UNITY_EDITOR
@@ -34,19 +39,17 @@ namespace Code.Dialogue.Story
         {
             Undo.RecordObject(this, "Update Dialogue Text");
             text = txt;
-            _logger.LogEntry("Log", text, _logger.GetLineNumber());
-
             EditorUtility.SetDirty(this);
         }
         
         /// <summary>
         /// Sets the value of isStoryChoice to true or false
         /// </summary>
-        /// <param name="isChoiceNode"></param>
-        public void SetChoiceNode(bool isChoiceNode)
+        /// <param name="isChoice"></param>
+        public void SetChoiceNode(bool isChoice)
         {
             Undo.RecordObject(this, "Change Story or Dialogue");
-            _isChoiceNode = isChoiceNode;
+            this.isChoiceNode = isChoice;
             EditorUtility.SetDirty(this);
         }
         
@@ -87,17 +90,32 @@ namespace Code.Dialogue.Story
         
         public bool IsChoiceNode()
         {
-            return _isChoiceNode;
+            return isChoiceNode;
         }
         
         public bool IsRootNode()
         {
             return isRootNode;
+        }        
+        
+        public bool IsEndOfChapter()
+        {
+            return isEndOfChapter;
+        }        
+        
+        public bool IsGameOver()
+        {
+            return isGameOver;
         }
 
         public string GetText()
         {
             return text;
+        }
+        
+        public string GetImage()
+        {
+            return !image.Equals("") ? image : "";
         }
 
         public List<string> GetChildNodes()

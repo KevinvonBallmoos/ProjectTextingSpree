@@ -120,8 +120,6 @@ namespace Code.Dialogue.Story
 
 #if UNITY_EDITOR
 
-
-        
         /// <summary>
         /// Adds new Node and adds it to the Node List
         /// </summary>
@@ -129,8 +127,6 @@ namespace Code.Dialogue.Story
         /// <param name="isChoice">Declares if Node is a choice or not</param>
         public void AddNode(StoryNode parentNode, bool isChoice)
         {
-            _logger.LogEntry("Log", isChoice.ToString(), _logger.GetLineNumber());
-
             var child = CreateNode(parentNode, isChoice);
             Undo.RegisterCreatedObjectUndo(child, "Created Dialogue Node");
             
@@ -190,9 +186,7 @@ namespace Code.Dialogue.Story
         private void CleanChildNodes(StoryNode nodeToDelete)
         {
             foreach (StoryNode node in GetAllNodes())
-            {
                 node.RemoveChildNode(nodeToDelete.name);
-            }
         }
         
 #endif

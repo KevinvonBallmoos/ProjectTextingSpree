@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -103,7 +102,6 @@ namespace Code.Dialogue.Story
                 padding = new RectOffset(20, 20, 20, 20),
                 border = new RectOffset(12, 12, 12, 12)
             };
-           // _logger.LogEntry("LogStart", "Initializing Node Styles!", _logger.GetLineNumber());
         }
         #endregion
         /// <summary>
@@ -144,8 +142,6 @@ namespace Code.Dialogue.Story
                  _storyNodeCount = 0;
                 foreach (var node in _selectedChapter.GetAllNodes())
                 {
-                   // _logger.LogEntry("Log", $"NodeName : {node.name}, NodeIsChoice:  {node.IsChoiceNode().ToString()}", _logger.GetLineNumber());
-                
                     if (node.IsChoiceNode())
                         _choiceNodeCount++;
                     else if (!node.IsChoiceNode() && !node.IsRootNode())
@@ -156,10 +152,7 @@ namespace Code.Dialogue.Story
                     {
                         _createStoryNode = null;
                         _createChoiceNode = null;
-                    }
-                
-                   // _logger.LogEntry("Log", $"Choice : {_choiceNodeCount}, Story : {_storyNodeCount}", _logger.GetLineNumber());
-                
+                    } 
                 }
 
                 EditorGUILayout.EndScrollView();
@@ -191,12 +184,12 @@ namespace Code.Dialogue.Story
             }
         }
 
-        private void DrawSurface()
+        private static void DrawSurface()
         {
             // Draws canvas
             Rect canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
             // Draw Background
-            Texture2D backGroundTex = Resources.Load("background") as Texture2D;
+            Texture2D backGroundTex = Resources.Load("Editor/background") as Texture2D;
             // Width and Height are how many times the images has to appear (tile)
             Rect texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
             // Draw Surface
@@ -225,7 +218,6 @@ namespace Code.Dialogue.Story
             GUILayout.BeginArea(node.GetRect(), style);
             
             // Create LabelField and pass the text from the xml File
-            
             var text = "";
             if (node.IsRootNode())
                 text = _rootNode.ChildNodes[0].Name;
@@ -257,18 +249,10 @@ namespace Code.Dialogue.Story
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button(" Story "))
-            {
                  _createStoryNode = node;
-                 _logger.LogEntry("Log", "Story", _logger.GetLineNumber());
 
-            }
-            
             if (GUILayout.Button(" Choice "))
-            {
                 _createChoiceNode = node;
-                _logger.LogEntry("Log", "Choice", _logger.GetLineNumber());
-
-            }
 
             DrawLinkButtons(node);
             

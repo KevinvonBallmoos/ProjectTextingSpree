@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3267085956094990536
+--- !u!114 &-6828648831443672800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,20 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: effb48fd-a763-4a44-8457-aa36934b5f24
+  m_Name: 445ac4e1-97c6-4b06-952c-0621a9db4c3a
   m_EditorClassIdentifier: 
-  text: First Path Go on
-  _isChoiceNode: 1
+  text: Fourth Path
+  isChoiceNode: 1
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
   childNodes:
-  - 92e32b50-1ebb-410f-aa8a-3cb1e4540a5a
+  - 1c0a90ee-9784-45ae-8759-07d35f35acdd
   storyRect:
     serializedVersion: 2
-    x: 1069
-    y: 24
+    x: 1092
+    y: 338
     width: 300
     height: 150
---- !u!114 &-1003580978695718627
+--- !u!114 &-5578534282924892500
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,19 +36,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 5a004385-0eca-48c4-8174-21116be47e0c
+  m_Name: 2acc93be-0c31-48c9-9d31-a723df6b4177
   m_EditorClassIdentifier: 
-  text: Story 3
-  _isChoiceNode: 0
+  text: Story 2
+  isChoiceNode: 0
   isRootNode: 0
-  childNodes: []
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes:
+  - 445ac4e1-97c6-4b06-952c-0621a9db4c3a
+  - 64f44838-ee7a-43b7-8637-a0edd7a0e7bd
   storyRect:
     serializedVersion: 2
-    x: 1424
-    y: 187
+    x: 711
+    y: 181
     width: 300
     height: 150
---- !u!114 &-315747949196341632
+--- !u!114 &-4386908055892842455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,7 +63,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: f0467591-c1a6-44d3-9fb5-68dcb6a449d0
+  m_Name: bc479ba0-3e73-4aee-9249-1ee8303d9700
   m_EditorClassIdentifier: 
   text: "Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     \r\nsed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
@@ -63,13 +71,16 @@ MonoBehaviour:
     rebum. \r\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. \r\nLorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor "
-  _isChoiceNode: 0
+  isChoiceNode: 0
   isRootNode: 0
+  isEndOfChapter: 1
+  isGameOver: 0
+  image: Sasori
   childNodes: []
   storyRect:
     serializedVersion: 2
-    x: 1739
-    y: 29
+    x: 1792
+    y: 15
     width: 300
     height: 150
 --- !u!114 &11400000
@@ -86,16 +97,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: 4960830739465449200}
-  - {fileID: 98232808622427970}
-  - {fileID: 4858281577639313496}
-  - {fileID: 4192093265485207895}
-  - {fileID: 8856678074840031801}
-  - {fileID: -3267085956094990536}
-  - {fileID: 6360861922934995404}
-  - {fileID: 8727403197361836870}
-  - {fileID: -1003580978695718627}
-  - {fileID: -315747949196341632}
---- !u!114 &98232808622427970
+  - {fileID: 6469439798146783971}
+  - {fileID: 8222535459977408702}
+  - {fileID: 700674999400031657}
+  - {fileID: -5578534282924892500}
+  - {fileID: 6931680916479525937}
+  - {fileID: 150442674030390749}
+  - {fileID: -6828648831443672800}
+  - {fileID: 1623588127213216218}
+  - {fileID: 4687265664771120570}
+  - {fileID: -4386908055892842455}
+--- !u!114 &150442674030390749
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,20 +117,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 4082ee96-9d4d-48ad-ba03-5e41159dc573
+  m_Name: 64f44838-ee7a-43b7-8637-a0edd7a0e7bd
   m_EditorClassIdentifier: 
-  text: First Path
-  _isChoiceNode: 1
+  text: Third Path
+  isChoiceNode: 1
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
   childNodes:
-  - eb556d3e-52d2-430b-8c3f-a361ca016ad6
+  - 1c0a90ee-9784-45ae-8759-07d35f35acdd
   storyRect:
     serializedVersion: 2
-    x: 344
-    y: 16
+    x: 1093
+    y: 174
     width: 300
     height: 150
---- !u!114 &4192093265485207895
+--- !u!114 &700674999400031657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,21 +143,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: eb556d3e-52d2-430b-8c3f-a361ca016ad6
+  m_Name: 75a8a247-edc2-4580-b5c7-9aa070820a32
   m_EditorClassIdentifier: 
   text: Story 1, Text, Text, Text
-  _isChoiceNode: 0
+  isChoiceNode: 0
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: Volibear
   childNodes:
-  - effb48fd-a763-4a44-8457-aa36934b5f24
-  - 4c314a08-9628-43dc-9754-299d68bd492b
+  - f3aae07f-2ed4-40c6-8e31-8d75d283ccf2
+  - 64f44838-ee7a-43b7-8637-a0edd7a0e7bd
   storyRect:
     serializedVersion: 2
-    x: 695
-    y: 18
+    x: 707
+    y: 5
     width: 300
     height: 150
---- !u!114 &4858281577639313496
+--- !u!114 &1623588127213216218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,17 +170,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 953e3ce0-60b7-42db-920b-3d8cd250f2a6
+  m_Name: 1c0a90ee-9784-45ae-8759-07d35f35acdd
   m_EditorClassIdentifier: 
-  text: Second Path
-  _isChoiceNode: 1
+  text: Story 3 Dead
+  isChoiceNode: 0
   isRootNode: 0
-  childNodes:
-  - 01dcae9e-8cad-4523-8b07-3719c9c017c8
+  isEndOfChapter: 0
+  isGameOver: 1
+  image: 
+  childNodes: []
   storyRect:
     serializedVersion: 2
-    x: 358
-    y: 179
+    x: 1492
+    y: 274
+    width: 300
+    height: 150
+--- !u!114 &4687265664771120570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 541dfa0b-8810-46c3-ab8a-7da9eac49357
+  m_EditorClassIdentifier: 
+  text: Story 1 Move Forward
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes:
+  - bc479ba0-3e73-4aee-9249-1ee8303d9700
+  storyRect:
+    serializedVersion: 2
+    x: 1442
+    y: 15
     width: 300
     height: 150
 --- !u!114 &4960830739465449200
@@ -178,18 +224,21 @@ MonoBehaviour:
   m_Name: fb13f30f-16f8-47e2-a17a-c94fb7bec894
   m_EditorClassIdentifier: 
   text: Start Story
-  _isChoiceNode: 0
+  isChoiceNode: 0
   isRootNode: 1
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
   childNodes:
-  - 4082ee96-9d4d-48ad-ba03-5e41159dc573
-  - 953e3ce0-60b7-42db-920b-3d8cd250f2a6
+  - 6c811138-2123-40e4-ba30-1d125bcdd2ab
+  - e0a3af74-87f5-4d68-828c-1a4c099c10ea
   storyRect:
     serializedVersion: 2
-    x: 18
-    y: 22
+    x: 7
+    y: 10
     width: 300
     height: 150
---- !u!114 &6360861922934995404
+--- !u!114 &6469439798146783971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,20 +248,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 4c314a08-9628-43dc-9754-299d68bd492b
+  m_Name: 6c811138-2123-40e4-ba30-1d125bcdd2ab
   m_EditorClassIdentifier: 
-  text: Third Path
-  _isChoiceNode: 1
+  text: First Path
+  isChoiceNode: 1
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
   childNodes:
-  - 5a004385-0eca-48c4-8174-21116be47e0c
+  - 75a8a247-edc2-4580-b5c7-9aa070820a32
   storyRect:
     serializedVersion: 2
-    x: 1076
-    y: 177
+    x: 357
+    y: 10
     width: 300
     height: 150
---- !u!114 &8727403197361836870
+--- !u!114 &6931680916479525937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,20 +274,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 92e32b50-1ebb-410f-aa8a-3cb1e4540a5a
+  m_Name: f3aae07f-2ed4-40c6-8e31-8d75d283ccf2
   m_EditorClassIdentifier: 
-  text: Story 1 Continue
-  _isChoiceNode: 0
+  text: First Path Go on
+  isChoiceNode: 1
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
   childNodes:
-  - f0467591-c1a6-44d3-9fb5-68dcb6a449d0
+  - 541dfa0b-8810-46c3-ab8a-7da9eac49357
   storyRect:
     serializedVersion: 2
-    x: 1386
-    y: 23
+    x: 1092
+    y: 13
     width: 300
     height: 150
---- !u!114 &8856678074840031801
+--- !u!114 &8222535459977408702
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,15 +300,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 01dcae9e-8cad-4523-8b07-3719c9c017c8
+  m_Name: e0a3af74-87f5-4d68-828c-1a4c099c10ea
   m_EditorClassIdentifier: 
-  text: Story 2
-  _isChoiceNode: 0
+  text: Second Path
+  isChoiceNode: 1
   isRootNode: 0
-  childNodes: []
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes:
+  - 2acc93be-0c31-48c9-9d31-a723df6b4177
   storyRect:
     serializedVersion: 2
-    x: 705
-    y: 187
+    x: 360
+    y: 180
     width: 300
     height: 150
