@@ -3,6 +3,11 @@ using System.IO;
 
 namespace Code.Logger
 {
+    /// <summary>
+    /// Logger Class, to Log Messages and Exceptions
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="date">04.12.2022</para>
     public class GameLogger
     {
         private string _path;
