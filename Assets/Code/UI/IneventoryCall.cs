@@ -19,6 +19,7 @@ public class IneventoryCall : MonoBehaviour
 
     /// <summary>
     /// Calls the inventory and disables the map.
+    /// Another test commit.
     /// </summary>
     private void CallInventory()
     {
