@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b79ef62665c4504399e2b1dd9adec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedChapter: {fileID: 11400000, guid: 5510bbcb6e188874ab65b8189fcda27e, type: 2}
+  selectedChapter: {fileID: 0}
 --- !u!4 &891384858
 Transform:
   m_ObjectHideFlags: 0
@@ -252,6 +252,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1302171533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5042295542575374797, guid: c4ae48069e93ed447aae1d68cb099db0, type: 3}
+  m_PrefabInstance: {fileID: 4310544139578430972}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1304615470 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7161842918552714202, guid: c4ae48069e93ed447aae1d68cb099db0, type: 3}
@@ -554,6 +559,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5596778073479213199, guid: c4ae48069e93ed447aae1d68cb099db0, type: 3}
+      propertyPath: imageHolder.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5596778073479213199, guid: c4ae48069e93ed447aae1d68cb099db0, type: 3}
+      propertyPath: imageHolder.Array.data[0]
+      value: 
+      objectReference: {fileID: 1302171533}
+    - target: {fileID: 5596778073479213199, guid: c4ae48069e93ed447aae1d68cb099db0, type: 3}
+      propertyPath: imageHolder.Array.data[1]
+      value: 
+      objectReference: {fileID: 1304615470}
     - target: {fileID: 6288919670298639330, guid: c4ae48069e93ed447aae1d68cb099db0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

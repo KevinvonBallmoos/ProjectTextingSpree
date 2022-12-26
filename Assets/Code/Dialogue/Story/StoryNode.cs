@@ -37,9 +37,34 @@ namespace Code.Dialogue.Story
         /// <param name="txt"></param>
         public void SetText(string txt)
         {
-            Undo.RecordObject(this, "Update Dialogue Text");
             text = txt;
-            EditorUtility.SetDirty(this);
+        }
+        
+        /// <summary>
+        /// Sets the Image of the node
+        /// </summary>
+        /// <param name="img"></param>
+        public void SetImage(string img)
+        {
+            image = img;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsGameOver
+        /// </summary>
+        /// <param name="isOver"></param>
+        public void SetIsGameOver(bool isOver)
+        {
+            isGameOver = isOver;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsEndOfChapter
+        /// </summary>
+        /// <param name="isEnd"></param>
+        public void SetIsEndOfChapter(bool isEnd)
+        {
+            isEndOfChapter = isEnd;
         }
         
         /// <summary>

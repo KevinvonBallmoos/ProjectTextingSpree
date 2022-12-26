@@ -246,6 +246,9 @@ namespace Code.Dialogue.Story
             
             SetText(node);
             
+            if (!node.IsChoiceNode())
+                SetProperties(node);
+            
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button(" Story "))
@@ -296,6 +299,40 @@ namespace Code.Dialogue.Story
                     node.SetText(_rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].InnerText);
                 else if (!node.IsChoiceNode())
                     node.SetText(_rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].InnerText);
+            }
+        }
+        
+        /// <summary>
+        /// Sets the Properties from the Xml to the according node
+        /// </summary>
+        /// <param name="node"></param>
+        private void SetProperties(StoryNode node)
+        {
+            int? attributesCount = 0;
+            var xmlNode = _rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1];
+            try  { attributesCount = xmlNode.Attributes?.Count; }
+            catch (Exception ex) 
+            {
+                // ignored
+            }
+            
+            if (attributesCount == 0) return;
+
+            for (int i = 0; i < attributesCount; i++)
+            {
+                var attribute = xmlNode.Attributes[i].Name;
+                switch (attribute)
+                {
+                    case "image":
+                        node.SetImage(xmlNode.Attributes[attribute].Value);
+                        break;
+                    case "isGameOver":
+                        node.SetIsGameOver(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        break;
+                    case "isEndOfChapter":
+                        node.SetIsEndOfChapter(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        break;
+                }
             }
         }
         
