@@ -12,7 +12,7 @@ namespace Code.Dialogue.Story
     /// <summary>
     /// Holds the Story
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
     public class StoryHolder : MonoBehaviour
     {

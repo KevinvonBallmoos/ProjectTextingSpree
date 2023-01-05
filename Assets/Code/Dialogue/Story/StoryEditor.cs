@@ -11,7 +11,7 @@ namespace Code.Dialogue.Story
     /// <summary>
     /// Story Editor, Creates Nodes used for the Story
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
     public class StoryEditor : EditorWindow
     {

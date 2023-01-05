@@ -1,5 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8185924465090162837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 9012585a-a3e4-44d2-a0ca-1344cbe19190
+  m_EditorClassIdentifier: 
+  text: Bleh Path
+  isChoiceNode: 1
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 1791
+    y: 213
+    width: 300
+    height: 150
 --- !u!114 &-7196996534582329482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22,11 +47,11 @@ MonoBehaviour:
   - af39844a-4c1c-4bed-ada2-8f19448b413a
   storyRect:
     serializedVersion: 2
-    x: 361
-    y: 173
+    x: 366
+    y: 196
     width: 300
     height: 150
---- !u!114 &-5882771957414415366
+--- !u!114 &-4839371665213561886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -36,7 +61,58 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 1b603c58-cd42-451a-9f66-688a69919c9c
+  m_Name: cd5acd1f-927d-4e09-a3ac-e51c3312e278
+  m_EditorClassIdentifier: 
+  text: Last Path
+  isChoiceNode: 1
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: Volibear
+  childNodes:
+  - 49eadfde-8b5f-497e-9ac8-6d0dbe056b19
+  storyRect:
+    serializedVersion: 2
+    x: 1792
+    y: 15
+    width: 300
+    height: 150
+--- !u!114 &-2281879599354943494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 1d40b394-6ef3-45bf-85b1-80396e4fe792
+  m_EditorClassIdentifier: 
+  text: Story 3 Dead
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 1
+  image: 
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 1421
+    y: 196
+    width: 300
+    height: 150
+--- !u!114 &-2091460208155372879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 47a42446-e6e7-4b5b-be1b-330bef9f15ea
   m_EditorClassIdentifier: 
   text: Story 1 Move Forward
   isChoiceNode: 0
@@ -45,36 +121,12 @@ MonoBehaviour:
   isGameOver: 0
   image: Sasori
   childNodes:
-  - 40c440f9-0c45-4ed6-b733-1eff777e8982
+  - cd5acd1f-927d-4e09-a3ac-e51c3312e278
+  - 9012585a-a3e4-44d2-a0ca-1344cbe19190
   storyRect:
     serializedVersion: 2
-    x: 1410
-    y: 12
-    width: 300
-    height: 150
---- !u!114 &-5239328255386605812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: f0aeb41f-5666-4569-8cb4-5a41c77d4e86
-  m_EditorClassIdentifier: 
-  text: Story 1 END
-  isChoiceNode: 0
-  isRootNode: 0
-  isEndOfChapter: 1
-  isGameOver: 0
-  image: Volibear
-  childNodes: []
-  storyRect:
-    serializedVersion: 2
-    x: 2110
-    y: 12
+    x: 1414
+    y: 1
     width: 300
     height: 150
 --- !u!114 &-1038482559307744428
@@ -96,11 +148,11 @@ MonoBehaviour:
   isGameOver: 0
   image: 
   childNodes:
-  - f161086a-3e63-4062-a4c1-684260320c67
+  - 1d40b394-6ef3-45bf-85b1-80396e4fe792
   storyRect:
     serializedVersion: 2
-    x: 1069
-    y: 164
+    x: 1070
+    y: 166
     width: 300
     height: 150
 --- !u!114 &-235019731128534262
@@ -126,8 +178,8 @@ MonoBehaviour:
   - d58a92f2-d8dc-4df6-873c-6e6f6624d42b
   storyRect:
     serializedVersion: 2
-    x: 710
-    y: 11
+    x: 708
+    y: -14
     width: 300
     height: 150
 --- !u!114 &11400000
@@ -150,11 +202,13 @@ MonoBehaviour:
   - {fileID: 3154962951694549349}
   - {fileID: 7676723801661083821}
   - {fileID: -1038482559307744428}
-  - {fileID: 4767790148427508013}
-  - {fileID: -5882771957414415366}
-  - {fileID: 1974348011002681823}
-  - {fileID: -5239328255386605812}
   - {fileID: 3268861746588057543}
+  - {fileID: -2281879599354943494}
+  - {fileID: -2091460208155372879}
+  - {fileID: -4839371665213561886}
+  - {fileID: 2411409305202289820}
+  - {fileID: 5145229674380137322}
+  - {fileID: -8185924465090162837}
 --- !u!114 &598287023666067998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,11 +231,11 @@ MonoBehaviour:
   - 6327d75d-037e-4256-845f-ca0c4551f376
   storyRect:
     serializedVersion: 2
-    x: 360
-    y: 11
+    x: 362
+    y: 13
     width: 300
     height: 150
---- !u!114 &1974348011002681823
+--- !u!114 &2411409305202289820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,25 +245,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: 40c440f9-0c45-4ed6-b733-1eff777e8982
+  m_Name: 49eadfde-8b5f-497e-9ac8-6d0dbe056b19
   m_EditorClassIdentifier: 
   text: "Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-    \r\nsed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-    erat, \r\nsed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-    rebum. \r\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-    dolor sit amet. \r\nLorem ipsum dolor sit amet, consetetur sadipscing elitr,
-    sed diam nonumy eirmod tempor "
+    \r\n\t\t\t\t\t\tsed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+    aliquyam erat, \r\n\t\t\t\t\t\tsed diam voluptua. At vero eos et accusam et justo
+    duo dolores et ea rebum. \r\n\t\t\t\t\t\tStet clita kasd gubergren, no sea takimata
+    sanctus est Lorem ipsum dolor sit amet. \r\n\t\t\t\t\t\tLorem ipsum dolor sit
+    amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor "
   isChoiceNode: 0
   isRootNode: 0
   isEndOfChapter: 0
   isGameOver: 0
   image: Volibear
   childNodes:
-  - f0aeb41f-5666-4569-8cb4-5a41c77d4e86
+  - 40e1511c-159e-4669-a825-5f8fcf8267a6
   storyRect:
     serializedVersion: 2
-    x: 1760
-    y: 12
+    x: 2124
+    y: 9
     width: 300
     height: 150
 --- !u!114 &3154962951694549349
@@ -258,11 +312,11 @@ MonoBehaviour:
   isGameOver: 0
   image: 
   childNodes:
-  - f161086a-3e63-4062-a4c1-684260320c67
+  - 1d40b394-6ef3-45bf-85b1-80396e4fe792
   storyRect:
     serializedVersion: 2
-    x: 1050
-    y: 330
+    x: 1056
+    y: 329
     width: 300
     height: 150
 --- !u!114 &3757323323770973387
@@ -292,7 +346,7 @@ MonoBehaviour:
     y: 12
     width: 300
     height: 150
---- !u!114 &4767790148427508013
+--- !u!114 &5145229674380137322
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,19 +356,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
-  m_Name: f161086a-3e63-4062-a4c1-684260320c67
+  m_Name: 40e1511c-159e-4669-a825-5f8fcf8267a6
   m_EditorClassIdentifier: 
-  text: Story 3 Dead
+  text: Story 1 END
   isChoiceNode: 0
   isRootNode: 0
-  isEndOfChapter: 0
-  isGameOver: 1
-  image: 
+  isEndOfChapter: 1
+  isGameOver: 0
+  image: Flower
   childNodes: []
   storyRect:
     serializedVersion: 2
-    x: 1404
-    y: 186
+    x: 2474
+    y: 9
     width: 300
     height: 150
 --- !u!114 &7676723801661083821
@@ -336,10 +390,10 @@ MonoBehaviour:
   isGameOver: 0
   image: 
   childNodes:
-  - 1b603c58-cd42-451a-9f66-688a69919c9c
+  - 47a42446-e6e7-4b5b-be1b-330bef9f15ea
   storyRect:
     serializedVersion: 2
-    x: 1060
-    y: 12
+    x: 1081
+    y: -1
     width: 300
     height: 150

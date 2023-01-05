@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 using Code.Logger;
@@ -11,7 +10,7 @@ namespace Code.Dialogue.Story
     /// <summary>
     /// Creates the Story in the Editor
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
     [CreateAssetMenu(fileName = "Chapter", menuName = "Chapter", order = 0)]
     public class Story : ScriptableObject, ISerializationCallbackReceiver
@@ -26,7 +25,7 @@ namespace Code.Dialogue.Story
 #if UNITY_EDITOR
         
         /// <summary>
-        /// Is called everytime a Scriptable Object is loaded
+        /// Is called every time a Scriptable Object is loaded
         /// ## When exporting the Game OnValidate() does not get called automatically, so it will be called from Awake 
         /// </summary>
         private void Awake()
@@ -135,6 +134,25 @@ namespace Code.Dialogue.Story
         }
         
         /// <summary>
+        /// Create a new Node and add it to the parent
+        /// </summary>
+        /// <param name="parentNode">Parent Node to add the child Node</param>
+        /// <param name="isChoice">Declares if Node is a choice or not</param>
+        /// <returns>new child Node</returns>
+        private static StoryNode CreateNode(StoryNode parentNode, bool isChoice)
+        {
+            var child = CreateInstance<StoryNode>();
+            child.name = Guid.NewGuid().ToString();
+            if (parentNode != null)
+            {
+                parentNode.AddChildNode(child.name);
+                child.SetChoiceNode(isChoice);
+                child.SetRect(parentNode.GetRect().position.x + 350, parentNode.GetRect().position.y);
+            }
+            return child;
+        }
+        
+        /// <summary>
         /// Delete selected Node
         /// Removes it from the Node List
         /// </summary>
@@ -161,31 +179,12 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Create a new Node and add it to the parent
-        /// </summary>
-        /// <param name="parentNode">Parent Node to add the child Node</param>
-        /// <param name="isChoice">Declares if Node is a choice or not</param>
-        /// <returns>new child Node</returns>
-        private StoryNode CreateNode(StoryNode parentNode, bool isChoice)
-        {
-            StoryNode child = CreateInstance<StoryNode>();
-            child.name = Guid.NewGuid().ToString();
-            if (parentNode != null)
-            {
-                parentNode.AddChildNode(child.name);
-                child.SetChoiceNode(isChoice);
-                child.SetRect(parentNode.GetRect().position.x + 350, parentNode.GetRect().position.y);
-            }
-            return child;
-        }
-        
-        /// <summary>
         /// Deletes referenced ChildNodes
         /// </summary>
         /// <param name="nodeToDelete">Node to delete</param>
         private void CleanChildNodes(StoryNode nodeToDelete)
         {
-            foreach (StoryNode node in GetAllNodes())
+            foreach (var node in GetAllNodes())
                 node.RemoveChildNode(nodeToDelete.name);
         }
         

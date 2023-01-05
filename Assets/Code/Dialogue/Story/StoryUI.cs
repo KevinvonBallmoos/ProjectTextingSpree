@@ -13,7 +13,7 @@ namespace Code.Dialogue.Story
     /// <summary>
     /// Displays the Story in the GUI
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
     public class StoryUI : MonoBehaviour
     {
