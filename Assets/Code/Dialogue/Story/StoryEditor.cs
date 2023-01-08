@@ -66,12 +66,9 @@ namespace Code.Dialogue.Story
         public static bool OnOpenAsset(int instanceId)
         {
             var story = EditorUtility.InstanceIDToObject(instanceId) as Story;
-            if (story != null)
-            {
-                ShowEditorWindow();
-                return true;
-            }
-            return false;
+            if (story == null) return false;
+            ShowEditorWindow();
+            return true;
         }
         
         /// <summary>
@@ -104,17 +101,16 @@ namespace Code.Dialogue.Story
             };
         }
         #endregion
+        
         /// <summary>
-        /// When an other Chapter is selected
+        /// Loads the selected chapter
         /// </summary>
         private void OnSelectionChanged()
         {
-            Story newChapter = Selection.activeObject as Story;
-            if (newChapter != null)
-            {
-                _selectedChapter = newChapter;
-                Repaint();
-            }
+            var newChapter = Selection.activeObject as Story;
+            if (newChapter == null) return;
+            _selectedChapter = newChapter;
+            Repaint();
         }
 
         #region Draw GUI
@@ -158,7 +154,7 @@ namespace Code.Dialogue.Story
                 EditorGUILayout.EndScrollView();
                 if (_createStoryNode != null)
                 {
-                    _logger.LogEntry("Log", "Add Story Node", _logger.GetLineNumber());
+                    _logger.LogEntry("Editor log", "Add Story Node", GameLogger.GetLineNumber());
 
                     _selectedChapter.AddNode(_createStoryNode, false);
                     _createStoryNode = null;
@@ -166,7 +162,7 @@ namespace Code.Dialogue.Story
 
                 if (_createChoiceNode != null)
                 {
-                    _logger.LogEntry("Log", "Add Choice Node", _logger.GetLineNumber());
+                    _logger.LogEntry("Editor log", "Add Choice Node", GameLogger.GetLineNumber());
 
                     _selectedChapter.AddNode(_createChoiceNode, true);
                     _createChoiceNode = null;
@@ -184,14 +180,17 @@ namespace Code.Dialogue.Story
             }
         }
 
+        /// <summary>
+        /// Draws the Surface of the Editor
+        /// </summary>
         private static void DrawSurface()
         {
             // Draws canvas
-            Rect canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
+            var canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
             // Draw Background
-            Texture2D backGroundTex = Resources.Load("Editor/background") as Texture2D;
+            var backGroundTex = Resources.Load("Editor/background") as Texture2D;
             // Width and Height are how many times the images has to appear (tile)
-            Rect texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
+            var texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
             // Draw Surface
             GUI.DrawTextureWithTexCoords(canvas, backGroundTex, texCoords);
         }

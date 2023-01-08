@@ -67,7 +67,7 @@ namespace Code.Logger
         /// Returns the Current LineNumber
         /// </summary>
         /// <returns>The Current Line Number</returns>
-        public int GetLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
+        public static int GetLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
         {
             return lineNumber; 
         }

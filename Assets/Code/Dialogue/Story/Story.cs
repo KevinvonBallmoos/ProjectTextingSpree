@@ -129,6 +129,8 @@ namespace Code.Dialogue.Story
             var child = CreateNode(parentNode, isChoice);
             Undo.RegisterCreatedObjectUndo(child, "Created Dialogue Node");
             
+            _logger.LogEntry("Story log", $"Created new node, is Choice: {isChoice}", GameLogger.GetLineNumber());
+            
             Undo.RecordObject(this, "Added Dialogue Node");
             AddNodeToList(child);
         }
