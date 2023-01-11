@@ -1,18 +1,15 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 using Code.Logger;
-using Random = UnityEngine.Random;
 
 namespace Code.Dialogue.Story
 {
     /// <summary>
     /// Holds the Story
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
     public class StoryHolder : MonoBehaviour
     {
@@ -35,7 +32,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Get next Choice Nodes
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">parent node that contains the next choices nodes</param>
         public void Next(StoryNode node)
         {
             foreach (var n in selectedChapter.GetStoryNodes(node))
@@ -48,20 +45,29 @@ namespace Code.Dialogue.Story
                 foreach (var n in selectedChapter.GetAllChildNodes(_parentNode))
                     _isStoryNode = !n.IsChoiceNode();
             }
+            _logger.LogEntry("Story Holder log", $"Retuning next Choice node {_currentNode.name}", GameLogger.GetLineNumber());
+
         }
 
         /// <summary>
         /// Get next Story Node
+        /// # Overload  without parameter
         /// </summary>
         public void Next()
         {
             if (!CheckNodeCount()) return;
             foreach (var n in selectedChapter.GetStoryNodes(_currentNode))
                 _currentNode = n;
-
+            
             _parentNode = _currentNode;
+            _logger.LogEntry("Story Holder log", $"Retuning next Story node {_currentNode.name}", GameLogger.GetLineNumber());
+
         }
         
+        /// <summary>
+        /// Returns the count of child nodes the parent has
+        /// </summary>
+        /// <returns></returns>
         private bool CheckNodeCount()
         {
             if (selectedChapter.GetAllChildNodes(_parentNode).Any())
@@ -88,11 +94,7 @@ namespace Code.Dialogue.Story
         {
             return selectedChapter.GetChoiceNodes(_currentNode);
         }
-
-        /// <summary>
-        /// Gets the text of the Root node of the Dialog Editor
-        /// </summary>
-        /// <returns></returns>
+        
         public string GetRootNodeText()
         { 
             return selectedChapter.GetRootNode().GetText();

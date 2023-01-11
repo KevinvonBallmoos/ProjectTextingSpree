@@ -8,9 +8,9 @@ using Code.Logger;
 namespace Code.Dialogue.Story
 {
     /// <summary>
-    /// Class for StoryNode
+    /// Object Class for StoryNode
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
     public class StoryNode : ScriptableObject
     {
@@ -38,6 +38,7 @@ namespace Code.Dialogue.Story
         public void SetText(string txt)
         {
             text = txt;
+            _logger.LogEntry("Story Node log", $"New node text: {text}", GameLogger.GetLineNumber());
         }
         
         /// <summary>
