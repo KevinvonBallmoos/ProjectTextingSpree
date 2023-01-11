@@ -38,7 +38,6 @@ namespace Code.Dialogue.Story
         public void SetText(string txt)
         {
             text = txt;
-            _logger.LogEntry("Story Node log", $"New node text: {text}", GameLogger.GetLineNumber());
         }
         
         /// <summary>
@@ -156,7 +155,7 @@ namespace Code.Dialogue.Story
 
         public Rect GetRect(Vector2 pos)
         {
-            storyRect.position = storyRect.position + pos;
+            storyRect.position += pos;
             return storyRect;
         }
     }
