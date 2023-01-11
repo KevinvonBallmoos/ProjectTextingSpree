@@ -1,16 +1,24 @@
 <Story1Chapter2>
 	<RootNode>Let us start talking</RootNode>
-	<DialogueChoices>
-		<Choice id="1">Do it NOW!</Choice>
-		<Choice id="2">Noooo</Choice>
-		<Choice id="3">Yaww!</Choice>
-		<Choice id="4">Today</Choice>
-		<Choice id="5">Meh</Choice>
-	</DialogueChoices>
-	<DialogueNPC>
-		<Node id="1">Maaaaac</Node>
-		<Node id="2">GET TO TA CHOPPA!</Node>
-		<Node id="3">Mac!</Node>
-		<Node id="4">Noice!</Node>
-	</DialogueNPC>
+	<Path>
+		<Choice>Do it NOW!
+			<Node>GET TO TA CHOPPA!
+				<Choice>Do it NOW!
+					<Node>GET TO TA CHOPPA!
+						<Node>Mac!
+							<Node>Maaaaac</Node>
+						</Node>
+					</Node>
+				</Choice>
+				<Choice>Today
+					<Node>You Died</Node>
+				</Choice>
+			</Node>
+		</Choice>
+		<Choice>Today
+			<Node>Noice!
+				<Choice>Do it NOW!</Choice>
+			</Node>
+		</Choice>
+	</Path>
 </Story1Chapter2>

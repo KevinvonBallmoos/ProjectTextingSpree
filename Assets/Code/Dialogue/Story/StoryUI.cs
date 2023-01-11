@@ -13,10 +13,12 @@ namespace Code.Dialogue.Story
     /// <summary>
     /// Displays the Story in the GUI
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
     public class StoryUI : MonoBehaviour
     {
+        // Logger
+        private readonly GameLogger _logger = new GameLogger("StoryUI");
         // Story Holder
         private StoryHolder _storyHolder;
         // SerializedFields
@@ -26,9 +28,9 @@ namespace Code.Dialogue.Story
         [SerializeField] private Button nextButton;
         [SerializeField] private GameObject[] imageHolder;
         
-        // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryUI");
-
+        /// <summary>
+        /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
+        /// </summary>
         private void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
@@ -36,6 +38,9 @@ namespace Code.Dialogue.Story
             UpdateUI();
         }
         
+        /// <summary>
+        /// When the next button is clicked, it loads the next part of the story
+        /// </summary>
         private void Next()
         {
             //StopCoroutine(TextSlower(0f));
@@ -43,6 +48,9 @@ namespace Code.Dialogue.Story
             UpdateUI();
         }
         
+        /// <summary>
+        /// Updates the Story, loads the next part of story and the choices nodes
+        /// </summary>
         private void UpdateUI()
         {
             if (!_storyHolder.IsNull())
@@ -90,6 +98,11 @@ namespace Code.Dialogue.Story
             }
         }
 
+        /// <summary>
+        /// Displays the text char by char, gives a visual effect
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
             var text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
@@ -106,22 +119,31 @@ namespace Code.Dialogue.Story
             }
         }
         
+        /// <summary>
+        /// Loads the next Chapter when the End of Chapter node is reached
+        /// Or the GameOver Screen when the GameOver node is reached
+        /// </summary>
         private void NextChapter()
         {
             if (_storyHolder.IsEndOfChapter())
             {
+                _logger.LogEntry("UI log", "End of Chapter reached.", GameLogger.GetLineNumber());
                 // If No more nodes then Button Text = "Next Chapter", and switch Listener
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
                 nextButton.onClick.RemoveListener(Next);
-                // Add new Listener - Gamemanager
+                // Add new Listener - Game manager
             }
             else if (_storyHolder.IsGameOver())
             {
+                _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
                 nextButton.enabled = false;
                 //Load GameOver scene
             }
         }
 
+        /// <summary>
+        /// Builds the choice list, depending on the count of the nodes
+        /// </summary>
         private void BuildChoiceList()
         {
             foreach (Transform item in choiceRoot)

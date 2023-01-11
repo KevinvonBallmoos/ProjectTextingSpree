@@ -8,9 +8,9 @@ using Code.Logger;
 namespace Code.Dialogue.Story
 {
     /// <summary>
-    /// Class for StoryNode
+    /// Object Class for StoryNode
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
     public class StoryNode : ScriptableObject
     {
@@ -37,9 +37,35 @@ namespace Code.Dialogue.Story
         /// <param name="txt"></param>
         public void SetText(string txt)
         {
-            Undo.RecordObject(this, "Update Dialogue Text");
             text = txt;
-            EditorUtility.SetDirty(this);
+            _logger.LogEntry("Story Node log", $"New node text: {text}", GameLogger.GetLineNumber());
+        }
+        
+        /// <summary>
+        /// Sets the Image of the node
+        /// </summary>
+        /// <param name="img"></param>
+        public void SetImage(string img)
+        {
+            image = img;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsGameOver
+        /// </summary>
+        /// <param name="isOver"></param>
+        public void SetIsGameOver(bool isOver)
+        {
+            isGameOver = isOver;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsEndOfChapter
+        /// </summary>
+        /// <param name="isEnd"></param>
+        public void SetIsEndOfChapter(bool isEnd)
+        {
+            isEndOfChapter = isEnd;
         }
         
         /// <summary>

@@ -73,7 +73,7 @@ namespace DefaultNamespace
                 text = GetCarName();
                 
             // Logger Needs Type (Test, Info, Exception, ...), Message and the Method _logger.GetLineNumber() returns the current Line Number
-            _logger.LogEntry("Test", "Logging Info", _logger.GetLineNumber());
+            _logger.LogEntry("Test", "Logging Info", GameLogger.GetLineNumber());
         }
         
         

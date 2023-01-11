@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 
 namespace Code.Logger
 {
@@ -55,14 +54,20 @@ namespace Code.Logger
         /// <param name="lineNumber">Current Line Number</param>
         public void LogEntry(string type, string message, int lineNumber)
         {
-            AddLogEntry(new LogEvent{ LogTime = DateTime.Now, Type = type, Message = message, LineNumber = lineNumber});
+            AddLogEntry(new LogEvent
+            {
+                LogTime = DateTime.Now, 
+                Type = type, 
+                Message = message, 
+                LineNumber = lineNumber
+            });
         }
 
         /// <summary>
         /// Returns the Current LineNumber
         /// </summary>
         /// <returns>The Current Line Number</returns>
-        public int GetLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
+        public static int GetLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
         {
             return lineNumber; 
         }
@@ -70,7 +75,7 @@ namespace Code.Logger
         /// <summary>
         /// Appends the Entry into the LogFile
         /// </summary>
-        /// <param name="log"></param>
+        /// <param name="log">Log Event Object</param>
         private void AddLogEntry(LogEvent log)
         {
             using (var writer = new StreamWriter(_path, append:true)){
@@ -80,7 +85,7 @@ namespace Code.Logger
         }
 
         /// <summary>
-        /// 
+        /// Removes Log Entry
         /// </summary>
         private static void RemoveLogEntry(string path)
         {
@@ -99,11 +104,9 @@ namespace Code.Logger
                 {
                     for (int i = 3; i < readLines.Count; i++)
                         writeLines.Add(readLines[i]);
-                    using (var writer = new StreamWriter(path))
-                    {
-                        foreach (var line in writeLines)
-                            writer.WriteLine(line);
-                    }
+                    using var writer = new StreamWriter(path);
+                    foreach (var line in writeLines)
+                        writer.WriteLine(line);
                 }
                 else
                 {
