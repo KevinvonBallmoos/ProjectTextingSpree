@@ -16,7 +16,7 @@ namespace Code.Dialogue.Story
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryHolder");
         // Dialogue and Nodes
-        [SerializeField] private Story selectedChapter;
+        public Story selectedChapter;
         private StoryNode _parentNode = null;
         private StoryNode _currentNode = null;
         // Booleans

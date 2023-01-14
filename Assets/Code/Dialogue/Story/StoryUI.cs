@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Code.Dialogue.Story;
+using UnityEngine.SceneManagement;
+
 using Code.Logger;
-using Debug = UnityEngine.Debug;
+using Code.GameManager;
 
 namespace Code.Dialogue.Story
 {
@@ -27,7 +27,7 @@ namespace Code.Dialogue.Story
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
         [SerializeField] private GameObject[] imageHolder;
-        
+
         /// <summary>
         /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
         /// </summary>
@@ -131,13 +131,15 @@ namespace Code.Dialogue.Story
                 // If No more nodes then Button Text = "Next Chapter", and switch Listener
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
                 nextButton.onClick.RemoveListener(Next);
-                // Add new Listener - Game manager
+
+                GameManager.GameManager.Gm.endOfChapter = true;
             }
             else if (_storyHolder.IsGameOver())
             {
                 _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
                 nextButton.enabled = false;
-                //Load GameOver scene
+
+                GameManager.GameManager.Gm.gameOver = true;
             }
         }
 
