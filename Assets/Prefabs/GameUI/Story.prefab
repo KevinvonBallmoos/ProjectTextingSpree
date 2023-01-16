@@ -385,7 +385,6 @@ GameObject:
   m_Component:
   - component: {fileID: 669276180192317670}
   - component: {fileID: 7158359274361079446}
-  - component: {fileID: 8763460628773281421}
   m_Layer: 0
   m_Name: Story
   m_TagString: Untagged
@@ -442,23 +441,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &8763460628773281421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5667890200349094035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aca06a56aac4a63975c98ba8bbae914, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  story: {fileID: 6679401451386339956}
-  choiceRoot: {fileID: 3057077487431738551}
-  choicePrefab: {fileID: 8986135665163562379, guid: 9bd1b65d6f85ec246a59608d6358ffc8, type: 3}
-  nextButton: {fileID: 7467035093128044442}
-  quitButton: {fileID: 0}
 --- !u!1001 &76197484701428679
 PrefabInstance:
   m_ObjectHideFlags: 0

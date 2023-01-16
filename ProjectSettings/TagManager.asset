@@ -9,6 +9,8 @@ TagManager:
   - InventoryPanel
   - Map
   - HoverText
+  - Image
+  - Next
   layers:
   - Default
   - TransparentFX

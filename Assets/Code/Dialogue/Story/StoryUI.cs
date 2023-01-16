@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 using Code.Logger;
-using Code.GameManager;
 
 namespace Code.Dialogue.Story
 {
@@ -27,23 +24,29 @@ namespace Code.Dialogue.Story
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
         [SerializeField] private GameObject[] imageHolder;
+        
+        private Coroutine _coroutine;
 
         /// <summary>
         /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
         /// </summary>
-        private void Start()
+        public void StartScript()
         {
-            _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
+            StoryHolder _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
+            if (_storyHolder.selectedChapter == null) return;
+            
+            nextButton.gameObject.SetActive(false);
             nextButton.onClick.AddListener(Next);
+
             UpdateUI();
         }
-        
+
         /// <summary>
         /// When the next button is clicked, it loads the next part of the story
         /// </summary>
         private void Next()
         {
-            //StopCoroutine(TextSlower(0f));
+            StopCoroutine(_coroutine);
             _storyHolder.Next();
             UpdateUI();
         }
@@ -69,6 +72,7 @@ namespace Code.Dialogue.Story
                 }
                 else if (!_storyHolder.IsStoryNode())
                 {
+                    Debug.Log("is root");
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
                     BuildChoiceList();
@@ -83,8 +87,10 @@ namespace Code.Dialogue.Story
                 // Continue with Game
             }
 
+            // Displays Text
             story.text = "";
-            StartCoroutine(TextSlower(0.02f));
+            _coroutine = StartCoroutine(TextSlower(0.02f));
+            // Displays Image
             if (!_storyHolder.GetImage().Equals(""))
             {
                 imageHolder[0].SetActive(false);
@@ -133,11 +139,12 @@ namespace Code.Dialogue.Story
                 nextButton.onClick.RemoveListener(Next);
 
                 GameManager.GameManager.Gm.endOfChapter = true;
+                nextButton.onClick.AddListener(GameManager.GameManager.Gm.NextChapter_Click);
             }
             else if (_storyHolder.IsGameOver())
             {
                 _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
-                nextButton.enabled = false;
+                nextButton.gameObject.SetActive(false);
 
                 GameManager.GameManager.Gm.gameOver = true;
             }
