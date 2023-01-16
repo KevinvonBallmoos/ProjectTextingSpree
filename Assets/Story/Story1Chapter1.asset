@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
   m_Name: aa5454ef-a420-49bb-ad3b-21f964c8ce6f
   m_EditorClassIdentifier: 
-  text: Third Path
-  _isChoiceNode: 1
+  text: Story 1 Move Forward
+  isChoiceNode: 0
   isRootNode: 0
+  isEndOfChapter: 1
+  isGameOver: 0
+  image: Sasori
   childNodes: []
   storyRect:
     serializedVersion: 2
@@ -35,8 +38,11 @@ MonoBehaviour:
   m_Name: 3186b3d5-b547-485d-b379-38c4685b9169
   m_EditorClassIdentifier: 
   text: Start Story
-  _isChoiceNode: 0
+  isChoiceNode: 0
   isRootNode: 1
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
   childNodes:
   - a79a63fa-737e-4b74-bdfe-488ead0e67ed
   - e2f8d8bc-f2bd-4a76-9671-087b276c99df
@@ -59,8 +65,11 @@ MonoBehaviour:
   m_Name: c4dd2d93-f6fc-46ed-9462-1dea323783b0
   m_EditorClassIdentifier: 
   text: Story 1, Text, Text, Text
-  _isChoiceNode: 0
+  isChoiceNode: 0
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 1
+  image: Volibear
   childNodes:
   - 8fa274c8-4d42-40a5-98ee-2250ae31110f
   storyRect:
@@ -82,8 +91,11 @@ MonoBehaviour:
   m_Name: 3ea27bc9-b570-4e79-8826-187f15336def
   m_EditorClassIdentifier: 
   text: Story 2
-  _isChoiceNode: 0
+  isChoiceNode: 0
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 1
+  image: Volibear
   childNodes:
   - aa5454ef-a420-49bb-ad3b-21f964c8ce6f
   storyRect:
@@ -105,14 +117,17 @@ MonoBehaviour:
   m_Name: e2f8d8bc-f2bd-4a76-9671-087b276c99df
   m_EditorClassIdentifier: 
   text: Second Path
-  _isChoiceNode: 1
+  isChoiceNode: 1
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: Volibear
   childNodes:
   - 3ea27bc9-b570-4e79-8826-187f15336def
   storyRect:
     serializedVersion: 2
-    x: 360
-    y: 219.00002
+    x: 353.00003
+    y: 204.00002
     width: 300
     height: 150
 --- !u!114 &11400000
@@ -148,14 +163,17 @@ MonoBehaviour:
   m_Name: a79a63fa-737e-4b74-bdfe-488ead0e67ed
   m_EditorClassIdentifier: 
   text: First Path
-  _isChoiceNode: 1
+  isChoiceNode: 1
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
   childNodes:
   - c4dd2d93-f6fc-46ed-9462-1dea323783b0
   storyRect:
     serializedVersion: 2
-    x: 360
-    y: 11
+    x: 364
+    y: 16
     width: 300
     height: 150
 --- !u!114 &5296862266114758409
@@ -170,9 +188,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
   m_Name: 8fa274c8-4d42-40a5-98ee-2250ae31110f
   m_EditorClassIdentifier: 
-  text: First Path Go on
-  _isChoiceNode: 1
+  text: Story 3 Dead
+  isChoiceNode: 0
   isRootNode: 0
+  isEndOfChapter: 0
+  isGameOver: 1
+  image: Sasori
   childNodes: []
   storyRect:
     serializedVersion: 2
