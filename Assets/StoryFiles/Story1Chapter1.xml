@@ -1,5 +1,5 @@
 <Story1Chapter1>
-	<RootNode>Start Story</RootNode>
+	<RootNode>Chapter 1 Start</RootNode>
 	<DialogueChoices>
 		<Choice id="1">First Path</Choice>
 		<Choice id="2">Second Path</Choice>
@@ -11,14 +11,14 @@
 	</DialogueChoices>
 	<DialogueNPC>
 		<Node id="1">Story 1, Text, Text, Text</Node>
-		<Node id="2" image="Volibear">Story 2</Node>
+		<Node id="2">Story 2</Node>
 		<Node id="3" isGameOver="True">Story 3 Dead</Node>
-		<Node id="4" image="Sasori">Story 1 Move Forward</Node>
-		<Node id="5" image="Volibear">Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
+		<Node id="4" >Story 1 Move Forward</Node>
+		<Node id="5" >Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
 						sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
 						sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
 						Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
 						Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor </Node>
-		<Node id="6" image="Volibear" isEndOfChapter="True">Story 1 END</Node>
+		<Node id="6" isEndOfChapter="True">Story 1 END</Node>
 	</DialogueNPC>
 </Story1Chapter1>

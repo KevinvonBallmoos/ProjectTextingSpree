@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,17 +17,20 @@ namespace Code.Dialogue.Story
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryHolder");
         // Dialogue and Nodes
-        [SerializeField] private Story selectedChapter;
+        public Story selectedChapter;
         private StoryNode _parentNode = null;
         private StoryNode _currentNode = null;
         // Booleans
-        private bool _isStoryNode = false;
-        private bool _isNull = false;
+        private bool _isStoryNode;
+        private bool _isNull;
 
-        private void Awake()
+        public void StartScript()
         {
+            if (selectedChapter == null) return;
             _currentNode = selectedChapter.GetRootNode();
             _parentNode = _currentNode;
+            _isStoryNode = false;
+            _isNull = false;
         }
         
         /// <summary>

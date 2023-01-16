@@ -1,24 +1,20 @@
 <Story1Chapter2>
-	<RootNode>Let us start talking</RootNode>
-	<Path>
-		<Choice>Do it NOW!
-			<Node>GET TO TA CHOPPA!
-				<Choice>Do it NOW!
-					<Node>GET TO TA CHOPPA!
-						<Node>Mac!
-							<Node>Maaaaac</Node>
-						</Node>
-					</Node>
-				</Choice>
-				<Choice>Today
-					<Node>You Died</Node>
-				</Choice>
-			</Node>
-		</Choice>
-		<Choice>Today
-			<Node>Noice!
-				<Choice>Do it NOW!</Choice>
-			</Node>
-		</Choice>
-	</Path>
+	<RootNode>Chapter 2 Start</RootNode>
+	<DialogueChoices>
+		<Choice id="1">First Path</Choice>
+		<Choice id="2">Second Path</Choice>
+		<Choice id="3">First Path Go on</Choice>
+		<Choice id="4">Third Path</Choice>
+		<Choice id="5">Fourth Path</Choice>		
+		<Choice id="6">Last Path</Choice>
+		<Choice id="7">Bleh Path</Choice>
+	</DialogueChoices>
+	<DialogueNPC>
+		<Node id="1">Story 1, Text, Text, Text</Node>
+		<Node id="2">Story 2</Node>
+		<Node id="3" isGameOver="True">Story 3 Dead</Node>
+		<Node id="4">Story 1 Move Forward</Node>
+		<Node id="5">Test End </Node>
+		<Node id="6" isEndOfChapter="True">Story 1 END</Node>
+	</DialogueNPC>
 </Story1Chapter2>
