@@ -2717,7 +2717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5702359085165122278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4041,6 +4041,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4310544140328852198}
     m_Modifications:
+    - target: {fileID: 264476533748292261, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
+      propertyPath: m_TagString
+      value: Next
+      objectReference: {fileID: 0}
     - target: {fileID: 1613326806666280287, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4273,6 +4277,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 6229057721259308987, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229057721259308987, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229057721259308987, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 152.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229057721259308987, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -912.9195
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506429037387877962, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
+      propertyPath: m_TagString
+      value: Story
+      objectReference: {fileID: 0}
     - target: {fileID: 7099990314236449447, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4345,7 +4369,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 187808989010651193, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
 --- !u!1 &5042295542575374797 stripped
 GameObject:
