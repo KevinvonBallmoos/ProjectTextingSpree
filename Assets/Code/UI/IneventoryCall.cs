@@ -15,7 +15,6 @@ public class IneventoryCall : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        menuCanvas.SetActive(false);
         inventoryButton.onClick.AddListener(CallInventory);
         mapButton.onClick.AddListener(CallMap);
         menuButton.onClick.AddListener(CallMenu);
