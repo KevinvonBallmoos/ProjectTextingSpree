@@ -2,28 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.IO;    
-    
-public class FileDataHandler
+using System.IO;
+
+namespace Code.DataPersistence.Data
 {
-    // Path to save file
-    private string _dataDirPath = "";
-    // Save file name
-    private string _dataFileName = "";
-
-    public FileDataHandler(string dataDirPath, string dataFileName)
+    public class FileDataHandler
     {
-        // this.dataDirPath = _dataDirPath;
-        // this.dataFileName = _dataFileName;
-    }
+        // Path to save file
+        private string _dataDirPath = "";
 
-    // public GameData Load()
-    // {
-    //     
-    // }
+        // Save file name
+        private string _dataFileName = "";
 
-    public void Save(GameData data)
-    {
-        
+        public FileDataHandler(string dataDirPath, string dataFileName)
+        {
+            // this.dataDirPath = _dataDirPath;
+            // this.dataFileName = _dataFileName;
+        }
+
+        // public GameData Load()
+        // {
+        //     
+        // }
+
+        public void Save(GameData data)
+        {
+
+        }
     }
 }
