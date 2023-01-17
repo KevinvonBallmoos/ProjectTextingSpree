@@ -39,7 +39,7 @@ namespace Code.GameManager
         /// Start is called before the first frame update
         /// GameManager is static so only 1 GameManager can exist
         /// </summary>
-        private void Start()
+        public void StartScript()
         {
             Gm = this;
             _runPath = $"{Application.dataPath}/Resources/";

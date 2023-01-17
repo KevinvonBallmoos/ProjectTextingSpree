@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using Code.Dialogue.Story;
 using UnityEngine;
 
-[System.Serializable]
-public class GameData
+namespace Code.DataPersistence.Data
 {
-   // Root node
-   private StoryNode _rootNode;
-   private Story _story;
-
-   public GameData()
+   public class GameData
    {
-      _rootNode = _story.GetRootNode();
-      Debug.Log("This is the root node of the story in question!!!!!!!!!!!!!!");
+      // Root node
+      private StoryNode _rootNode;
+      private Story _story;
+
+      public GameData()
+      {
+         //_rootNode = _story.GetRootNode();
+         var gameManager = GameObject.FindGameObjectWithTag("GameController");
+         gameManager.GetComponent<GameManager.GameManager>().StartScript();
+         Debug.Log("This is the root node of the story in question!!!!!!!!!!!!!!");
+      }
    }
-   
-   
 }

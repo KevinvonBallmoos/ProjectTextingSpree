@@ -32,7 +32,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         public void StartScript()
         {
-            StoryHolder _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
+            _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             if (_storyHolder.selectedChapter == null) return;
             
             nextButton.gameObject.SetActive(false);
@@ -72,7 +72,6 @@ namespace Code.Dialogue.Story
                 }
                 else if (!_storyHolder.IsStoryNode())
                 {
-                    Debug.Log("is root");
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
                     BuildChoiceList();
