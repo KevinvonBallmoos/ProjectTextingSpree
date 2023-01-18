@@ -91,7 +91,7 @@ namespace Code.DataPersistence
         }
 
         /// <summary>
-        /// 
+        /// This function looks for all the game data to be able to load it later on.
         /// </summary>
         /// <returns></returns>
         private List<IDataPersistance> FindAllDataPersistenceObjects()
