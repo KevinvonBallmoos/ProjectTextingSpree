@@ -13,7 +13,6 @@ namespace Code.DataPersistence
         // Game data of the game we play atm.
         private GameData _gameData;
         private List<IDataPersistance> _dataPersistancesObjects;
-
         // Create instance of the DataPersistanceManager with getter and setter
         public static DataPersistanceManager instance { get; private set; }
 
@@ -23,8 +22,8 @@ namespace Code.DataPersistence
             if (instance != null)
             {
                 // Throw Error of things get out of hand and there is an instance already.
-                Debug.Log(instance.name);
-                Debug.LogError("ARGH! An instance of DataPersistanceManager already exists in this scene");
+               // Debug.Log(instance.name);
+               // Debug.LogError("ARGH! An instance of DataPersistanceManager already exists in this scene");
             }
             instance = this;
         }
@@ -32,15 +31,9 @@ namespace Code.DataPersistence
         private void Start()
         {
             _dataPersistancesObjects = FindAllDataPersistenceObjects();
+            Debug.Log("Instance start");
             LoadGame();
-        }
 
-        /// <summary>
-        /// Speaks for itself. It is called when a new game is started.
-        /// </summary>
-        public void NewGame()
-        {
-            _gameData = new GameData();
         }
 
         /// <summary>
@@ -53,7 +46,7 @@ namespace Code.DataPersistence
             // If no data can be loaded, start a new game.
             if (_gameData == null)
             {
-                Debug.Log("No game data was found. Start a new game and initialize the new game");
+                //Debug.Log("No game data was found. Start a new game and initialize the new game");
                 NewGame();
             }
 
@@ -63,7 +56,15 @@ namespace Code.DataPersistence
                 dataPersistance.LoadData(_gameData);
             }
 
-            Debug.Log("FDIHBFGDIHUOHBFOI(UZHABSOIDUZHASOIUFHBOIUASFHOIUASFBHIOUAZFGHFSAOIUZH");
+            //Debug.Log("FDIHBFGDIHUOHBFOI(UZHABSOIDUZHASOIUFHBOIUASFHOIUASFBHIOUAZFGHFSAOIUZH");
+        }
+        
+        /// <summary>
+        /// Speaks for itself. It is called when a new game is started.
+        /// </summary>
+        public void NewGame()
+        {
+            _gameData = new GameData();
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Code.DataPersistence
             }
 
             // TODO: save the data to a file using the data file handler
-            Debug.Log("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWWWWWWW");
+            //Debug.Log("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWWWWWWW");
         }
 
         /// <summary>

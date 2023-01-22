@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using Code.DataPersistence.Data;
 
-namespace Code.DataPersistence.Data
+namespace Code.DataPersistence
 {
     public class FileDataHandler
     {
