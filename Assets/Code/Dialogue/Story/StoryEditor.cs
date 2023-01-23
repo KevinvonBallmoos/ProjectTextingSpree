@@ -331,6 +331,9 @@ namespace Code.Dialogue.Story
                     case "isEndOfChapter":
                         node.SetIsEndOfChapter(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
                         break;
+                    case "isEndOfStory":
+                        node.SetIsEndOfStory(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        break;
                 }
             }
         }

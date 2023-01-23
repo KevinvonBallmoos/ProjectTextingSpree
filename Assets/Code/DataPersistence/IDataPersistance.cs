@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace Code.DataPersistence.Data
+using Code.DataPersistence.Data;
+
+namespace Code.DataPersistence
 {
     public interface IDataPersistance
     {
