@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Code.Dialogue.Story;
+
 using Code.Logger;
-using Debug = UnityEngine.Debug;
 
 namespace Code.Dialogue.Story
 {
@@ -28,22 +26,28 @@ namespace Code.Dialogue.Story
         [SerializeField] private Button nextButton;
         [SerializeField] private GameObject[] imageHolder;
         
+        private Coroutine _coroutine;
+
         /// <summary>
         /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
         /// </summary>
-        private void Start()
+        public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
+            if (_storyHolder.selectedChapter == null) return;
+            
+            nextButton.gameObject.SetActive(false);
             nextButton.onClick.AddListener(Next);
+
             UpdateUI();
         }
-        
+
         /// <summary>
         /// When the next button is clicked, it loads the next part of the story
         /// </summary>
         private void Next()
         {
-            //StopCoroutine(TextSlower(0f));
+            StopCoroutine(_coroutine);
             _storyHolder.Next();
             UpdateUI();
         }
@@ -83,8 +87,10 @@ namespace Code.Dialogue.Story
                 // Continue with Game
             }
 
+            // Displays Text
             story.text = "";
-            StartCoroutine(TextSlower(0.02f));
+            _coroutine = StartCoroutine(TextSlower(0.02f));
+            // Displays Image
             if (!_storyHolder.GetImage().Equals(""))
             {
                 imageHolder[0].SetActive(false);
@@ -131,13 +137,26 @@ namespace Code.Dialogue.Story
                 // If No more nodes then Button Text = "Next Chapter", and switch Listener
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
                 nextButton.onClick.RemoveListener(Next);
-                // Add new Listener - Game manager
+
+                GameManager.Gm.IsEndOfChapter = true;
+                nextButton.onClick.AddListener(GameManager.Gm.NextChapter_Click);
+            }
+            else  if (_storyHolder.IsEndOfStory())
+            {
+                _logger.LogEntry("UI log", "End of Story reached.", GameLogger.GetLineNumber());
+                
+                nextButton.GetComponentInChildren<Text>().text = "Next Part";
+                nextButton.onClick.RemoveListener(Next);
+
+                GameManager.Gm.IsEndOfStory = true;
+                nextButton.onClick.AddListener(GameManager.Gm.NextStory_Click);
             }
             else if (_storyHolder.IsGameOver())
             {
                 _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
-                nextButton.enabled = false;
-                //Load GameOver scene
+                nextButton.gameObject.SetActive(false);
+
+                GameManager.Gm.IsGameOver = true;
             }
         }
 

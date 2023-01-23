@@ -19,10 +19,11 @@ namespace Code.Dialogue.Story
         // Text that is in the node
         [SerializeField] private string text;
         // Different Types of Nodes
-        [SerializeField] private bool isChoiceNode = false;
-        [SerializeField] private bool isRootNode = false;
-        [SerializeField] private bool isEndOfChapter = false;
-        [SerializeField] private bool isGameOver = false;
+        [SerializeField] private bool isChoiceNode;
+        [SerializeField] private bool isRootNode;
+        [SerializeField] private bool isEndOfStory;
+        [SerializeField] private bool isEndOfChapter;
+        [SerializeField] private bool isGameOver;
         // Image
         [SerializeField] private string image;
         // ChildNodes
@@ -65,6 +66,15 @@ namespace Code.Dialogue.Story
         public void SetIsEndOfChapter(bool isEnd)
         {
             isEndOfChapter = isEnd;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsEndOfChapter
+        /// </summary>
+        /// <param name="isEnd"></param>
+        public void SetIsEndOfStory(bool isEnd)
+        {
+            isEndOfStory = isEnd;
         }
         
         /// <summary>
@@ -122,12 +132,17 @@ namespace Code.Dialogue.Story
         {
             return isRootNode;
         }        
+
+        public bool IsEndOfStory()
+        {
+            return isEndOfStory;
+        }    
         
         public bool IsEndOfChapter()
         {
             return isEndOfChapter;
         }        
-        
+         
         public bool IsGameOver()
         {
             return isGameOver;
