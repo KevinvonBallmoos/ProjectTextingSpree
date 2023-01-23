@@ -10,9 +10,14 @@ namespace Code.DataPersistence
 {
     public class DataPersistanceManager : MonoBehaviour
     {
+        [Header("Save file storage config")]
+        
+        [SerializeField] private string fileName;
+        
         // Game data of the game we play atm.
         private GameData _gameData;
         private List<IDataPersistance> _dataPersistancesObjects;
+        private FileDataHandler _fileDataHandler;
 
         // Create instance of the DataPersistanceManager with getter and setter
         public static DataPersistanceManager instance { get; private set; }
@@ -31,6 +36,8 @@ namespace Code.DataPersistence
 
         private void Start()
         {
+            // Set the dataHandler to the standard directory to save the new data.
+            _fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             _dataPersistancesObjects = FindAllDataPersistenceObjects();
             LoadGame();
         }
@@ -48,7 +55,8 @@ namespace Code.DataPersistence
         /// </summary>
         public void LoadGame()
         {
-            // TODO: Load data from file data handler
+            // Load data from file data handler
+            _gameData = _fileDataHandler.Load();
 
             // If no data can be loaded, start a new game.
             if (_gameData == null)
@@ -63,23 +71,22 @@ namespace Code.DataPersistence
                 dataPersistance.LoadData(_gameData);
             }
 
-            Debug.Log("FDIHBFGDIHUOHBFOI(UZHABSOIDUZHASOIUFHBOIUASFHOIUASFBHIOUAZFGHFSAOIUZH");
+            Debug.Log("Game was loaded in theory.");
         }
 
         /// <summary>
-        /// Saves the game data ot a file in the later stages of the game.
+        /// Saves the game data as a file in the later stages of the game.
         /// </summary>
         public void SaveGame()
         {
-            // TODO: pass the data to all the scripts that needs it so they can update the data
-            // Pass all the data to the scripts so they can update it.
+            // pass the data to all the scripts that needs it so they can update the data
             foreach (IDataPersistance dataPersistance in _dataPersistancesObjects)
             {
                 dataPersistance.SaveData(_gameData);
             }
 
-            // TODO: save the data to a file using the data file handler
-            Debug.Log("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWWWWWWW");
+            // Save the data to a file using the data file handler
+            _fileDataHandler.Save(_gameData);
         }
 
         /// <summary>
@@ -91,7 +98,7 @@ namespace Code.DataPersistence
         }
 
         /// <summary>
-        /// 
+        /// This function looks for all the game data to be able to load it later on.
         /// </summary>
         /// <returns></returns>
         private List<IDataPersistance> FindAllDataPersistenceObjects()
