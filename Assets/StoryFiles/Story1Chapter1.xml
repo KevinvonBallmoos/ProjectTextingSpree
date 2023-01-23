@@ -1,8 +1,8 @@
 <Story1Chapter1>
-	<RootNode>Chapter 1 Start</RootNode>
+	<RootNode>Story 1 Chapter 1 Start</RootNode>
 	<DialogueChoices>
-		<Choice id="1">First Path</Choice>
-		<Choice id="2">Second Path</Choice>
+		<Choice id="1">Story Path1</Choice>
+		<Choice id="2">Story Path2</Choice>
 		<Choice id="3">First Path Go on</Choice>
 		<Choice id="4">Third Path</Choice>
 		<Choice id="5">Fourth Path</Choice>		

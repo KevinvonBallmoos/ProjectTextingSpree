@@ -24,7 +24,7 @@ namespace Code.Dialogue.Story
         private bool _isStoryNode;
         private bool _isNull;
 
-        public void StartScript()
+        public void Start()
         {
             if (selectedChapter == null) return;
             _currentNode = selectedChapter.GetRootNode();
@@ -50,7 +50,6 @@ namespace Code.Dialogue.Story
                     _isStoryNode = !n.IsChoiceNode();
             }
             _logger.LogEntry("Story Holder log", $"Retuning next Choice node {_currentNode.name}", GameLogger.GetLineNumber());
-
         }
 
         /// <summary>
@@ -65,7 +64,6 @@ namespace Code.Dialogue.Story
             
             _parentNode = _currentNode;
             _logger.LogEntry("Story Holder log", $"Retuning next Story node {_currentNode.name}", GameLogger.GetLineNumber());
-
         }
         
         /// <summary>
@@ -122,6 +120,11 @@ namespace Code.Dialogue.Story
         public bool IsRootNode()
         {
             return _parentNode.IsRootNode();
+        }
+        
+        public bool IsEndOfStory()
+        {
+            return _currentNode.IsEndOfStory();
         }
         
         public bool IsEndOfChapter()

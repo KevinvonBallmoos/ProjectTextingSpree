@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +31,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
         /// </summary>
-        public void StartScript()
+        public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             if (_storyHolder.selectedChapter == null) return;
@@ -137,15 +138,25 @@ namespace Code.Dialogue.Story
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
                 nextButton.onClick.RemoveListener(Next);
 
-                GameManager.GameManager.Gm.endOfChapter = true;
-                nextButton.onClick.AddListener(GameManager.GameManager.Gm.NextChapter_Click);
+                GameManager.Gm.IsEndOfChapter = true;
+                nextButton.onClick.AddListener(GameManager.Gm.NextChapter_Click);
+            }
+            else  if (_storyHolder.IsEndOfStory())
+            {
+                _logger.LogEntry("UI log", "End of Story reached.", GameLogger.GetLineNumber());
+                
+                nextButton.GetComponentInChildren<Text>().text = "Next Part";
+                nextButton.onClick.RemoveListener(Next);
+
+                GameManager.Gm.IsEndOfStory = true;
+                nextButton.onClick.AddListener(GameManager.Gm.NextStory_Click);
             }
             else if (_storyHolder.IsGameOver())
             {
                 _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
                 nextButton.gameObject.SetActive(false);
 
-                GameManager.GameManager.Gm.gameOver = true;
+                GameManager.Gm.IsGameOver = true;
             }
         }
 

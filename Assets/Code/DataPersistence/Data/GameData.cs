@@ -14,9 +14,9 @@ namespace Code.DataPersistence.Data
       public GameData()
       {
          //_rootNode = _story.GetRootNode();
-         var gameManager = GameObject.FindGameObjectWithTag("GameController");
-         gameManager.GetComponent<GameManager.GameManager>().StartScript();
-         Debug.Log("This is the root node of the story in question!!!!!!!!!!!!!!");
+         //var gameManager = GameObject.FindGameObjectWithTag("GameController");
+         GameManager.LoadNewGame();
+         //Debug.Log("This is the root node of the story in question!!!!!!!!!!!!!!");
       }
    }
 }
