@@ -20,6 +20,7 @@ namespace Code.DataPersistence
     {
         [SerializeField] private Button NewGame;
         [SerializeField] private Button LoadGame;
+        
         public static DataPersistanceManager Dpm;
 
         private void Start()
