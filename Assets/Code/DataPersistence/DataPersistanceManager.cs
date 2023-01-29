@@ -1,10 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Linq;
 using UnityEditor.PackageManager;
 using UnityEngine;
+
 using Code.DataPersistence.Data;
+using Code.Dialogue.Story;
 
 namespace Code.DataPersistence
 {
@@ -75,8 +80,8 @@ namespace Code.DataPersistence
         /// </summary>
         public void NewGame()
         {
-            _gameData = new GameData();
-
+            //_gameData = new GameData();
+            GameManager.LoadNewGame();
             Debug.Log("Game was loaded in theory.");
 
         }
@@ -84,20 +89,27 @@ namespace Code.DataPersistence
         /// <summary>
         /// Saves the game data as a file in the later stages of the game.
         /// </summary>
-        public void SaveGame()
+        public static void SaveGame(string currentNode)
         {
-            // pass the data to all the scripts that needs it so they can update the data
-            foreach (IDataPersistance dataPersistance in _dataPersistancesObjects)
+            GameData saveData = new GameData
             {
-                dataPersistance.SaveData(_gameData);
-            }
+                CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>().selectedChapter, 
+                CurrentNode = currentNode,
+            };
+            
+            string json = "";
+            //json += JsonSerializer.Serialize(saveData);
 
+            File.WriteAllText(@"C:\Users\Kevin\People.json", json);
 
-            // TODO: save the data to a file using the data file handler
-            //Debug.Log("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWWWWWWW");
-
-            // Save the data to a file using the data file handler
-            _fileDataHandler.Save(_gameData);
+            // // pass the data to all the scripts that needs it so they can update the data
+            // foreach (IDataPersistance dataPersistance in _dataPersistancesObjects)
+            // {
+            //     dataPersistance.SaveData(_gameData);
+            // }
+            //
+            // // Save the data to a file using the data file handler
+            // _fileDataHandler.Save(_gameData);
         }
 
         /// <summary>
@@ -105,7 +117,7 @@ namespace Code.DataPersistence
         /// </summary>
         private void OnApplicationQuit()
         {
-            SaveGame();
+            //SaveGame();
         }
 
         /// <summary>

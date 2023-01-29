@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Code.DataPersistence;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace Code.Dialogue.Story
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
-    public class StoryUI : MonoBehaviour
+    public class  StoryUI : MonoBehaviour
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryUI");
@@ -102,6 +103,8 @@ namespace Code.Dialogue.Story
                 imageHolder[1].SetActive(false);
                 imageHolder[0].SetActive(true);
             }
+
+            DataPersistanceManager.SaveGame(_storyHolder._parentNode.name);
         }
 
         /// <summary>

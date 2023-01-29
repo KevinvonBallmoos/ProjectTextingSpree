@@ -5,18 +5,11 @@ using UnityEngine;
 
 namespace Code.DataPersistence.Data
 {
+    [System.Serializable]
    public class GameData
    {
-      // Root node
-      private StoryNode _rootNode;
-      private Story _story;
+       public Story CurrentChapter { get; set; }
+       public string CurrentNode { get; set; }
 
-      public GameData()
-      {
-         //_rootNode = _story.GetRootNode();
-         //var gameManager = GameObject.FindGameObjectWithTag("GameController");
-         GameManager.LoadNewGame();
-         //Debug.Log("This is the root node of the story in question!!!!!!!!!!!!!!");
-      }
    }
 }

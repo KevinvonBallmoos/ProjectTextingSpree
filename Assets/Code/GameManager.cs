@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Code.DataPersistence.Data;
 using Code.Dialogue.Story;
 using Code.Logger;
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace Code
             SceneManager.LoadScene(1);
         }
 
-        public void LoadSaveGame()
+        public void LoadSaveGame(GameData data)
         {
             // Can be called from DataPersistanceManager
             // Get Story, Chapter and Node
