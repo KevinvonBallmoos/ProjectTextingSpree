@@ -8,8 +8,13 @@ namespace Code.DataPersistence.Data
     [System.Serializable]
    public class GameData
    {
-       public Story CurrentChapter { get; set; }
-       public string CurrentNode { get; set; }
+       public Story CurrentChapter;
+       public string CurrentNode;
 
+       public GameData (SaveData saveData)
+       {
+           CurrentChapter = saveData.CurrentChapter;
+           CurrentNode = saveData.CurrentNode;
+       }
    }
 }

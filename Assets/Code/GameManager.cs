@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using Code.DataPersistence.Data;
 using Code.Dialogue.Story;
 using Code.Logger;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 namespace Code
 {
@@ -18,9 +20,9 @@ namespace Code
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
         // Story UI
-        private StoryUI _storyUI;
+        private static StoryUI _storyUI;
         // StoryHolder
-        private StoryHolder _selectedStory;
+        private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
         // Ending Screen
@@ -38,11 +40,19 @@ namespace Code
         private void Start()
         {
             Gm = this;
-            _runPath = $"{Application.dataPath}/Resources/";
-            _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
-            _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
 
-            _chapter = 1;
+            try
+            {
+                _runPath = $"{Application.dataPath}/Resources/";
+                _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
+                _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
+
+                _chapter = 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
+            }
         }
 
         /// <summary>
@@ -54,8 +64,11 @@ namespace Code
             SceneManager.LoadScene(1);
         }
 
-        public void LoadSaveGame(GameData data)
+        public static void LoadSaveGame()
         {
+            SceneManager.LoadScene(1);
+            _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
+            _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             // Can be called from DataPersistanceManager
             // Get Story, Chapter and Node
         }
