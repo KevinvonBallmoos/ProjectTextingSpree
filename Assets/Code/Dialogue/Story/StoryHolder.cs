@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Code.DataPersistence;
 using UnityEngine;
 
 using Code.Logger;
@@ -18,21 +19,45 @@ namespace Code.Dialogue.Story
         private readonly GameLogger _logger = new GameLogger("StoryHolder");
         // Dialogue and Nodes
         public Story selectedChapter;
-        private StoryNode _parentNode = null;
-        private StoryNode _currentNode = null;
+        [NonSerialized] public StoryNode ParentNode;
+        [NonSerialized] public StoryNode CurrentNode;
         // Booleans
-        private bool _isStoryNode;
-        private bool _isNull;
+        [NonSerialized] public bool _isStoryNode;
+        [NonSerialized] public bool _isNull;
 
         public void Start()
         {
-            if (selectedChapter == null) return;
-            _currentNode = selectedChapter.GetRootNode();
-            _parentNode = _currentNode;
-            _isStoryNode = false;
-            _isNull = false;
+            if (!DataPersistanceManager.LoadData())
+            {
+                if (selectedChapter == null)
+                {
+                    selectedChapter = null;
+                }
+                else
+                {
+                    CurrentNode = selectedChapter.GetRootNode();
+                    ParentNode = CurrentNode;
+                    _isStoryNode = false;
+                    _isNull = false;
+                }
+            }
+            else
+            {
+                var saveData = DataPersistanceManager.GetSaveData();
+                var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
+                selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter.name);
+
+                foreach (var node in selectedChapter.GetAllNodes())
+                {
+                    if (node.name.Equals(saveData.ParentNode.name))
+                        CurrentNode = node;
+                }
+                ParentNode = CurrentNode;
+                _isStoryNode = saveData.IsStoryNode;
+                _isNull = saveData.IsNull;
+            }
         }
-        
+
         /// <summary>
         /// Get next Choice Nodes
         /// </summary>
@@ -40,16 +65,16 @@ namespace Code.Dialogue.Story
         public void Next(StoryNode node)
         {
             foreach (var n in selectedChapter.GetStoryNodes(node))
-                _currentNode = n;
+                CurrentNode = n;
             
-            _parentNode = _currentNode;
+            ParentNode = CurrentNode;
 
             if (!CheckNodeCount()) return;
             {
-                foreach (var n in selectedChapter.GetAllChildNodes(_parentNode))
+                foreach (var n in selectedChapter.GetAllChildNodes(ParentNode))
                     _isStoryNode = !n.IsChoiceNode();
             }
-            _logger.LogEntry("Story Holder log", $"Retuning next Choice node {_currentNode.name}", GameLogger.GetLineNumber());
+            _logger.LogEntry("Story Holder log", $"Returning next Choice node {CurrentNode.name}", GameLogger.GetLineNumber());
         }
 
         /// <summary>
@@ -59,11 +84,11 @@ namespace Code.Dialogue.Story
         public void Next()
         {
             if (!CheckNodeCount()) return;
-            foreach (var n in selectedChapter.GetStoryNodes(_currentNode))
-                _currentNode = n;
+            foreach (var n in selectedChapter.GetStoryNodes(CurrentNode))
+                CurrentNode = n;
             
-            _parentNode = _currentNode;
-            _logger.LogEntry("Story Holder log", $"Retuning next Story node {_currentNode.name}", GameLogger.GetLineNumber());
+            ParentNode = CurrentNode;
+            _logger.LogEntry("Story Holder log", $"Returning next Story node {CurrentNode.name}", GameLogger.GetLineNumber());
         }
         
         /// <summary>
@@ -71,8 +96,8 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <returns></returns>
         private bool CheckNodeCount()
-        {
-            if (selectedChapter.GetAllChildNodes(_parentNode).Any())
+        {Debug.Log(selectedChapter.GetAllChildNodes(ParentNode).Count());
+            if (selectedChapter.GetAllChildNodes(ParentNode).Any())
                 return true;
 
             _isNull = true;
@@ -85,7 +110,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public bool HasNext()
         {
-            return selectedChapter.GetAllChildNodes(_currentNode).Any();
+            return selectedChapter.GetAllChildNodes(CurrentNode).Any();
         }
         
         /// <summary>
@@ -94,7 +119,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public IEnumerable<StoryNode> GetChoices()
         {
-            return selectedChapter.GetChoiceNodes(_currentNode);
+            return selectedChapter.GetChoiceNodes(CurrentNode);
         }
         
         public string GetRootNodeText()
@@ -104,7 +129,7 @@ namespace Code.Dialogue.Story
         
         public string GetParentNodeText()
         {
-            return _parentNode.GetText();
+            return ParentNode.GetText();
         }
 
         public bool IsNull()
@@ -119,27 +144,27 @@ namespace Code.Dialogue.Story
         
         public bool IsRootNode()
         {
-            return _parentNode.IsRootNode();
+            return ParentNode.IsRootNode();
         }
         
         public bool IsEndOfStory()
         {
-            return _currentNode.IsEndOfStory();
+            return CurrentNode.IsEndOfStory();
         }
         
         public bool IsEndOfChapter()
         {
-            return _currentNode.IsEndOfChapter();
+            return CurrentNode.IsEndOfChapter();
         }
 
         public bool IsGameOver()
         {
-            return _currentNode.IsGameOver();
+            return CurrentNode.IsGameOver();
         }
 
         public string GetImage()
         {
-            return _currentNode.GetImage();
+            return CurrentNode.GetImage();
         }
     }
 }

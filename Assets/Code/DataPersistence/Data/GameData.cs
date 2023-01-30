@@ -1,22 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using Code.Dialogue.Story;
 using UnityEngine;
 
 namespace Code.DataPersistence.Data
 {
+    [System.Serializable]
    public class GameData
    {
-      // Root node
-      private StoryNode _rootNode;
-      private Story _story;
+       public readonly Story CurrentChapter;
+       public readonly StoryNode ParentNode;
+       public readonly bool IsStoryNode;
+       public readonly bool IsNull;
 
-      public GameData()
-      {
-         //_rootNode = _story.GetRootNode();
-         //var gameManager = GameObject.FindGameObjectWithTag("GameController");
-         GameManager.LoadNewGame();
-         //Debug.Log("This is the root node of the story in question!!!!!!!!!!!!!!");
-      }
+       public GameData (SaveData saveData)
+       {
+           CurrentChapter = saveData.CurrentChapter;
+           ParentNode = saveData.ParentNode;
+           IsStoryNode = saveData.IsStoryNode;
+           IsNull = saveData.IsNull;
+       }
    }
 }

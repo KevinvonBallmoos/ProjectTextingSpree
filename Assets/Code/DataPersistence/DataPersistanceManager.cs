@@ -1,111 +1,94 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using UnityEditor.PackageManager;
+using System.Text;
 using UnityEngine;
+
 using Code.DataPersistence.Data;
+using Code.Dialogue.Story;
+using Newtonsoft.Json;
+using UnityEngine.UI;
 
 namespace Code.DataPersistence
 {
+    public class SaveData
+    {
+        public Story CurrentChapter { get; set; }
+        public StoryNode CurrentNode { get; set; }
+        public StoryNode ParentNode { get; set; }
+        public bool IsStoryNode { get; set; }
+        public bool IsNull { get; set; }
+    }
+    
     public class DataPersistanceManager : MonoBehaviour
     {
-        [Header("Save file storage config")]
+        [SerializeField] private Button NewGame;
+        [SerializeField] private Button LoadGame;
         
-        [SerializeField] private string fileName;
-        
-        // Game data of the game we play atm.
-        private GameData _gameData;
-        private List<IDataPersistance> _dataPersistancesObjects;
-
-        private FileDataHandler _fileDataHandler;
-
-        // Create instance of the DataPersistanceManager with getter and setter
-        public static DataPersistanceManager instance { get; private set; }
+        public static DataPersistanceManager Dpm;
+        // SaveData
+        private static SaveData _saveData;
 
         private void Awake()
         {
-            // Check if there is an instance of the DataPersistanceManager
-            if (instance != null)
-            {
-                // Throw Error of things get out of hand and there is an instance already.
-               // Debug.Log(instance.name);
-               // Debug.LogError("ARGH! An instance of DataPersistanceManager already exists in this scene");
-            }
-            instance = this;
+            if (Dpm == null)
+                Dpm = this;
+            else
+                Destroy(gameObject);
         }
-
+        
         private void Start()
         {
-            // Set the dataHandler to the standard directory to save the new data.
-            _fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-            _dataPersistancesObjects = FindAllDataPersistenceObjects();
-            Debug.Log("Instance start");
-            LoadGame();
-
+            Debug.Log("New Instance");
+            if (File.Exists(Application.persistentDataPath + "\\SaveGame.json"))
+                LoadGame.interactable = true;
         }
 
         /// <summary>
         /// Load the game data when you load a game.
         /// </summary>
-        public void LoadGame()
+        public void NewGame_Click()
         {
-            // Load data from file data handler
-            _gameData = _fileDataHandler.Load();
+            GameManager.LoadNewGame();
+        }
 
-            // If no data can be loaded, start a new game.
-            if (_gameData == null)
-            {
-                //Debug.Log("No game data was found. Start a new game and initialize the new game");
-                NewGame();
-            }
+        public void LoadGame_Click()
+        {
+            var json = File.ReadAllText(Application.persistentDataPath + "\\SaveGame.json", Encoding.UTF8);
+            _saveData = JsonConvert.DeserializeObject<SaveData>(json);
 
-            // TODO: Push the data to all the scripts that need this.
-            foreach (IDataPersistance dataPersistance in _dataPersistancesObjects)
-            {
-                dataPersistance.LoadData(_gameData);
-            }
-
-
-            //Debug.Log("FDIHBFGDIHUOHBFOI(UZHABSOIDUZHASOIUFHBOIUASFHOIUASFBHIOUAZFGHFSAOIUZH");
+            Debug.Log("Load successful");
+            GameManager.LoadSavedScene(_saveData.CurrentChapter.name);
+        }
+        
+        public static bool LoadData()
+        {
+            return _saveData != null;
+        }
+        
+        public static SaveData GetSaveData()
+        {
+            Debug.Log("Loading");
+            return _saveData;
         }
         
         /// <summary>
-        /// Speaks for itself. It is called when a new game is started.
-        /// </summary>
-        public void NewGame()
-        {
-            _gameData = new GameData();
-
-            Debug.Log("Game was loaded in theory.");
-
-        }
-
-        /// <summary>
         /// Saves the game data as a file in the later stages of the game.
         /// </summary>
-        public void SaveGame()
+        /// <param name="save"></param>
+        public static void SaveGame(SaveData save)
         {
-            // pass the data to all the scripts that needs it so they can update the data
-            foreach (IDataPersistance dataPersistance in _dataPersistancesObjects)
+            var saveData = new SaveData
             {
-                dataPersistance.SaveData(_gameData);
-            }
-
-
-            // TODO: save the data to a file using the data file handler
-            //Debug.Log("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWWWWWWW");
-
-            // Save the data to a file using the data file handler
-            _fileDataHandler.Save(_gameData);
-        }
-
-        /// <summary>
-        /// Saves the game when we quit the game. Or at least it should.
-        /// </summary>
-        private void OnApplicationQuit()
-        {
-            SaveGame();
+                CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>().selectedChapter,
+                ParentNode = save.ParentNode,
+                IsStoryNode = save.IsStoryNode,
+                IsNull = save.IsNull
+            };
+            var gameData = new GameData(saveData);
+            var json = "";
+            json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
+            File.WriteAllText( Application.persistentDataPath + "\\SaveGame.json", json);  // C:\Users\Kevin\AppData\LocalLow\DefaultCompany
         }
 
         /// <summary>
