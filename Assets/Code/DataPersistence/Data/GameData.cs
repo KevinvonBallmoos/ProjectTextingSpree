@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Code.Dialogue.Story;
 using UnityEngine;
 
@@ -8,13 +6,17 @@ namespace Code.DataPersistence.Data
     [System.Serializable]
    public class GameData
    {
-       public Story CurrentChapter;
-       public string CurrentNode;
+       public readonly Story CurrentChapter;
+       public readonly StoryNode ParentNode;
+       public readonly bool IsStoryNode;
+       public readonly bool IsNull;
 
        public GameData (SaveData saveData)
        {
            CurrentChapter = saveData.CurrentChapter;
-           CurrentNode = saveData.CurrentNode;
+           ParentNode = saveData.ParentNode;
+           IsStoryNode = saveData.IsStoryNode;
+           IsNull = saveData.IsNull;
        }
    }
 }

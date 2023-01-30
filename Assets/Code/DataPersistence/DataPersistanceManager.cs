@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 using Code.DataPersistence.Data;
@@ -13,7 +14,10 @@ namespace Code.DataPersistence
     public class SaveData
     {
         public Story CurrentChapter { get; set; }
-        public string CurrentNode { get; set; }
+        public StoryNode CurrentNode { get; set; }
+        public StoryNode ParentNode { get; set; }
+        public bool IsStoryNode { get; set; }
+        public bool IsNull { get; set; }
     }
     
     public class DataPersistanceManager : MonoBehaviour
@@ -22,13 +26,20 @@ namespace Code.DataPersistence
         [SerializeField] private Button LoadGame;
         
         public static DataPersistanceManager Dpm;
+        // SaveData
+        private static SaveData _saveData;
 
+        private void Awake()
+        {
+            if (Dpm == null)
+                Dpm = this;
+            else
+                Destroy(gameObject);
+        }
+        
         private void Start()
         {
-            Dpm = this;
             Debug.Log("New Instance");
-            //NewGame.onClick.AddListener(NewGame_Click);
-            //LoadGame.onClick.AddListener(LoadGame_Click);
             if (File.Exists(Application.persistentDataPath + "\\SaveGame.json"))
                 LoadGame.interactable = true;
         }
@@ -43,21 +54,38 @@ namespace Code.DataPersistence
 
         public void LoadGame_Click()
         {
-            GameManager.LoadSaveGame();
+            var json = File.ReadAllText(Application.persistentDataPath + "\\SaveGame.json", Encoding.UTF8);
+            _saveData = JsonConvert.DeserializeObject<SaveData>(json);
+
+            Debug.Log("Load successful");
+            GameManager.LoadSavedScene(_saveData.CurrentChapter.name);
+        }
+        
+        public static bool LoadData()
+        {
+            return _saveData != null;
+        }
+        
+        public static SaveData GetSaveData()
+        {
+            Debug.Log("Loading");
+            return _saveData;
         }
         
         /// <summary>
         /// Saves the game data as a file in the later stages of the game.
         /// </summary>
-        public static void SaveGame(string currentNode)
+        /// <param name="save"></param>
+        public static void SaveGame(SaveData save)
         {
             var saveData = new SaveData
             {
-                CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>().selectedChapter, 
-                CurrentNode = currentNode, // id
+                CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>().selectedChapter,
+                ParentNode = save.ParentNode,
+                IsStoryNode = save.IsStoryNode,
+                IsNull = save.IsNull
             };
             var gameData = new GameData(saveData);
-            
             var json = "";
             json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
             File.WriteAllText( Application.persistentDataPath + "\\SaveGame.json", json);  // C:\Users\Kevin\AppData\LocalLow\DefaultCompany

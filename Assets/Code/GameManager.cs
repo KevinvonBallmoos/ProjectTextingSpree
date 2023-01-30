@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using Code.DataPersistence;
 using Code.DataPersistence.Data;
 using Code.Dialogue.Story;
 using Code.Logger;
@@ -25,6 +26,9 @@ namespace Code
         private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
+        // GameState
+        public GameState State;
+        public static event Action<GameState> OnGameStateChanged;
         // Ending Screen
         public GameObject endingScreen;
 
@@ -36,11 +40,23 @@ namespace Code
         private int _part;
         private string _runPath;
         private string _storyPath;
+        
+        public enum GameState
+        {
+            NewGame,
+            LoadGame
+        }
+
+        private void Awake()
+        {
+            if (Gm == null)
+                Gm = this;
+            else
+                Destroy(gameObject);
+        }
 
         private void Start()
         {
-            Gm = this;
-
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
@@ -55,22 +71,39 @@ namespace Code
             }
         }
 
+        public void UpdateGameStates(GameState newState)
+        {
+            State = newState;
+            switch (newState)
+            {
+                case GameState.NewGame:
+                    LoadNewGame();
+                    break;
+                case GameState.LoadGame:
+                    //LoadSavedScene();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
+
+            OnGameStateChanged?.Invoke(newState);
+        }
+
         /// <summary>
-        /// Start is called before the first frame update
-        /// GameManager is static so only 1 GameManager can exist
+        /// Starts a new Game
         /// </summary>
         public static void LoadNewGame()
         {
             SceneManager.LoadScene(1);
         }
 
-        public static void LoadSaveGame()
+        /// <summary>
+        /// Loads the saved Scene
+        /// </summary>
+        /// <param name="scene"></param>
+        public static void LoadSavedScene(string scene)
         {
-            SceneManager.LoadScene(1);
-            _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
-            _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            // Can be called from DataPersistanceManager
-            // Get Story, Chapter and Node
+            SceneManager.LoadScene(int.Parse(scene[5].ToString()));
         }
 
         /// <summary>
@@ -124,7 +157,6 @@ namespace Code
         /// </summary>
         public void NextChapter_Click()
         {
-            //ReStartScripts();
             _storyUI.Start();
         }
 
@@ -134,9 +166,6 @@ namespace Code
         public void NextStory_Click()
         {
             SceneManager.LoadScene(_part);
-            // Debug.Log(_storyPath.Replace(".asset", ""));
-            // _selectedStory.StartScript();
-            // _storyUI.Start();
         }
 
         private int GetPath()

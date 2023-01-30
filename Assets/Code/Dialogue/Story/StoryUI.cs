@@ -39,7 +39,6 @@ namespace Code.Dialogue.Story
             
             nextButton.gameObject.SetActive(false);
             nextButton.onClick.AddListener(Next);
-
             UpdateUI();
         }
 
@@ -87,7 +86,6 @@ namespace Code.Dialogue.Story
                 // When no more Nodes are available
                 // Continue with Game
             }
-
             // Displays Text
             story.text = "";
             _coroutine = StartCoroutine(TextSlower(0.02f));
@@ -104,7 +102,12 @@ namespace Code.Dialogue.Story
                 imageHolder[0].SetActive(true);
             }
 
-            DataPersistanceManager.SaveGame(_storyHolder._parentNode.name);
+            DataPersistanceManager.SaveGame(new SaveData
+            {
+                ParentNode = _storyHolder.ParentNode,
+                IsStoryNode = _storyHolder._isStoryNode,
+                IsNull = _storyHolder._isNull
+            });
         }
 
         /// <summary>

@@ -116,6 +116,22 @@ namespace Code.Dialogue.Story
                     yield return child;
             }
         }
+        
+        /// <summary>
+        /// Returns the Parent node of the child
+        /// </summary>
+        /// <param name="currentNode"></param>
+        /// <returns></returns>
+        public StoryNode GetParentNode(StoryNode currentNode)
+        {
+            Debug.Log(_nodeLookup.Count.ToString());
+            foreach (var key in _nodeLookup)
+            {
+                Debug.Log(key.Value);
+            }
+
+            return null;
+        }
 
 #if UNITY_EDITOR
 
