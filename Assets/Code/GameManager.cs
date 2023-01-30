@@ -1,9 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.IO;
+using Code.DataPersistence;
+using Code.DataPersistence.Data;
 using Code.Dialogue.Story;
 using Code.Logger;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 namespace Code
 {
@@ -17,11 +21,14 @@ namespace Code
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
         // Story UI
-        private StoryUI _storyUI;
+        private static StoryUI _storyUI;
         // StoryHolder
-        private StoryHolder _selectedStory;
+        private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
+        // GameState
+        public GameState State;
+        public static event Action<GameState> OnGameStateChanged;
         // Ending Screen
         public GameObject endingScreen;
 
@@ -33,30 +40,70 @@ namespace Code
         private int _part;
         private string _runPath;
         private string _storyPath;
+        
+        public enum GameState
+        {
+            NewGame,
+            LoadGame
+        }
+
+        private void Awake()
+        {
+            if (Gm == null)
+                Gm = this;
+            else
+                Destroy(gameObject);
+        }
 
         private void Start()
         {
-            Gm = this;
-            _runPath = $"{Application.dataPath}/Resources/";
-            _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
-            _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
+            try
+            {
+                _runPath = $"{Application.dataPath}/Resources/";
+                _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
+                _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
 
-            _chapter = 1;
+                _chapter = 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
+            }
+        }
+
+        public void UpdateGameStates(GameState newState)
+        {
+            State = newState;
+            switch (newState)
+            {
+                case GameState.NewGame:
+                    LoadNewGame();
+                    break;
+                case GameState.LoadGame:
+                    //LoadSavedScene();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
+
+            OnGameStateChanged?.Invoke(newState);
         }
 
         /// <summary>
-        /// Start is called before the first frame update
-        /// GameManager is static so only 1 GameManager can exist
+        /// Starts a new Game
         /// </summary>
         public static void LoadNewGame()
         {
             SceneManager.LoadScene(1);
         }
 
-        public void LoadSaveGame()
+        /// <summary>
+        /// Loads the saved Scene
+        /// </summary>
+        /// <param name="scene"></param>
+        public static void LoadSavedScene(string scene)
         {
-            // Can be called from DataPersistanceManager
-            // Get Story, Chapter and Node
+            SceneManager.LoadScene(int.Parse(scene[5].ToString()));
         }
 
         /// <summary>
@@ -110,7 +157,6 @@ namespace Code
         /// </summary>
         public void NextChapter_Click()
         {
-            //ReStartScripts();
             _storyUI.Start();
         }
 
@@ -120,9 +166,6 @@ namespace Code
         public void NextStory_Click()
         {
             SceneManager.LoadScene(_part);
-            // Debug.Log(_storyPath.Replace(".asset", ""));
-            // _selectedStory.StartScript();
-            // _storyUI.Start();
         }
 
         private int GetPath()
