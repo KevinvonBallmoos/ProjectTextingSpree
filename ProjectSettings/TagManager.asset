@@ -11,6 +11,7 @@ TagManager:
   - HoverText
   - Image
   - Next
+  - SaveGame
   layers:
   - Default
   - TransparentFX

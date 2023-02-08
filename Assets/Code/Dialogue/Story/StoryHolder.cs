@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Code.DataPersistence;
 using UnityEngine;
 
 using Code.Logger;
@@ -27,7 +26,7 @@ namespace Code.Dialogue.Story
 
         public void Start()
         {
-            if (!DataPersistanceManager.LoadData())
+            if (!SaveManager.SaveManager.LoadData())
             {
                 if (selectedChapter == null)
                 {
@@ -43,9 +42,9 @@ namespace Code.Dialogue.Story
             }
             else
             {
-                var saveData = DataPersistanceManager.GetSaveData();
+                var saveData = SaveManager.SaveManager.GetSaveData();
                 var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
-                selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter.name);
+                selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter);
 
                 foreach (var node in selectedChapter.GetAllNodes())
                 {
@@ -54,7 +53,7 @@ namespace Code.Dialogue.Story
                 }
                 ParentNode = CurrentNode;
                 _isStoryNode = saveData.IsStoryNode;
-                _isNull = saveData.IsNull;
+                _isNull = false;
             }
         }
 
