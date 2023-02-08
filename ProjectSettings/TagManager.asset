@@ -12,6 +12,7 @@ TagManager:
   - Image
   - Next
   - SaveGame
+  - Title
   layers:
   - Default
   - TransparentFX
