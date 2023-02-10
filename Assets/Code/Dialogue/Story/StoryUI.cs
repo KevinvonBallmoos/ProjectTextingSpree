@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
-using Code.DataPersistence;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
+using Code.SaveManager;
 
 namespace Code.Dialogue.Story
 {
@@ -102,11 +102,10 @@ namespace Code.Dialogue.Story
                 imageHolder[0].SetActive(true);
             }
 
-            DataPersistanceManager.SaveGame(new SaveData
+            SaveManager.SaveManager.SaveGame(new SaveData
             {
                 ParentNode = _storyHolder.ParentNode,
                 IsStoryNode = _storyHolder._isStoryNode,
-                IsNull = _storyHolder._isNull
             });
         }
 
