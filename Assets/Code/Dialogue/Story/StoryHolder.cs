@@ -95,7 +95,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <returns></returns>
         private bool CheckNodeCount()
-        {Debug.Log(selectedChapter.GetAllChildNodes(ParentNode).Count());
+        {
             if (selectedChapter.GetAllChildNodes(ParentNode).Any())
                 return true;
 
