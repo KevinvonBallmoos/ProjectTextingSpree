@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
+using Code.SaveManager;
 
 namespace Code.Dialogue.Story
 {
@@ -13,7 +14,7 @@ namespace Code.Dialogue.Story
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
-    public class StoryUI : MonoBehaviour
+    public class  StoryUI : MonoBehaviour
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryUI");
@@ -38,7 +39,6 @@ namespace Code.Dialogue.Story
             
             nextButton.gameObject.SetActive(false);
             nextButton.onClick.AddListener(Next);
-
             UpdateUI();
         }
 
@@ -86,7 +86,6 @@ namespace Code.Dialogue.Story
                 // When no more Nodes are available
                 // Continue with Game
             }
-
             // Displays Text
             story.text = "";
             _coroutine = StartCoroutine(TextSlower(0.02f));
@@ -102,6 +101,12 @@ namespace Code.Dialogue.Story
                 imageHolder[1].SetActive(false);
                 imageHolder[0].SetActive(true);
             }
+
+            SaveManager.SaveManager.SaveGame(new SaveData
+            {
+                ParentNode = _storyHolder.ParentNode,
+                IsStoryNode = _storyHolder._isStoryNode,
+            });
         }
 
         /// <summary>

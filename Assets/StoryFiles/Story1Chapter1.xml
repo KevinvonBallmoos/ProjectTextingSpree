@@ -1,5 +1,5 @@
 <Story1Chapter1>
-	<RootNode>Story 1 Chapter 1 Start</RootNode>
+	<RootNode title="Chapter 1">Story 1 Chapter 1 Start</RootNode>
 	<DialogueChoices>
 		<Choice id="1">Story Path1</Choice>
 		<Choice id="2">Story Path2</Choice>

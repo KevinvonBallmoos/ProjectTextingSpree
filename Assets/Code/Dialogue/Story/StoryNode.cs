@@ -170,7 +170,7 @@ namespace Code.Dialogue.Story
 
         public Rect GetRect(Vector2 pos)
         {
-            storyRect.position = storyRect.position + pos;
+            storyRect.position += pos;
             return storyRect;
         }
     }
