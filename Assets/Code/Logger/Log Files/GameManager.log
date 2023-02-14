@@ -1,0 +1,15 @@
+LogTime = 08.02.2023 21:15:19 | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 63
+LogTime = 13.02.2023 19:31:59 | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 63
+LogTime = 13.02.2023 19:33:18 | LogType: GameManager Log 
+LogMessage: Game Over!  
+Line Number: 152
+LogTime = 13.02.2023 19:39:47 | LogType: GameManager Log 
+LogMessage: Next chapter: Story1Chapter2 
+Line Number: 135
+LogTime = 13.02.2023 19:39:59 | LogType: GameManager Log 
+LogMessage: Game Over!  
+Line Number: 152

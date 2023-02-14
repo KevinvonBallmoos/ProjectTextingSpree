@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Code.DataPersistence;
 using Code.DataPersistence.Data;
 using Code.Dialogue.Story;
 using Code.Logger;
+using Code.UI;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 namespace Code
 {
@@ -31,6 +35,8 @@ namespace Code
         public static event Action<GameState> OnGameStateChanged;
         // Ending Screen
         public GameObject endingScreen;
+        // Inventory items
+        public List<Item> _itemList = new List<Item>();
 
         [NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
@@ -117,6 +123,10 @@ namespace Code
                 LoadNextStoryPart();
             if (IsGameOver)
                 LoadGameOverScreen();
+            // Just to test is the rest of the system with the inventory works fine so far
+            // TODO: Make sure to implement system for actually adding items through nodes
+            if (Input.GetKeyDown(KeyCode.X))
+                Inventory.inventoryInstance.AddItem(_itemList[Random.Range(0, _itemList.Count)]);
         }
 
         /// <summary>
