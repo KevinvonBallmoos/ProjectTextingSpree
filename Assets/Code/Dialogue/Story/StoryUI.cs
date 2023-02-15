@@ -25,9 +25,9 @@ namespace Code.Dialogue.Story
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
-        [SerializeField] private GameObject[] imageHolder;
+        [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         
-        private Coroutine _coroutine;
+        private Coroutine _textCoroutine;
 
         /// <summary>
         /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
@@ -47,7 +47,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         private void Next()
         {
-            StopCoroutine(_coroutine);
+            StopCoroutine(_textCoroutine);
             _storyHolder.Next();
             UpdateUI();
         }
@@ -88,7 +88,7 @@ namespace Code.Dialogue.Story
             }
             // Displays Text
             story.text = "";
-            _coroutine = StartCoroutine(TextSlower(0.02f));
+            _textCoroutine = StartCoroutine(TextSlower(0.02f));
             // Displays Image
             if (!_storyHolder.GetImage().Equals(""))
             {
@@ -104,9 +104,12 @@ namespace Code.Dialogue.Story
 
             SaveManager.SaveManager.SaveGame(new SaveData
             {
+                RootNode = _storyHolder.GetRootNodeText(),
                 ParentNode = _storyHolder.ParentNode,
                 IsStoryNode = _storyHolder._isStoryNode,
             });
+            
+            StartCoroutine(RotateImage());
         }
 
         /// <summary>
@@ -130,6 +133,22 @@ namespace Code.Dialogue.Story
             }
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerator RotateImage()
+        {
+            var obj = GameObject.FindGameObjectWithTag("SaveStatus");
+            obj.GetComponentInChildren<Text>().enabled = true;
+            obj.GetComponentInChildren<Image>().enabled = true;
+            
+            yield return new WaitForSeconds(2f);
+            
+            obj.GetComponentInChildren<Text>().enabled = false;
+            obj.GetComponentInChildren<Image>().enabled = false;
+        }
+
         /// <summary>
         /// Loads the next Chapter when the End of Chapter node is reached
         /// Or the GameOver Screen when the GameOver node is reached

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Threading;
+using UnityEngine;
 
 namespace Code.Logger
 {
@@ -98,9 +101,9 @@ namespace Code.Logger
                     while (!reader.EndOfStream)
                         readLines.Add(reader.ReadLine());
                 }
-                
+
                 var writeLines = new List<string>();
-                if ((DateTime.Now - Convert.ToDateTime(readLines[0].Substring(10, 19))).Days > 5)
+                if ((DateTime.Now - Convert.ToDateTime(readLines[0].Substring(10, 20))).Days > 5)
                 {
                     for (int i = 3; i < readLines.Count; i++)
                         writeLines.Add(readLines[i]);

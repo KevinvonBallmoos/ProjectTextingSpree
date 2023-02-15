@@ -13,6 +13,7 @@ TagManager:
   - Next
   - SaveGame
   - Title
+  - SaveStatus
   layers:
   - Default
   - TransparentFX
