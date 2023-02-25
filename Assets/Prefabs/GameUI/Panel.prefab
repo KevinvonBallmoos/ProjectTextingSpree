@@ -690,9 +690,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3715820944746457910}
   - component: {fileID: 4976098818170538423}
+  - component: {fileID: 4626384027532729231}
+  - component: {fileID: 801586637945358020}
   m_Layer: 0
   m_Name: Story
-  m_TagString: Untagged
+  m_TagString: Story
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -746,6 +748,38 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &4626384027532729231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506429037387877962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b79ef62665c4504399e2b1dd9adec5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedChapter: {fileID: 0}
+--- !u!114 &801586637945358020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506429037387877962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aca06a56aac4a63975c98ba8bbae914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  story: {fileID: 7762663181907907588}
+  choiceRoot: {fileID: 7099990314236449447}
+  choicePrefab: {fileID: 8986135665163562379, guid: 9bd1b65d6f85ec246a59608d6358ffc8, type: 3}
+  nextButton: {fileID: 2198692815708306142}
+  imageHolder:
+  - {fileID: 777203341968750971}
+  - {fileID: 3193898169445229420}
 --- !u!1 &8328535118987530908
 GameObject:
   m_ObjectHideFlags: 0

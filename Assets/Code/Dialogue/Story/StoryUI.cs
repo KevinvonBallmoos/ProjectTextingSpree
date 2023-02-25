@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
-using Code.DataPersistence;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
+using Code.SaveManager;
 
 namespace Code.Dialogue.Story
 {
@@ -25,9 +25,9 @@ namespace Code.Dialogue.Story
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
-        [SerializeField] private GameObject[] imageHolder;
+        [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         
-        private Coroutine _coroutine;
+        private Coroutine _textCoroutine;
 
         /// <summary>
         /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
@@ -38,16 +38,16 @@ namespace Code.Dialogue.Story
             if (_storyHolder.selectedChapter == null) return;
             
             nextButton.gameObject.SetActive(false);
-            nextButton.onClick.AddListener(Next);
+            nextButton.onClick.AddListener(Next_Click);
             UpdateUI();
         }
 
         /// <summary>
         /// When the next button is clicked, it loads the next part of the story
         /// </summary>
-        private void Next()
+        private void Next_Click()
         {
-            StopCoroutine(_coroutine);
+            StopCoroutine(_textCoroutine);
             _storyHolder.Next();
             UpdateUI();
         }
@@ -57,9 +57,9 @@ namespace Code.Dialogue.Story
         /// </summary>
         private void UpdateUI()
         {
-            if (!_storyHolder.IsNull())
+            if (!_storyHolder.GetIsNull())
             {
-                if (_storyHolder.IsStoryNode())
+                if (_storyHolder.GetIsStoryNode())
                 {
                     if (_storyHolder.HasNext())
                     {
@@ -71,7 +71,7 @@ namespace Code.Dialogue.Story
                         NextChapter();
                     }
                 }
-                else if (!_storyHolder.IsStoryNode())
+                else if (!_storyHolder.GetIsStoryNode())
                 {
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
@@ -88,7 +88,7 @@ namespace Code.Dialogue.Story
             }
             // Displays Text
             story.text = "";
-            _coroutine = StartCoroutine(TextSlower(0.02f));
+            _textCoroutine = StartCoroutine(TextSlower(0.02f));
             // Displays Image
             if (!_storyHolder.GetImage().Equals(""))
             {
@@ -102,12 +102,14 @@ namespace Code.Dialogue.Story
                 imageHolder[0].SetActive(true);
             }
 
-            DataPersistanceManager.SaveGame(new SaveData
+            SaveManager.SaveManager.SaveGame(new SaveData
             {
+                RootNode = _storyHolder.GetRootNodeText(),
                 ParentNode = _storyHolder.ParentNode,
-                IsStoryNode = _storyHolder._isStoryNode,
-                IsNull = _storyHolder._isNull
+                IsStoryNode = _storyHolder.IsStoryNode,
             });
+            
+            StartCoroutine(ShowImage());
         }
 
         /// <summary>
@@ -117,7 +119,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
+            var text = _storyHolder.GetIsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
@@ -132,32 +134,48 @@ namespace Code.Dialogue.Story
         }
         
         /// <summary>
+        /// Displays the Image
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerator ShowImage()
+        {
+            var obj = GameObject.FindGameObjectWithTag("SaveStatus");
+            obj.GetComponentInChildren<Text>().enabled = true;
+            obj.GetComponentInChildren<Image>().enabled = true;
+            
+            yield return new WaitForSeconds(2f);
+            
+            obj.GetComponentInChildren<Text>().enabled = false;
+            obj.GetComponentInChildren<Image>().enabled = false;
+        }
+
+        /// <summary>
         /// Loads the next Chapter when the End of Chapter node is reached
         /// Or the GameOver Screen when the GameOver node is reached
         /// </summary>
         private void NextChapter()
         {
-            if (_storyHolder.IsEndOfChapter())
+            if (_storyHolder.GetIsEndOfChapter())
             {
                 _logger.LogEntry("UI log", "End of Chapter reached.", GameLogger.GetLineNumber());
                 // If No more nodes then Button Text = "Next Chapter", and switch Listener
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
-                nextButton.onClick.RemoveListener(Next);
+                nextButton.onClick.RemoveListener(Next_Click);
 
                 GameManager.Gm.IsEndOfChapter = true;
                 nextButton.onClick.AddListener(GameManager.Gm.NextChapter_Click);
             }
-            else  if (_storyHolder.IsEndOfStory())
+            else  if (_storyHolder.GetIsEndOfStory())
             {
                 _logger.LogEntry("UI log", "End of Story reached.", GameLogger.GetLineNumber());
                 
                 nextButton.GetComponentInChildren<Text>().text = "Next Part";
-                nextButton.onClick.RemoveListener(Next);
+                nextButton.onClick.RemoveListener(Next_Click);
 
                 GameManager.Gm.IsEndOfStory = true;
                 nextButton.onClick.AddListener(GameManager.Gm.NextStory_Click);
             }
-            else if (_storyHolder.IsGameOver())
+            else if (_storyHolder.GetIsGameOver())
             {
                 _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
                 nextButton.gameObject.SetActive(false);
