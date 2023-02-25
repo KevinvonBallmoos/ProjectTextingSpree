@@ -19,11 +19,14 @@ namespace Code.Dialogue.Story
         // Dialogue and Nodes
         public Story selectedChapter;
         [NonSerialized] public StoryNode ParentNode;
-        [NonSerialized] public StoryNode CurrentNode;
+        [NonSerialized] private StoryNode _currentNode;
         // Booleans
-        [NonSerialized] public bool _isStoryNode;
-        [NonSerialized] public bool _isNull;
+        [NonSerialized] public bool IsStoryNode;
+        [NonSerialized] private bool _isNull;
 
+        /// <summary>
+        /// Loads the Save Data or Starts a new Chapter
+        /// </summary>
         public void Start()
         {
             if (!SaveManager.SaveManager.LoadData())
@@ -34,9 +37,9 @@ namespace Code.Dialogue.Story
                 }
                 else
                 {
-                    CurrentNode = selectedChapter.GetRootNode();
-                    ParentNode = CurrentNode;
-                    _isStoryNode = false;
+                    _currentNode = selectedChapter.GetRootNode();
+                    ParentNode = _currentNode;
+                    IsStoryNode = false;
                     _isNull = false;
                 }
             }
@@ -49,10 +52,10 @@ namespace Code.Dialogue.Story
                 foreach (var node in selectedChapter.GetAllNodes())
                 {
                     if (node.name.Equals(saveData.ParentNode.name))
-                        CurrentNode = node;
+                        _currentNode = node;
                 }
-                ParentNode = CurrentNode;
-                _isStoryNode = saveData.IsStoryNode;
+                ParentNode = _currentNode;
+                IsStoryNode = saveData.IsStoryNode;
                 _isNull = false;
             }
         }
@@ -64,16 +67,16 @@ namespace Code.Dialogue.Story
         public void Next(StoryNode node)
         {
             foreach (var n in selectedChapter.GetStoryNodes(node))
-                CurrentNode = n;
+                _currentNode = n;
             
-            ParentNode = CurrentNode;
+            ParentNode = _currentNode;
 
             if (!CheckNodeCount()) return;
             {
                 foreach (var n in selectedChapter.GetAllChildNodes(ParentNode))
-                    _isStoryNode = !n.IsChoiceNode();
+                    IsStoryNode = !n.IsChoiceNode();
             }
-            _logger.LogEntry("Story Holder log", $"Returning next Choice node {CurrentNode.name}", GameLogger.GetLineNumber());
+            _logger.LogEntry("Story Holder log", $"Returning next Choice node {_currentNode.name}", GameLogger.GetLineNumber());
         }
 
         /// <summary>
@@ -83,11 +86,11 @@ namespace Code.Dialogue.Story
         public void Next()
         {
             if (!CheckNodeCount()) return;
-            foreach (var n in selectedChapter.GetStoryNodes(CurrentNode))
-                CurrentNode = n;
+            foreach (var n in selectedChapter.GetStoryNodes(_currentNode))
+                _currentNode = n;
             
-            ParentNode = CurrentNode;
-            _logger.LogEntry("Story Holder log", $"Returning next Story node {CurrentNode.name}", GameLogger.GetLineNumber());
+            ParentNode = _currentNode;
+            _logger.LogEntry("Story Holder log", $"Returning next Story node {_currentNode.name}", GameLogger.GetLineNumber());
         }
         
         /// <summary>
@@ -109,7 +112,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public bool HasNext()
         {
-            return selectedChapter.GetAllChildNodes(CurrentNode).Any();
+            return selectedChapter.GetAllChildNodes(_currentNode).Any();
         }
         
         /// <summary>
@@ -118,7 +121,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public IEnumerable<StoryNode> GetChoices()
         {
-            return selectedChapter.GetChoiceNodes(CurrentNode);
+            return selectedChapter.GetChoiceNodes(_currentNode);
         }
         
         public string GetRootNodeText()
@@ -131,39 +134,39 @@ namespace Code.Dialogue.Story
             return ParentNode.GetText();
         }
 
-        public bool IsNull()
+        public bool GetIsNull()
         {
             return _isNull;
         }
         
-        public bool IsStoryNode()
+        public bool GetIsStoryNode()
         {
-            return _isStoryNode;
+            return IsStoryNode;
         }
         
-        public bool IsRootNode()
+        public bool GetIsRootNode()
         {
             return ParentNode.IsRootNode();
         }
         
-        public bool IsEndOfStory()
+        public bool GetIsEndOfStory()
         {
-            return CurrentNode.IsEndOfStory();
+            return _currentNode.IsEndOfStory();
         }
         
-        public bool IsEndOfChapter()
+        public bool GetIsEndOfChapter()
         {
-            return CurrentNode.IsEndOfChapter();
+            return _currentNode.IsEndOfChapter();
         }
 
-        public bool IsGameOver()
+        public bool GetIsGameOver()
         {
-            return CurrentNode.IsGameOver();
+            return _currentNode.IsGameOver();
         }
 
         public string GetImage()
         {
-            return CurrentNode.GetImage();
+            return _currentNode.GetImage();
         }
     }
 }

@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -12,10 +11,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Dialogue.Story;
-using UnityEditor;
 
 namespace Code.SaveManager
 {
+    /// <summary>
+    /// Saves and Loads the status of the Game
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">30.01.2023</para>
     public class SaveData
     {
         public string Title { get; set; }
@@ -28,6 +31,11 @@ namespace Code.SaveManager
         public bool IsStoryNode { get; set; }
     }
     
+    /// <summary>
+    /// Saves and Loads the status of the Game
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">30.01.2023</para>
     public class SaveManager : MonoBehaviour
     {
         // Load save
@@ -50,6 +58,9 @@ namespace Code.SaveManager
         private static bool _isOverride;
         private static string _filename;
 
+        /// <summary>
+        /// Sets the language of the program to en-US
+        /// </summary>
         private void Awake()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
@@ -60,6 +71,9 @@ namespace Code.SaveManager
                 Destroy(gameObject);
         }
         
+        /// <summary>
+        /// If there are any save files, then the LoadSaveGame Button in the Menu is activated
+        /// </summary>
         private void Start()
         {
             if (Directory.GetFiles(Application.persistentDataPath).Length > 0)
@@ -67,13 +81,13 @@ namespace Code.SaveManager
         }
 
         /// <summary>
-        /// Load the game data when you load a game.
+        /// When a new Game is started, it checks for a open save slot, are there non,
+        /// then the User has to choose an old save slot to override the date with the new Game
         /// </summary>
         public void NewGame_Click()
         {
             if (Directory.GetFiles(Application.persistentDataPath).Length == 3)
             {
-                // Message Box - No more slots left- you have to override a save
                 LoadDataIntoSlots_Click();
                 _isOverride = false;
                 return;
@@ -83,6 +97,10 @@ namespace Code.SaveManager
             GameManager.LoadNewGame();
         }
         
+        /// <summary>
+        /// When the LoadGame Button is clicked, then the save files getting loaded into the save slots
+        /// Is there no save for a slot, then the slot stays empty
+        /// </summary>
         public void LoadDataIntoSlots_Click()
         { 
             mainMenuScreen.SetActive(false);
@@ -115,6 +133,10 @@ namespace Code.SaveManager
             }
         }
 
+        /// <summary>
+        /// Updates the Slot view with loaded data
+        /// </summary>
+        /// <param name="slotNum"></param>
         private void UpdateSlotView(int slotNum)
         {
             var slotObject = slotNum switch
@@ -141,6 +163,10 @@ namespace Code.SaveManager
             }
         }
 
+        /// <summary>
+        /// Updates the Slot view with empty data, if there is no save 
+        /// </summary>
+        /// <param name="slotNum"></param>
         private void UpdateEmptySlot(int slotNum)
         {
             var slotObject = slotNum switch
@@ -164,6 +190,10 @@ namespace Code.SaveManager
             }
         }
 
+        /// <summary>
+        /// Loads the Clicked Game
+        /// </summary>
+        /// <param name="slotNum"></param>
         private static void LoadGame(int slotNum)
         {
             _slotNum = slotNum;
@@ -174,6 +204,9 @@ namespace Code.SaveManager
             GameManager.LoadSavedScene(_saveData.CurrentChapter);
         }
 
+        /// <summary>
+        /// Override for a new Game or Load Game
+        /// </summary>
         public void LoadSlot1_Click()
         {   _filename = Directory.GetFiles(Application.persistentDataPath)[0];
             if (_isOverride)
@@ -186,6 +219,9 @@ namespace Code.SaveManager
             }
         }
 
+        /// <summary>
+        /// Override for a new Game or Load Game
+        /// </summary>
         public void LoadSlot2_Click()
         {
             _filename = Directory.GetFiles(Application.persistentDataPath)[1];
@@ -198,6 +234,9 @@ namespace Code.SaveManager
             }
         }
 
+        /// <summary>
+        /// Override for a new Game or Load Game
+        /// </summary>
         public void LoadSlot3_Click()
         { 
             _filename = Directory.GetFiles(Application.persistentDataPath)[2];
@@ -209,11 +248,20 @@ namespace Code.SaveManager
             }
         }
 
+        /// <summary>
+        /// Returns true if Data has been loaded,
+        /// else when not
+        /// </summary>
+        /// <returns></returns>
         public static bool LoadData()
         {
             return _saveData != null;
         }
         
+        /// <summary>
+        /// Returns the loaded Data
+        /// </summary>
+        /// <returns></returns>
         public static SaveData GetSaveData()
         {
             Debug.Log("Loading");
@@ -221,7 +269,7 @@ namespace Code.SaveManager
         }
 
         /// <summary>
-        /// Saves the game data as a file in the later stages of the game.
+        /// Saves the the status of the Game in a JSON File
         /// </summary>
         /// <param name="save"></param>
         public static void SaveGame(SaveData save)
@@ -263,8 +311,10 @@ namespace Code.SaveManager
             }
             // Application.persistentDataPath = C:\Users\Kevin\AppData\LocalLow\DefaultCompany
         }
-
-
+        
+        /// <summary>
+        /// Button Click to get back to the main menu
+        /// </summary>
         public void BackToMenu_Click()
         {
             mainMenuScreen.SetActive(true);
