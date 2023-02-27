@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 using Code.Dialogue.Story;
 
-namespace Code.SaveManager
+namespace Code.GameDataManager
 {
     /// <summary>
     /// Saves and Loads the status of the Game
@@ -36,7 +36,7 @@ namespace Code.SaveManager
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">30.01.2023</para>
-    public class SaveManager : MonoBehaviour
+    public class GameDataManager : MonoBehaviour
     {
         // Load save
         [SerializeField] private Button loadSaveGame;
@@ -48,7 +48,7 @@ namespace Code.SaveManager
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject saveGameScreen;
         
-        private static SaveManager _sm;
+        private static GameDataManager _sm;
         // SaveData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new List<SaveData>();

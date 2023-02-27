@@ -29,7 +29,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         public void Start()
         {
-            if (!SaveManager.SaveManager.LoadData())
+            if (!GameDataManager.GameDataManager.LoadData())
             {
                 if (selectedChapter == null)
                 {
@@ -45,7 +45,7 @@ namespace Code.Dialogue.Story
             }
             else
             {
-                var saveData = SaveManager.SaveManager.GetSaveData();
+                var saveData = GameDataManager.GameDataManager.GetSaveData();
                 var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
                 selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter);
 

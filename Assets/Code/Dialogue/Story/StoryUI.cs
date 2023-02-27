@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
-using Code.SaveManager;
+using Code.GameDataManager;
 
 namespace Code.Dialogue.Story
 {
@@ -102,7 +102,7 @@ namespace Code.Dialogue.Story
                 imageHolder[0].SetActive(true);
             }
 
-            SaveManager.SaveManager.SaveGame(new SaveData
+            GameDataManager.GameDataManager.SaveGame(new SaveData
             {
                 RootNode = _storyHolder.GetRootNodeText(),
                 ParentNode = _storyHolder.ParentNode,

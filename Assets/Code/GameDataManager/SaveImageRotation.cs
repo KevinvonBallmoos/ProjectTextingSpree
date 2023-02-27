@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Code.SaveManager
+namespace Code.GameDataManager
 {
     /// <summary>
     /// Rotates an Element
