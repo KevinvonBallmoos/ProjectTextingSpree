@@ -3036,6 +3036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0f2564cb45a5c4697160b1a164aaa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zRotation: -0.5
 --- !u!1 &6827654472328911320
 GameObject:
   m_ObjectHideFlags: 0
@@ -4550,7 +4551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5107747327366774500, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 395.985
       objectReference: {fileID: 0}
     - target: {fileID: 5107747327366774500, guid: ea960c3e356722a48baa6f86dea72b9e, type: 3}
       propertyPath: m_AnchoredPosition.y

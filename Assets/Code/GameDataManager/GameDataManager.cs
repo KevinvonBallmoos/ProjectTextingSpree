@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Dialogue.Story;
+using Unity.VisualScripting;
 
 namespace Code.GameDataManager
 {
@@ -47,6 +48,7 @@ namespace Code.GameDataManager
         // Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject saveGameScreen;
+        [SerializeField] private GameObject overrideSaveGameScreen;
         
         private static GameDataManager _sm;
         // SaveData
@@ -86,15 +88,36 @@ namespace Code.GameDataManager
         /// </summary>
         public void NewGame_Click()
         {
+            _isNewGame = true;
             if (Directory.GetFiles(Application.persistentDataPath).Length == 3)
             {
-                LoadDataIntoSlots_Click();
+                overrideSaveGameScreen.SetActive(true);
                 _isOverride = false;
                 return;
             }
-
-            _isNewGame = true;
+            
             GameManager.LoadNewGame();
+        }
+
+        /// <summary>
+        /// When continue is clicked, the User can select a save slot to override the old data
+        /// </summary>
+        public void Continue_Click()
+        {
+            mainMenuScreen.SetActive(false);
+            saveGameScreen.SetActive(true);
+            overrideSaveGameScreen.SetActive(false);
+            LoadDataIntoSlots_Click();
+        }
+        
+        /// <summary>
+        /// When cancel is clicked, then the menu screen is visible
+        /// </summary>
+        public void Cancel_CLick()
+        {
+            mainMenuScreen.SetActive(true);
+            saveGameScreen.SetActive(false);
+            overrideSaveGameScreen.SetActive(false);
         }
         
         /// <summary>
@@ -102,9 +125,20 @@ namespace Code.GameDataManager
         /// Is there no save for a slot, then the slot stays empty
         /// </summary>
         public void LoadDataIntoSlots_Click()
-        { 
+        {
+            if (_isNewGame)
+            {
+                var btnObject = saveGameScreen.GetComponentInChildren<Button>().GetComponentsInChildren<Text>();
+                foreach (var obj in btnObject)
+                {
+                    if (obj.name == "OverrideInformation")
+                        obj.enabled = true;
+                }
+            }
+
             mainMenuScreen.SetActive(false);
             saveGameScreen.SetActive(true);
+            
             _isNewGame = false;
             _isOverride = true;
             var files = Directory.GetFiles(Application.persistentDataPath);
@@ -264,7 +298,6 @@ namespace Code.GameDataManager
         /// <returns></returns>
         public static SaveData GetSaveData()
         {
-            Debug.Log("Loading");
             return _saveData;
         }
 
@@ -289,6 +322,7 @@ namespace Code.GameDataManager
                     .name,
                 ParentNode = save.ParentNode,
                 IsStoryNode = save.IsStoryNode
+                // More Variables for Inventory
             };
 
             var gameData = new GameData(saveData);
