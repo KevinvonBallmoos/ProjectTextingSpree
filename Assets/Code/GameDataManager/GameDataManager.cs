@@ -27,7 +27,7 @@ namespace Code.GameDataManager
         public int TimeSpent { get; set; }
         public string TimeOfSave { get; set; }
         public string CurrentChapter { get; set; }
-        public StoryNode ParentNode { get; set; }
+        public string ParentNode { get; set; }
         public string RootNode { get; set; }
         public bool IsStoryNode { get; set; }
     }
@@ -53,7 +53,7 @@ namespace Code.GameDataManager
         private static GameDataManager _sm;
         // SaveData
         private static SaveData _saveData;
-        private static readonly List<SaveData> LoadedData = new List<SaveData>();
+        private static readonly List<SaveData> LoadedData = new ();
         private static int _slotNum;
         private static bool _isNewGame;
         private static bool _isNewOverride;
@@ -173,6 +173,7 @@ namespace Code.GameDataManager
         /// <param name="slotNum"></param>
         private void UpdateSlotView(int slotNum)
         {
+            Debug.Log("here");
             var slotObject = slotNum switch
             {
                 1 => saveSlot1,
@@ -191,7 +192,7 @@ namespace Code.GameDataManager
                     0 => $"Chapter: {LoadedData[slotNum -1].Title}",
                     1 => $"Completion: {LoadedData[slotNum -1].ProgressPercentage} %",
                     2 => $"Time of last Save: \n{time:dddd, dd MMMM yyyy. HH:mm:ss}",
-                    3 =>  $"Time spent in Game: {LoadedData[slotNum -1].TimeSpent}",
+                    3 => $"Time spent in Game: {LoadedData[slotNum -1].TimeSpent}",
                     _ => obj.GetComponent<TextMeshProUGUI>().text
                 };
             }
@@ -230,7 +231,8 @@ namespace Code.GameDataManager
         /// <param name="slotNum"></param>
         private static void LoadGame(int slotNum)
         {
-            _slotNum = slotNum;
+            _slotNum = slotNum -1;
+            Debug.Log(_slotNum);
             var files = Directory.GetFiles(Application.persistentDataPath);
             var json = File.ReadAllText(files[slotNum -1], Encoding.UTF8);
             

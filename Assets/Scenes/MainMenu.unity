@@ -2358,8 +2358,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 868398589}
-        m_TargetAssemblyTypeName: Code.SaveManager.SaveManager, Assembly-CSharp
-        m_MethodName: LoadSlot1_Click
+        m_TargetAssemblyTypeName: Code.GameDataManager.GameDataManager, Assembly-CSharp
+        m_MethodName: LoadSlot2_Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4779,8 +4779,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 868398589}
-        m_TargetAssemblyTypeName: Code.SaveManager.SaveManager, Assembly-CSharp
-        m_MethodName: LoadSlot1_Click
+        m_TargetAssemblyTypeName: Code.GameDataManager.GameDataManager, Assembly-CSharp
+        m_MethodName: LoadSlot3_Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

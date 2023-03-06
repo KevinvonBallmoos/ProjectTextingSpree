@@ -105,7 +105,7 @@ namespace Code.Dialogue.Story
             GameDataManager.GameDataManager.SaveGame(new SaveData
             {
                 RootNode = _storyHolder.GetRootNodeText(),
-                ParentNode = _storyHolder.ParentNode,
+                ParentNode = _storyHolder.ParentNode.name,
                 IsStoryNode = _storyHolder.IsStoryNode,
             });
             

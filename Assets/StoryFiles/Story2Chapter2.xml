@@ -13,7 +13,7 @@
 		<Node id="2">Part 2</Node>
 		<Node id="3" isGameOver="True">SPart 2 Dead</Node>
 		<Node id="4" >Part 2 Move Forward</Node>
-		<Node id="5" isGameOver="True">Part 2 Continue, Lorem ipsuetetur sadipscing elitr, sed diam nonumy eirmod tempor </Node>
+		<Node id="5" isGameOver="True">Part 2 Continue, Lorem ipsuetetur sadipscing elit </Node>
 		<Node id="6" isEndOfChapter="True">Story 1 END</Node>
 	</DialogueNPC>
 </Story2Chapter2>

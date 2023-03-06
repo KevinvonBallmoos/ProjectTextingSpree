@@ -31,17 +31,16 @@ namespace Code.Dialogue.Story
         {
             if (!GameDataManager.GameDataManager.LoadData())
             {
-                if (selectedChapter == null)
-                {
-                    selectedChapter = null;
-                }
-                else
-                {
+                // if (selectedChapter == null)
+                // {
+                //     selectedChapter = null;
+                // }
+                // else
+                // {
                     _currentNode = selectedChapter.GetRootNode();
                     ParentNode = _currentNode;
                     IsStoryNode = false;
                     _isNull = false;
-                }
             }
             else
             {
@@ -51,7 +50,7 @@ namespace Code.Dialogue.Story
 
                 foreach (var node in selectedChapter.GetAllNodes())
                 {
-                    if (node.name.Equals(saveData.ParentNode.name))
+                    if (node.name.Equals(saveData.ParentNode))
                         _currentNode = node;
                 }
                 ParentNode = _currentNode;

@@ -15,7 +15,7 @@ namespace Code.GameDataManager
         public readonly int TimeSpent;
         public readonly string TimeOfSave;
         public readonly string CurrentChapter;
-        public readonly StoryNode ParentNode;
+        public readonly string ParentNode;
         public readonly bool IsStoryNode; 
 
         /// <summary>

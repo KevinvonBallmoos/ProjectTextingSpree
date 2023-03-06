@@ -27,7 +27,7 @@ namespace Code.Dialogue.Story
         // Image
         [SerializeField] private string image;
         // ChildNodes
-        [SerializeField] private List<string> childNodes = new List<string>();
+        [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
         [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
