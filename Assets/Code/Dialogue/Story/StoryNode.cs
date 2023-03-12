@@ -27,7 +27,7 @@ namespace Code.Dialogue.Story
         // Image
         [SerializeField] private string image;
         // ChildNodes
-        [SerializeField] private List<string> childNodes = new List<string>();
+        [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
         [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
@@ -48,6 +48,15 @@ namespace Code.Dialogue.Story
         public void SetImage(string img)
         {
             image = img;
+        }
+
+        /// <summary>
+        /// Sets the isRootNode
+        /// </summary>
+        /// <param name="isRoot"></param>
+        public void SetIsRootNode(bool isRoot)
+        {
+            isRootNode = isRoot;
         }
         
         /// <summary>
@@ -122,7 +131,7 @@ namespace Code.Dialogue.Story
             Undo.RecordObject(this, "Move Story Node");
             storyRect.position = new Vector2(x,y);
         }
-        
+
         public bool IsChoiceNode()
         {
             return isChoiceNode;

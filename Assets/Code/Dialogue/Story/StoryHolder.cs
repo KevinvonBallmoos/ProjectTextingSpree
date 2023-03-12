@@ -29,29 +29,22 @@ namespace Code.Dialogue.Story
         /// </summary>
         public void Start()
         {
-            if (!SaveManager.SaveManager.LoadData())
+            if (!GameDataManager.GameDataManager.LoadData())
             {
-                if (selectedChapter == null)
-                {
-                    selectedChapter = null;
-                }
-                else
-                {
-                    _currentNode = selectedChapter.GetRootNode();
-                    ParentNode = _currentNode;
-                    IsStoryNode = false;
-                    _isNull = false;
-                }
+                _currentNode = selectedChapter.GetRootNode();
+                ParentNode = _currentNode;
+                IsStoryNode = false;
+                _isNull = false;
             }
             else
             {
-                var saveData = SaveManager.SaveManager.GetSaveData();
+                var saveData = GameDataManager.GameDataManager.GetSaveData();
                 var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
                 selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter);
 
                 foreach (var node in selectedChapter.GetAllNodes())
                 {
-                    if (node.name.Equals(saveData.ParentNode.name))
+                    if (node.name.Equals(saveData.ParentNode))
                         _currentNode = node;
                 }
                 ParentNode = _currentNode;

@@ -103,8 +103,8 @@ MonoBehaviour:
   childNodes: []
   storyRect:
     serializedVersion: 2
-    x: 1417
-    y: 363
+    x: 1408
+    y: 354
     width: 300
     height: 150
 --- !u!114 &-2735470154501920840

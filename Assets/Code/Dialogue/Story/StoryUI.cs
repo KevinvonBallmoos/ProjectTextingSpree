@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
+using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
-using Code.SaveManager;
+using Code.GameDataManager;
 
 namespace Code.Dialogue.Story
 {
@@ -102,14 +103,27 @@ namespace Code.Dialogue.Story
                 imageHolder[0].SetActive(true);
             }
 
-            SaveManager.SaveManager.SaveGame(new SaveData
+            SetTitleText();
+
+            GameDataManager.GameDataManager.SaveGame(new SaveData
             {
                 RootNode = _storyHolder.GetRootNodeText(),
-                ParentNode = _storyHolder.ParentNode,
+                ParentNode = _storyHolder.ParentNode.name,
                 IsStoryNode = _storyHolder.IsStoryNode,
             });
             
             StartCoroutine(ShowImage());
+        }
+
+        /// <summary>
+        /// Sets the Title Text
+        /// </summary>
+        private void SetTitleText()
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_storyHolder.selectedChapter.name}.xml"); 
+            var rootNode = xmlDoc.SelectSingleNode($"//{_storyHolder.selectedChapter.name}");
+            story.GetComponentInChildren<Text>().text = rootNode.FirstChild.InnerText;
         }
 
         /// <summary>
@@ -119,7 +133,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetIsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
+            var text = _storyHolder.GetParentNodeText(); // _storyHolder.GetIsRootNode() ? _storyHolder.GetRootNodeText() :  EDIT
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
