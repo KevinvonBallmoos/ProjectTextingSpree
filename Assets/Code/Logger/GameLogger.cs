@@ -22,6 +22,7 @@ namespace Code.Logger
         /// <param name="classname">Class name is needed to create the Logfile</param>
         public GameLogger(string classname)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             CreateLogFile(classname);
         }
 
