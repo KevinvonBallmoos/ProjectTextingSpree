@@ -1,6 +1,6 @@
 using Code.Dialogue.Story;
 
-namespace Code.SaveManager
+namespace Code.GameDataManager
 {
     /// <summary>
     /// Object Class to save the status of the Game
@@ -15,7 +15,7 @@ namespace Code.SaveManager
         public readonly int TimeSpent;
         public readonly string TimeOfSave;
         public readonly string CurrentChapter;
-        public readonly StoryNode ParentNode;
+        public readonly string ParentNode;
         public readonly bool IsStoryNode; 
 
         /// <summary>
