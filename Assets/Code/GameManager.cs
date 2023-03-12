@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Code.Dialogue.Story;
 using Code.Logger;
+using Code.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 namespace Code
 {
@@ -29,6 +32,11 @@ namespace Code
         public static event Action<GameState> OnGameStateChanged;
         // Ending Screen
         public GameObject endingScreen;
+        // Inventory items
+        public List<Item> _itemList = new List<Item>();
+        public Transform _inventoryPanel;
+        public GameObject _itemInfoPrefab;
+        private GameObject _currentItemInfo = null;
 
         [NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
@@ -45,13 +53,22 @@ namespace Code
             LoadGame
         }
 
+        // Singleton region
+        #region singleton
+
+        public static GameManager instance;
+
         private void Awake()
         {
             if (Gm == null)
                 Gm = this;
             else
                 Destroy(gameObject);
+
+            if (instance == null)
+                instance = this;
         }
+        #endregion
 
         private void Start()
         {
@@ -115,6 +132,10 @@ namespace Code
                 LoadNextStoryPart();
             if (IsGameOver)
                 LoadGameOverScreen();
+            // Just to test is the rest of the system with the inventory works fine so far
+            // TODO: Make sure to implement system for actually adding items through nodes
+            if (Input.GetKeyDown(KeyCode.X))
+                Inventory.inventoryInstance.AddItem(_itemList[Random.Range(0, _itemList.Count)]);
         }
 
         /// <summary>
@@ -176,5 +197,34 @@ namespace Code
             }
             return 0;
         }
+
+        // Made this region to better distinguish between Item code and actual GameManager
+        #region ItemRegion
+
+        public void OnStatItemUse(StatItemType itemType, int amount)
+        {
+            Debug.Log("Consuming: "+ itemType + "Added amount: "+amount);
+        }
+
+        public void DisplayItemInfo(string itemName, string itemDescription, Vector2 buttonPos)
+        {
+            if (_currentItemInfo != null)
+            {
+                Destroy(_currentItemInfo.gameObject);
+            }
+
+            _currentItemInfo = Instantiate(_itemInfoPrefab, buttonPos, Quaternion.identity, _inventoryPanel);
+            _currentItemInfo.GetComponent<ItemInfo>().SetUp(itemName, itemDescription);
+        }
+
+        public void DestroyItemInfo()
+        {
+            if (_currentItemInfo != null)
+            {
+                Destroy(_currentItemInfo.gameObject);
+            }
+        }
+
+        #endregion
     }
 }
