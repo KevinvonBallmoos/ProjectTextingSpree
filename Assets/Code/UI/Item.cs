@@ -11,6 +11,7 @@ namespace Code.UI
         public Sprite _itemIcon = null;
         // I instanciate the name variable here because the ScriptibaleObject already has a variable called name
         new public string name = "Default Item";
+        public string _itemDescription = "Used to progress the story";
 
         
         /// <summary>
@@ -20,6 +21,11 @@ namespace Code.UI
         public virtual void Use()
         {
             Debug.Log("Using: " + name);
+        }
+
+        public virtual string GetItemDescription()
+        {
+            return _itemDescription;
         }
         
     }

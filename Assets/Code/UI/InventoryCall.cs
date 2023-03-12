@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Code.UI;
-using Unity.VisualScripting;
 
 namespace Code.UI
 {
@@ -52,7 +50,7 @@ namespace Code.UI
             // Move through all item slots and check if item i is less or equal to the current item count.
             for (int i = 0; i < _itemSlotList.Count; i++)
             {
-                if (i <= currentItemCount)
+                if (i < currentItemCount)
                 {
                     // Update the current item in the slot
                     _itemSlotList[i].AddItem(Inventory.inventoryInstance._inventoryItemList[i]);
@@ -72,10 +70,10 @@ namespace Code.UI
         private void AddItemSlots(int currentItemCount)
         {
             // Calculate how many more slots we need. If we need any.
-            int ammount = currentItemCount - _itemSlotList.Count;
+            int amount = currentItemCount - _itemSlotList.Count;
 
             // For loop to dynamically create slots in the inventory.
-            for (int i = 0; i < ammount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 GameObject gameObject = Instantiate(_itemSlotPrefab, _inventoryItemTransform);
                 ItemSlot newSlot = gameObject.GetComponent<ItemSlot>();
