@@ -944,7 +944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b79ef62665c4504399e2b1dd9adec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedChapter: {fileID: 11400000, guid: 782f841ec1313244ba2d96cc1040e638, type: 2}
+  selectedChapter: {fileID: 11400000, guid: 5a32d6d94cc8e2b4e9ade4a1b7c38da3, type: 2}
 --- !u!222 &1104851096247416865
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1942,6 +1942,7 @@ MonoBehaviour:
   imageHolder:
   - {fileID: 9091628666081473585}
   - {fileID: 6391130409799642662}
+  - {fileID: 4310544141491983196}
 --- !u!224 &2625038288853168621
 RectTransform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -102,6 +103,8 @@ namespace Code.Dialogue.Story
                 imageHolder[0].SetActive(true);
             }
 
+            SetTitleText();
+
             GameDataManager.GameDataManager.SaveGame(new SaveData
             {
                 RootNode = _storyHolder.GetRootNodeText(),
@@ -113,13 +116,24 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
+        /// Sets the Title Text
+        /// </summary>
+        private void SetTitleText()
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_storyHolder.selectedChapter.name}.xml"); 
+            var rootNode = xmlDoc.SelectSingleNode($"//{_storyHolder.selectedChapter.name}");
+            story.GetComponentInChildren<Text>().text = rootNode.FirstChild.InnerText;
+        }
+
+        /// <summary>
         /// Displays the text char by char, gives a visual effect
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetIsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
+            var text = _storyHolder.GetParentNodeText(); // _storyHolder.GetIsRootNode() ? _storyHolder.GetRootNodeText() :  EDIT
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {

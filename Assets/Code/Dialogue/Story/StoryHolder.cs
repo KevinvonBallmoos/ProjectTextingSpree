@@ -31,16 +31,10 @@ namespace Code.Dialogue.Story
         {
             if (!GameDataManager.GameDataManager.LoadData())
             {
-                // if (selectedChapter == null)
-                // {
-                //     selectedChapter = null;
-                // }
-                // else
-                // {
-                    _currentNode = selectedChapter.GetRootNode();
-                    ParentNode = _currentNode;
-                    IsStoryNode = false;
-                    _isNull = false;
+                _currentNode = selectedChapter.GetRootNode();
+                ParentNode = _currentNode;
+                IsStoryNode = false;
+                _isNull = false;
             }
             else
             {

@@ -68,7 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Story 1, Start Chapter 1
   isChoiceNode: 0
-  isRootNode: 0
+  isRootNode: 1
   isEndOfStory: 0
   isEndOfChapter: 0
   isGameOver: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   - 3ea2a776-61c6-4936-bfa2-442db2d8240a
   storyRect:
     serializedVersion: 2
-    x: 9
+    x: 10
     y: 12
     width: 300
     height: 150
@@ -105,7 +105,7 @@ MonoBehaviour:
   storyRect:
     serializedVersion: 2
     x: 711
-    y: 173
+    y: 174
     width: 300
     height: 150
 --- !u!114 &-1229290547929454998
@@ -290,7 +290,7 @@ MonoBehaviour:
   storyRect:
     serializedVersion: 2
     x: 1414
-    y: 173
+    y: 174
     width: 300
     height: 150
 --- !u!114 &8529716359774997324

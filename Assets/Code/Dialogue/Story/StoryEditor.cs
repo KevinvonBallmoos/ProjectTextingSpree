@@ -37,8 +37,9 @@ namespace Code.Dialogue.Story
         [NonSerialized] private Vector2 _dragOffset;
         [NonSerialized] private Vector2 _dragCanvasOffset;
         // Node
-        [NonSerialized] private StoryNode _createChoiceNode ;
-        [NonSerialized] private StoryNode _createStoryNode ;
+        [NonSerialized] private StoryNode _titleNode;
+        [NonSerialized] private StoryNode _createChoiceNode;
+        [NonSerialized] private StoryNode _createStoryNode;
         [NonSerialized] private StoryNode _deleteNode;
         [NonSerialized] private StoryNode _linkParentNode;
         // Count
@@ -140,7 +141,7 @@ namespace Code.Dialogue.Story
                 {
                     if (node.IsChoiceNode())
                         _choiceNodeCount++;
-                    else // if (!node.IsChoiceNode() //&& !node.IsRootNode()) EDIT
+                    else
                         _storyNodeCount++;
                     if (DrawNode(node))
                         DrawConnections(node);
@@ -204,9 +205,9 @@ namespace Code.Dialogue.Story
         /// <param name="node">Next Node to Draw</param>
         private bool DrawNode(StoryNode node)
         {
-            _xmlDoc = new XmlDocument();
-            _xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_selectedChapter.name}.xml");
-            _rootNode = _xmlDoc.SelectSingleNode($"//{_selectedChapter.name}"); // TODO In Doc rein
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_selectedChapter.name}.xml");
+            _rootNode = xmlDoc.SelectSingleNode($"//{_selectedChapter.name}");
             
             if (!CheckCount()) return false;
             
@@ -218,21 +219,17 @@ namespace Code.Dialogue.Story
             
             // Create LabelField and pass the text from the xml File
             var text = "";
-            // if (node.IsRootNode())
-            //     text = _rootNode.ChildNodes[0].Name;
-            // else
-            // {
-                if (node.IsChoiceNode())
-                {
-                    text = _rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].Name + " " +
-                           _rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].Attributes?["id"].Value;
-                }
-                else
-                {
-                    text = _rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].Name + " " +
-                           _rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].Attributes?["id"].Value;
-                }
-            //} EDIT
+            if (node.IsChoiceNode())
+            {
+                text = _rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].Name + " " +
+                       _rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].Attributes?["id"].Value;
+            }
+            else
+            {
+                text = _rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].Name + " " +
+                       _rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].Attributes?["id"].Value;
+            }
+            
             EditorGUILayout.LabelField(text);
             
             // Create TextField
@@ -267,6 +264,7 @@ namespace Code.Dialogue.Story
             
             return true;
         }
+        
         /// <summary>
         /// Checks if the count of nodes in Editor is not higher than the count of Nodes in the Xml
         /// </summary>
@@ -288,17 +286,10 @@ namespace Code.Dialogue.Story
         /// <param name="node"></param>
         private void SetText(StoryNode node)
         {
-            // if (node.IsRootNode())
-            // {
-            //     node.SetText(_rootNode.ChildNodes[0].InnerText);
-            // }
-            // else
-            // {
-                if (node.IsChoiceNode())
-                    node.SetText(_rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].InnerText);
-                else if (!node.IsChoiceNode())
-                    node.SetText(_rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].InnerText);
-            //} EDIT
+            if (node.IsChoiceNode())
+                node.SetText(_rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].InnerText);
+            else if (!node.IsChoiceNode()) 
+                node.SetText(_rootNode.ChildNodes[2].ChildNodes[_storyNodeCount - 1].InnerText);
         }
         
         /// <summary>
@@ -324,6 +315,9 @@ namespace Code.Dialogue.Story
                 {
                     case "image":
                         node.SetImage(xmlNode.Attributes[attribute].Value);
+                        break;
+                    case "isRootNode":
+                        node.SetIsRootNode(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
                         break;
                     case "isGameOver":
                         node.SetIsGameOver(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));

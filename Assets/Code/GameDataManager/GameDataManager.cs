@@ -232,7 +232,6 @@ namespace Code.GameDataManager
         private static void LoadGame(int slotNum)
         {
             _slotNum = slotNum -1;
-            Debug.Log(_slotNum);
             var files = Directory.GetFiles(Application.persistentDataPath);
             var json = File.ReadAllText(files[slotNum -1], Encoding.UTF8);
             

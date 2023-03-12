@@ -126,6 +126,7 @@ namespace Code
             _part = GetPath();
             _chapter++;
             _storyPath = $@"Story/Part{_part}/Story{_part}Chapter{_chapter}.asset";
+            Debug.Log(_storyPath);
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
             _selectedStory.selectedChapter = Resources.Load<Story>(_storyPath.Replace(".asset", ""));
             _selectedStory.Start();
