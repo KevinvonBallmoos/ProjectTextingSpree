@@ -102,12 +102,12 @@ namespace Code.Dialogue.Story
                 imageHolder[1].SetActive(false);
                 imageHolder[0].SetActive(true);
             }
-
-            SetTitleText();
-
+            
+            story.GetComponentInChildren<Text>().text = GetTitleText();
+            
             GameDataManager.GameDataManager.SaveGame(new SaveData
             {
-                RootNode = _storyHolder.GetRootNodeText(),
+                Title = GetTitleText(),
                 ParentNode = _storyHolder.ParentNode.name,
                 IsStoryNode = _storyHolder.IsStoryNode,
             });
@@ -118,12 +118,12 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Sets the Title Text
         /// </summary>
-        private void SetTitleText()
+        private string GetTitleText()
         {
             var xmlDoc = new XmlDocument();
             xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_storyHolder.selectedChapter.name}.xml"); 
             var rootNode = xmlDoc.SelectSingleNode($"//{_storyHolder.selectedChapter.name}");
-            story.GetComponentInChildren<Text>().text = rootNode.FirstChild.InnerText;
+            return rootNode.FirstChild.InnerText;
         }
 
         /// <summary>
