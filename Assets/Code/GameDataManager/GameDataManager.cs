@@ -11,7 +11,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Dialogue.Story;
-using Unity.VisualScripting;
 
 namespace Code.GameDataManager
 {
@@ -95,7 +94,6 @@ namespace Code.GameDataManager
             }
 
             _slotNum = length;
-            Debug.Log(_slotNum);
             GameManager.LoadNewGame();
         }
 
@@ -115,6 +113,7 @@ namespace Code.GameDataManager
         /// </summary>
         public void Continue_Click()
         {
+            _isOverrideNewGame = true;
             mainMenuScreen.SetActive(false);
             saveGameScreen.SetActive(true);
             overrideSaveGameScreen.SetActive(false);
@@ -138,7 +137,7 @@ namespace Code.GameDataManager
             mainMenuScreen.SetActive(true);
             saveGameScreen.SetActive(false);
             _isNewGame = false;
-            
+            _isOverrideNewGame = false;
             LoadedData.Clear();
         }
 
