@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +11,7 @@ using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
-namespace Code
+namespace Code.Inventory
 {
     /// <summary>
     /// Is in Control of the Story
@@ -53,7 +54,7 @@ namespace Code
             LoadGame
         }
 
-        // Singleton region
+        // Singleton region to destroy items as well as item description
         #region singleton
 
         public static GameManager instance;
@@ -135,7 +136,7 @@ namespace Code
             // Just to test is the rest of the system with the inventory works fine so far
             // TODO: Make sure to implement system for actually adding items through nodes
             if (Input.GetKeyDown(KeyCode.X))
-                Inventory.inventoryInstance.AddItem(_itemList[Random.Range(0, _itemList.Count)]);
+                Inventory._instance.AddItem(_itemList[Random.Range(0, _itemList.Count)]);
         }
 
         /// <summary>
@@ -205,28 +206,60 @@ namespace Code
         // Made this region to better distinguish between Item code and actual GameManager
         #region ItemRegion
 
+        /// <summary>
+        /// This function is called when we use an item that can grant stats, such as health.
+        /// </summary>
+        /// <param name="itemType"></param>
+        /// <param name="amount"></param>
         public void OnStatItemUse(StatItemType itemType, int amount)
         {
-            Debug.Log("Consuming: "+ itemType + "Added amount: "+amount);
+            Debug.Log("Consuming: "+ itemType + " Added amount: "+amount);
         }
-
+        
+        /// <summary>
+        /// Displays item information when the mouse is hovered over an item.
+        /// </summary>
+        /// <param name="itemName"></param>
+        /// <param name="itemDescription"></param>
+        /// <param name="buttonPos"></param>
         public void DisplayItemInfo(string itemName, string itemDescription, Vector2 buttonPos)
         {
             if (_currentItemInfo != null)
             {
                 Destroy(_currentItemInfo.gameObject);
             }
-
+        
+            // Create variables so that the tooltip window is moved to a different direction and not simply closed
+            buttonPos.x -= 80;  
+            buttonPos.y += 40;
+            
             _currentItemInfo = Instantiate(_itemInfoPrefab, buttonPos, Quaternion.identity, _inventoryPanel);
             _currentItemInfo.GetComponent<ItemInfo>().SetUp(itemName, itemDescription);
         }
-
+        
+        /// <summary>
+        /// Destroy Item info so it's not staying behind when the mouse is leaving.
+        /// </summary>
         public void DestroyItemInfo()
         {
             if (_currentItemInfo != null)
             {
-                Destroy(_currentItemInfo.gameObject);
+                float delayInSeconds = 0.5f; // Set the delay in seconds
+        
+                // Delay the destruction of the _currentItemInfo game object
+                StartCoroutine(DelayedDestroy(_currentItemInfo.gameObject, delayInSeconds));
+        
+                _currentItemInfo = null; // Clear the _currentItemInfo variable
             }
+        }
+
+        IEnumerator DelayedDestroy(GameObject gameObjectToDestroy, float delayInSeconds)
+        {
+            // Wait for the specified delay
+            yield return new WaitForSeconds(delayInSeconds);
+            
+            // Destroy the game object
+            Destroy(gameObjectToDestroy);
         }
 
         #endregion

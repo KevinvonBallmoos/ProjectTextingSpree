@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 using Code.Logger;
 using Code.GameDataManager;
+using Code.Inventory;
 
 namespace Code.Dialogue.Story
 {

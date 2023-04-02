@@ -11,6 +11,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Dialogue.Story;
+using Code.Inventory;
+using Unity.VisualScripting;
 
 namespace Code.GameDataManager
 {

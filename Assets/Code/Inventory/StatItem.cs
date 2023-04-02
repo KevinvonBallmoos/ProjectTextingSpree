@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Code;
 using UnityEngine;
 
-namespace Code.UI
+namespace Code.Inventory
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "StatItem", menuName = "Item/statItem")]
@@ -11,18 +12,24 @@ namespace Code.UI
         public StatItemType _itemType;
         public int _amount;
         
+        /// <summary>
+        /// Use the actual item. Similar to the baseItem.
+        /// </summary>
         public override void Use()
         {
             base.Use();
             GameManager.instance.OnStatItemUse(_itemType, _amount);
-            Inventory.inventoryInstance.RemoveItem(this);
+            Inventory._instance.RemoveItem(this);
         }
-        
     }
-        public enum StatItemType
-        {
-            HealthItem,
-            ThirstItem,
-            FoodItem
-        }
+    
+    /// <summary>
+    /// The item types, that can be created.
+    /// </summary>
+    public enum StatItemType
+    {
+        HealtItem,
+        ThirstItem,
+        FoodItem,
+    }
 }
