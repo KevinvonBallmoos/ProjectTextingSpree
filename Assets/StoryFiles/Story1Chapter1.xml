@@ -1,24 +1,18 @@
 <Story1Chapter1>
-	<RootNode>Story 1 Chapter 1 Start</RootNode>
+	<Title>Part 1 Chapter 1</Title>
 	<DialogueChoices>
 		<Choice id="1">Story Path1</Choice>
 		<Choice id="2">Story Path2</Choice>
-		<Choice id="3">First Path Go on</Choice>
-		<Choice id="4">Third Path</Choice>
-		<Choice id="5">Fourth Path</Choice>		
-		<Choice id="6">Last Path</Choice>
-		<Choice id="7">Bleh Path</Choice>
+		<Choice id="3">Story 1 Go on</Choice>
+		<Choice id="4">Story 3 Path</Choice>
 	</DialogueChoices>
-	<DialogueNPC>
-		<Node id="1">Story 1, Text, Text, Text</Node>
-		<Node id="2">Story 2</Node>
-		<Node id="3" isGameOver="True">Story 3 Dead</Node>
+	<DialogueStory>
+		<Node id="1" isRootNode="True"> Start Chapter 1</Node>
+		<Node id="2" >Story 1</Node>
+		<Node id="3" isGameOver="True">Story 2 Game Over</Node>
 		<Node id="4" >Story 1 Move Forward</Node>
-		<Node id="5" >Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-						sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-						sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-						Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
-						Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor </Node>
-		<Node id="6" isEndOfChapter="True">Story 1 END</Node>
-	</DialogueNPC>
+		<Node id="5" >Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </Node>
+		<Node id="6" isGameOver="True">Story 3 Game Over </Node>
+		<Node id="7" isEndOfChapter="True">Story 1 END</Node>
+	</DialogueStory>
 </Story1Chapter1>

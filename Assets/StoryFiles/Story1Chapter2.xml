@@ -1,5 +1,5 @@
 <Story1Chapter2>
-	<RootNode>Part 1 Chapter 2 Start</RootNode>
+	<Title>Part 1 Chapter 2</Title>
 	<DialogueChoices>
 		<Choice id="1">First Path</Choice>
 		<Choice id="2">Second Path</Choice>
@@ -9,11 +9,11 @@
 		<Choice id="6">Last Path</Choice>
 		<Choice id="7">Bleh Path</Choice>
 	</DialogueChoices>
-	<DialogueNPC>
-		<Node id="1">Story 1, Text, Text, Text</Node>
+	<DialogueStory>
+		<Node id="1" isRootNode="True">Chapter 2 Start</Node>
 		<Node id="2">Story 2</Node>
 		<Node id="3" isGameOver="True">Story 3 Dead</Node>
 		<Node id="4">Story 1 Move Forward</Node>
 		<Node id="5" isEndOfStory="True">Story 1 chap 2 END</Node>
-	</DialogueNPC>
+	</DialogueStory>
 </Story1Chapter2>
