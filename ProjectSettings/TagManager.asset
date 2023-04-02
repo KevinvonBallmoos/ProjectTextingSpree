@@ -9,6 +9,11 @@ TagManager:
   - InventoryPanel
   - Map
   - HoverText
+  - Image
+  - Next
+  - SaveGame
+  - Title
+  - SaveStatus
   layers:
   - Default
   - TransparentFX

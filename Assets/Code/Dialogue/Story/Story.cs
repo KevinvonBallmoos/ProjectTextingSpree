@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 using Code.Logger;
@@ -11,7 +10,7 @@ namespace Code.Dialogue.Story
     /// <summary>
     /// Creates the Story in the Editor
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
     [CreateAssetMenu(fileName = "Chapter", menuName = "Chapter", order = 0)]
     public class Story : ScriptableObject, ISerializationCallbackReceiver
@@ -26,7 +25,7 @@ namespace Code.Dialogue.Story
 #if UNITY_EDITOR
         
         /// <summary>
-        /// Is called everytime a Scriptable Object is loaded
+        /// Is called every time a Scriptable Object is loaded
         /// ## When exporting the Game OnValidate() does not get called automatically, so it will be called from Awake 
         /// </summary>
         private void Awake()
@@ -117,11 +116,25 @@ namespace Code.Dialogue.Story
                     yield return child;
             }
         }
+        
+        /// <summary>
+        /// Returns the Parent node of the child
+        /// </summary>
+        /// <param name="currentNode"></param>
+        /// <returns></returns>
+        public StoryNode GetParentNode(StoryNode currentNode)
+        {
+            Debug.Log(_nodeLookup.Count.ToString());
+            foreach (var key in _nodeLookup)
+            {
+                Debug.Log(key.Value);
+            }
+
+            return null;
+        }
 
 #if UNITY_EDITOR
 
-
-        
         /// <summary>
         /// Adds new Node and adds it to the Node List
         /// </summary>
@@ -129,13 +142,32 @@ namespace Code.Dialogue.Story
         /// <param name="isChoice">Declares if Node is a choice or not</param>
         public void AddNode(StoryNode parentNode, bool isChoice)
         {
-            _logger.LogEntry("Log", isChoice.ToString(), _logger.GetLineNumber());
-
             var child = CreateNode(parentNode, isChoice);
             Undo.RegisterCreatedObjectUndo(child, "Created Dialogue Node");
             
+            _logger.LogEntry("Story log", $"Created new node, is Choice: {isChoice}", GameLogger.GetLineNumber());
+            
             Undo.RecordObject(this, "Added Dialogue Node");
             AddNodeToList(child);
+        }
+        
+        /// <summary>
+        /// Create a new Node and add it to the parent
+        /// </summary>
+        /// <param name="parentNode">Parent Node to add the child Node</param>
+        /// <param name="isChoice">Declares if Node is a choice or not</param>
+        /// <returns>new child Node</returns>
+        private static StoryNode CreateNode(StoryNode parentNode, bool isChoice)
+        {
+            var child = CreateInstance<StoryNode>();
+            child.name = Guid.NewGuid().ToString();
+            if (parentNode != null)
+            {
+                parentNode.AddChildNode(child.name);
+                child.SetChoiceNode(isChoice);
+                child.SetRect(parentNode.GetRect().position.x + 350, parentNode.GetRect().position.y);
+            }
+            return child;
         }
         
         /// <summary>
@@ -165,34 +197,13 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Create a new Node and add it to the parent
-        /// </summary>
-        /// <param name="parentNode">Parent Node to add the child Node</param>
-        /// <param name="isChoice">Declares if Node is a choice or not</param>
-        /// <returns>new child Node</returns>
-        private StoryNode CreateNode(StoryNode parentNode, bool isChoice)
-        {
-            StoryNode child = CreateInstance<StoryNode>();
-            child.name = Guid.NewGuid().ToString();
-            if (parentNode != null)
-            {
-                parentNode.AddChildNode(child.name);
-                child.SetChoiceNode(isChoice);
-                child.SetRect(parentNode.GetRect().position.x + 350, parentNode.GetRect().position.y);
-            }
-            return child;
-        }
-        
-        /// <summary>
         /// Deletes referenced ChildNodes
         /// </summary>
         /// <param name="nodeToDelete">Node to delete</param>
         private void CleanChildNodes(StoryNode nodeToDelete)
         {
-            foreach (StoryNode node in GetAllNodes())
-            {
+            foreach (var node in GetAllNodes())
                 node.RemoveChildNode(nodeToDelete.name);
-            }
         }
         
 #endif

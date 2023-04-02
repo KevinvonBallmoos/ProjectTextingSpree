@@ -8,21 +8,27 @@ using Code.Logger;
 namespace Code.Dialogue.Story
 {
     /// <summary>
-    /// Class for StoryNode
+    /// Object Class for StoryNode
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
     public class StoryNode : ScriptableObject
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryNode");
-        
+        // Text that is in the node
         [SerializeField] private string text;
-
-        [SerializeField] private bool _isChoiceNode = false;
-        [SerializeField] private bool isRootNode = false;
-
-        [SerializeField] private List<string> childNodes = new List<string>();
+        // Different Types of Nodes
+        [SerializeField] private bool isChoiceNode;
+        [SerializeField] private bool isRootNode;
+        [SerializeField] private bool isEndOfStory;
+        [SerializeField] private bool isEndOfChapter;
+        [SerializeField] private bool isGameOver;
+        // Image
+        [SerializeField] private string image;
+        // ChildNodes
+        [SerializeField] private List<string> childNodes = new ();
+        // Rect of Editor
         [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
         
 #if UNITY_EDITOR
@@ -32,21 +38,62 @@ namespace Code.Dialogue.Story
         /// <param name="txt"></param>
         public void SetText(string txt)
         {
-            Undo.RecordObject(this, "Update Dialogue Text");
             text = txt;
-            _logger.LogEntry("Log", text, _logger.GetLineNumber());
+        }
+        
+        /// <summary>
+        /// Sets the Image of the node
+        /// </summary>
+        /// <param name="img"></param>
+        public void SetImage(string img)
+        {
+            image = img;
+        }
 
-            EditorUtility.SetDirty(this);
+        /// <summary>
+        /// Sets the isRootNode
+        /// </summary>
+        /// <param name="isRoot"></param>
+        public void SetIsRootNode(bool isRoot)
+        {
+            isRootNode = isRoot;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsGameOver
+        /// </summary>
+        /// <param name="isOver"></param>
+        public void SetIsGameOver(bool isOver)
+        {
+            isGameOver = isOver;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsEndOfChapter
+        /// </summary>
+        /// <param name="isEnd"></param>
+        public void SetIsEndOfChapter(bool isEnd)
+        {
+            isEndOfChapter = isEnd;
+        }
+        
+        /// <summary>
+        /// Sets the boolean IsEndOfChapter
+        /// </summary>
+        /// <param name="isEnd"></param>
+        public void SetIsEndOfStory(bool isEnd)
+        {
+            isEndOfStory = isEnd;
         }
         
         /// <summary>
         /// Sets the value of isStoryChoice to true or false
         /// </summary>
-        /// <param name="isChoiceNode"></param>
-        public void SetChoiceNode(bool isChoiceNode)
+        /// <param name="isChoice"></param>
+        public void SetChoiceNode(bool isChoice)
         {
             Undo.RecordObject(this, "Change Story or Dialogue");
-            _isChoiceNode = isChoiceNode;
+            this.isChoiceNode = isChoice;
             EditorUtility.SetDirty(this);
         }
         
@@ -84,20 +131,40 @@ namespace Code.Dialogue.Story
             Undo.RecordObject(this, "Move Story Node");
             storyRect.position = new Vector2(x,y);
         }
-        
+
         public bool IsChoiceNode()
         {
-            return _isChoiceNode;
+            return isChoiceNode;
         }
         
         public bool IsRootNode()
         {
             return isRootNode;
+        }        
+
+        public bool IsEndOfStory()
+        {
+            return isEndOfStory;
+        }    
+        
+        public bool IsEndOfChapter()
+        {
+            return isEndOfChapter;
+        }        
+         
+        public bool IsGameOver()
+        {
+            return isGameOver;
         }
 
         public string GetText()
         {
             return text;
+        }
+        
+        public string GetImage()
+        {
+            return !image.Equals("") ? image : "";
         }
 
         public List<string> GetChildNodes()
@@ -112,7 +179,7 @@ namespace Code.Dialogue.Story
 
         public Rect GetRect(Vector2 pos)
         {
-            storyRect.position = storyRect.position + pos;
+            storyRect.position += pos;
             return storyRect;
         }
     }

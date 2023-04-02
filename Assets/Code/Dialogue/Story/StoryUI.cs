@@ -1,54 +1,66 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Code.Dialogue.Story;
+
 using Code.Logger;
+using Code.GameDataManager;
 
 namespace Code.Dialogue.Story
 {
     /// <summary>
     /// Displays the Story in the GUI
     /// </summary>
-    /// <para name="author">Kevin von Ballmoos></para>
+    /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
-    public class StoryUI : MonoBehaviour
+    public class  StoryUI : MonoBehaviour
     {
+        // Logger
+        private readonly GameLogger _logger = new GameLogger("StoryUI");
+        // Story Holder
         private StoryHolder _storyHolder;
-        //[SerializeField] private TextMeshProUGUI storyText;
+        // SerializedFields
         [SerializeField] private TextMeshProUGUI story;
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
-        [SerializeField] private Button quitButton;
+        [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         
-        // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryUI");
+        private Coroutine _textCoroutine;
 
-        private void Start()
+        /// <summary>
+        /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
+        /// </summary>
+        public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            _logger.LogEntry("Click", _storyHolder.GetRootNodeText(), _logger.GetLineNumber());
-            //story.text = _storyHolder.GetRootNodeText();
-            nextButton.onClick.AddListener(Next);
+            if (_storyHolder.selectedChapter == null) return;
+            
+            nextButton.gameObject.SetActive(false);
+            nextButton.onClick.AddListener(Next_Click);
             UpdateUI();
         }
-        
-        private void Next()
+
+        /// <summary>
+        /// When the next button is clicked, it loads the next part of the story
+        /// </summary>
+        private void Next_Click()
         {
+            StopCoroutine(_textCoroutine);
             _storyHolder.Next();
             UpdateUI();
         }
         
+        /// <summary>
+        /// Updates the Story, loads the next part of story and the choices nodes
+        /// </summary>
         private void UpdateUI()
         {
-            _logger.LogEntry("LogStart", "Null or not", _logger.GetLineNumber());
-
-            if (!_storyHolder.IsNull())
+            if (!_storyHolder.GetIsNull())
             {
-                if (_storyHolder.IsStoryNode())
+                if (_storyHolder.GetIsStoryNode())
                 {
                     if (_storyHolder.HasNext())
                     {
@@ -60,9 +72,8 @@ namespace Code.Dialogue.Story
                         NextChapter();
                     }
                 }
-                else if (!_storyHolder.IsStoryNode())
+                else if (!_storyHolder.GetIsStoryNode())
                 {
-                    _logger.LogEntry("LogStart", "Is Choice", _logger.GetLineNumber());
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
                     BuildChoiceList();
@@ -72,21 +83,58 @@ namespace Code.Dialogue.Story
             {
                 nextButton.gameObject.SetActive(true);
                 choiceRoot.gameObject.SetActive(false);
-                _logger.LogEntry("Click", "Next 40", _logger.GetLineNumber());
-
                 NextChapter();
                 // When no more Nodes are available
                 // Continue with Game
             }
-
+            // Displays Text
             story.text = "";
-            StartCoroutine(TextSlower(0.02f));
+            _textCoroutine = StartCoroutine(TextSlower(0.02f));
+            // Displays Image
+            if (!_storyHolder.GetImage().Equals(""))
+            {
+                imageHolder[0].SetActive(false);
+                imageHolder[1].SetActive(true);
+                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("StoryImage/" + _storyHolder.GetImage());
+            }
+            else
+            {
+                imageHolder[1].SetActive(false);
+                imageHolder[0].SetActive(true);
+            }
+            
+            story.GetComponentInChildren<Text>().text = GetTitleText();
+            
+            GameDataManager.GameDataManager.SaveGame(new SaveData
+            {
+                Title = GetTitleText(),
+                ParentNode = _storyHolder.ParentNode.name,
+                IsStoryNode = _storyHolder.IsStoryNode,
+            });
+            
+            StartCoroutine(ShowImage());
         }
 
+        /// <summary>
+        /// Sets the Title Text
+        /// </summary>
+        private string GetTitleText()
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_storyHolder.selectedChapter.name}.xml"); 
+            var rootNode = xmlDoc.SelectSingleNode($"//{_storyHolder.selectedChapter.name}");
+            return rootNode.FirstChild.InnerText;
+        }
+
+        /// <summary>
+        /// Displays the text char by char, gives a visual effect
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            string text = _storyHolder.IsRootNode() ? _storyHolder.GetRootNodeText() : _storyHolder.GetParentNodeText();
-            string[] strArray = text.Split(' ');
+            var text = _storyHolder.GetParentNodeText(); // _storyHolder.GetIsRootNode() ? _storyHolder.GetRootNodeText() :  EDIT
+            var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
                 foreach (var c in t)
@@ -99,14 +147,60 @@ namespace Code.Dialogue.Story
             }
         }
         
-        private void NextChapter()
+        /// <summary>
+        /// Displays the Image
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerator ShowImage()
         {
-            // If No more nodes then Button Text = "Next Chapter", and switch Listener
-            nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
-            nextButton.onClick.RemoveListener(Next);
-            // Add new Listener
+            var obj = GameObject.FindGameObjectWithTag("SaveStatus");
+            obj.GetComponentInChildren<Text>().enabled = true;
+            obj.GetComponentInChildren<Image>().enabled = true;
+            
+            yield return new WaitForSeconds(2f);
+            
+            obj.GetComponentInChildren<Text>().enabled = false;
+            obj.GetComponentInChildren<Image>().enabled = false;
         }
 
+        /// <summary>
+        /// Loads the next Chapter when the End of Chapter node is reached
+        /// Or the GameOver Screen when the GameOver node is reached
+        /// </summary>
+        private void NextChapter()
+        {
+            if (_storyHolder.GetIsEndOfChapter())
+            {
+                _logger.LogEntry("UI log", "End of Chapter reached.", GameLogger.GetLineNumber());
+                // If No more nodes then Button Text = "Next Chapter", and switch Listener
+                nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
+                nextButton.onClick.RemoveListener(Next_Click);
+
+                GameManager.Gm.IsEndOfChapter = true;
+                nextButton.onClick.AddListener(GameManager.Gm.NextChapter_Click);
+            }
+            else  if (_storyHolder.GetIsEndOfStory())
+            {
+                _logger.LogEntry("UI log", "End of Story reached.", GameLogger.GetLineNumber());
+                
+                nextButton.GetComponentInChildren<Text>().text = "Next Part";
+                nextButton.onClick.RemoveListener(Next_Click);
+
+                GameManager.Gm.IsEndOfStory = true;
+                nextButton.onClick.AddListener(GameManager.Gm.NextStory_Click);
+            }
+            else if (_storyHolder.GetIsGameOver())
+            {
+                _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
+                nextButton.gameObject.SetActive(false);
+
+                GameManager.Gm.IsGameOver = true;
+            }
+        }
+
+        /// <summary>
+        /// Builds the choice list, depending on the count of the nodes
+        /// </summary>
         private void BuildChoiceList()
         {
             foreach (Transform item in choiceRoot)
