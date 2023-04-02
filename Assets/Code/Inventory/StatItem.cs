@@ -3,30 +3,33 @@ using System.Collections.Generic;
 using Code;
 using UnityEngine;
 
-[System.Serializable]
-[CreateAssetMenu(fileName = "StatItem", menuName = "Item/statItem")]
-public class StatItem : Item
+namespace Code.Inventory
 {
-    public StatItemType _itemType;
-    public int _amount;
+    [System.Serializable]
+    [CreateAssetMenu(fileName = "StatItem", menuName = "Item/statItem")]
+    public class StatItem : Item
+    {
+        public StatItemType _itemType;
+        public int _amount;
+        
+        /// <summary>
+        /// Use the actual item. Similar to the baseItem.
+        /// </summary>
+        public override void Use()
+        {
+            base.Use();
+            GameManager.instance.OnStatItemUse(_itemType, _amount);
+            Inventory._instance.RemoveItem(this);
+        }
+    }
     
     /// <summary>
-    /// Use the actual item. Similar to the baseItem.
+    /// The item types, that can be created.
     /// </summary>
-    public override void Use()
+    public enum StatItemType
     {
-        base.Use();
-        GameManager.instance.OnStatItemUse(_itemType, _amount);
-        Inventory._instance.RemoveItem(this);
+        HealtItem,
+        ThirstItem,
+        FoodItem,
     }
-}
-
-/// <summary>
-/// The item types, that can be created.
-/// </summary>
-public enum StatItemType
-{
-    HealtItem,
-    ThirstItem,
-    FoodItem,
 }

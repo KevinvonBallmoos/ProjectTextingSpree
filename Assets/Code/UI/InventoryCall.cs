@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Code.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,10 +18,10 @@ namespace Code.UI
         private List<ItemSlot> _itemSlotList = new List<ItemSlot>();
         public GameObject _itemSlotPrefab;
         public Transform _inventoryItemTransform;
-
+        
         private void Start()
         {
-            Inventory._instance._onItemChange += UpdateInventoryUI;
+            Inventory.Inventory._instance._onItemChange += UpdateInventoryUI;
             UpdateInventoryUI();
         }
 
@@ -38,7 +39,7 @@ namespace Code.UI
         private void UpdateInventoryUI()
         {
             // First we check the count of the items in our inventory.
-            int currentItemCount = Inventory._instance._inventoryItemList.Count;
+            int currentItemCount = Inventory.Inventory._instance._inventoryItemList.Count;
             
             // // Check if we have enough item slots.
             if (currentItemCount > _itemSlotList.Count)
@@ -52,7 +53,7 @@ namespace Code.UI
                 if (i < currentItemCount)
                 {
                     // Update the current item in the slot
-                    _itemSlotList[i].AddItem(Inventory._instance._inventoryItemList[i]);
+                    _itemSlotList[i].AddItem(Inventory.Inventory._instance._inventoryItemList[i]);
                 }
                 else
                 {

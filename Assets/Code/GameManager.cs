@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +11,7 @@ using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
-namespace Code
+namespace Code.Inventory
 {
     /// <summary>
     /// Is in Control of the Story
@@ -225,8 +226,8 @@ namespace Code
             }
         
             // Create variables so that the tooltip window is moved to a different direction and not simply closed
-            buttonPos.x -= 120;
-            buttonPos.y += 90;
+            buttonPos.x -= 80;  
+            buttonPos.y += 40;
             
             _currentItemInfo = Instantiate(_itemInfoPrefab, buttonPos, Quaternion.identity, _inventoryPanel);
             _currentItemInfo.GetComponent<ItemInfo>().SetUp(itemName, itemDescription);
@@ -239,8 +240,22 @@ namespace Code
         {
             if (_currentItemInfo != null)
             {
-                Destroy(_currentItemInfo.gameObject);
+                float delayInSeconds = 0.5f; // Set the delay in seconds
+        
+                // Delay the destruction of the _currentItemInfo game object
+                StartCoroutine(DelayedDestroy(_currentItemInfo.gameObject, delayInSeconds));
+        
+                _currentItemInfo = null; // Clear the _currentItemInfo variable
             }
+        }
+
+        IEnumerator DelayedDestroy(GameObject gameObjectToDestroy, float delayInSeconds)
+        {
+            // Wait for the specified delay
+            yield return new WaitForSeconds(delayInSeconds);
+            
+            // Destroy the game object
+            Destroy(gameObjectToDestroy);
         }
 
         #endregion

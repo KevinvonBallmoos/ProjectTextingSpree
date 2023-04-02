@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code
+namespace Code.Inventory
 {
     public class ItemInfo : MonoBehaviour
     {

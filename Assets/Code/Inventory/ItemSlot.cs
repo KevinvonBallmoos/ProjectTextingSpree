@@ -4,7 +4,7 @@ using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code
+namespace Code.Inventory
 {
     public class ItemSlot : MonoBehaviour
     {

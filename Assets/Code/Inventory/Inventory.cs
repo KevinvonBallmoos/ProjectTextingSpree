@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code
+namespace Code.Inventory
 {
     public class Inventory : MonoBehaviour
     {
