@@ -20,7 +20,7 @@ namespace Code.UI
 
         private void Start()
         {
-            Inventory.inventoryInstance._onItemChange += UpdateInventoryUI;
+            Inventory._instance._onItemChange += UpdateInventoryUI;
             UpdateInventoryUI();
         }
 
@@ -38,22 +38,21 @@ namespace Code.UI
         private void UpdateInventoryUI()
         {
             // First we check the count of the items in our inventory.
-            int currentItemCount = Inventory.inventoryInstance._inventoryItemList.Count;
+            int currentItemCount = Inventory._instance._inventoryItemList.Count;
             
-            // Check if we have enough item slots.
+            // // Check if we have enough item slots.
             if (currentItemCount > _itemSlotList.Count)
             {
                 // Add more item slots.
                 AddItemSlots(currentItemCount);
             }
-
-            // Move through all item slots and check if item i is less or equal to the current item count.
+            // // Move through all item slots and check if item i is less or equal to the current item count.
             for (int i = 0; i < _itemSlotList.Count; i++)
             {
                 if (i < currentItemCount)
                 {
                     // Update the current item in the slot
-                    _itemSlotList[i].AddItem(Inventory.inventoryInstance._inventoryItemList[i]);
+                    _itemSlotList[i].AddItem(Inventory._instance._inventoryItemList[i]);
                 }
                 else
                 {
@@ -75,6 +74,7 @@ namespace Code.UI
             // For loop to dynamically create slots in the inventory.
             for (int i = 0; i < amount; i++)
             {
+                // _inventoryItemTransform is the Content of the InventoryPanel Scrollview.
                 GameObject gameObject = Instantiate(_itemSlotPrefab, _inventoryItemTransform);
                 ItemSlot newSlot = gameObject.GetComponent<ItemSlot>();
                 _itemSlotList.Add(newSlot);

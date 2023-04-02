@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb83d9cb33fa8a3439b7fdfd30ab0d66, type: 3}
-  m_Name: HealthItem
+  m_Script: {fileID: 11500000, guid: 00944594ead4e7f4ebfe3edc8a9e3520, type: 3}
+  m_Name: Steak
   m_EditorClassIdentifier: 
-  _itemIcon: {fileID: 21300000, guid: 51a7617c5b81a234b9bf658c5a410ba9, type: 3}
-  name: healBerry
-  _itemType: 0
+  _name: Steak
+  _icon: {fileID: 21300000, guid: 51a7617c5b81a234b9bf658c5a410ba9, type: 3}
+  _itemDescription: Perfectly grilled piece of meat. Very delicious!
+  _itemType: 2
   _amount: 10

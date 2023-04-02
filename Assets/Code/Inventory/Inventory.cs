@@ -3,30 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.UI
+namespace Code
 {
     public class Inventory : MonoBehaviour
     {
-    
+
         /// <summary>
         /// The singleton is a C# programming paradigm or pattern. It allows the creation of one of itself as well as
         /// easy access to said created instance. To learn more see the following link:
         /// https://csharpindepth.com/Articles/Singleton
         /// </summary>
-        #region singleton
-        
-        public static Inventory inventoryInstance;
-    
+        #region singelton
+
+        public static Inventory _instance;
+
         private void Awake()
         {
-            if (inventoryInstance == null)
+            if (_instance == null)
             {
-                inventoryInstance = this;
+                _instance = this;
             }
         }
-        
+
         #endregion
-    
+
         /// <summary>
         /// Delegates are used to pass methods as arguments to other methods. In other words, it is methods that references
         /// other methods with a particular parameter list and return type. To learn more about it see the following link:
@@ -34,6 +34,7 @@ namespace Code.UI
         /// </summary>
         public delegate void OnItemChange();
         public OnItemChange _onItemChange = delegate {};
+        
         // Holds all items currently present in the inventory
         public List<Item> _inventoryItemList = new List<Item>();
 
@@ -47,13 +48,17 @@ namespace Code.UI
             // We invoke the actuall function. And since we set it up to be a delegate, we don't need to null check.
             _onItemChange.Invoke();
         }
-        
+
+        /// <summary>
+        /// Removes Item from the ItemList.
+        /// </summary>
+        /// <param name="item"></param>
         public void RemoveItem(Item item)
         {
             _inventoryItemList.Remove(item);
-            // We invoke the actuall function. And since we set it up to be a delegate, we don't need to null check.
             _onItemChange.Invoke();
         }
+
     }
 }
 

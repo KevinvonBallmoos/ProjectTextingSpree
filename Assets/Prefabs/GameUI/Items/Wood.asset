@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a6a7921204004f4cacdfbcf512c498b, type: 3}
-  m_Name: Arrowhead
+  m_Script: {fileID: 11500000, guid: 3f2f6a5d84080bc49b18cb5d8bae46fd, type: 3}
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  _itemIcon: {fileID: 21300000, guid: 8705f8a2bc87382498dd438d52b98153, type: 3}
-  name: Arrowhead
+  _name: Wood
+  _icon: {fileID: 21300000, guid: 0c0ff37705792fb478143df1c2ff40ec, type: 3}
+  _itemDescription: A piece of wood. Used to make fires and for crafting.
