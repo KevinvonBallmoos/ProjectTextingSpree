@@ -1,0 +1,6 @@
+LogTime = 4/3/2023 8:19:33 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 79
+LogTime = 4/3/2023 8:19:38 PM | LogType: GameManager Log 
+LogMessage: Game Over!  
+Line Number: 176
