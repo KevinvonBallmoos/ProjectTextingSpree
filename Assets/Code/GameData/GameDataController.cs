@@ -12,9 +12,8 @@ using UnityEngine.UI;
 
 using Code.Dialogue.Story;
 using Code.Inventory;
-using Unity.VisualScripting;
 
-namespace Code.GameDataManager
+namespace Code.GameData
 {
     /// <summary>
     /// Saves the content of the Game
@@ -37,7 +36,7 @@ namespace Code.GameDataManager
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">30.01.2023</para>
-    public class GameDataManager : MonoBehaviour
+    public class GameDataController : MonoBehaviour
     {
         // Load save
         [SerializeField] private Button loadSaveGame;
@@ -50,7 +49,7 @@ namespace Code.GameDataManager
         [SerializeField] private GameObject saveGameScreen;
         [SerializeField] private GameObject overrideSaveGameScreen;
         
-        private static GameDataManager _sm;
+        private static GameDataController _sm;
         // SaveData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new ();

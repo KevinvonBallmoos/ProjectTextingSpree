@@ -1,4 +1,4 @@
-﻿namespace Code.GameDataManager
+﻿namespace Code.GameData
 {    
     /// <summary>
     /// Collects all the necessary information about the inventory and then stores it

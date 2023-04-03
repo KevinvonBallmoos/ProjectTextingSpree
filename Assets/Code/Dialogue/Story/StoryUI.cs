@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
-using Code.GameDataManager;
+using Code.GameData;
 using Code.Inventory;
 
 namespace Code.Dialogue.Story
@@ -106,7 +106,7 @@ namespace Code.Dialogue.Story
             
             story.GetComponentInChildren<Text>().text = GetTitleText();
             
-            GameDataManager.GameDataManager.SaveGame(new SaveData
+            GameDataController.SaveGame(new SaveData
             {
                 Title = GetTitleText(),
                 ParentNode = _storyHolder.ParentNode.name,

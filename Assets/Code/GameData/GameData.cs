@@ -1,5 +1,5 @@
 
-namespace Code.GameDataManager
+namespace Code.GameData
 {
     /// <summary>
     /// Object Class to save the status of the Game

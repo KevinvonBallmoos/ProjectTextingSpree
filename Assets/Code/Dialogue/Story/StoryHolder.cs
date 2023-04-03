@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Code.GameData;
 using Code.Logger;
 
 namespace Code.Dialogue.Story
@@ -29,7 +30,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         public void Start()
         {
-            if (!GameDataManager.GameDataManager.LoadData())
+            if (!GameDataController.LoadData())
             {
                 _currentNode = selectedChapter.GetRootNode();
                 ParentNode = _currentNode;
@@ -38,7 +39,7 @@ namespace Code.Dialogue.Story
             }
             else
             {
-                var saveData = GameDataManager.GameDataManager.GetSaveData();
+                var saveData = GameDataController.GetSaveData();
                 var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
                 selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter);
 
