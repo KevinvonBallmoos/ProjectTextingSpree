@@ -26,6 +26,8 @@ namespace Code.Dialogue.Story
         [SerializeField] private bool isGameOver;
         // Image
         [SerializeField] private string image;
+        // Item
+        [SerializeField] private string item;
         // ChildNodes
         [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
@@ -39,6 +41,11 @@ namespace Code.Dialogue.Story
         public void SetText(string txt)
         {
             text = txt;
+        }
+
+        public void SetItem(string itm)
+        {
+            item = itm;
         }
         
         /// <summary>
@@ -165,6 +172,11 @@ namespace Code.Dialogue.Story
         public string GetImage()
         {
             return !image.Equals("") ? image : "";
+        }
+
+        public string GetItem()
+        {
+            return !item.Equals("") ? item : "";
         }
 
         public List<string> GetChildNodes()

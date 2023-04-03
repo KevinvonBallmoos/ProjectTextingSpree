@@ -218,7 +218,7 @@ namespace Code.Dialogue.Story
             GUILayout.BeginArea(node.GetRect(), style);
             
             // Create LabelField and pass the text from the xml File
-            var text = "";
+            string text;
             if (node.IsChoiceNode())
             {
                 text = _rootNode.ChildNodes[1].ChildNodes[_choiceNodeCount - 1].Name + " " +
@@ -310,11 +310,14 @@ namespace Code.Dialogue.Story
 
             for (int i = 0; i < attributesCount; i++)
             {
-                var attribute = xmlNode.Attributes[i].Name;
+                var attribute = xmlNode.Attributes?[i].Name;
                 switch (attribute)
                 {
                     case "image":
                         node.SetImage(xmlNode.Attributes[attribute].Value);
+                        break;
+                    case "item":
+                        node.SetItem(xmlNode.Attributes[attribute].Value);
                         break;
                     case "isRootNode":
                         node.SetIsRootNode(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));

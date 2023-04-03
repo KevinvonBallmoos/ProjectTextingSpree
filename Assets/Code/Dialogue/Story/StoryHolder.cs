@@ -161,5 +161,10 @@ namespace Code.Dialogue.Story
         {
             return _currentNode.GetImage();
         }
+        
+        public string GetItem()
+        {
+            return _currentNode.GetItem();
+        }
     }
 }
