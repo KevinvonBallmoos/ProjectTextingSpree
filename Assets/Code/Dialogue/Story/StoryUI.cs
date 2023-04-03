@@ -114,6 +114,7 @@ namespace Code.Dialogue.Story
             });
             
             StartCoroutine(ShowImage());
+            AddItemToInventory();
         }
 
         /// <summary>
@@ -162,6 +163,18 @@ namespace Code.Dialogue.Story
             
             obj.GetComponentInChildren<Text>().enabled = false;
             obj.GetComponentInChildren<Image>().enabled = false;
+        }
+
+        /// <summary>
+        /// Adds the item to the Inventory 
+        /// </summary>
+        private void AddItemToInventory()
+        {
+            // Maybe some flashy screen, showing the item up close
+            var item = _storyHolder.GetItem();
+            if (!item.Equals(""))
+                GameManager.Gm.AddItem(item);
+            // Call Inventory Controller instead of GameManager
         }
 
         /// <summary>

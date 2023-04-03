@@ -135,8 +135,8 @@ namespace Code.Inventory
                 LoadGameOverScreen();
             // Just to test is the rest of the system with the inventory works fine so far
             // TODO: Make sure to implement system for actually adding items through nodes
-            if (Input.GetKeyDown(KeyCode.X))
-                Inventory._instance.AddItem(_itemList[Random.Range(0, _itemList.Count)]);
+            //if (Input.GetKeyDown(KeyCode.X))
+                //Inventory._instance.AddItem(_itemList[Random.Range(0, _itemList.Count)]);
         }
 
         /// <summary>
@@ -206,6 +206,23 @@ namespace Code.Inventory
         // Made this region to better distinguish between Item code and actual GameManager
         #region ItemRegion
 
+        
+        /// <summary>
+        /// Adds the Item,
+        /// TODO Put into InventoryController
+        /// </summary>
+        /// <param name="item"></param>
+        public void AddItem(string item)
+        {
+            foreach (var i in _itemList)
+            {
+                if (i._name.Equals(item))
+                {
+                    Inventory._instance.AddItem(i);
+                }
+            }
+        }
+        
         /// <summary>
         /// This function is called when we use an item that can grant stats, such as health.
         /// </summary>
