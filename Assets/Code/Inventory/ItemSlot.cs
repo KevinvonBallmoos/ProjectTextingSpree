@@ -57,7 +57,7 @@ namespace Code.Inventory
         public void OnCourserEnter()
         {
             // Call the data from the GameManager script
-            GameManager.instance.DisplayItemInfo(_item.name, _item.GetItemDescription(), transform.position);
+            InventoryController.instance.DisplayItemInfo(_item.name, _item.GetItemDescription(), transform.position);
         }
         
         /// <summary>
@@ -65,7 +65,7 @@ namespace Code.Inventory
         /// </summary>
         public void OnCourserExit()
         {
-            GameManager.instance.DestroyItemInfo();
+            InventoryController.instance.DestroyItemInfo();
         }
     }
 }
