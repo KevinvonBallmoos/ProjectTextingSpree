@@ -18,7 +18,7 @@ namespace Code.Inventory
         public override void Use()
         {
             base.Use();
-            GameManager.instance.OnStatItemUse(_itemType, _amount);
+            InventoryController.instance.OnStatItemUse(_itemType, _amount);
             Inventory._instance.RemoveItem(this);
         }
     }

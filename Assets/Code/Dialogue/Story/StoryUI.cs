@@ -173,7 +173,7 @@ namespace Code.Dialogue.Story
             // Maybe some flashy screen, showing the item up close
             var item = _storyHolder.GetItem();
             if (!item.Equals(""))
-                GameManager.Gm.AddItem(item);
+                InventoryController.instance.AddItem(item);
             // Call Inventory Controller instead of GameManager
         }
 
