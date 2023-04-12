@@ -1,17 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Code.Dialogue.Story;
 using Code.Logger;
-using Code.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Debug = UnityEngine.Debug;
-using Random = UnityEngine.Random;
 
-namespace Code.Inventory
+namespace Code
 {
     /// <summary>
     /// Is in Control of the Story
@@ -28,9 +23,6 @@ namespace Code.Inventory
         private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
-        // GameState
-        public GameState State;
-        public static event Action<GameState> OnGameStateChanged;
         // Ending Screen
         public GameObject endingScreen;
 
@@ -43,12 +35,6 @@ namespace Code.Inventory
         private string _runPath;
         private string _storyPath;
         
-        public enum GameState
-        {
-            NewGame,
-            LoadGame
-        }
-
         private void Start()
         {
             try
@@ -63,24 +49,6 @@ namespace Code.Inventory
             {
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
-        }
-
-        public void UpdateGameStates(GameState newState)
-        {
-            State = newState;
-            switch (newState)
-            {
-                case GameState.NewGame:
-                    LoadNewGame();
-                    break;
-                case GameState.LoadGame:
-                    //LoadSavedScene();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
-            }
-
-            OnGameStateChanged?.Invoke(newState);
         }
 
         /// <summary>
@@ -166,7 +134,7 @@ namespace Code.Inventory
             SceneManager.LoadScene(_part);
         }
 
-        private int GetPath()
+        private static int GetPath()
         {
             var path = _selectedStory.selectedChapter.name;
             foreach (var t in path)

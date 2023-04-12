@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
 using System.Xml;
 using TMPro;
 using UnityEngine;
@@ -82,13 +83,12 @@ namespace Code.Dialogue.Story
             }
             else
             {
+                // When no more Nodes are available, continue with the next Chapter or Next Story or Ending
                 nextButton.gameObject.SetActive(true);
                 choiceRoot.gameObject.SetActive(false);
                 NextChapter();
-                // When no more Nodes are available
-                // Continue with Game
             }
-            // Displays Text
+            // Displays Story Text
             story.text = "";
             _textCoroutine = StartCoroutine(TextSlower(0.02f));
             // Displays Image
@@ -103,16 +103,16 @@ namespace Code.Dialogue.Story
                 imageHolder[1].SetActive(false);
                 imageHolder[0].SetActive(true);
             }
-            
+            // Displays Chapter Title
             story.GetComponentInChildren<Text>().text = GetTitleText();
             
+            // Saves the actual node
             GameDataController.SaveGame(new SaveData
             {
                 Title = GetTitleText(),
                 ParentNode = _storyHolder.ParentNode.name,
                 IsStoryNode = _storyHolder.IsStoryNode,
             });
-            
             StartCoroutine(ShowImage());
             AddItemToInventory();
         }
@@ -135,7 +135,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetParentNodeText(); // _storyHolder.GetIsRootNode() ? _storyHolder.GetRootNodeText() :  EDIT
+            var text = _storyHolder.GetParentNodeText();
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
@@ -166,15 +166,14 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Adds the item to the Inventory 
+        /// Adds the item to the Inventory
+        /// Maybe some flashy screen, showing the item up close
         /// </summary>
         private void AddItemToInventory()
         {
-            // Maybe some flashy screen, showing the item up close
             var item = _storyHolder.GetItem();
             if (!item.Equals(""))
                 InventoryController.instance.AddItem(item);
-            // Call Inventory Controller instead of GameManager
         }
 
         /// <summary>

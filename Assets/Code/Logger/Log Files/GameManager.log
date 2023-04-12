@@ -1,9 +1,24 @@
-LogTime = 4/3/2023 8:19:33 PM | LogType: Exception Log 
+LogTime = 4/11/2023 7:54:19 AM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 79
-LogTime = 4/3/2023 8:19:38 PM | LogType: GameManager Log 
-LogMessage: Game Over!  
-Line Number: 176
-LogTime = 4/3/2023 10:12:15 PM | LogType: GameManager Log 
-LogMessage: Next chapter: Story1Chapter2 
-Line Number: 155
+Line Number: 57
+LogTime = 4/11/2023 7:56:11 AM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 57
+LogTime = 4/11/2023 7:57:00 AM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 57
+LogTime = 4/12/2023 7:46:41 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 43
+LogTime = 4/12/2023 7:47:27 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 43
+LogTime = 4/12/2023 7:57:49 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 43
+LogTime = 4/12/2023 7:58:11 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 43
+LogTime = 4/12/2023 8:58:59 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 43
