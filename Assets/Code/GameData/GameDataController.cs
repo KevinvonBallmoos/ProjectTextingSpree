@@ -22,6 +22,8 @@ namespace Code.GameData
     /// <para name="date">30.01.2023</para>
     public class SaveData
     {
+        public string PlayerName { get; set; }
+        public string PlayerBackground { get; set; }
         public string Title { get; set; }
         public int ProgressPercentage { get; set; }
         public int TimeSpent { get; set; }
@@ -333,6 +335,8 @@ namespace Code.GameData
             var saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             var saveData = new SaveData
             {
+                PlayerName = save.PlayerName,
+                PlayerBackground = save.PlayerBackground,
                 Title = save.Title, // Title maybe missing in Dialog System
                 ProgressPercentage = 10, // GetProgressPercentage(), // Write method 
                 TimeSpent = time, // + GetTimeSpentInGame(), // Write Method

@@ -62,6 +62,7 @@ namespace Code.Dialogue.Story
         {
             if (!_storyHolder.GetIsNull())
             {
+                // if Story Node
                 if (_storyHolder.GetIsStoryNode())
                 {
                     if (_storyHolder.HasNext())
@@ -74,6 +75,7 @@ namespace Code.Dialogue.Story
                         NextChapter();
                     }
                 }
+                // if Choice Node
                 else if (!_storyHolder.GetIsStoryNode())
                 {
                     nextButton.gameObject.SetActive(false);
@@ -88,9 +90,23 @@ namespace Code.Dialogue.Story
                 choiceRoot.gameObject.SetActive(false);
                 NextChapter();
             }
+            
+            DisplayNodeProperties();
+            
+            SaveGameState();
+
+            AddItemToInventory();
+        }
+
+        /// <summary>
+        /// Displays the Text, Image and Title of the node
+        /// </summary>
+        private void DisplayNodeProperties()
+        {
             // Displays Story Text
             story.text = "";
             _textCoroutine = StartCoroutine(TextSlower(0.02f));
+            
             // Displays Image
             if (!_storyHolder.GetImage().Equals(""))
             {
@@ -103,18 +119,25 @@ namespace Code.Dialogue.Story
                 imageHolder[1].SetActive(false);
                 imageHolder[0].SetActive(true);
             }
+            
             // Displays Chapter Title
             story.GetComponentInChildren<Text>().text = GetTitleText();
-            
-            // Saves the actual node
+        }
+        
+        /// <summary>
+        /// Saves the actual node and their properties
+        /// </summary>
+        private void SaveGameState()
+        {
             GameDataController.SaveGame(new SaveData
             {
+                PlayerName = "",
+                PlayerBackground = "", // Name or Number
                 Title = GetTitleText(),
                 ParentNode = _storyHolder.ParentNode.name,
                 IsStoryNode = _storyHolder.IsStoryNode,
             });
             StartCoroutine(ShowImage());
-            AddItemToInventory();
         }
 
         /// <summary>
@@ -213,6 +236,7 @@ namespace Code.Dialogue.Story
 
         /// <summary>
         /// Builds the choice list, depending on the count of the nodes
+        /// Some choices are only for a different Player visible
         /// </summary>
         private void BuildChoiceList()
         {

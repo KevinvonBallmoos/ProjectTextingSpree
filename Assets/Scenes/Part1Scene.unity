@@ -1210,7 +1210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e71370690e90646b496f559c87eb14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  State: 0
   endingScreen: {fileID: 4310544141491983196}
 --- !u!4 &1553586390
 Transform:
@@ -1770,7 +1769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0f2564cb45a5c4697160b1a164aaa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zRotation: -0.5
+  zRotation: -1
 --- !u!222 &1640656183845294555
 CanvasRenderer:
   m_ObjectHideFlags: 0

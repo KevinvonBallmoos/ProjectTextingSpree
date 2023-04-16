@@ -242,8 +242,8 @@ namespace Code.Dialogue.Story
             
             SetText(node);
             
-            if (!node.IsChoiceNode())
-                SetProperties(node);
+            //if (!node.IsChoiceNode())
+            SetProperties(node);
             
             GUILayout.BeginHorizontal();
 
@@ -330,6 +330,9 @@ namespace Code.Dialogue.Story
                         break;
                     case "isEndOfStory":
                         node.SetIsEndOfStory(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        break;
+                    case "background":
+                        node.SetBackground(xmlNode.Attributes[attribute].Value);
                         break;
                 }
             }

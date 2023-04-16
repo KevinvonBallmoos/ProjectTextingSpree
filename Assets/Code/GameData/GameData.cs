@@ -9,6 +9,8 @@ namespace Code.GameData
     [System.Serializable]
     public class GameData
     {
+        public readonly string PlayerName;
+        public readonly string PlayerBackground;
         public readonly string Title;
         public readonly int ProgressPercentage;
         public readonly int TimeSpent;
@@ -23,6 +25,8 @@ namespace Code.GameData
         /// <param name="saveData"></param>
         public GameData (SaveData saveData)
         {
+            PlayerName = saveData.PlayerName;
+            PlayerBackground = saveData.PlayerBackground;
             Title = saveData.Title;
             ProgressPercentage = saveData.ProgressPercentage;
             TimeSpent = saveData.TimeSpent;

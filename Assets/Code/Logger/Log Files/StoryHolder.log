@@ -1,51 +1,3 @@
-LogTime = 4/10/2023 12:37:47 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 12:37:55 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 1:17:19 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 1:18:16 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 1:45:45 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 1:46:06 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:21:30 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:21:33 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 6777389a-b747-4241-8a61-88941f6d62ac 
-Line Number: 73
-LogTime = 4/10/2023 4:22:11 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:23:29 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:23:44 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:25:46 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:28:44 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:29:20 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:30:12 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
-LogTime = 4/10/2023 4:30:34 PM | LogType: Story Holder log 
-LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
-Line Number: 73
 LogTime = 4/11/2023 7:57:16 AM | LogType: Story Holder log 
 LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
 Line Number: 73
@@ -64,3 +16,57 @@ Line Number: 73
 LogTime = 4/12/2023 8:59:12 PM | LogType: Story Holder log 
 LogMessage: Returning next Choice node 6777389a-b747-4241-8a61-88941f6d62ac 
 Line Number: 73
+LogTime = 4/16/2023 1:11:48 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
+Line Number: 73
+LogTime = 4/16/2023 1:11:49 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 6777389a-b747-4241-8a61-88941f6d62ac 
+Line Number: 73
+LogTime = 4/16/2023 1:11:50 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node a50d2f53-367c-4c8c-b69a-71d802763b8f 
+Line Number: 87
+LogTime = 4/16/2023 1:11:51 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node 65c1fdc0-9557-4f93-af7f-21b9549cefbc 
+Line Number: 87
+LogTime = 4/16/2023 1:26:28 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
+Line Number: 73
+LogTime = 4/16/2023 1:26:28 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 6777389a-b747-4241-8a61-88941f6d62ac 
+Line Number: 73
+LogTime = 4/16/2023 1:26:30 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node a50d2f53-367c-4c8c-b69a-71d802763b8f 
+Line Number: 87
+LogTime = 4/16/2023 1:26:31 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node 65c1fdc0-9557-4f93-af7f-21b9549cefbc 
+Line Number: 87
+LogTime = 4/16/2023 1:26:44 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
+Line Number: 73
+LogTime = 4/16/2023 1:26:48 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 6777389a-b747-4241-8a61-88941f6d62ac 
+Line Number: 73
+LogTime = 4/16/2023 1:26:51 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node a50d2f53-367c-4c8c-b69a-71d802763b8f 
+Line Number: 87
+LogTime = 4/16/2023 1:27:18 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
+Line Number: 73
+LogTime = 4/16/2023 1:27:20 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 6777389a-b747-4241-8a61-88941f6d62ac 
+Line Number: 73
+LogTime = 4/16/2023 1:27:21 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node a50d2f53-367c-4c8c-b69a-71d802763b8f 
+Line Number: 87
+LogTime = 4/16/2023 1:27:24 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node 65c1fdc0-9557-4f93-af7f-21b9549cefbc 
+Line Number: 87
+LogTime = 4/16/2023 2:11:50 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 3c10b112-d543-43a3-ae9d-ccdfca1e4fb2 
+Line Number: 73
+LogTime = 4/16/2023 2:11:53 PM | LogType: Story Holder log 
+LogMessage: Returning next Choice node 6777389a-b747-4241-8a61-88941f6d62ac 
+Line Number: 73
+LogTime = 4/16/2023 2:11:56 PM | LogType: Story Holder log 
+LogMessage: Returning next Story node a50d2f53-367c-4c8c-b69a-71d802763b8f 
+Line Number: 87

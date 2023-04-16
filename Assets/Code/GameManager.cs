@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using Code.Dialogue.Story;
 using Code.Logger;
 using UnityEngine;
@@ -37,6 +38,9 @@ namespace Code
         
         private void Start()
         {
+            var t = new Thread(StoryAsset.ReloadStoryProperties);
+            t.Start();
+            
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
