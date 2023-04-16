@@ -131,8 +131,6 @@ namespace Code.Dialogue.Story
         {
             GameDataController.SaveGame(new SaveData
             {
-                PlayerName = "",
-                PlayerBackground = "", // Name or Number
                 Title = GetTitleText(),
                 ParentNode = _storyHolder.ParentNode.name,
                 IsStoryNode = _storyHolder.IsStoryNode,
@@ -246,11 +244,25 @@ namespace Code.Dialogue.Story
             foreach (var choice in _storyHolder.GetChoices())
             {
                 var choiceInstance = Instantiate(choicePrefab, choiceRoot);
-                
-                // Set Text
-                var choiceText = choiceInstance.GetComponentInChildren<Text>();
-                choiceText.text = choice.GetText();
-                
+                var background = choice.GetBackground();
+
+                // Check if this node can only be used by a certain player
+                if (!background.Equals(""))
+                {
+                    if (background.Equals(GameDataController.GetPlayerBackground()))
+                    {
+                        // Set Text
+                        var choiceText = choiceInstance.GetComponentInChildren<Text>();
+                        choiceText.text = choice.GetText();
+                    }
+                }
+                else
+                {
+                    // Set Text
+                    var choiceText = choiceInstance.GetComponentInChildren<Text>();
+                    choiceText.text = choice.GetText();
+                }
+
                 // Add listener
                 var button = choiceInstance.GetComponentInChildren<Button>();
                 button.onClick.AddListener(() =>

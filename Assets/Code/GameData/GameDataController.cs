@@ -59,6 +59,8 @@ namespace Code.GameData
         private static bool _isNewGame;
         private static bool _isOverrideNewGame;
         private static string _filename;
+        private static string _playername;
+        private static string _playerBackground;
 
         /// <summary>
         /// Sets the language of the program to en-US
@@ -88,6 +90,7 @@ namespace Code.GameData
         /// </summary>
         public void NewGame_Click()
         {
+            // TODO Save first time only name and background
             _isNewGame = true;
             var length = Directory.GetFiles(Application.persistentDataPath).Length;
             if (length == 3)
@@ -332,11 +335,12 @@ namespace Code.GameData
             if (LoadedData.Count > 0)
                 time = LoadedData[_slotNum].TimeSpent;
 
+            // TODO Save first time only name and background
             var saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             var saveData = new SaveData
             {
-                PlayerName = save.PlayerName,
-                PlayerBackground = save.PlayerBackground,
+                PlayerName = "", // if InputName.GetPlayername "" then take the GetPlayername instead
+                PlayerBackground = "", // same here | ^
                 Title = save.Title, // Title maybe missing in Dialog System
                 ProgressPercentage = 10, // GetProgressPercentage(), // Write method 
                 TimeSpent = time, // + GetTimeSpentInGame(), // Write Method
@@ -368,6 +372,16 @@ namespace Code.GameData
                 File.WriteAllText(_filename, json);
             }
             // Application.persistentDataPath = C:\Users\Kevin\AppData\LocalLow\DefaultCompany
+        }
+        
+        public static string GetPlayerName()
+        {
+            return _playername;
+        }
+
+        public static  string GetPlayerBackground()
+        {
+            return _playerBackground;
         }
     }
 }
