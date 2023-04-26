@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Code.Dialogue.Story;
+using Code.GameData;
 using Code.Logger;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,8 +26,14 @@ namespace Code
         // GameManager
         public static GameManager Gm;
         // Ending Screen
-        public GameObject endingScreen;
-
+        [SerializeField] private GameObject endingScreen;
+        
+        // Menu and Save Screens
+        [SerializeField] private GameObject mainMenuScreen;
+        [SerializeField] private GameObject saveGameScreen;
+        [SerializeField] private GameObject overrideSaveGameScreen;
+        [SerializeField] private GameObject characterPropertiesScreen;
+        
         [NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
@@ -58,18 +65,38 @@ namespace Code
         /// <summary>
         /// Starts a new Game
         /// </summary>
-        public static void LoadNewGame()
+        public void NewGame_Click()
         {
-            SceneManager.LoadScene(1);
+            if (GameData.GameDataController.NewGame())
+            {
+                LoadSavedScene(1);
+            }
+            else
+            {
+                overrideSaveGameScreen.SetActive(true);
+            }
+            // Enter name and choose character
+            // GameData controller checks if a open slot is ready
+            // returns yes after saving a new file and insert name and character
+            // returns no: overridesavegamescreen is activated, savegamescreen
+            //SceneManager.LoadScene(1);
+        }
+
+        /// <summary>
+        /// Loads a saved Game
+        /// </summary>
+        public void LoadGame_Click()
+        {
+            // 
         }
 
         /// <summary>
         /// Loads the saved Scene
         /// </summary>
         /// <param name="scene"></param>
-        public static void LoadSavedScene(string scene)
+        public static void LoadSavedScene(int scene)
         {
-            SceneManager.LoadScene(int.Parse(scene[5].ToString()));
+            SceneManager.LoadScene(scene);
         }
 
         /// <summary>

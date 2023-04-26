@@ -50,6 +50,7 @@ namespace Code.GameData
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject saveGameScreen;
         [SerializeField] private GameObject overrideSaveGameScreen;
+		[SerializeField] private GameObject characterPropertiesScreen;
         
         private static GameDataController _sm;
         // SaveData
@@ -88,25 +89,36 @@ namespace Code.GameData
         /// When a new Game is started, it checks for a open save slot, are there non,
         /// then the User has to choose an old save slot to override the date with the new Game
         /// </summary>
-        public void NewGame_Click()
+        public bool NewGame()
         {
             // TODO Save first time only name and background
             _isNewGame = true;
             var length = Directory.GetFiles(Application.persistentDataPath).Length;
             if (length == 3)
             {
-                overrideSaveGameScreen.SetActive(true);
-                return;
+                //overrideSaveGameScreen.SetActive(true);
+                return false;
             }
 
             _slotNum = length;
-            GameManager.LoadNewGame();
+			
+			var saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
+			var gameobject = characterPropertiesScreen.GetComponent<Text>();
+			var saveData = new SaveData { PlayerName = gameobject.text, PlayerBackground = gameobject.text };
+            var gameData = new GameData(saveData);
+            var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
+            _filename = Application.persistentDataPath +
+                        $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{saveTime}.json";
+
+			File.WriteAllText(_filename, json);
+            //GameManager.LoadNewGame();
+			return true;
         }
 
         /// <summary>
         /// Loads the Save Slots
         /// </summary>
-        public void LoadGame_Click()
+        public void LoadGame()
         {
             _isNewGame = false;
             mainMenuScreen.SetActive(false);
@@ -267,7 +279,7 @@ namespace Code.GameData
             var json = File.ReadAllText(files[_slotNum], Encoding.UTF8);
             
             _saveData = JsonConvert.DeserializeObject<SaveData>(json);
-            GameManager.LoadSavedScene(_saveData.CurrentChapter);
+            GameManager.LoadSavedScene(int.Parse(_saveData.CurrentChapter[5].ToString()));
         }
 
         /// <summary>
@@ -277,7 +289,7 @@ namespace Code.GameData
         {
             _slotNum = 0;
             if (_isOverrideNewGame)
-                GameManager.LoadNewGame();
+                GameManager.LoadSavedScene(1);
             else
                 LoadSelectedGame();
         }
@@ -289,7 +301,7 @@ namespace Code.GameData
         {
             _slotNum = 1;
             if (_isOverrideNewGame)
-                GameManager.LoadNewGame();
+                GameManager.LoadSavedScene(1);
             else
                 LoadSelectedGame();
         }
@@ -301,7 +313,7 @@ namespace Code.GameData
         { 
             _slotNum = 2;
             if (_isOverrideNewGame)
-                GameManager.LoadNewGame();
+                GameManager.LoadSavedScene(1);
             else
                 LoadSelectedGame();
         }
