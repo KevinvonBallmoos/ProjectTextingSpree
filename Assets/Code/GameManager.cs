@@ -7,6 +7,8 @@ using Code.GameData;
 using Code.Logger;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace Code
 {
@@ -28,9 +30,8 @@ namespace Code
         // Ending Screen
         [SerializeField] private GameObject endingScreen;
         
-        // Menu and Save Screens
+        // Menu Save and Properties Screens
         [SerializeField] private GameObject mainMenuScreen;
-        [SerializeField] private GameObject saveGameScreen;
         [SerializeField] private GameObject overrideSaveGameScreen;
         [SerializeField] private GameObject characterPropertiesScreen;
         
@@ -45,7 +46,7 @@ namespace Code
         
         private void Start()
         {
-            var t = new Thread(StoryAsset.ReloadStoryProperties);
+            var t = new Thread(StoryAsset.ReloadStoryProperties); // TODO ?
             t.Start();
             
             try
@@ -67,19 +68,42 @@ namespace Code
         /// </summary>
         public void NewGame_Click()
         {
-            if (GameData.GameDataController.NewGame())
+            mainMenuScreen.SetActive(false);
+            characterPropertiesScreen.SetActive(true);
+        }
+
+        public void StartNewGame_Click()
+        {
+            var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>()[2];
+            if (!gameobject.text.Equals(""))
             {
-                LoadSavedScene(1);
+                if (GameDataController.Gdc.NewGame())
+                    LoadSavedScene(1);
+                else
+                    overrideSaveGameScreen.SetActive(true);
             }
             else
             {
-                overrideSaveGameScreen.SetActive(true);
+                gameobject.color = Color.red;
             }
             // Enter name and choose character
             // GameData controller checks if a open slot is ready
             // returns yes after saving a new file and insert name and character
             // returns no: overridesavegamescreen is activated, savegamescreen
             //SceneManager.LoadScene(1);
+        }
+
+        /// <summary>
+        /// When the name of the character is typed in
+        /// the Begin Story Button is active
+        /// </summary>
+        public void InputField_ValueChanged()
+        {
+            var button = characterPropertiesScreen.GetComponentInChildren<Button>();
+            var character = characterPropertiesScreen.GetComponentsInChildren<Text>()[4].text;
+            
+            if (!character.Equals(""))
+                button.GetComponent<Button>().enabled = true;
         }
 
         /// <summary>
