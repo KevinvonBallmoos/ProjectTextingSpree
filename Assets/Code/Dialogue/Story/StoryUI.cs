@@ -29,8 +29,12 @@ namespace Code.Dialogue.Story
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
         [SerializeField] private GameObject[] imageHolder = new GameObject[2];
-        
+        [SerializeField] private GameObject saveStatus;
+        // Coroutine
         private Coroutine _textCoroutine;
+        // Image, Text of save status
+        private Image _saveImage;
+        private Text _saveText;
 
         /// <summary>
         /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
@@ -39,7 +43,9 @@ namespace Code.Dialogue.Story
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             if (_storyHolder.selectedChapter == null) return;
-            
+
+            _saveImage = saveStatus.GetComponentInChildren<Image>();
+            _saveText = saveStatus.GetComponentInChildren<Text>();
             nextButton.gameObject.SetActive(false);
             nextButton.onClick.AddListener(Next_Click);
             UpdateUI();
@@ -129,7 +135,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         private void SaveGameState()
         {
-            GameDataController.SaveGame(new SaveData
+            GameDataController.Gdc.SaveGame(new SaveData
             {
                 Title = GetTitleText(),
                 ParentNode = _storyHolder.ParentNode.name,
@@ -156,7 +162,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetParentNodeText();
+            var text = _storyHolder.GetParentNodeText().Replace(GameDataController.Gdc.GetPlayerName(), "Name");
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
@@ -174,16 +180,19 @@ namespace Code.Dialogue.Story
         /// Displays the Image
         /// </summary>
         /// <returns></returns>
-        private static IEnumerator ShowImage()
+        private IEnumerator ShowImage()
         {
-            var obj = GameObject.FindGameObjectWithTag("SaveStatus");
-            obj.GetComponentInChildren<Text>().enabled = true;
-            obj.GetComponentInChildren<Image>().enabled = true;
+            SetSaveStatus(true);
             
             yield return new WaitForSeconds(2f);
             
-            obj.GetComponentInChildren<Text>().enabled = false;
-            obj.GetComponentInChildren<Image>().enabled = false;
+            SetSaveStatus(false);
+        }
+
+        private void SetSaveStatus(bool isEnabled)
+        {
+            _saveImage.enabled = isEnabled;
+            _saveText.enabled = isEnabled;
         }
 
         /// <summary>
@@ -249,7 +258,7 @@ namespace Code.Dialogue.Story
                 // Check if this node can only be used by a certain player
                 if (!background.Equals(""))
                 {
-                    if (background.Equals(GameDataController.GetPlayerBackground()))
+                    if (background.Equals(GameDataController.Gdc.GetPlayerBackground()))
                     {
                         // Set Text
                         var choiceText = choiceInstance.GetComponentInChildren<Text>();

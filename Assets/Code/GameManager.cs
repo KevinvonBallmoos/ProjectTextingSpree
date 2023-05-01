@@ -5,6 +5,7 @@ using System.Threading;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -34,6 +35,9 @@ namespace Code
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject overrideSaveGameScreen;
         [SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private Text character;
+        [SerializeField] private InputField playerName;
+        
         
         [NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
@@ -44,10 +48,21 @@ namespace Code
         private string _runPath;
         private string _storyPath;
         
+        /// <summary>
+        /// Awake Methid
+        /// </summary>
+        private void Awake()
+        {
+            if (Gm == null)
+                Gm = this;
+            // else
+            //     Destroy(gameObject);
+        }
+        
         private void Start()
         {
-            var t = new Thread(StoryAsset.ReloadStoryProperties); // TODO ?
-            t.Start();
+            // Queue the StoryAsset.ReloadStoryProperties method to the thread pool
+            ThreadPool.QueueUserWorkItem(_ => StoryAsset.ReloadStoryProperties());
             
             try
             {
@@ -74,36 +89,27 @@ namespace Code
 
         public void StartNewGame_Click()
         {
-            var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>()[2];
-            if (!gameobject.text.Equals(""))
+            if (playerName.text.Equals(""))
             {
-                if (GameDataController.Gdc.NewGame())
-                    LoadSavedScene(1);
-                else
-                    overrideSaveGameScreen.SetActive(true);
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
             }
+            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
+            if (character.text.Equals(""))
+            {
+                characterPropertiesScreen.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            character.color = Color.white;
+
+            if (GameDataController.Gdc.NewGame())
+                LoadSavedScene(1);
             else
             {
-                gameobject.color = Color.red;
+                GameDataController.Gdc.GetPlayer();
+                characterPropertiesScreen.SetActive(false);
+                overrideSaveGameScreen.SetActive(true);
             }
-            // Enter name and choose character
-            // GameData controller checks if a open slot is ready
-            // returns yes after saving a new file and insert name and character
-            // returns no: overridesavegamescreen is activated, savegamescreen
-            //SceneManager.LoadScene(1);
-        }
-
-        /// <summary>
-        /// When the name of the character is typed in
-        /// the Begin Story Button is active
-        /// </summary>
-        public void InputField_ValueChanged()
-        {
-            var button = characterPropertiesScreen.GetComponentInChildren<Button>();
-            var character = characterPropertiesScreen.GetComponentsInChildren<Text>()[4].text;
-            
-            if (!character.Equals(""))
-                button.GetComponent<Button>().enabled = true;
         }
 
         /// <summary>
@@ -111,7 +117,7 @@ namespace Code
         /// </summary>
         public void LoadGame_Click()
         {
-            // 
+            GameDataController.Gdc.LoadGame();
         }
 
         /// <summary>
@@ -189,6 +195,10 @@ namespace Code
             SceneManager.LoadScene(_part);
         }
 
+        /// <summary>
+        /// Returns the Story Part
+        /// </summary>
+        /// <returns></returns>
         private static int GetPath()
         {
             var path = _selectedStory.selectedChapter.name;

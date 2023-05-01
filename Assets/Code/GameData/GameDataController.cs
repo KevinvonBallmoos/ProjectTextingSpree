@@ -25,8 +25,8 @@ namespace Code.GameData
         public string PlayerName { get; set; }
         public string PlayerBackground { get; set; }
         public string Title { get; set; }
-        public int ProgressPercentage { get; set; }
-        public int TimeSpent { get; set; }
+        public double ProgressPercentage { get; set; }
+        public string TimeSpent { get; set; }
         public string TimeOfSave { get; set; }
         public string CurrentChapter { get; set; }
         public string ParentNode { get; set; }
@@ -85,6 +85,7 @@ namespace Code.GameData
         {
             if (Directory.GetFiles(Application.persistentDataPath).Length > 0)
                 loadSaveGame.interactable = true;
+            TimeAndProgress.StartTime();
         }
 
         /// <summary>
@@ -145,7 +146,6 @@ namespace Code.GameData
             saveGameScreen.SetActive(false);
             _isNewGame = false;
             _isOverrideNewGame = false;
-            LoadedData.Clear();
         }
 
         /// <summary>
@@ -157,11 +157,7 @@ namespace Code.GameData
             if (_isNewGame)
                 EnableOverrideText(true);
             
-            foreach (var file in Directory.GetFiles(Application.persistentDataPath))
-            {
-                var json = File.ReadAllText(file, Encoding.UTF8);
-                LoadedData.Add(JsonConvert.DeserializeObject<SaveData>(json));
-            }
+            GetLoadedData();
            
             // Load Data into save-slots
             for (var i = 0; i < LoadedData.Count; i++)
@@ -198,7 +194,20 @@ namespace Code.GameData
                 if (obj.name == "OverrideInformation")
                     obj.enabled = isEnabled;
             }
-        } 
+        }
+
+        /// <summary>
+        /// Reloads the save files
+        /// </summary>
+        private static void GetLoadedData()
+        {
+            LoadedData.Clear();
+            foreach (var file in Directory.GetFiles(Application.persistentDataPath))
+            {
+                var json = File.ReadAllText(file, Encoding.UTF8);
+                LoadedData.Add(JsonConvert.DeserializeObject<SaveData>(json));
+            }
+        }
         
         /// <summary>
         /// Updates the Slot view with loaded data
@@ -217,7 +226,9 @@ namespace Code.GameData
             for (var i = 0; i < 4; i++)
             {
                 var obj = slotObject.transform.GetChild(i).gameObject;
-                var time = DateTime.ParseExact(LoadedData[slotNum].TimeOfSave, "yyyy-dd-M--HH-mm-ss",
+                var time = DateTime.Now;
+                if (LoadedData[slotNum].TimeOfSave != null) 
+                    time = DateTime.ParseExact(LoadedData[slotNum].TimeOfSave, "yyyy-dd-M--HH-mm-ss",
                     CultureInfo.InvariantCulture);
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
@@ -331,37 +342,53 @@ namespace Code.GameData
         /// </summary>
         private void SaveNewGame()
         {
-            var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>();
-            _playerName = gameobject[3].text;
-            _playerBackground = gameobject[4].text;
+            GetPlayer();
 
-            var gameData = new GameData(new SaveData { PlayerName = _playerName, PlayerBackground = _playerBackground });
+            var gameData = new GameData(new SaveData
+            {
+                PlayerName = _playerName,
+                PlayerBackground = _playerBackground, 
+                Title = "",
+                ProgressPercentage = 0,
+                TimeSpent = "00.00.00",
+                TimeOfSave = SaveTime,
+                CurrentChapter = "",
+                ParentNode = "",
+                IsStoryNode = false
+            });
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
             _filename = Application.persistentDataPath +
                         $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{SaveTime}.json";
 
             File.WriteAllText(_filename, json);
         }
-        
+
         /// <summary>
         /// Saves the the status of the Game in a JSON File
         /// </summary>
         /// <param name="save"></param>
-        public static void SaveGame(SaveData save)
+        public void SaveGame(SaveData save)
         {
-            var time = 0;
-            if (LoadedData.Count > 0)
-                time = LoadedData[_slotNum].TimeSpent;
+            GetLoadedData();
+            
+            TimeAndProgress.StopTime();
 
-            // TODO Save first time only name and background
+            var time = LoadedData[_slotNum].TimeSpent;
+            var timeSaved = time == "00.00.00" ? TimeSpan.Zero : TimeSpan.Parse(time);
+            var elapsedTime = Math.Floor(timeSaved.TotalSeconds + TimeAndProgress.GetElapsedTime().TotalSeconds);
+
+            var progress = TimeAndProgress.GetProgress(save.ParentNode);
+            if (progress <= LoadedData[_slotNum].ProgressPercentage)
+                progress += Math.Round(LoadedData[_slotNum].ProgressPercentage, 2);
+            
             var gameData = new GameData(
                 new SaveData
                 {
                     PlayerName = GetPlayerName(),
-                    PlayerBackground = GetPlayerBackground(), // same here | ^
-                    Title = save.Title, // Title maybe missing in Dialog System
-                    ProgressPercentage = 10, // GetProgressPercentage(), // Write method 
-                    TimeSpent = time, // + GetTimeSpentInGame(), // Write Method
+                    PlayerBackground = GetPlayerBackground(),
+                    Title = save.Title,
+                    ProgressPercentage = progress,
+                    TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
                     TimeOfSave = SaveTime,
                     CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>()
                         .selectedChapter
@@ -372,32 +399,29 @@ namespace Code.GameData
                 }
             );
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
-            // if (_isNewGame && _isOverrideNewGame == false)
-            // {
-            //     _filename = Application.persistentDataPath +
-            //                 $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{SaveTime}.json";
-            //     File.WriteAllText(_filename, json);
-            //     _isNewGame = false;
-            //     _isOverrideNewGame = true;
-            // }
-            // else if (_isOverrideNewGame)
-            // {
-                _filename = Directory.GetFiles(Application.persistentDataPath)[_slotNum];
-                if (File.Exists(_filename))
-                    File.Delete(_filename);
+            _filename = Directory.GetFiles(Application.persistentDataPath)[_slotNum];
+            if (File.Exists(_filename))
+                File.Delete(_filename);
 
-                _filename = _filename[..^24] + SaveTime + ".json";
-                File.WriteAllText(_filename, json);
-            //}
-            // Application.persistentDataPath = C:\Users\Kevin\AppData\LocalLow\DefaultCompany
+            _filename = _filename[..^24] + SaveTime + ".json";
+            File.WriteAllText(_filename, json);
+            
+            TimeAndProgress.StartTime();
         }
 
-        public static string GetPlayerName()
+        public void GetPlayer()
+        {
+            var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>();
+            _playerName = gameobject[3].text;
+            _playerBackground = gameobject[1].text;
+        }
+        
+        public string GetPlayerName()
         {
             return _playerName;
         }
 
-        public static  string GetPlayerBackground()
+        public string GetPlayerBackground()
         {
             return _playerBackground;
         }

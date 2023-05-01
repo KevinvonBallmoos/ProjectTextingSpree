@@ -36,6 +36,7 @@ namespace Code.Dialogue.Story
                 ParentNode = _currentNode;
                 IsStoryNode = false;
                 _isNull = false;
+                TimeAndProgress.CalculateProgress(selectedChapter.name);
             }
             else
             {
@@ -51,6 +52,7 @@ namespace Code.Dialogue.Story
                 ParentNode = _currentNode;
                 IsStoryNode = saveData.IsStoryNode;
                 _isNull = false;
+                TimeAndProgress.CalculateProgress(selectedChapter.name);
             }
         }
 

@@ -1,4 +1,6 @@
 
+using System;
+
 namespace Code.GameData
 {
     /// <summary>
@@ -12,8 +14,8 @@ namespace Code.GameData
         public readonly string PlayerName;
         public readonly string PlayerBackground;
         public readonly string Title;
-        public readonly int ProgressPercentage;
-        public readonly int TimeSpent;
+        public readonly double ProgressPercentage;
+        public readonly string TimeSpent;
         public readonly string TimeOfSave;
         public readonly string CurrentChapter;
         public readonly string ParentNode;
