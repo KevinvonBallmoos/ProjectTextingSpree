@@ -1210,8 +1210,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e71370690e90646b496f559c87eb14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  State: 0
   endingScreen: {fileID: 4310544141491983196}
+  mainMenuScreen: {fileID: 0}
+  overrideSaveGameScreen: {fileID: 0}
+  characterPropertiesScreen: {fileID: 0}
+  character: {fileID: 0}
+  playerName: {fileID: 0}
 --- !u!4 &1553586390
 Transform:
   m_ObjectHideFlags: 0
@@ -1770,7 +1774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0f2564cb45a5c4697160b1a164aaa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zRotation: -0.5
+  zRotation: -1
 --- !u!222 &1640656183845294555
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2279,6 +2283,7 @@ MonoBehaviour:
   - {fileID: 9091628666081473585}
   - {fileID: 6391130409799642662}
   - {fileID: 4310544141491983196}
+  saveStatus: {fileID: 7585498732195177469}
 --- !u!224 &2625038288853168621
 RectTransform:
   m_ObjectHideFlags: 0

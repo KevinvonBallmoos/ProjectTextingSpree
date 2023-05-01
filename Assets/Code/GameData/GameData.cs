@@ -1,4 +1,6 @@
 
+using System;
+
 namespace Code.GameData
 {
     /// <summary>
@@ -9,9 +11,11 @@ namespace Code.GameData
     [System.Serializable]
     public class GameData
     {
+        public readonly string PlayerName;
+        public readonly string PlayerBackground;
         public readonly string Title;
-        public readonly int ProgressPercentage;
-        public readonly int TimeSpent;
+        public readonly double ProgressPercentage;
+        public readonly string TimeSpent;
         public readonly string TimeOfSave;
         public readonly string CurrentChapter;
         public readonly string ParentNode;
@@ -23,6 +27,8 @@ namespace Code.GameData
         /// <param name="saveData"></param>
         public GameData (SaveData saveData)
         {
+            PlayerName = saveData.PlayerName;
+            PlayerBackground = saveData.PlayerBackground;
             Title = saveData.Title;
             ProgressPercentage = saveData.ProgressPercentage;
             TimeSpent = saveData.TimeSpent;

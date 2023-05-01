@@ -1,17 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using Code.Dialogue.Story;
+using Code.GameData;
 using Code.Logger;
-using Code.UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
-using Random = UnityEngine.Random;
 
-namespace Code.Inventory
+namespace Code
 {
     /// <summary>
     /// Is in Control of the Story
@@ -28,12 +28,17 @@ namespace Code.Inventory
         private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
-        // GameState
-        public GameState State;
-        public static event Action<GameState> OnGameStateChanged;
         // Ending Screen
-        public GameObject endingScreen;
-
+        [SerializeField] private GameObject endingScreen;
+        
+        // Menu Save and Properties Screens
+        [SerializeField] private GameObject mainMenuScreen;
+        [SerializeField] private GameObject overrideSaveGameScreen;
+        [SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private Text character;
+        [SerializeField] private InputField playerName;
+        
+        
         [NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
@@ -43,14 +48,22 @@ namespace Code.Inventory
         private string _runPath;
         private string _storyPath;
         
-        public enum GameState
+        /// <summary>
+        /// Awake Methid
+        /// </summary>
+        private void Awake()
         {
-            NewGame,
-            LoadGame
+            if (Gm == null)
+                Gm = this;
+            // else
+            //     Destroy(gameObject);
         }
-
+        
         private void Start()
         {
+            // Queue the StoryAsset.ReloadStoryProperties method to the thread pool
+            ThreadPool.QueueUserWorkItem(_ => StoryAsset.ReloadStoryProperties());
+            
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
@@ -65,39 +78,55 @@ namespace Code.Inventory
             }
         }
 
-        public void UpdateGameStates(GameState newState)
-        {
-            State = newState;
-            switch (newState)
-            {
-                case GameState.NewGame:
-                    LoadNewGame();
-                    break;
-                case GameState.LoadGame:
-                    //LoadSavedScene();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
-            }
-
-            OnGameStateChanged?.Invoke(newState);
-        }
-
         /// <summary>
         /// Starts a new Game
         /// </summary>
-        public static void LoadNewGame()
+        public void NewGame_Click()
         {
-            SceneManager.LoadScene(1);
+            mainMenuScreen.SetActive(false);
+            characterPropertiesScreen.SetActive(true);
+        }
+
+        public void StartNewGame_Click()
+        {
+            if (playerName.text.Equals(""))
+            {
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
+            if (character.text.Equals(""))
+            {
+                characterPropertiesScreen.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            character.color = Color.white;
+
+            if (GameDataController.Gdc.NewGame())
+                LoadSavedScene(1);
+            else
+            {
+                GameDataController.Gdc.GetPlayer();
+                characterPropertiesScreen.SetActive(false);
+                overrideSaveGameScreen.SetActive(true);
+            }
+        }
+
+        /// <summary>
+        /// Loads a saved Game
+        /// </summary>
+        public void LoadGame_Click()
+        {
+            GameDataController.Gdc.LoadGame();
         }
 
         /// <summary>
         /// Loads the saved Scene
         /// </summary>
         /// <param name="scene"></param>
-        public static void LoadSavedScene(string scene)
+        public static void LoadSavedScene(int scene)
         {
-            SceneManager.LoadScene(int.Parse(scene[5].ToString()));
+            SceneManager.LoadScene(scene);
         }
 
         /// <summary>
@@ -166,7 +195,11 @@ namespace Code.Inventory
             SceneManager.LoadScene(_part);
         }
 
-        private int GetPath()
+        /// <summary>
+        /// Returns the Story Part
+        /// </summary>
+        /// <returns></returns>
+        private static int GetPath()
         {
             var path = _selectedStory.selectedChapter.name;
             foreach (var t in path)
