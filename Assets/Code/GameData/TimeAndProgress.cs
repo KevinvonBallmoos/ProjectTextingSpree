@@ -6,13 +6,21 @@ using Object = UnityEngine.Object;
 
 namespace Code.GameData
 {
+    /// <summary>
+    /// Calculates the elapsed Time and Progress
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">27.04.2022</para>
     public static class TimeAndProgress
     {
+        // Stopwatch, TimeSpan
         private static Stopwatch _stopwatch;
         private static TimeSpan _elapsedTime;
-
+        // Object
         private static Object[] _stories;
+        // Chapter Count
         private static int _chapterCount;
+        // Chapter, Node Percentage
         private static double _chapterPercentage;
         private static double _nodePercentage;
 
