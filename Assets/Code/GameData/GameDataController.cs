@@ -41,7 +41,8 @@ namespace Code.GameData
     public class GameDataController : MonoBehaviour
     {
         // Load save
-        [SerializeField] private Button loadSaveGame;
+        [SerializeField] private Button loadGameMenu;
+        [SerializeField] private Text loadGameText;
         // GameObjects
         [SerializeField] private GameObject saveSlot1;
         [SerializeField] private GameObject saveSlot2;
@@ -49,22 +50,25 @@ namespace Code.GameData
         // Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject saveGameScreen;
-        [SerializeField] private GameObject overrideSaveGameScreen;
+        [SerializeField] private GameObject messageBoxScreen;
 		[SerializeField] private GameObject characterPropertiesScreen;
-        
+        // Slot view
+        public GameObject slotView;
+        // GameDataController
         public static GameDataController Gdc;
         // SaveData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new ();
         private static int _slotNum;
         private static bool _isNewGame;
-        private static bool _isOverrideNewGame;
         private static string _filename;
         private static string _playerName;
         private static string _playerBackground;
         
         private static readonly string SaveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
 
+        #region Awake and Start
+        
         /// <summary>
         /// Sets the language of the program to en-US
         /// </summary>
@@ -84,10 +88,14 @@ namespace Code.GameData
         private void Start()
         {
             if (Directory.GetFiles(Application.persistentDataPath).Length > 0)
-                loadSaveGame.interactable = true;
+                loadGameMenu.interactable = true;
             TimeAndProgress.StartTime();
         }
+        
+        #endregion
 
+        #region Game States
+        
         /// <summary>
         /// When a new Game is started, it checks for a open save slot, are there non,
         /// then the User has to choose an old save slot to override the date with the new Game
@@ -113,18 +121,58 @@ namespace Code.GameData
             _isNewGame = false;
             mainMenuScreen.SetActive(false);
             saveGameScreen.SetActive(true);
+            
+            SetSaveScreen("LOAD", 0);
             LoadDataIntoSlots();
         }
 
+        /// <summary>
+        /// Resets the Images of the Slots
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="index"></param>
+        public void SetSaveScreen(string text, int index)
+        {
+            var slots = slotView.GetComponentsInChildren<Image>();
+            for (var i = 0; i < slots.Length; i++)
+            {
+                if (i is 1 or 3 or 5)
+                    slots[i].enabled = false;
+            }
+            loadGameText.text = text;
+            slotView.GetComponentsInChildren<Text>()[0].text = XmlController.GetInformationText(index);
+        }
+        
+        #endregion
+
+        #region Button Events
+
+        /// <summary>
+        /// Loads the selected Game
+        /// </summary>
+        public void LoadGame_Click()
+        {
+            SetSlotNum();
+            
+            switch (loadGameText.text)
+            {
+                case "LOAD":
+                    LoadSelectedGame();
+                    break;
+                case "NEW GAME":
+                    GameManager.LoadScene(1);
+                    break;
+            }
+        }
+        
         /// <summary>
         /// When continue is clicked, the User can select a save slot to override the old data
         /// </summary>
         public void Continue_Click()
         {
-            _isOverrideNewGame = true;
             mainMenuScreen.SetActive(false);
             saveGameScreen.SetActive(true);
-            overrideSaveGameScreen.SetActive(false);
+            messageBoxScreen.SetActive(false);
             LoadDataIntoSlots();
         }
         
@@ -133,7 +181,7 @@ namespace Code.GameData
         /// </summary>
         public void Cancel_CLick()
         {
-            overrideSaveGameScreen.SetActive(false);
+            messageBoxScreen.SetActive(false);
         }
         
         /// <summary>
@@ -141,12 +189,14 @@ namespace Code.GameData
         /// </summary>
         public void BackToMenu_Click()
         {
-            EnableOverrideText(false);
             mainMenuScreen.SetActive(true);
             saveGameScreen.SetActive(false);
             _isNewGame = false;
-            _isOverrideNewGame = false;
         }
+
+        #endregion
+        
+        #region SlotView
 
         /// <summary>
         /// When the LoadGame Button is clicked, then the save files getting loaded into the save-slots
@@ -154,15 +204,12 @@ namespace Code.GameData
         /// </summary>
         private void LoadDataIntoSlots()
         {
-            if (_isNewGame)
-                EnableOverrideText(true);
-            
             GetLoadedData();
-           
+
             // Load Data into save-slots
             for (var i = 0; i < LoadedData.Count; i++)
                 UpdateSlotView(i);
-            
+
             if (LoadedData.Count >= 3) return;
             {
                 var length = 3 - LoadedData.Count;
@@ -180,19 +227,6 @@ namespace Code.GameData
                         break;
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Enables or Disables the Override text
-        /// </summary>
-        private void EnableOverrideText(bool isEnabled)
-        {
-            var btnObject = saveGameScreen.GetComponentInChildren<Button>().GetComponentsInChildren<Text>();
-            foreach (var obj in btnObject)
-            {
-                if (obj.name == "OverrideInformation")
-                    obj.enabled = isEnabled;
             }
         }
 
@@ -245,10 +279,11 @@ namespace Code.GameData
         /// Updates the Slot view with empty data, if there is no save 
         /// </summary>
         /// <param name="slotNum"></param>
-        private void UpdateEmptySlot(int slotNum)
+        public void UpdateEmptySlot(int slotNum)
         {
             var slotObject = slotNum switch
             {
+                1 => saveSlot1,
                 2 => saveSlot2,
                 3 => saveSlot3,
                 _ => null
@@ -262,7 +297,7 @@ namespace Code.GameData
                     0 => "Chapter: No data saved",
                     1 => "Completion: ... %",
                     2 => "Time of last Save: No data",
-                    3 => "Time spent in Game: 00d 00h 00m",
+                    3 => "Time spent in Game: 00:00:00",
                     _ => obj.GetComponent<TextMeshProUGUI>().text
                 };
             }
@@ -275,48 +310,41 @@ namespace Code.GameData
         {
             var files = Directory.GetFiles(Application.persistentDataPath);
             
-            if (files.Length == _slotNum) return;
+            if (files.Length <= _slotNum) return;
             var json = File.ReadAllText(files[_slotNum], Encoding.UTF8);
             
             _saveData = JsonConvert.DeserializeObject<SaveData>(json);
-            GameManager.LoadSavedScene(int.Parse(_saveData.CurrentChapter[5].ToString()));
+            GameManager.LoadScene(int.Parse(_saveData.CurrentChapter[5].ToString()));
         }
 
         /// <summary>
-        /// Override for a new Game or Load Game
+        /// Checks on which save slot the slotImage is active
+        /// and saves the slot number
         /// </summary>
-        public void LoadSlot1_Click()
+        /// <returns></returns>
+        private void SetSlotNum()
         {
-            _slotNum = 0;
-            if (_isOverrideNewGame)
-                GameManager.LoadSavedScene(1);
-            else
-                LoadSelectedGame();
+            var slots = slotView.GetComponentsInChildren<Image>();
+            for (var i = 1; i < slots.Length; i += 2)
+            {
+                if (!slots[i].enabled) continue;
+                _slotNum = (i - 1) / 2;
+                break;
+            }
         }
 
         /// <summary>
-        /// Override for a new Game or Load Game
+        /// Returns the slot number
         /// </summary>
-        public void LoadSlot2_Click()
+        /// <returns></returns>
+        public int GetSlotNum()
         {
-            _slotNum = 1;
-            if (_isOverrideNewGame)
-                GameManager.LoadSavedScene(1);
-            else
-                LoadSelectedGame();
+            return _slotNum;
         }
+        
+        #endregion
 
-        /// <summary>
-        /// Override for a new Game or Load Game
-        /// </summary>
-        public void LoadSlot3_Click()
-        { 
-            _slotNum = 2;
-            if (_isOverrideNewGame)
-                GameManager.LoadSavedScene(1);
-            else
-                LoadSelectedGame();
-        }
+        #region Loaded Data
 
         /// <summary>
         /// Returns true if Data has been loaded,
@@ -337,6 +365,10 @@ namespace Code.GameData
             return _saveData;
         }
 
+        #endregion
+        
+        #region Save
+        
         /// <summary>
         /// Saves the name and the Character Properties as first Save for a New Game
         /// </summary>
@@ -408,6 +440,10 @@ namespace Code.GameData
             
             TimeAndProgress.StartTime();
         }
+        
+        #endregion
+
+        #region Player and PlayerBackground
 
         public void GetPlayer()
         {
@@ -425,5 +461,21 @@ namespace Code.GameData
         {
             return _playerBackground;
         }
+
+        #endregion
+
+        #region Remove Data
+
+        /// <summary>
+        /// Asks if the User really want to delete the Saved Data
+        /// </summary>
+        public void RemoveData_Click()
+        {
+            GameManager.Gm.SetMessageBoxProperties(DataRemover.RemoveData_Click, XmlController.GetMessageBoxText(1));
+            messageBoxScreen.SetActive(true);
+            SetSlotNum();
+        }
+
+        #endregion
     }
 }

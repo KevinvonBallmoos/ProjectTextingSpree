@@ -1212,10 +1212,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endingScreen: {fileID: 4310544141491983196}
   mainMenuScreen: {fileID: 0}
-  overrideSaveGameScreen: {fileID: 0}
+  messageBoxScreen: {fileID: 0}
   characterPropertiesScreen: {fileID: 0}
   character: {fileID: 0}
   playerName: {fileID: 0}
+  messageBoxScreenObjects: []
 --- !u!4 &1553586390
 Transform:
   m_ObjectHideFlags: 0
@@ -3719,7 +3720,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1781504439453003244}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1553586389}
+        m_TargetAssemblyTypeName: Code.GameManager, Assembly-CSharp
+        m_MethodName: BackToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5956229339106486083
 GameObject:
   m_ObjectHideFlags: 0
@@ -4322,7 +4335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &7489197897012582263
 CanvasRenderer:
   m_ObjectHideFlags: 0

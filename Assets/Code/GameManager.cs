@@ -2,12 +2,15 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Xml;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
@@ -33,32 +36,36 @@ namespace Code
         
         // Menu Save and Properties Screens
         [SerializeField] private GameObject mainMenuScreen;
-        [SerializeField] private GameObject overrideSaveGameScreen;
+        [SerializeField] private GameObject messageBoxScreen;
         [SerializeField] private GameObject characterPropertiesScreen;
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
-        
         
         [NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
 
+        [SerializeField] private GameObject[] messageBoxScreenObjects;
+
         private int _chapter;
         private int _part;
         private string _runPath;
         private string _storyPath;
-        
+
+        #region Awake and Start
+
         /// <summary>
-        /// Awake Methid
+        /// Awake of the GameManager
         /// </summary>
         private void Awake()
         {
             if (Gm == null)
                 Gm = this;
-            // else
-            //     Destroy(gameObject);
         }
         
+        /// <summary>
+        /// Start of the GameManager
+        /// </summary>
         private void Start()
         {
             // Queue the StoryAsset.ReloadStoryProperties method to the thread pool
@@ -77,7 +84,11 @@ namespace Code
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
+        
+        #endregion
 
+        #region Game States
+        
         /// <summary>
         /// Starts a new Game
         /// </summary>
@@ -103,12 +114,14 @@ namespace Code
             character.color = Color.white;
 
             if (GameDataController.Gdc.NewGame())
-                LoadSavedScene(1);
+                LoadScene(1);
             else
             {
                 GameDataController.Gdc.GetPlayer();
+                GameDataController.Gdc.SetSaveScreen("NEW GAME", 1);
                 characterPropertiesScreen.SetActive(false);
-                overrideSaveGameScreen.SetActive(true);
+                SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlController.GetMessageBoxText(0));
+                messageBoxScreen.SetActive(true);
             }
         }
 
@@ -124,11 +137,15 @@ namespace Code
         /// Loads the saved Scene
         /// </summary>
         /// <param name="scene"></param>
-        public static void LoadSavedScene(int scene)
+        public static void LoadScene(int scene)
         {
             SceneManager.LoadScene(scene);
         }
 
+        #endregion
+        
+        #region Next Chapter / Story or End
+        
         /// <summary>
         /// Checks if its Game Over or end of Chapter
         /// </summary>
@@ -180,6 +197,25 @@ namespace Code
         }
 
         /// <summary>
+        /// Returns the Story Part
+        /// </summary>
+        /// <returns></returns>
+        private static int GetPath()
+        {
+            var path = _selectedStory.selectedChapter.name;
+            foreach (var t in path)
+            {
+                if (char.IsDigit(t))
+                    return int.Parse(t.ToString());
+            }
+            return 0;
+        }
+        
+        #endregion
+        
+        #region Next Chapter / Story Click Events
+        
+        /// <summary>
         /// When the next Chapter Button is clicked
         /// </summary>
         public void NextChapter_Click()
@@ -194,20 +230,32 @@ namespace Code
         {
             SceneManager.LoadScene(_part);
         }
+        
+        #endregion
+        
+        #region MessageBox
 
         /// <summary>
-        /// Returns the Story Part
+        /// Sets the properties of the MessageBox
         /// </summary>
-        /// <returns></returns>
-        private static int GetPath()
+        /// <param name="eventMethod"></param>
+        /// <param name="text"></param>
+        public void SetMessageBoxProperties(UnityAction eventMethod, string text)
         {
-            var path = _selectedStory.selectedChapter.name;
-            foreach (var t in path)
-            {
-                if (char.IsDigit(t))
-                    return int.Parse(t.ToString());
-            }
-            return 0;
+            messageBoxScreenObjects[0].GetComponent<Button>().onClick.RemoveAllListeners();
+            messageBoxScreenObjects[0].GetComponent<Button>().onClick.AddListener(eventMethod);
+            messageBoxScreenObjects[1].GetComponent<Text>().text = text;
         }
+        
+        #endregion
+        
+        #region Main Menu
+
+        public void BackToMainMenu()
+        {
+            LoadScene(0);
+        }
+        
+        #endregion
     }
 }
