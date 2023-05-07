@@ -13,7 +13,7 @@
 		<Node id="1" isRootNode="True">Chapter 2 Start</Node>
 		<Node id="2">Story 2</Node>
 		<Node id="3" isGameOver="True">Story 3 Dead</Node>
-		<Node id="4">Story 1 Move Forward</Node>
+		<Node id="4" item="">Story 1 Move Forward</Node>
 		<Node id="5" isEndOfStory="True">Story 1 chap 2 END</Node>
 	</DialogueStory>
 </Story1Chapter2>

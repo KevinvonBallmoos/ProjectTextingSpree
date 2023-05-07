@@ -1,10 +1,17 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Xml;
 using Code.Dialogue.Story;
+using Code.GameData;
 using Code.Logger;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 namespace Code
@@ -24,37 +31,46 @@ namespace Code
         private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
-        // GameState
-        public GameState State;
-        public static event Action<GameState> OnGameStateChanged;
         // Ending Screen
-        public GameObject endingScreen;
-
+        [SerializeField] private GameObject endingScreen;
+        
+        // Menu Save and Properties Screens
+        [SerializeField] private GameObject mainMenuScreen;
+        [SerializeField] private GameObject messageBoxScreen;
+        [SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private Text character;
+        [SerializeField] private InputField playerName;
+        
         [NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
+
+        [SerializeField] private GameObject[] messageBoxScreenObjects;
 
         private int _chapter;
         private int _part;
         private string _runPath;
         private string _storyPath;
-        
-        public enum GameState
-        {
-            NewGame,
-            LoadGame
-        }
 
+        #region Awake and Start
+
+        /// <summary>
+        /// Awake of the GameManager
+        /// </summary>
         private void Awake()
         {
             if (Gm == null)
                 Gm = this;
-            else
-                Destroy(gameObject);
         }
-
+        
+        /// <summary>
+        /// Start of the GameManager
+        /// </summary>
         private void Start()
         {
+            // Queue the StoryAsset.ReloadStoryProperties method to the thread pool
+            ThreadPool.QueueUserWorkItem(_ => StoryAsset.ReloadStoryProperties());
+            
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
@@ -68,42 +84,68 @@ namespace Code
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
+        
+        #endregion
 
-        public void UpdateGameStates(GameState newState)
-        {
-            State = newState;
-            switch (newState)
-            {
-                case GameState.NewGame:
-                    LoadNewGame();
-                    break;
-                case GameState.LoadGame:
-                    //LoadSavedScene();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
-            }
-
-            OnGameStateChanged?.Invoke(newState);
-        }
-
+        #region Game States
+        
         /// <summary>
         /// Starts a new Game
         /// </summary>
-        public static void LoadNewGame()
+        public void NewGame_Click()
         {
-            SceneManager.LoadScene(1);
+            mainMenuScreen.SetActive(false);
+            characterPropertiesScreen.SetActive(true);
+        }
+
+        public void StartNewGame_Click()
+        {
+            if (playerName.text.Equals(""))
+            {
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
+            if (character.text.Equals(""))
+            {
+                characterPropertiesScreen.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            character.color = Color.white;
+
+            if (GameDataController.Gdc.NewGame())
+                LoadScene(1);
+            else
+            {
+                GameDataController.Gdc.GetPlayer();
+                GameDataController.Gdc.SetSaveScreen("NEW GAME", 1);
+                characterPropertiesScreen.SetActive(false);
+                SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlController.GetMessageBoxText(0));
+                messageBoxScreen.SetActive(true);
+            }
+        }
+
+        /// <summary>
+        /// Loads a saved Game
+        /// </summary>
+        public void LoadGame_Click()
+        {
+            GameDataController.Gdc.LoadGame();
         }
 
         /// <summary>
         /// Loads the saved Scene
         /// </summary>
         /// <param name="scene"></param>
-        public static void LoadSavedScene(string scene)
+        public static void LoadScene(int scene)
         {
-            SceneManager.LoadScene(int.Parse(scene[5].ToString()));
+            SceneManager.LoadScene(scene);
         }
 
+        #endregion
+        
+        #region Next Chapter / Story or End
+        
         /// <summary>
         /// Checks if its Game Over or end of Chapter
         /// </summary>
@@ -126,14 +168,16 @@ namespace Code
             _part = GetPath();
             _chapter++;
             _storyPath = $@"Story/Part{_part}/Story{_part}Chapter{_chapter}.asset";
-            Debug.Log(_storyPath);
+            
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
             _selectedStory.selectedChapter = Resources.Load<Story>(_storyPath.Replace(".asset", ""));
             _selectedStory.Start();
             _logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
 
-        // Load next Story / next scene
+        /// <summary>
+        /// Load next Story / next scene
+        /// </summary>
         private void LoadNextStoryPart()
         {
             IsEndOfStory = false;
@@ -142,7 +186,9 @@ namespace Code
                 GameLogger.GetLineNumber());
         }
 
-        // Load GameOver Screen
+        /// <summary>
+        /// Load GameOver Screen
+        /// </summary>
         private void LoadGameOverScreen()
         {
             IsGameOver = false;
@@ -150,6 +196,25 @@ namespace Code
             _logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
         }
 
+        /// <summary>
+        /// Returns the Story Part
+        /// </summary>
+        /// <returns></returns>
+        private static int GetPath()
+        {
+            var path = _selectedStory.selectedChapter.name;
+            foreach (var t in path)
+            {
+                if (char.IsDigit(t))
+                    return int.Parse(t.ToString());
+            }
+            return 0;
+        }
+        
+        #endregion
+        
+        #region Next Chapter / Story Click Events
+        
         /// <summary>
         /// When the next Chapter Button is clicked
         /// </summary>
@@ -165,16 +230,32 @@ namespace Code
         {
             SceneManager.LoadScene(_part);
         }
+        
+        #endregion
+        
+        #region MessageBox
 
-        private int GetPath()
+        /// <summary>
+        /// Sets the properties of the MessageBox
+        /// </summary>
+        /// <param name="eventMethod"></param>
+        /// <param name="text"></param>
+        public void SetMessageBoxProperties(UnityAction eventMethod, string text)
         {
-            var path = _selectedStory.selectedChapter.name;
-            foreach (var t in path)
-            {
-                if (char.IsDigit(t))
-                    return int.Parse(t.ToString());
-            }
-            return 0;
+            messageBoxScreenObjects[0].GetComponent<Button>().onClick.RemoveAllListeners();
+            messageBoxScreenObjects[0].GetComponent<Button>().onClick.AddListener(eventMethod);
+            messageBoxScreenObjects[1].GetComponent<Text>().text = text;
         }
+        
+        #endregion
+        
+        #region Main Menu
+
+        public void BackToMainMenu()
+        {
+            LoadScene(0);
+        }
+        
+        #endregion
     }
 }

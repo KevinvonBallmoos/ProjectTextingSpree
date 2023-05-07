@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Code.GameData;
 using Code.Logger;
 
 namespace Code.Dialogue.Story
@@ -29,16 +30,17 @@ namespace Code.Dialogue.Story
         /// </summary>
         public void Start()
         {
-            if (!GameDataManager.GameDataManager.LoadData())
+            if (!GameDataController.LoadData())
             {
                 _currentNode = selectedChapter.GetRootNode();
                 ParentNode = _currentNode;
                 IsStoryNode = false;
                 _isNull = false;
+                TimeAndProgress.CalculateProgress(selectedChapter.name);
             }
             else
             {
-                var saveData = GameDataManager.GameDataManager.GetSaveData();
+                var saveData = GameDataController.GetSaveData();
                 var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
                 selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter);
 
@@ -50,6 +52,7 @@ namespace Code.Dialogue.Story
                 ParentNode = _currentNode;
                 IsStoryNode = saveData.IsStoryNode;
                 _isNull = false;
+                TimeAndProgress.CalculateProgress(selectedChapter.name);
             }
         }
 
@@ -116,12 +119,7 @@ namespace Code.Dialogue.Story
         {
             return selectedChapter.GetChoiceNodes(_currentNode);
         }
-        
-        public string GetRootNodeText()
-        { 
-            return selectedChapter.GetRootNode().GetText();
-        }
-        
+
         public string GetParentNodeText()
         {
             return ParentNode.GetText();
@@ -136,12 +134,7 @@ namespace Code.Dialogue.Story
         {
             return IsStoryNode;
         }
-        
-        public bool GetIsRootNode()
-        {
-            return ParentNode.IsRootNode();
-        }
-        
+
         public bool GetIsEndOfStory()
         {
             return _currentNode.IsEndOfStory();
@@ -160,6 +153,16 @@ namespace Code.Dialogue.Story
         public string GetImage()
         {
             return _currentNode.GetImage();
+        }
+        
+        public string GetItem()
+        {
+            return _currentNode.GetItem();
+        }
+        
+        public string GetBackground()
+        {
+            return _currentNode.GetBackground();
         }
     }
 }
