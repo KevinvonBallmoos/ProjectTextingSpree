@@ -36,6 +36,7 @@ namespace Code.Dialogue.Story
                 ParentNode = _currentNode;
                 IsStoryNode = false;
                 _isNull = false;
+                TimeAndProgress.CalculateProgress(selectedChapter.name);
             }
             else
             {
@@ -51,6 +52,7 @@ namespace Code.Dialogue.Story
                 ParentNode = _currentNode;
                 IsStoryNode = saveData.IsStoryNode;
                 _isNull = false;
+                TimeAndProgress.CalculateProgress(selectedChapter.name);
             }
         }
 
@@ -117,12 +119,7 @@ namespace Code.Dialogue.Story
         {
             return selectedChapter.GetChoiceNodes(_currentNode);
         }
-        
-        public string GetRootNodeText()
-        { 
-            return selectedChapter.GetRootNode().GetText();
-        }
-        
+
         public string GetParentNodeText()
         {
             return ParentNode.GetText();
@@ -137,12 +134,7 @@ namespace Code.Dialogue.Story
         {
             return IsStoryNode;
         }
-        
-        public bool GetIsRootNode()
-        {
-            return ParentNode.IsRootNode();
-        }
-        
+
         public bool GetIsEndOfStory()
         {
             return _currentNode.IsEndOfStory();
@@ -166,6 +158,11 @@ namespace Code.Dialogue.Story
         public string GetItem()
         {
             return _currentNode.GetItem();
+        }
+        
+        public string GetBackground()
+        {
+            return _currentNode.GetBackground();
         }
     }
 }

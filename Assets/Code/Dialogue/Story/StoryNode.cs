@@ -27,7 +27,9 @@ namespace Code.Dialogue.Story
         // Image
         [SerializeField] private string image;
         // Item
-        [SerializeField] private string item;
+        [SerializeField] private string item = "";
+        // Player Character
+        [SerializeField] private string background = "";
         // ChildNodes
         [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
@@ -43,6 +45,10 @@ namespace Code.Dialogue.Story
             text = txt;
         }
 
+        /// <summary>
+        /// Sets the Item of the node
+        /// </summary>
+        /// <param name="itm"></param>
         public void SetItem(string itm)
         {
             item = itm;
@@ -55,6 +61,15 @@ namespace Code.Dialogue.Story
         public void SetImage(string img)
         {
             image = img;
+        }
+        
+        /// <summary>
+        /// Sets the Image of the node
+        /// </summary>
+        /// <param name="backgr"></param>
+        public void SetBackground(string backgr)
+        {
+            background = backgr;
         }
 
         /// <summary>
@@ -177,6 +192,11 @@ namespace Code.Dialogue.Story
         public string GetItem()
         {
             return !item.Equals("") ? item : "";
+        }
+        
+        public string GetBackground()
+        {
+            return !background.Equals("") ? background : "";
         }
 
         public List<string> GetChildNodes()
