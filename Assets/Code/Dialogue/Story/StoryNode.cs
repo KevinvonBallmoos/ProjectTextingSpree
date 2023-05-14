@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 using Code.Logger;
+using UnityEngine.Serialization;
 
 namespace Code.Dialogue.Story
 {
@@ -18,6 +19,10 @@ namespace Code.Dialogue.Story
         private readonly GameLogger _logger = new GameLogger("StoryNode");
         // Text that is in the node
         [SerializeField] private string text;
+        // Text that is in the node
+        [SerializeField] private string labelText;
+        // Different Types of Nodes
+        [SerializeField] private string nodeId;
         // Different Types of Nodes
         [SerializeField] private bool isChoiceNode;
         [SerializeField] private bool isRootNode;
@@ -33,7 +38,9 @@ namespace Code.Dialogue.Story
         // ChildNodes
         [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
-        [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
+        [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
+        [SerializeField] private Rect textRect;
+        
         
 #if UNITY_EDITOR
         /// <summary>
@@ -44,7 +51,18 @@ namespace Code.Dialogue.Story
         {
             text = txt;
         }
-
+        
+        /// <summary>
+        /// Sets the Text of the node
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="id"></param>
+        public void SetLabelAndNodeId(string label, string id)
+        {
+            labelText = label;
+            nodeId = id;
+        }
+        
         /// <summary>
         /// Sets the Item of the node
         /// </summary>
@@ -154,6 +172,19 @@ namespace Code.Dialogue.Story
             storyRect.position = new Vector2(x,y);
         }
 
+        /// <summary>
+        /// Sets the rect to a new position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetTextRect(float x, float y, float width, float height)
+        {
+            Undo.RecordObject(this, "Move Story Node");
+            textRect = new Rect(x,y, width, height);
+        }
+
         public bool IsChoiceNode()
         {
             return isChoiceNode;
@@ -183,6 +214,16 @@ namespace Code.Dialogue.Story
         {
             return text;
         }
+
+        public string GetLabel()
+        {
+            return labelText;
+        }
+        
+        public string GetNodeId()
+        {
+            return nodeId;
+        }
         
         public string GetImage()
         {
@@ -207,6 +248,11 @@ namespace Code.Dialogue.Story
         public Rect GetRect()
         {
             return storyRect;
+        }
+        
+        public Rect GetTextRect()
+        {
+            return textRect;
         }
 
         public Rect GetRect(Vector2 pos)

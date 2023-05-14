@@ -60,7 +60,6 @@ namespace Code.GameData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new ();
         private static int _slotNum;
-        private static bool _isNewGame;
         private static string _filename;
         private static string _playerName;
         private static string _playerBackground;
@@ -102,7 +101,6 @@ namespace Code.GameData
         /// </summary>
         public bool NewGame()
         {
-            _isNewGame = true;
             var length = Directory.GetFiles(Application.persistentDataPath).Length;
             if (length == 3)
                 return false;
@@ -118,7 +116,6 @@ namespace Code.GameData
         /// </summary>
         public void LoadGame()
         {
-            _isNewGame = false;
             mainMenuScreen.SetActive(false);
             saveGameScreen.SetActive(true);
             
@@ -191,7 +188,6 @@ namespace Code.GameData
         {
             mainMenuScreen.SetActive(true);
             saveGameScreen.SetActive(false);
-            _isNewGame = false;
         }
 
         #endregion

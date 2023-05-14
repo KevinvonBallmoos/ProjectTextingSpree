@@ -18,7 +18,7 @@ namespace Code.Dialogue.Story
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryHolder");
         // Dialogue and Nodes
-        public Story selectedChapter;
+        public StoryAsset selectedChapter;
         [NonSerialized] public StoryNode ParentNode;
         [NonSerialized] private StoryNode _currentNode;
         // Booleans
@@ -42,7 +42,7 @@ namespace Code.Dialogue.Story
             {
                 var saveData = GameDataController.GetSaveData();
                 var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
-                selectedChapter = Resources.Load<Story>(path + saveData.CurrentChapter);
+                selectedChapter = Resources.Load<StoryAsset>(path + saveData.CurrentChapter);
 
                 foreach (var node in selectedChapter.GetAllNodes())
                 {

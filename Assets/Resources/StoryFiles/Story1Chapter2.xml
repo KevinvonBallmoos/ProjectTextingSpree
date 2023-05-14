@@ -1,0 +1,19 @@
+<Story1Chapter2>
+	<Title>Part 1 Chapter 2</Title>
+	<DialogueChoices>
+		<Choice id="1">First Path</Choice>
+		<Choice id="2">Second Path</Choice>
+		<Choice id="3">First Path Go on</Choice>
+		<Choice id="4">Third Path</Choice>
+		<Choice id="5">Fourth Path</Choice>		
+		<Choice id="6">Last Path</Choice>
+		<Choice id="7">Bleh Path</Choice>
+	</DialogueChoices>
+	<DialogueStory>
+		<Node id="1" isRootNode="True">Chapter 2 Start</Node>
+		<Node id="2">Story 2</Node>
+		<Node id="3" isGameOver="True">Story 3 Dead</Node>
+		<Node id="4" item="">Story 1 Move Forward</Node>
+		<Node id="5" isEndOfStory="True">Story 1 chap 2 END</Node>
+	</DialogueStory>
+</Story1Chapter2>

@@ -69,7 +69,8 @@ namespace Code
         private void Start()
         {
             // Queue the StoryAsset.ReloadStoryProperties method to the thread pool
-            ThreadPool.QueueUserWorkItem(_ => StoryAsset.ReloadStoryProperties());
+            StoryAsset.LoadStoryObjects();
+            ThreadPool.QueueUserWorkItem(_ => StoryAsset.ReloadStoryAssets());
             
             try
             {
@@ -170,7 +171,7 @@ namespace Code
             _storyPath = $@"Story/Part{_part}/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
-            _selectedStory.selectedChapter = Resources.Load<Story>(_storyPath.Replace(".asset", ""));
+            _selectedStory.selectedChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
             _selectedStory.Start();
             _logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
