@@ -82,3 +82,59 @@ We also used other tools such as Git for version control, Jetbrains Rider for co
 
 Overall, our development process was guided by the principles of efficiency, quality, and scalability. By utilizing cutting-edge technology and best practices,
 we strife to create a game that is both visually stunning and technologically advanced.
+
+**Where to find important documents**
+
+Many important documents can be found in the "Project Documentation" folder of the repository. After you clone the repo, navigate to the repository folder and find
+the "Project Documentation" folder. Within are 3 documents of significance. The first being the project documentation, called "Tales of Rydonia - Project Documentation".
+Here is the entire project, its structure and the people involved as well as many conventions listed on how we document and write things in this project.
+The second document of significance would be the "Coding Conventions" describing how the project code is structured and what naming conventions and other code relevant ruels
+are present withing the project as such. Last but not least there is the "Class Documentation" where every single class used in the source code is documented and how it is to be used.
+
+# How to Contribute
+
+Thank you for your interest in supporting our project! At "Tales of Rydonia," we greatly appreciate any contributions that help us bring this game to life. Currently,
+the primary way to contribute to our project is by supporting us on Patreon. Your generous contributions will directly support our development efforts, enabling us to create
+an immersive and captivating gaming experience.
+
+1. Support us on Patreon: Visit our Patreon page at **Link to be Published Later** to become a patron. By pledging your support, you'll gain access to exclusive content, updates, and rewards, including early access to new features and behind-the-scenes insights into the development process.
+
+We understand that not everyone can contribute financially, and we value your support in any form. If you're unable to contribute monetarily but still want to get involved,
+we encourage you to explore the "Tales of Rydonia - Project Documentation" document. It contains comprehensive information about our project, including our vision, game mechanics,
+artwork, and more.
+
+Please note that due to the nature of our project and the specific requirements involved, we do not currently have an open contribution process beyond Patreon.
+However, your support as a patron goes a long way in helping us achieve our goals and deliver an exceptional gaming experience.
+
+Thank you for being a part of the "Tales of Rydonia" journey. We're excited to have you on board!
+
+# License
+
+All rights reserved. "Tales of Rydonia" and its associated code, assets, and content are the intellectual property of **3 Trolls Games**. The code and game are protected
+by copyright and may not be used, modified, or distributed without explicit permission from **3 Trolls Games**.
+
+Commercial Use: The code and game developed for "Tales of Rydonia" are intended for commercial use. They may not be used or incorporated into other projects without
+the express written consent of **3 Trolls Games**.
+
+Collaboration and Licensing: We welcome collaboration opportunities and licensing inquiries. If you're interested in working with us or utilizing our code for your own project,
+please reach out to us at 3tgames@gmx.ch. We're open to discussing partnership arrangements and royalty-based licensing agreements.
+
+Please note that the above licensing terms apply specifically to the code and game assets associated with "Tales of Rydonia." We kindly ask you to respect our intellectual
+property rights and reach out to us for any licensing or collaboration inquiries.
+
+Thank you for your understanding and support in preserving the integrity of our project.
+
+# Future Plans
+
+We have exciting plans in store for the future of "Tales of Rydonia"! Here are some key milestones we're working towards:
+
+1. Website Launch (Expected: August): We are currently developing a dedicated website where players can delve deeper into the lore and background story of the game. On the website,
+you'll be able to meet the intriguing characters you'll encounter in the game and get a glimpse of what "Tales of Rydonia" has to offer. Stay tuned for more updates as we approach the website launch!
+
+2. Steam Demo Release (Expected: End of Year): Our team is actively preparing a live demo of "Tales of Rydonia" for release on the Steam platform. The demo will allow players to
+immerse themselves in the first chapter of our captivating text-based adventure. You'll have the opportunity to experience the enchanting soundtrack, captivating artwork, and engaging gameplay mechanics. We value your feedback and encourage you to share your thoughts and suggestions to help us shape the game's development.
+
+These are just a glimpse of our immediate plans, and we have many more exciting ideas for the future of "Tales of Rydonia." We're dedicated to delivering an immersive and unforgettable
+gaming experience, and we can't wait to share more with you as our journey unfolds.
+
+Stay connected with us through our social media channels and website for the latest news and updates on our progress. We appreciate your support and look forward to embarking on this adventure together!
