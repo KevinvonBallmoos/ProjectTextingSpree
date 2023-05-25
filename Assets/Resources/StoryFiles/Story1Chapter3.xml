@@ -1,4 +1,4 @@
-<Story1Chapter1>
+<Story1Chapter3>
 	<Title>Part 1 Chapter 1</Title>
 	<DialogueChoices>
 		<Choice id="1" node="6">Story Path1</Choice>
@@ -15,4 +15,4 @@
 		<Node id="10" isGameOver="True">Story 3 Game Over </Node>
 		<Node id="11" isEndOfChapter="True">Story 1 END</Node>
 	</DialogueStory>
-</Story1Chapter1>
+</Story1Chapter3>

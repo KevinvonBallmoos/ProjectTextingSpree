@@ -1,12 +1,8 @@
 ﻿using System;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using Object = UnityEngine.Object;
-
-using Code.Logger;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
-
 
 namespace Code.Dialogue.Story
 {
@@ -18,8 +14,6 @@ namespace Code.Dialogue.Story
     /// <para name="date">10.05.2023</para>
     public class StoryViewer : EditorWindow
     {
-        // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryViewer");
         // Story
         private StoryAsset _selectedChapter;
         // Vector
@@ -44,6 +38,7 @@ namespace Code.Dialogue.Story
         
         // Object
         private Object[] _xmlFiles;
+        private Object _previousSelection;
         // Text
         private string _textContent;
 
@@ -58,7 +53,7 @@ namespace Code.Dialogue.Story
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceId)
         {
-            var story = EditorUtility.InstanceIDToObject(instanceId) as Story;
+            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAsset;
             if (story == null) return false;
             ShowEditorWindow();
             return true;
@@ -123,7 +118,7 @@ namespace Code.Dialogue.Story
         private void OnSelectionChanged()
         {
             var newChapter = Selection.activeObject as StoryAsset;
-            if (newChapter == null) return;
+            if (newChapter == null || newChapter.name == "") return;
             
             _selectedChapter = null;
             _storyNode = null;
@@ -136,9 +131,11 @@ namespace Code.Dialogue.Story
             }
             if (_selectedChapter == null) return;
             
-            StoryAsset.ReadNodes(_selectedChapter);
+            _selectedChapter.ReadNodes(_selectedChapter);
 
             Repaint();
+            
+            Selection.activeObject = null;
         }
         
         #endregion
@@ -147,20 +144,22 @@ namespace Code.Dialogue.Story
 
         private void OnGUI()
         {
+            if (!_selectedChapter.HasReadNodes) return;
+            
             // Mouse Events
             ProcessEvents();
             
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             DrawSurface();
-
-            if (_selectedChapter.GetAllNodes() == null) return;
+            
+            //if (_selectedChapter.GetAllNodes() == null) return;
             foreach (var node in _selectedChapter.GetAllNodes())
                 DrawNode(node);
             
-            foreach (var child in _selectedChapter.GetAllNodes())
+            foreach (var node in _selectedChapter.GetAllNodes())
             {
-                if (!child.IsRootNode()) continue;
-                DrawConnections(child);
+                if (!node.IsRootNode()) continue;
+                DrawConnections(node);
                 break;
             }
             EditorGUILayout.EndScrollView();
@@ -214,24 +213,24 @@ namespace Code.Dialogue.Story
             var children = node.GetChildNodes();
             if (children.Count == 0) return;
 
-            for (var i = 0; i < children.Count; i++)
-            {
-                var child = _selectedChapter.GetAllChildNodes(node)[i];
-                // Set the start point of the Bezier - parentNode
-                var startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);
-
-                // Set the end point of the Bezier - childNode
-                var endPos = new Vector2(child.GetRect().xMin, child.GetRect().center.y);
-                // Set a offset for the Tangent
-                var controlPointOffset = endPos - startPos;
-                controlPointOffset.y = 0;
-                controlPointOffset.x *= 0.8f;
-                // Create Bezier
-                Handles.DrawBezier(startPos, endPos,
+             for (var i = 0; i < children.Count; i++)
+             {
+                 var child = _selectedChapter.GetAllChildNodes(node)[i];
+                 // Set the start point of the Bezier - parentNode
+                 var startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);
+                
+                 // Set the end point of the Bezier - childNode
+                 var endPos = new Vector2(child.GetRect().xMin, child.GetRect().center.y);
+                 // Set a offset for the Tangent
+                 var controlPointOffset = endPos - startPos;
+                 controlPointOffset.y = 0;
+                 controlPointOffset.x *= 0.8f;
+                 // Create Bezier
+                 Handles.DrawBezier(startPos, endPos,
                     startPos + controlPointOffset, endPos - controlPointOffset,
                     Color.white, null, 4f);
-                DrawConnections(child);
-            }
+                 DrawConnections(child);
+             }
         }
         
         #endregion
@@ -260,12 +259,16 @@ namespace Code.Dialogue.Story
                         _dragCanvasOffset = Event.current.mousePosition + _scrollPosition;
                         Selection.activeObject = _selectedChapter;
                     }
+                    else
+                    {
+                        Selection.activeObject = _storyNode;
+                    }
                     break;
                 }
                 // Mouse Drag is true
                 case EventType.MouseDrag when _storyNode != null:
-                    _scrollPositionTextArea.y += e.delta.y;
-                    GUI.changed = true;
+                    //_storyNode.SetRect(Event.current.mousePosition.x + _dragOffset.x, Event.current.mousePosition.y + _dragOffset.y );
+                    //GUI.changed = true;
                     break;
                 // Mouse Drag and draggingCanvas is true
                 case EventType.MouseDrag when _dragCanvas:
@@ -273,8 +276,11 @@ namespace Code.Dialogue.Story
                     GUI.changed = true;
                     break;
                 // Mouse Up is true 
-                case EventType.MouseUp:
+                case EventType.MouseUp when _storyNode != null:
                     _storyNode = null;
+                    break;
+                // MouseUp and draggingCanvas is true
+                case EventType.MouseUp when _dragCanvas:
                     _dragCanvas = false;
                     break;
                 // case EventType.MouseMove when _storyNode == null:

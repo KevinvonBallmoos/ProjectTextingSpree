@@ -1,19 +1,18 @@
 <Story2Chapter2>
-	<Title>Part 2 Chapter 2</Title>
+	<Title>Part 1 Chapter 1</Title>
 	<DialogueChoices>
-		<Choice id="1">2First Path</Choice>
-		<Choice id="2">2Second Path</Choice>
-		<Choice id="3">2First Path Go on</Choice>
-		<Choice id="4">2Third asdPath</Choice>
-		<Choice id="5">2Fourth Path</Choice>
-		<Choice id="6">2Last Path</Choice>
+		<Choice id="1" node="6">Story Path1</Choice>
+		<Choice id="2" node="7">Story Path2</Choice>
+		<Choice id="3" node="8">Story 1 Go on</Choice>
+		<Choice id="4" node="10">Story 3 Path</Choice>
 	</DialogueChoices>
 	<DialogueStory>
-		<Node id="1" isRootNode="True">Chap 2 Start</Node>
-		<Node id="2" >Part 2</Node>
-		<Node id="3" isGameOver="True">SPart 2 Dead</Node>
-		<Node id="4" >Part 2 Move Forward</Node>
-		<Node id="5" >Part 2 Continue, Lorem ipsuetetur sadipscing elit </Node>
-		<Node id="6" isEndOfStory="True">Story 1 END</Node>
+		<Node id="5" isRootNode="True" choice="1,2"> Start Chapter 1</Node>
+		<Node id="6" item="Bread" choice="3,4">Story 1</Node>
+		<Node id="7" isGameOver="True">Story 2 Game Over</Node>
+		<Node id="8" node="9">Story 1 Move Forward</Node>
+		<Node id="9" node="11">Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </Node>
+		<Node id="10" isGameOver="True">Story 3 Game Over </Node>
+		<Node id="11" isEndOfChapter="True">Story 1 END</Node>
 	</DialogueStory>
 </Story2Chapter2>

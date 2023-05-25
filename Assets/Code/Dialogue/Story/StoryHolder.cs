@@ -32,6 +32,7 @@ namespace Code.Dialogue.Story
         {
             if (!GameDataController.LoadData())
             {
+                selectedChapter = Resources.Load<StoryAsset>(selectedChapter.name);
                 _currentNode = selectedChapter.GetRootNode();
                 ParentNode = _currentNode;
                 IsStoryNode = false;

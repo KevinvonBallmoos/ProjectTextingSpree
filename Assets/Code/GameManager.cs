@@ -1,18 +1,15 @@
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
-using System.Xml;
-using Code.Dialogue.Story;
-using Code.GameData;
-using Code.Logger;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Debug = UnityEngine.Debug;
+
+using Code.Dialogue.Story;
+using Code.GameData;
+using Code.Logger;
 
 namespace Code
 {
@@ -38,6 +35,7 @@ namespace Code
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject messageBoxScreen;
         [SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private GameObject characters;
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
         
@@ -62,16 +60,12 @@ namespace Code
             if (Gm == null)
                 Gm = this;
         }
-        
+
         /// <summary>
         /// Start of the GameManager
         /// </summary>
         private void Start()
         {
-            // Queue the StoryAsset.ReloadStoryProperties method to the thread pool
-            StoryAsset.LoadStoryObjects();
-            ThreadPool.QueueUserWorkItem(_ => StoryAsset.ReloadStoryAssets());
-            
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
@@ -85,18 +79,42 @@ namespace Code
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
-        
+
         #endregion
 
         #region Game States
         
         /// <summary>
         /// Starts a new Game
+        /// Sets the visibility Image in the character select to false
         /// </summary>
         public void NewGame_Click()
         {
             mainMenuScreen.SetActive(false);
+            
+            var slots = characters.GetComponentsInChildren<Image>();
+            for (var i = 0; i < slots.Length; i++)
+            {
+                if (i is 2 or 5 or 8)
+                    slots[i].enabled = false;
+            }
+            
             characterPropertiesScreen.SetActive(true);
+            
+            StoryAsset.LoadStoryObjects();
+            //StartCoroutine(ReloadStoryAssetsCoroutine());
+            _logger.LogEntry("GameManager log", "All Story assets have been reloaded.", GameLogger.GetLineNumber());
+        }
+        
+        /// <summary>
+        /// Starts a Coroutine to reload the Story Assets
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator ReloadStoryAssetsCoroutine()
+        {
+            // foreach (var asset in StoryAsset.GetStoryAssets())
+            //     yield return StartCoroutine((IEnumerator)StoryAsset.ReloadStoryAssets(asset));
+            yield return null;
         }
 
         public void StartNewGame_Click()

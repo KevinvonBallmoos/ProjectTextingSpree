@@ -15,8 +15,6 @@ namespace Code.Dialogue.Story
     /// <para name="date">04.12.2022</para>
     public class StoryNode : ScriptableObject
     {
-        // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryNode");
         // Text that is in the node
         [SerializeField] private string text;
         // Text that is in the node
@@ -132,9 +130,7 @@ namespace Code.Dialogue.Story
         /// <param name="isChoice"></param>
         public void SetChoiceNode(bool isChoice)
         {
-            Undo.RecordObject(this, "Change Story or Dialogue");
-            this.isChoiceNode = isChoice;
-            EditorUtility.SetDirty(this);
+            isChoiceNode = isChoice;
         }
         
         /// <summary>
@@ -143,9 +139,12 @@ namespace Code.Dialogue.Story
         /// <param name="childId"></param>
         public void AddChildNode(string childId)
         {
-            Undo.RecordObject(this, "Add Story Link");
+            foreach (var c in GetChildNodes())
+            {
+                if (c.Equals(childId))
+                    return;
+            }
             childNodes.Add(childId);
-            EditorUtility.SetDirty(this);
         }
         
         /// <summary>
@@ -154,9 +153,7 @@ namespace Code.Dialogue.Story
         /// <param name="childId"></param>
         public void RemoveChildNode(string childId)
         {
-            Undo.RecordObject(this, "Remove Story Link");
             childNodes.Remove(childId);
-            EditorUtility.SetDirty(this);
         }
 
 #endif
@@ -168,7 +165,6 @@ namespace Code.Dialogue.Story
         /// <param name="y"></param>
         public void SetRect(float x, float y)
         {
-            Undo.RecordObject(this, "Move Story Node");
             storyRect.position = new Vector2(x,y);
         }
 
@@ -181,7 +177,6 @@ namespace Code.Dialogue.Story
         /// <param name="height"></param>
         public void SetTextRect(float x, float y, float width, float height)
         {
-            Undo.RecordObject(this, "Move Story Node");
             textRect = new Rect(x,y, width, height);
         }
 

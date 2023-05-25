@@ -1214,6 +1214,7 @@ MonoBehaviour:
   mainMenuScreen: {fileID: 0}
   messageBoxScreen: {fileID: 0}
   characterPropertiesScreen: {fileID: 0}
+  characters: {fileID: 0}
   character: {fileID: 0}
   playerName: {fileID: 0}
   messageBoxScreenObjects: []
@@ -3500,7 +3501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b79ef62665c4504399e2b1dd9adec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedChapter: {fileID: 11400000, guid: 838ce9ab171ca444fab9b875cf20487f, type: 2}
+  selectedChapter: {fileID: 11400000, guid: 22b44752d789be049bca7be3cfbfaeab, type: 2}
 --- !u!1 &5200905468802711933
 GameObject:
   m_ObjectHideFlags: 0

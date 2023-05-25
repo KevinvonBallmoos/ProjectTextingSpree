@@ -1,90 +1,48 @@
-LogTime = 5/10/2023 4:57:33 PM | LogType: Exception Log 
+LogTime = 5/21/2023 3:10:07 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:07:48 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/21/2023 3:10:46 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:10:51 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/21/2023 3:10:47 PM | LogType: GameManager log 
+LogMessage: All Story assets have been reloaded. 
+Line Number: 106
+LogTime = 5/21/2023 3:12:02 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:15:02 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/21/2023 3:15:34 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:23:24 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/21/2023 3:16:22 PM | LogType: GameManager log 
+LogMessage: All Story assets have been reloaded. 
+Line Number: 106
+LogTime = 5/21/2023 3:19:36 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:24:29 PM | LogType: GameManager Log 
-LogMessage: Next chapter: Story1Chapter2 
-Line Number: 175
-LogTime = 5/10/2023 5:24:36 PM | LogType: GameManager Log 
-LogMessage: Game Over!  
-Line Number: 196
-LogTime = 5/10/2023 5:24:52 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/21/2023 3:19:42 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:25:06 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/21/2023 3:19:44 PM | LogType: GameManager log 
+LogMessage: All Story assets have been reloaded. 
+Line Number: 106
+LogTime = 5/21/2023 3:20:57 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:27:11 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/21/2023 3:21:01 PM | LogType: GameManager log 
+LogMessage: All Story assets have been reloaded. 
+Line Number: 106
+LogTime = 5/21/2023 3:43:23 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:27:21 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/22/2023 7:14:46 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:28:08 PM | LogType: GameManager Log 
-LogMessage: Next chapter: Story1Chapter2 
-Line Number: 175
-LogTime = 5/10/2023 5:30:23 PM | LogType: Exception Log 
+Line Number: 72
+LogTime = 5/22/2023 7:14:50 PM | LogType: GameManager log 
+LogMessage: All Story assets have been reloaded. 
+Line Number: 106
+LogTime = 5/22/2023 7:16:18 PM | LogType: Exception Log 
 LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 5:54:19 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 10:32:15 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 10:34:41 PM | LogType: GameManager Log 
-LogMessage: Game Over!  
-Line Number: 196
-LogTime = 5/10/2023 10:40:59 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 10:41:24 PM | LogType: GameManager Log 
-LogMessage: Game Over!  
-Line Number: 196
-LogTime = 5/10/2023 10:41:31 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/10/2023 10:42:25 PM | LogType: GameManager Log 
-LogMessage: Next chapter: Story1Chapter2 
-Line Number: 175
-LogTime = 5/12/2023 12:38:22 AM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/12/2023 12:38:26 AM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 77
-LogTime = 5/14/2023 2:21:12 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
-LogTime = 5/14/2023 2:21:36 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
-LogTime = 5/14/2023 2:24:10 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
-LogTime = 5/14/2023 2:24:54 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
-LogTime = 5/14/2023 2:25:53 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
-LogTime = 5/14/2023 2:27:45 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
-LogTime = 5/14/2023 2:31:02 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
-LogTime = 5/14/2023 2:34:02 PM | LogType: Exception Log 
-LogMessage: Object reference not set to an instance of an object 
-Line Number: 78
+Line Number: 72
+LogTime = 5/22/2023 7:16:30 PM | LogType: GameManager log 
+LogMessage: All Story assets have been reloaded. 
+Line Number: 106

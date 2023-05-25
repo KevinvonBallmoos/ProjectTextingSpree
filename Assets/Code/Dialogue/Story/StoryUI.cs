@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Threading;
+﻿using System.Collections;
 using System.Xml;
 using TMPro;
 using UnityEngine;
@@ -20,7 +18,7 @@ namespace Code.Dialogue.Story
     public class  StoryUI : MonoBehaviour
     {
         // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryUI");
+        private readonly GameLogger _logger = new GameLogger("GameManager");
         // Story Holder
         private StoryHolder _storyHolder;
         // SerializedFields
@@ -162,7 +160,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetParentNodeText().Replace(GameDataController.Gdc.GetPlayerName(), "Name");
+            var text = _storyHolder.GetParentNodeText().Replace(GameDataController.Gdc.GetPlayerName(), "{Name}");
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {

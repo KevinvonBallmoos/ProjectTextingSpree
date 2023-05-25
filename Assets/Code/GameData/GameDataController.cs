@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Dialogue.Story;
-using Code.Inventory;
+using Code.Logger;
 
 namespace Code.GameData
 {
@@ -40,6 +40,8 @@ namespace Code.GameData
     /// <para name="date">30.01.2023</para>
     public class GameDataController : MonoBehaviour
     {
+        // Logger
+        private readonly GameLogger _logger = new GameLogger("GameManager");
         // Load save
         [SerializeField] private Button loadGameMenu;
         [SerializeField] private Text loadGameText;
