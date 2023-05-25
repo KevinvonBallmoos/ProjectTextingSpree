@@ -1,4 +1,4 @@
-# ProjectTextingSpree
+# Tales of Rydonia: The legacy of the gifted
 Welcome to 3 Trolls Games, an unofficial indie game studio based in Switzerland! We are a small team of three passionate gamers who grew up playing
 on the Super Nintendo console and have been hooked ever since. We share a common frustration with the current state of the game industry and its focus
 on quantity over quality, and we believe that games should be about more than just flashy graphics and mindless action.
