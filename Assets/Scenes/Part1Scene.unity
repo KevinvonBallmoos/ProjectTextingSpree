@@ -2273,6 +2273,7 @@ MonoBehaviour:
   - {fileID: 6391130409799642662}
   - {fileID: 4310544141491983196}
   saveStatus: {fileID: 7585498732195177469}
+  currentChapter: {fileID: 11400000, guid: f67b1fc28713bd04fa01720e80977f43, type: 2}
 --- !u!224 &2625038288853168621
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2522,8 +2523,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5148710854393456252}
   - component: {fileID: 3597388512313967869}
-  - component: {fileID: 2592773734813605163}
   - component: {fileID: 5148710854393456255}
+  - component: {fileID: 2592773734813605163}
   - component: {fileID: 5148710854393456254}
   - component: {fileID: 5148710854393456253}
   m_Layer: 0
@@ -3501,7 +3502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b79ef62665c4504399e2b1dd9adec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedChapter: {fileID: 11400000, guid: 22b44752d789be049bca7be3cfbfaeab, type: 2}
 --- !u!1 &5200905468802711933
 GameObject:
   m_ObjectHideFlags: 0

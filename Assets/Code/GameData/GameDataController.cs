@@ -257,11 +257,12 @@ namespace Code.GameData
 
             for (var i = 0; i < 4; i++)
             {
+                if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
                 var time = DateTime.Now;
                 if (LoadedData[slotNum].TimeOfSave != null) 
                     time = DateTime.ParseExact(LoadedData[slotNum].TimeOfSave, "yyyy-dd-M--HH-mm-ss",
-                    CultureInfo.InvariantCulture);
+                        CultureInfo.InvariantCulture);
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
                     0 => $"Chapter: {LoadedData[slotNum].Title}",
@@ -289,6 +290,7 @@ namespace Code.GameData
 
             for (var i = 0; i < 4; i++)
             {
+                if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
@@ -312,6 +314,8 @@ namespace Code.GameData
             var json = File.ReadAllText(files[_slotNum], Encoding.UTF8);
             
             _saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            _playerName = _saveData.PlayerName;
+            _playerBackground = _saveData.PlayerBackground;
             GameManager.LoadScene(int.Parse(_saveData.CurrentChapter[5].ToString()));
         }
 
@@ -420,8 +424,8 @@ namespace Code.GameData
                     ProgressPercentage = progress,
                     TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
                     TimeOfSave = SaveTime,
-                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>()
-                        .selectedChapter
+                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>()
+                        .currentChapter
                         .name,
                     ParentNode = save.ParentNode,
                     IsStoryNode = save.IsStoryNode
@@ -446,8 +450,8 @@ namespace Code.GameData
         public void GetPlayer()
         {
             var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>();
-            _playerName = gameobject[3].text;
-            _playerBackground = gameobject[1].text;
+            _playerName = gameobject[4].text;
+            _playerBackground = gameobject[2].text;
         }
         
         public string GetPlayerName()

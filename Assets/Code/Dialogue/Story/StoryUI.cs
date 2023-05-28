@@ -28,6 +28,8 @@ namespace Code.Dialogue.Story
         [SerializeField] private Button nextButton;
         [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         [SerializeField] private GameObject saveStatus;
+        // Story Chapter
+        public StoryAsset currentChapter;
         // Coroutine
         private Coroutine _textCoroutine;
         // Image, Text of save status
@@ -40,8 +42,8 @@ namespace Code.Dialogue.Story
         public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            if (_storyHolder.selectedChapter == null) return;
-
+            _storyHolder.LoadChapterProperties(currentChapter);
+    
             _saveImage = saveStatus.GetComponentInChildren<Image>();
             _saveText = saveStatus.GetComponentInChildren<Text>();
             nextButton.gameObject.SetActive(false);
@@ -58,6 +60,8 @@ namespace Code.Dialogue.Story
             _storyHolder.Next();
             UpdateUI();
         }
+        
+        #region Update UI
         
         /// <summary>
         /// Updates the Story, loads the next part of story and the choices nodes
@@ -148,9 +152,9 @@ namespace Code.Dialogue.Story
         private string GetTitleText()
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_storyHolder.selectedChapter.name}.xml"); 
-            var rootNode = xmlDoc.SelectSingleNode($"//{_storyHolder.selectedChapter.name}");
-            return rootNode.FirstChild.InnerText;
+            xmlDoc.Load($@"{Application.dataPath}/Resources/StoryFiles/{currentChapter.name}.xml"); 
+            var rootNode = xmlDoc.SelectSingleNode($"//{currentChapter.name}");
+            return rootNode?.FirstChild.InnerText;
         }
 
         /// <summary>
@@ -160,7 +164,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetParentNodeText().Replace(GameDataController.Gdc.GetPlayerName(), "{Name}");
+            var text = _storyHolder.GetParentNodeText().Replace("{Name}", GameDataController.Gdc.GetPlayerName());
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
@@ -203,7 +207,11 @@ namespace Code.Dialogue.Story
             if (!item.Equals(""))
                 InventoryController.instance.AddItem(item);
         }
+        
+        #endregion
 
+        #region Next Chapter / End
+        
         /// <summary>
         /// Loads the next Chapter when the End of Chapter node is reached
         /// Or the GameOver Screen when the GameOver node is reached
@@ -238,6 +246,10 @@ namespace Code.Dialogue.Story
                 GameManager.Gm.IsGameOver = true;
             }
         }
+        
+        #endregion
+        
+        #region Choices 
 
         /// <summary>
         /// Builds the choice list, depending on the count of the nodes
@@ -279,6 +291,8 @@ namespace Code.Dialogue.Story
                 });
             }
         }
+        
+        #endregion
     }
 }
 

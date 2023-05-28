@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
+using Debug = UnityEngine.Debug;
 
 namespace Code
 {
@@ -24,8 +25,6 @@ namespace Code
         private readonly GameLogger _logger = new GameLogger("GameManager");
         // Story UI
         private static StoryUI _storyUI;
-        // StoryHolder
-        private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
         // Ending Screen
@@ -70,7 +69,6 @@ namespace Code
             {
                 _runPath = $"{Application.dataPath}/Resources/";
                 _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
-                _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
 
                 _chapter = 1;
             }
@@ -101,19 +99,19 @@ namespace Code
             
             characterPropertiesScreen.SetActive(true);
             
-            StoryAsset.LoadStoryObjects();
-            //StartCoroutine(ReloadStoryAssetsCoroutine());
+            StartCoroutine(ReloadStoryAssetsCoroutine());
+            //Debug.Log("finished");
             _logger.LogEntry("GameManager log", "All Story assets have been reloaded.", GameLogger.GetLineNumber());
         }
-        
+
         /// <summary>
         /// Starts a Coroutine to reload the Story Assets
         /// </summary>
         /// <returns></returns>
         private IEnumerator ReloadStoryAssetsCoroutine()
         {
-            // foreach (var asset in StoryAsset.GetStoryAssets())
-            //     yield return StartCoroutine((IEnumerator)StoryAsset.ReloadStoryAssets(asset));
+            foreach (var asset in StoryAsset.GetStoryAssets())
+                yield return StartCoroutine((IEnumerator)StoryAsset.ReloadStoryAssets(asset));
             yield return null;
         }
 
@@ -186,11 +184,10 @@ namespace Code
             IsEndOfChapter = false;
             _part = GetPath();
             _chapter++;
-            _storyPath = $@"Story/Part{_part}/Story{_part}Chapter{_chapter}.asset";
+            _storyPath = $@"Story/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
-            _selectedStory.selectedChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
-            _selectedStory.Start();
+            _storyUI.currentChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
             _logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
 
@@ -221,7 +218,7 @@ namespace Code
         /// <returns></returns>
         private static int GetPath()
         {
-            var path = _selectedStory.selectedChapter.name;
+            var path = _storyUI.currentChapter.name;
             foreach (var t in path)
             {
                 if (char.IsDigit(t))

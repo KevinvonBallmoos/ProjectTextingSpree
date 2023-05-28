@@ -18,34 +18,34 @@ namespace Code.Dialogue.Story
         // Logger
         private readonly GameLogger _logger = new GameLogger("StoryHolder");
         // Dialogue and Nodes
-        public StoryAsset selectedChapter;
+        private StoryAsset _currentChapter;
         [NonSerialized] public StoryNode ParentNode;
         [NonSerialized] private StoryNode _currentNode;
         // Booleans
         [NonSerialized] public bool IsStoryNode;
         [NonSerialized] private bool _isNull;
-
+        
         /// <summary>
         /// Loads the Save Data or Starts a new Chapter
         /// </summary>
-        public void Start()
+        public void LoadChapterProperties(StoryAsset chapter)
         {
+            _currentChapter = chapter;
+            
             if (!GameDataController.LoadData())
             {
-                selectedChapter = Resources.Load<StoryAsset>(selectedChapter.name);
-                _currentNode = selectedChapter.GetRootNode();
+                _currentNode = _currentChapter.GetRootNode();
                 ParentNode = _currentNode;
                 IsStoryNode = false;
                 _isNull = false;
-                TimeAndProgress.CalculateProgress(selectedChapter.name);
+                TimeAndProgress.CalculateProgress(_currentChapter.name);
             }
             else
             {
                 var saveData = GameDataController.GetSaveData();
-                var path = $@"Story/Part{int.Parse(selectedChapter.name[5].ToString())}/";
-                selectedChapter = Resources.Load<StoryAsset>(path + saveData.CurrentChapter);
+                _currentChapter = Resources.Load<StoryAsset>($@"Story/" + saveData.CurrentChapter);
 
-                foreach (var node in selectedChapter.GetAllNodes())
+                foreach (var node in _currentChapter.GetAllNodes())
                 {
                     if (node.name.Equals(saveData.ParentNode))
                         _currentNode = node;
@@ -53,24 +53,24 @@ namespace Code.Dialogue.Story
                 ParentNode = _currentNode;
                 IsStoryNode = saveData.IsStoryNode;
                 _isNull = false;
-                TimeAndProgress.CalculateProgress(selectedChapter.name);
+                TimeAndProgress.CalculateProgress(_currentChapter.name);
             }
         }
-
+        
         /// <summary>
         /// Get next Choice Nodes
         /// </summary>
         /// <param name="node">parent node that contains the next choices nodes</param>
         public void Next(StoryNode node)
         {
-            foreach (var n in selectedChapter.GetStoryNodes(node))
+            foreach (var n in _currentChapter.GetStoryNodes(node))
                 _currentNode = n;
             
             ParentNode = _currentNode;
 
             if (!CheckNodeCount()) return;
             {
-                foreach (var n in selectedChapter.GetAllChildNodes(ParentNode))
+                foreach (var n in _currentChapter.GetAllChildNodes(ParentNode))
                     IsStoryNode = !n.IsChoiceNode();
             }
             _logger.LogEntry("Story Holder log", $"Returning next Choice node {_currentNode.name}", GameLogger.GetLineNumber());
@@ -83,7 +83,7 @@ namespace Code.Dialogue.Story
         public void Next()
         {
             if (!CheckNodeCount()) return;
-            foreach (var n in selectedChapter.GetStoryNodes(_currentNode))
+            foreach (var n in _currentChapter.GetStoryNodes(_currentNode))
                 _currentNode = n;
             
             ParentNode = _currentNode;
@@ -96,7 +96,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private bool CheckNodeCount()
         {
-            if (selectedChapter.GetAllChildNodes(ParentNode).Any())
+            if (_currentChapter.GetAllChildNodes(ParentNode).Any())
                 return true;
 
             _isNull = true;
@@ -109,7 +109,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public bool HasNext()
         {
-            return selectedChapter.GetAllChildNodes(_currentNode).Any();
+            return _currentChapter.GetAllChildNodes(_currentNode).Any();
         }
         
         /// <summary>
@@ -118,7 +118,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         public IEnumerable<StoryNode> GetChoices()
         {
-            return selectedChapter.GetChoiceNodes(_currentNode);
+            return _currentChapter.GetChoiceNodes(_currentNode);
         }
 
         public string GetParentNodeText()

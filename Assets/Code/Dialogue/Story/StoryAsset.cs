@@ -17,8 +17,6 @@ namespace Code.Dialogue.Story
     [CreateAssetMenu(fileName = "Chapter", menuName = "Viewer", order = 0)]
     public class StoryAsset : ScriptableObject
     {
-        // Object
-        private static List<Object> _storyAssets = new();
         // Lists with nodes
         private readonly List<NodeInfo> _nodes = new ();
         [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
@@ -36,21 +34,14 @@ namespace Code.Dialogue.Story
         }
         
         #region Reload StoryAssets
-        
-        /// <summary>
-        /// Loads all Story Assets
-        /// </summary>
-        public static void LoadStoryObjects()
-        {
-            _storyAssets = Resources.LoadAll($@"Story/", typeof(StoryAsset)).ToList();
-        }
-        
+
         /// <summary>
         /// Reloads all Story Assets
         /// </summary>
-        public IEnumerable ReloadStoryAssets(Object asset)
+        public static IEnumerable ReloadStoryAssets(Object asset)
         {
-            ReadNodes((StoryAsset)asset);
+            var storyAsset = (StoryAsset)asset;
+            storyAsset.ReadNodes(storyAsset);
             yield return asset;
         }
 
@@ -218,10 +209,7 @@ namespace Code.Dialogue.Story
         {
             _nodeLookup.Clear();
             foreach (var node in GetAllNodes())
-            {
-                if (node != null)
-                    _nodeLookup[node.name] = node;
-            }
+                _nodeLookup[node.name] = node;
         }
         
         /// <summary>
@@ -291,13 +279,11 @@ namespace Code.Dialogue.Story
         /// <returns>Child nodes of the parent Node</returns>
         public List<StoryNode> GetAllChildNodes(StoryNode parentNode)
         {
+            SaveChildNodes();
             var childNodes = new List<StoryNode>();
             foreach (var childID in parentNode.GetChildNodes())
-            {
-                // Checks the Node Dictionary if there is a key with this id
-                if (_nodeLookup.ContainsKey(childID))
-                    childNodes.Add(_nodeLookup[childID]);
-            }
+                childNodes.Add(_nodeLookup[childID]);
+            
             return childNodes;
         }
         
@@ -343,9 +329,13 @@ namespace Code.Dialogue.Story
             }
         }
 
+        /// <summary>
+        /// Returns all storyAssets
+        /// </summary>
+        /// <returns></returns>
         public static List<Object> GetStoryAssets()
         {
-            return _storyAssets;
+            return Resources.LoadAll($@"Story/", typeof(StoryAsset)).ToList();
         }
 
         #endregion
