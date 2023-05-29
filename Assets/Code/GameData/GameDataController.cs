@@ -156,10 +156,12 @@ namespace Code.GameData
             switch (loadGameText.text)
             {
                 case "LOAD":
+                    GameManager.ActiveScene = 2;
                     LoadSelectedGame();
                     break;
                 case "NEW GAME":
-                    GameManager.LoadScene(1);
+                    GameManager.ActiveScene = 1;
+                    GameManager.LoadScene();
                     break;
             }
         }
@@ -190,6 +192,7 @@ namespace Code.GameData
         {
             mainMenuScreen.SetActive(true);
             saveGameScreen.SetActive(false);
+            characterPropertiesScreen.SetActive(false);
         }
 
         #endregion
@@ -316,7 +319,7 @@ namespace Code.GameData
             _saveData = JsonConvert.DeserializeObject<SaveData>(json);
             _playerName = _saveData.PlayerName;
             _playerBackground = _saveData.PlayerBackground;
-            GameManager.LoadScene(int.Parse(_saveData.CurrentChapter[5].ToString()));
+            GameManager.LoadScene(); // TODO: Kastriot Maybe only need 4 scenes
         }
 
         /// <summary>

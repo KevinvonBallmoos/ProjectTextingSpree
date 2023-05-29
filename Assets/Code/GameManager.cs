@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
@@ -10,7 +9,7 @@ using UnityEngine.UI;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
-using Debug = UnityEngine.Debug;
+using UnityEngine.Serialization;
 
 namespace Code
 {
@@ -45,7 +44,8 @@ namespace Code
         [SerializeField] private GameObject[] messageBoxScreenObjects;
 
         private int _chapter;
-        private int _part;
+        private int _part; 
+        public static int ActiveScene = 0;
         private string _runPath;
         private string _storyPath;
 
@@ -98,21 +98,6 @@ namespace Code
             }
             
             characterPropertiesScreen.SetActive(true);
-            
-            StartCoroutine(ReloadStoryAssetsCoroutine());
-            //Debug.Log("finished");
-            _logger.LogEntry("GameManager log", "All Story assets have been reloaded.", GameLogger.GetLineNumber());
-        }
-
-        /// <summary>
-        /// Starts a Coroutine to reload the Story Assets
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator ReloadStoryAssetsCoroutine()
-        {
-            foreach (var asset in StoryAsset.GetStoryAssets())
-                yield return StartCoroutine((IEnumerator)StoryAsset.ReloadStoryAssets(asset));
-            yield return null;
         }
 
         public void StartNewGame_Click()
@@ -131,7 +116,10 @@ namespace Code
             character.color = Color.white;
 
             if (GameDataController.Gdc.NewGame())
-                LoadScene(1);
+            {
+                ActiveScene = 1;
+                LoadScene();
+            }
             else
             {
                 GameDataController.Gdc.GetPlayer();
@@ -153,10 +141,9 @@ namespace Code
         /// <summary>
         /// Loads the saved Scene
         /// </summary>
-        /// <param name="scene"></param>
-        public static void LoadScene(int scene)
+        public static void LoadScene()
         {
-            SceneManager.LoadScene(scene);
+            SceneManager.LoadScene(ActiveScene);
         }
 
         #endregion
@@ -244,7 +231,15 @@ namespace Code
         /// </summary>
         public void NextStory_Click()
         {
-            SceneManager.LoadScene(_part);
+            ActiveScene = ActiveScene switch
+            {
+                1 => 2,
+                2 => 3,
+                3 => 2,
+                _ => ActiveScene
+            };
+
+            SceneManager.LoadScene(ActiveScene);
         }
         
         #endregion
@@ -269,7 +264,8 @@ namespace Code
 
         public void BackToMainMenu()
         {
-            LoadScene(0);
+            ActiveScene = 0;
+            LoadScene();
         }
         
         #endregion

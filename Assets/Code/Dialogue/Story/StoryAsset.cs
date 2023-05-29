@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Code.Dialogue.Story
 {
@@ -32,30 +30,15 @@ namespace Code.Dialogue.Story
             public StoryNode Node { get; set; }
             public bool IsTrue { get; set; }
         }
-        
-        #region Reload StoryAssets
 
-        /// <summary>
-        /// Reloads all Story Assets
-        /// </summary>
-        public static IEnumerable ReloadStoryAssets(Object asset)
-        {
-            var storyAsset = (StoryAsset)asset;
-            storyAsset.ReadNodes(storyAsset);
-            yield return asset;
-        }
-
-        #endregion
-        
         #region ReadNodes and Properties
         
         /// <summary>
         /// Reads the Nodes from the Xml File and puts them in the right order
         /// </summary>
         /// <param name="chapter"></param>
-        public void ReadNodes(StoryAsset chapter)
+        public StoryAsset ReadNodes(StoryAsset chapter)
         {
-            _currentAsset = chapter;
             HasReadNodes = false;
             var xmlDoc = new XmlDocument();
             var xmlFile = Resources.Load<TextAsset>($"StoryFiles/{chapter.name}");
@@ -103,10 +86,13 @@ namespace Code.Dialogue.Story
                 StoryNodes.Add(n.Node);
             }
 
+            _currentAsset = chapter;
+            
             SaveChildNodes();
             SaveNodesToAssetDatabase();
             
             HasReadNodes = true;
+            return _currentAsset;
         }
         
         /// <summary>
@@ -145,12 +131,10 @@ namespace Code.Dialogue.Story
                 switch (attribute)
                 {
                     case "node":
-                        //if (isNew)
-                            AddStoryChild(node, xmlNode.Attributes[attribute].Value);
+                        AddStoryChild(node, xmlNode.Attributes[attribute].Value);
                         break;
                     case "choice":
-                        //if (isNew)
-                            AddStoryChild(node, xmlNode.Attributes[attribute].Value);
+                        AddStoryChild(node, xmlNode.Attributes[attribute].Value);
                         break;
                     case "image":
                         node.SetImage(xmlNode.Attributes[attribute].Value);
@@ -327,15 +311,6 @@ namespace Code.Dialogue.Story
                 if (!child.IsChoiceNode())
                     yield return child;
             }
-        }
-
-        /// <summary>
-        /// Returns all storyAssets
-        /// </summary>
-        /// <returns></returns>
-        public static List<Object> GetStoryAssets()
-        {
-            return Resources.LoadAll($@"Story/", typeof(StoryAsset)).ToList();
         }
 
         #endregion

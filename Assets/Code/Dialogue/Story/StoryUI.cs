@@ -43,7 +43,10 @@ namespace Code.Dialogue.Story
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             _storyHolder.LoadChapterProperties(currentChapter);
-    
+
+            if (currentChapter == null)
+                currentChapter = _storyHolder.CurrentChapter;
+            
             _saveImage = saveStatus.GetComponentInChildren<Image>();
             _saveText = saveStatus.GetComponentInChildren<Text>();
             nextButton.gameObject.SetActive(false);

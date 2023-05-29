@@ -39,8 +39,6 @@ namespace Code.Dialogue.Story
         [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
         [SerializeField] private Rect textRect;
         
-        
-#if UNITY_EDITOR
         /// <summary>
         /// Sets the Text of the node
         /// </summary>
@@ -156,8 +154,6 @@ namespace Code.Dialogue.Story
             childNodes.Remove(childId);
         }
 
-#endif
-        
         /// <summary>
         /// Sets the rect to a new position
         /// </summary>
@@ -222,7 +218,7 @@ namespace Code.Dialogue.Story
         
         public string GetImage()
         {
-            return !image.Equals("") ? image : "";
+            return image is null or "" ? "" : "image";
         }
 
         public string GetItem()

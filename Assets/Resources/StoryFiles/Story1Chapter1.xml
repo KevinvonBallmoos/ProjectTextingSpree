@@ -7,7 +7,7 @@
 		<Choice id="4" node="10">Story 3 Path</Choice>
 	</DialogueChoices>
 	<DialogueStory>
-		<Node id="5" isRootNode="True" choice="1,2"> Start Chapter 1 My name is: {Name}</Node>
+		<Node id="5" isRootNode="True" choice="1,2"> Start Chapter 1 My name is: {Name} El Gigante</Node>
 		<Node id="6" item="Bread" choice="3,4">Story 1</Node>
 		<Node id="7" isGameOver="True">Story 2 Game Over</Node>
 		<Node id="8" node="9">Story 1 Move Forward</Node>
