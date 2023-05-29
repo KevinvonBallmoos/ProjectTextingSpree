@@ -1,9 +1,7 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code
+namespace Code.Controller
 {
     /// <summary>
     /// When a save slot is clicked

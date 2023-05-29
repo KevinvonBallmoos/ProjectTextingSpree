@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 using Code.Logger;
+using UnityEngine.Serialization;
 
 namespace Code.Dialogue.Story
 {
@@ -14,10 +15,12 @@ namespace Code.Dialogue.Story
     /// <para name="date">04.12.2022</para>
     public class StoryNode : ScriptableObject
     {
-        // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryNode");
         // Text that is in the node
         [SerializeField] private string text;
+        // Text that is in the node
+        [SerializeField] private string labelText;
+        // Different Types of Nodes
+        [SerializeField] private string nodeId;
         // Different Types of Nodes
         [SerializeField] private bool isChoiceNode;
         [SerializeField] private bool isRootNode;
@@ -33,9 +36,9 @@ namespace Code.Dialogue.Story
         // ChildNodes
         [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
-        [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
+        [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
+        [SerializeField] private Rect textRect;
         
-#if UNITY_EDITOR
         /// <summary>
         /// Sets the Text of the node
         /// </summary>
@@ -44,7 +47,18 @@ namespace Code.Dialogue.Story
         {
             text = txt;
         }
-
+        
+        /// <summary>
+        /// Sets the Text of the node
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="id"></param>
+        public void SetLabelAndNodeId(string label, string id)
+        {
+            labelText = label;
+            nodeId = id;
+        }
+        
         /// <summary>
         /// Sets the Item of the node
         /// </summary>
@@ -114,9 +128,7 @@ namespace Code.Dialogue.Story
         /// <param name="isChoice"></param>
         public void SetChoiceNode(bool isChoice)
         {
-            Undo.RecordObject(this, "Change Story or Dialogue");
-            this.isChoiceNode = isChoice;
-            EditorUtility.SetDirty(this);
+            isChoiceNode = isChoice;
         }
         
         /// <summary>
@@ -125,9 +137,12 @@ namespace Code.Dialogue.Story
         /// <param name="childId"></param>
         public void AddChildNode(string childId)
         {
-            Undo.RecordObject(this, "Add Story Link");
+            foreach (var c in GetChildNodes())
+            {
+                if (c.Equals(childId))
+                    return;
+            }
             childNodes.Add(childId);
-            EditorUtility.SetDirty(this);
         }
         
         /// <summary>
@@ -136,13 +151,9 @@ namespace Code.Dialogue.Story
         /// <param name="childId"></param>
         public void RemoveChildNode(string childId)
         {
-            Undo.RecordObject(this, "Remove Story Link");
             childNodes.Remove(childId);
-            EditorUtility.SetDirty(this);
         }
 
-#endif
-        
         /// <summary>
         /// Sets the rect to a new position
         /// </summary>
@@ -150,8 +161,19 @@ namespace Code.Dialogue.Story
         /// <param name="y"></param>
         public void SetRect(float x, float y)
         {
-            Undo.RecordObject(this, "Move Story Node");
             storyRect.position = new Vector2(x,y);
+        }
+
+        /// <summary>
+        /// Sets the rect to a new position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetTextRect(float x, float y, float width, float height)
+        {
+            textRect = new Rect(x,y, width, height);
         }
 
         public bool IsChoiceNode()
@@ -183,10 +205,20 @@ namespace Code.Dialogue.Story
         {
             return text;
         }
+
+        public string GetLabel()
+        {
+            return labelText;
+        }
+        
+        public string GetNodeId()
+        {
+            return nodeId;
+        }
         
         public string GetImage()
         {
-            return !image.Equals("") ? image : "";
+            return image is null or "" ? "" : "image";
         }
 
         public string GetItem()
@@ -207,6 +239,11 @@ namespace Code.Dialogue.Story
         public Rect GetRect()
         {
             return storyRect;
+        }
+        
+        public Rect GetTextRect()
+        {
+            return textRect;
         }
 
         public Rect GetRect(Vector2 pos)

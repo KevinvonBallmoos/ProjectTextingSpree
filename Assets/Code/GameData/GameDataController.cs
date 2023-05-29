@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Dialogue.Story;
-using Code.Inventory;
+using Code.Logger;
 
 namespace Code.GameData
 {
@@ -40,6 +40,8 @@ namespace Code.GameData
     /// <para name="date">30.01.2023</para>
     public class GameDataController : MonoBehaviour
     {
+        // Logger
+        private readonly GameLogger _logger = new GameLogger("GameManager");
         // Load save
         [SerializeField] private Button loadGameMenu;
         [SerializeField] private Text loadGameText;
@@ -60,7 +62,6 @@ namespace Code.GameData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new ();
         private static int _slotNum;
-        private static bool _isNewGame;
         private static string _filename;
         private static string _playerName;
         private static string _playerBackground;
@@ -102,7 +103,6 @@ namespace Code.GameData
         /// </summary>
         public bool NewGame()
         {
-            _isNewGame = true;
             var length = Directory.GetFiles(Application.persistentDataPath).Length;
             if (length == 3)
                 return false;
@@ -118,7 +118,6 @@ namespace Code.GameData
         /// </summary>
         public void LoadGame()
         {
-            _isNewGame = false;
             mainMenuScreen.SetActive(false);
             saveGameScreen.SetActive(true);
             
@@ -157,10 +156,12 @@ namespace Code.GameData
             switch (loadGameText.text)
             {
                 case "LOAD":
+                    GameManager.ActiveScene = 2;
                     LoadSelectedGame();
                     break;
                 case "NEW GAME":
-                    GameManager.LoadScene(1);
+                    GameManager.ActiveScene = 1;
+                    GameManager.LoadScene();
                     break;
             }
         }
@@ -191,7 +192,7 @@ namespace Code.GameData
         {
             mainMenuScreen.SetActive(true);
             saveGameScreen.SetActive(false);
-            _isNewGame = false;
+            characterPropertiesScreen.SetActive(false);
         }
 
         #endregion
@@ -259,11 +260,12 @@ namespace Code.GameData
 
             for (var i = 0; i < 4; i++)
             {
+                if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
                 var time = DateTime.Now;
                 if (LoadedData[slotNum].TimeOfSave != null) 
                     time = DateTime.ParseExact(LoadedData[slotNum].TimeOfSave, "yyyy-dd-M--HH-mm-ss",
-                    CultureInfo.InvariantCulture);
+                        CultureInfo.InvariantCulture);
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
                     0 => $"Chapter: {LoadedData[slotNum].Title}",
@@ -291,6 +293,7 @@ namespace Code.GameData
 
             for (var i = 0; i < 4; i++)
             {
+                if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
@@ -314,7 +317,9 @@ namespace Code.GameData
             var json = File.ReadAllText(files[_slotNum], Encoding.UTF8);
             
             _saveData = JsonConvert.DeserializeObject<SaveData>(json);
-            GameManager.LoadScene(int.Parse(_saveData.CurrentChapter[5].ToString()));
+            _playerName = _saveData.PlayerName;
+            _playerBackground = _saveData.PlayerBackground;
+            GameManager.LoadScene(); // TODO: Kastriot Maybe only need 4 scenes
         }
 
         /// <summary>
@@ -422,8 +427,8 @@ namespace Code.GameData
                     ProgressPercentage = progress,
                     TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
                     TimeOfSave = SaveTime,
-                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>()
-                        .selectedChapter
+                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>()
+                        .currentChapter
                         .name,
                     ParentNode = save.ParentNode,
                     IsStoryNode = save.IsStoryNode
@@ -448,8 +453,8 @@ namespace Code.GameData
         public void GetPlayer()
         {
             var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>();
-            _playerName = gameobject[3].text;
-            _playerBackground = gameobject[1].text;
+            _playerName = gameobject[4].text;
+            _playerBackground = gameobject[2].text;
         }
         
         public string GetPlayerName()
