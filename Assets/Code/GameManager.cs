@@ -28,7 +28,6 @@ namespace Code
         public static GameManager Gm;
         // Ending Screen
         [SerializeField] private GameObject endingScreen;
-        
         // Menu Save and Properties Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject messageBoxScreen;
@@ -36,13 +35,12 @@ namespace Code
         [SerializeField] private GameObject characters;
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
-        
-        [NonSerialized] public bool IsGameOver;
+				[SerializeField] private GameObject[] messageBoxScreenObjects;
+				// States of the Game
+				[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
-
-        [SerializeField] private GameObject[] messageBoxScreenObjects;
-
+        // Various variables
         private int _chapter;
         private int _part; 
         public static int ActiveScene = 0;
@@ -80,11 +78,10 @@ namespace Code
 
         #endregion
 
-        #region Game States
+        #region Game State Button Events
         
         /// <summary>
-        /// Starts a new Game
-        /// Sets the visibility Image in the character select to false
+        /// Opens the character select window and sets the Image to false
         /// </summary>
         public void NewGame_Click()
         {
@@ -100,6 +97,9 @@ namespace Code
             characterPropertiesScreen.SetActive(true);
         }
 
+        /// <summary>
+        /// Starts a new game and checks if a save slot is empty, else asks to override another slot
+        /// </summary>
         public void StartNewGame_Click()
         {
             if (playerName.text.Equals(""))
@@ -138,20 +138,12 @@ namespace Code
             GameDataController.Gdc.LoadGame();
         }
 
-        /// <summary>
-        /// Loads the saved Scene
-        /// </summary>
-        public static void LoadScene()
-        {
-            SceneManager.LoadScene(ActiveScene);
-        }
-
         #endregion
         
         #region Next Chapter / Story or End
         
         /// <summary>
-        /// Checks if its Game Over or end of Chapter
+        /// Checks if its Game Over, end of Chapter or end of story
         /// </summary>
         private void Update()
         {
@@ -216,10 +208,10 @@ namespace Code
         
         #endregion
         
-        #region Next Chapter / Story Click Events
+        #region Next Chapter / Story Button Events
         
         /// <summary>
-        /// When the next Chapter Button is clicked
+        /// When the next chapter Button is clicked
         /// </summary>
         public void NextChapter_Click()
         {
@@ -227,7 +219,7 @@ namespace Code
         }
 
         /// <summary>
-        /// When the next Chapter Button is clicked
+        /// When the next story Button is clicked
         /// </summary>
         public void NextStory_Click()
         {
@@ -262,12 +254,20 @@ namespace Code
         
         #region Main Menu
 
-        public void BackToMainMenu()
+        public void BackToMainMenu() // TODO Rename to click
         {
             ActiveScene = 0;
             LoadScene();
         }
-        
-        #endregion
-    }
+
+				/// <summary>
+				/// Loads the next Scene
+				/// </summary>
+				public static void LoadScene()
+				{
+						SceneManager.LoadScene(ActiveScene);
+				}
+
+				#endregion
+		}
 }

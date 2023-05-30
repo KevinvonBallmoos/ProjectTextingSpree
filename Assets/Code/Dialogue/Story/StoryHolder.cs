@@ -25,12 +25,13 @@ namespace Code.Dialogue.Story
         [NonSerialized] public bool IsStoryNode;
         [NonSerialized] private bool _isNull;
 
-        #region Load Chapter
+				#region Load Chapter
 
-        /// <summary>
-        /// Loads the Save Data or Starts a new Chapter
-        /// </summary>
-        public void LoadChapterProperties(StoryAsset chapter)
+				/// <summary>
+				/// Loads the Save Data or Starts a new Chapter
+				/// </summary>
+				/// <param name="chapter">Is either null or a new chapter</param>
+				public void LoadChapterProperties(StoryAsset chapter)
         {
             if (chapter != null){
                 
@@ -69,9 +70,9 @@ namespace Code.Dialogue.Story
         #region Next Methods
         
         /// <summary>
-        /// Get next Choice Nodes
+        /// Get next choice nodes
         /// </summary>
-        /// <param name="node">parent node that contains the next choices nodes</param>
+        /// <param name="node">Parent that contains the next choices nodes</param>
         public void Next(StoryNode node)
         {
             foreach (var n in CurrentChapter.GetStoryNodes(node))
@@ -119,7 +120,7 @@ namespace Code.Dialogue.Story
         #region Getter
         
         /// <summary>
-        /// If there is more dialog returns true
+        /// Returns true if the current nod has children
         /// </summary>
         /// <returns></returns>
         public bool HasNext()
@@ -127,10 +128,6 @@ namespace Code.Dialogue.Story
             return CurrentChapter.GetAllChildNodes(_currentNode).Any();
         }
         
-        /// <summary>
-        /// Returns Choices
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<StoryNode> GetChoices()
         {
             return CurrentChapter.GetChoiceNodes(_currentNode);

@@ -8,23 +8,23 @@ using UnityEngine;
 namespace Code.Dialogue.Story
 {
     /// <summary>
-    /// Reloads the properties of the Story assets
+    /// Reads the properties of the Story assets
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">10.05.2023</para>
     [CreateAssetMenu(fileName = "Chapter", menuName = "Viewer", order = 0)]
     public class StoryAsset : ScriptableObject
     {
-        // Lists with nodes
-        private readonly List<NodeInfo> _nodes = new ();
+				// Current Asset
+				private StoryAsset _currentAsset;
+				// Lists with nodes
+				private readonly List<NodeInfo> _nodes = new ();
         [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
-        // Dictionary to store nodes 
+        // Dictionary to store all nodes 
         [NonSerialized] private readonly Dictionary<string, StoryNode> _nodeLookup = new ();
         // Boolean that is true when the nodes have been read
         [NonSerialized] public bool HasReadNodes;
-        // Current Asset
-        private StoryAsset _currentAsset;
-        
+        // Is needed to evaluate if a node needs to be added or removed
         private class NodeInfo
         {
             public StoryNode Node { get; set; }
@@ -36,7 +36,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Reads the Nodes from the Xml File and puts them in the right order
         /// </summary>
-        /// <param name="chapter"></param>
+        /// <param name="chapter">Chapter to be read in</param>
         public StoryAsset ReadNodes(StoryAsset chapter)
         {
             HasReadNodes = false;
@@ -111,13 +111,13 @@ namespace Code.Dialogue.Story
             return false;
         }
 
-        /// <summary>
-        /// Sets the Properties from the Xml to the according node
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="xmlDoc"></param>
-        /// §
-        private void ReadProperties(StoryNode node, XmlDocument xmlDoc)
+				/// <summary>
+				/// Reads the Properties from the Xml to the according node
+				/// </summary>
+				/// <param name="node">Node whose properties must be read</param>
+				/// <param name="xmlDoc">The currently opened xml document</param>
+				/// §
+				private void ReadProperties(StoryNode node, XmlDocument xmlDoc)
         {
             var nodeList = node.IsChoiceNode()? xmlDoc.GetElementsByTagName("Choice"): xmlDoc.GetElementsByTagName("Node");
             var xmlNode = nodeList.Cast<XmlNode>().FirstOrDefault(n => node.GetText() == n.InnerText);
@@ -225,10 +225,10 @@ namespace Code.Dialogue.Story
 
         /// <summary>
         /// Creates a new Node and a unique GUID
-        /// saves the label, id, text and type of the node
+        /// Saves the label, id, text and type of the node
         /// </summary>
         /// <param name="node">Node name</param>
-        /// <param name="id">id Attribute in xml File</param>
+        /// <param name="id">Id Attribute in xml File</param>
         /// <param name="isChoice">Declares if Node is a choice or not</param>
         /// <returns>new Node</returns>
         private static StoryNode CreateNode(XmlNode node, string id, bool isChoice)
@@ -313,14 +313,14 @@ namespace Code.Dialogue.Story
             }
         }
 
-        #endregion
-        
-        #region AssetDatabase
+				#endregion
 
-        /// <summary>
-        /// Adds nodes to Asset Database
-        /// </summary>
-        private void SaveNodesToAssetDatabase()
+				#region AssetDatabase
+
+				/// <summary>
+				/// Adds to or removes from the asset database
+				/// </summary>
+				private void SaveNodesToAssetDatabase()
         {
             // Assuming 'savedDataPath' is the path to the asset containing the saved data
             var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/Story/" + _currentAsset.name + ".asset");

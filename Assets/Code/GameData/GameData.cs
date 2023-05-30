@@ -19,13 +19,13 @@ namespace Code.GameData
         public readonly string TimeOfSave;
         public readonly string CurrentChapter;
         public readonly string ParentNode;
-        public readonly bool IsStoryNode; 
+        public readonly bool IsStoryNode;
 
-        /// <summary>
-        /// Constructor to save an Object of type GameData
-        /// </summary>
-        /// <param name="saveData"></param>
-        public GameData (SaveData saveData)
+				/// <summary>
+				/// Constructor to save an Object of type GameData
+				/// </summary>
+				/// <param name="saveData">Contains all necessary elements to save the status</param>
+				public GameData (SaveData saveData)
         {
             PlayerName = saveData.PlayerName;
             PlayerBackground = saveData.PlayerBackground;

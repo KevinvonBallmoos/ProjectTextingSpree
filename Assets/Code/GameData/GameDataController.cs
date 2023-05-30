@@ -53,7 +53,7 @@ namespace Code.GameData
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject saveGameScreen;
         [SerializeField] private GameObject messageBoxScreen;
-		[SerializeField] private GameObject characterPropertiesScreen;
+		    [SerializeField] private GameObject characterPropertiesScreen;
         // Slot view
         public GameObject slotView;
         // GameDataController

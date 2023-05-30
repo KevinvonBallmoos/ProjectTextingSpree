@@ -36,10 +36,12 @@ namespace Code.Dialogue.Story
         private Image _saveImage;
         private Text _saveText;
 
-        /// <summary>
-        /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
-        /// </summary>
-        public void Start()
+				#region Start
+
+				/// <summary>
+				/// When the Game starts, gets the story, adds the next button click Event and updates the UI
+				/// </summary>
+				public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             _storyHolder.LoadChapterProperties(currentChapter);
@@ -54,20 +56,27 @@ namespace Code.Dialogue.Story
             UpdateUI();
         }
 
-        /// <summary>
-        /// When the next button is clicked, it loads the next part of the story
-        /// </summary>
-        private void Next_Click()
+				#endregion
+
+				#region Button Events
+
+				/// <summary>
+				/// When the next button is clicked, it loads the next part of the story
+				/// </summary>
+				private void Next_Click()
         {
             StopCoroutine(_textCoroutine);
             _storyHolder.Next();
             UpdateUI();
         }
-        
+
+        #endregion
+
         #region Update UI
-        
+
         /// <summary>
-        /// Updates the Story, loads the next part of story and the choices nodes
+        /// Updates the UI, loads the next story or choice nodes and their properties
+        /// Saves the node state
         /// </summary>
         private void UpdateUI()
         {
@@ -217,7 +226,7 @@ namespace Code.Dialogue.Story
         
         /// <summary>
         /// Loads the next Chapter when the End of Chapter node is reached
-        /// Or the GameOver Screen when the GameOver node is reached
+        /// or the GameOver Screen when the GameOver node is reached
         /// </summary>
         private void NextChapter()
         {
@@ -256,7 +265,7 @@ namespace Code.Dialogue.Story
 
         /// <summary>
         /// Builds the choice list, depending on the count of the nodes
-        /// Some choices are only for a different Player visible
+        /// Some choices are only visible for Player with the needed background
         /// </summary>
         private void BuildChoiceList()
         {

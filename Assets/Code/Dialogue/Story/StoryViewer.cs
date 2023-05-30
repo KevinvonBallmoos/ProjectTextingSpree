@@ -137,12 +137,15 @@ namespace Code.Dialogue.Story
             
             Selection.activeObject = null;
         }
-        
-        #endregion
-        
-        #region OnGUI
 
-        private void OnGUI()
+				#endregion
+
+				#region OnGUI
+
+				/// <summary>
+				/// Gets called every time a change happens on the Editor. Displays the nodes.
+				/// </summary>
+				private void OnGUI()
         {
             if (!_selectedChapter.HasReadNodes) return;
             
@@ -185,9 +188,9 @@ namespace Code.Dialogue.Story
         }
         
         /// <summary>
-        /// Draws node from Xml File
+        /// Draws the node
         /// </summary>
-        /// <param name="node">Next Node to Draw</param>
+        /// <param name="node">Next node to draw</param>
         private void DrawNode(StoryNode node)
         {
             var style = _storyNodeStyle;
