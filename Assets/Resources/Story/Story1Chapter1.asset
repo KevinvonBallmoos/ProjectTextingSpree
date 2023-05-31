@@ -383,6 +383,43 @@ MonoBehaviour:
     y: 15
     width: 280
     height: 160
+--- !u!114 &-8636209937270642932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: adf2fc97-55b9-4bbc-9972-3cee05027ba1
+  m_EditorClassIdentifier: 
+  text: Story Path1
+  labelText: Choice
+  nodeId: 1
+  isChoiceNode: 1
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes:
+  - 7e36b5c6-79d1-4082-88e8-7de54ea89d22
+  storyRect:
+    serializedVersion: 2
+    x: 360
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 365
+    y: 15
+    width: 280
+    height: 160
 --- !u!114 &-8611768429001528020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,6 +610,42 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1065
     y: 215
+    width: 280
+    height: 160
+--- !u!114 &-8285716899165858317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: bf830a6b-0af6-46cc-a35c-90298a1285c8
+  m_EditorClassIdentifier: 
+  text: Story 1 END
+  labelText: Node
+  nodeId: 11
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 1
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 2110
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 2115
+    y: 15
     width: 280
     height: 160
 --- !u!114 &-8245065742229871923
@@ -1900,6 +1973,44 @@ MonoBehaviour:
     y: 15
     width: 280
     height: 160
+--- !u!114 &-5301062288633915764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 00483b04-11aa-47ec-8820-d62019e5ad6f
+  m_EditorClassIdentifier: 
+  text: ' Start Chapter 1 My name is: {Name} El Gigante'
+  labelText: Node
+  nodeId: 5
+  isChoiceNode: 0
+  isRootNode: 1
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes:
+  - adf2fc97-55b9-4bbc-9972-3cee05027ba1
+  - 2ae5986c-4a2c-493b-915a-50318be031d4
+  storyRect:
+    serializedVersion: 2
+    x: 10
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 15
+    y: 15
+    width: 250
+    height: 130
 --- !u!114 &-5098852134443103134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2373,6 +2484,44 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1415
     y: 215
+    width: 280
+    height: 160
+--- !u!114 &-4493915690612800990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 7e36b5c6-79d1-4082-88e8-7de54ea89d22
+  m_EditorClassIdentifier: 
+  text: Story 1
+  labelText: Node
+  nodeId: 6
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: Bread
+  background: 
+  childNodes:
+  - b5878531-0596-4ae3-adcf-d6e5e1994fa9
+  - db4c33d9-2092-4b80-bfd5-a41fbf786bb6
+  storyRect:
+    serializedVersion: 2
+    x: 710
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 715
+    y: 15
     width: 280
     height: 160
 --- !u!114 &-4452399357117771294
@@ -3201,6 +3350,43 @@ MonoBehaviour:
     y: 215
     width: 280
     height: 160
+--- !u!114 &-2799240133405077922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 2ae5986c-4a2c-493b-915a-50318be031d4
+  m_EditorClassIdentifier: 
+  text: Story Path2
+  labelText: Choice
+  nodeId: 2
+  isChoiceNode: 1
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes:
+  - bd30521b-75ad-44d2-818d-97e815c2c971
+  storyRect:
+    serializedVersion: 2
+    x: 360
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 365
+    y: 215
+    width: 280
+    height: 160
 --- !u!114 &-2742747851627127274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3716,6 +3902,42 @@ MonoBehaviour:
     y: 215
     width: 280
     height: 160
+--- !u!114 &-1713860767350764050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 3fbfc627-2e65-40d7-be06-2726463c8224
+  m_EditorClassIdentifier: 
+  text: 'Story 3 Game Over '
+  labelText: Node
+  nodeId: 10
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 1
+  image: 
+  item: 
+  background: 
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 1410
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1415
+    y: 215
+    width: 280
+    height: 160
 --- !u!114 &-1644612549130593100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4168,17 +4390,17 @@ MonoBehaviour:
   m_Name: Story1Chapter1
   m_EditorClassIdentifier: 
   <StoryNodes>k__BackingField:
-  - {fileID: 7302047907903434634}
-  - {fileID: -1644612549130593100}
-  - {fileID: 4968053002553627636}
-  - {fileID: 1503684312670547513}
-  - {fileID: 6542850265578374992}
-  - {fileID: -9001703590872599110}
-  - {fileID: 5732599789680788132}
-  - {fileID: -8749866056081532785}
-  - {fileID: 9179361500314313098}
-  - {fileID: -4198223737593997036}
-  - {fileID: -9110456411572228247}
+  - {fileID: -8636209937270642932}
+  - {fileID: -2799240133405077922}
+  - {fileID: 9016304423193672086}
+  - {fileID: 4574083994847627095}
+  - {fileID: -5301062288633915764}
+  - {fileID: -4493915690612800990}
+  - {fileID: 4059173117775061168}
+  - {fileID: 2898044388449956215}
+  - {fileID: 7963194308055966797}
+  - {fileID: -1713860767350764050}
+  - {fileID: -8285716899165858317}
 --- !u!114 &38004735271725539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5322,6 +5544,43 @@ MonoBehaviour:
     y: 215
     width: 280
     height: 160
+--- !u!114 &2898044388449956215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: 7c0080e2-faec-4ad2-81f2-134094f9dbab
+  m_EditorClassIdentifier: 
+  text: Story 1 Move Forward
+  labelText: Node
+  nodeId: 8
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes:
+  - f1c8684c-aab2-4f42-b7cd-01005ebeb496
+  storyRect:
+    serializedVersion: 2
+    x: 1410
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1415
+    y: 15
+    width: 280
+    height: 160
 --- !u!114 &2949110492780106891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5766,6 +6025,42 @@ MonoBehaviour:
     y: 15
     width: 280
     height: 160
+--- !u!114 &4059173117775061168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: bd30521b-75ad-44d2-818d-97e815c2c971
+  m_EditorClassIdentifier: 
+  text: Story 2 Game Over
+  labelText: Node
+  nodeId: 7
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 1
+  image: 
+  item: 
+  background: 
+  childNodes: []
+  storyRect:
+    serializedVersion: 2
+    x: 710
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 715
+    y: 215
+    width: 280
+    height: 160
 --- !u!114 &4365060535273863638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5944,6 +6239,43 @@ MonoBehaviour:
   background: 
   childNodes:
   - 5bd9b002-401c-4b28-931b-7520e47e5bb4
+  storyRect:
+    serializedVersion: 2
+    x: 1060
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1065
+    y: 215
+    width: 280
+    height: 160
+--- !u!114 &4574083994847627095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: db4c33d9-2092-4b80-bfd5-a41fbf786bb6
+  m_EditorClassIdentifier: 
+  text: Story 3 Path
+  labelText: Choice
+  nodeId: 4
+  isChoiceNode: 1
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes:
+  - 3fbfc627-2e65-40d7-be06-2726463c8224
   storyRect:
     serializedVersion: 2
     x: 1060
@@ -7533,6 +7865,50 @@ MonoBehaviour:
     y: 215
     width: 280
     height: 160
+--- !u!114 &7963194308055966797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: f1c8684c-aab2-4f42-b7cd-01005ebeb496
+  m_EditorClassIdentifier: 
+  text: 'Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+    sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+    clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+    tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+    vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+    no sea takimata sanctus est Lorem ipsum dolor sit amet. '
+  labelText: Node
+  nodeId: 9
+  isChoiceNode: 0
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes:
+  - bf830a6b-0af6-46cc-a35c-90298a1285c8
+  storyRect:
+    serializedVersion: 2
+    x: 1760
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1765
+    y: 15
+    width: 280
+    height: 160
 --- !u!114 &8002421229362122618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8130,6 +8506,43 @@ MonoBehaviour:
     y: 15
     width: 250
     height: 130
+--- !u!114 &9016304423193672086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cf5915d39a43dfa49c6430c5fff914, type: 3}
+  m_Name: b5878531-0596-4ae3-adcf-d6e5e1994fa9
+  m_EditorClassIdentifier: 
+  text: Story 1 Go on
+  labelText: Choice
+  nodeId: 3
+  isChoiceNode: 1
+  isRootNode: 0
+  isEndOfStory: 0
+  isEndOfChapter: 0
+  isGameOver: 0
+  image: 
+  item: 
+  background: 
+  childNodes:
+  - 7c0080e2-faec-4ad2-81f2-134094f9dbab
+  storyRect:
+    serializedVersion: 2
+    x: 1060
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1065
+    y: 15
+    width: 280
+    height: 160
 --- !u!114 &9169950201891841297
 MonoBehaviour:
   m_ObjectHideFlags: 0

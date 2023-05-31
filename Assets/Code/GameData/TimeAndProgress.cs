@@ -53,7 +53,7 @@ namespace Code.GameData
         /// <summary>
         ///  Calculates the Progress
         /// </summary>
-        /// <param name="chapter"></param>
+        /// <param name="chapter">The chapter is used to calculate the progress</param>
         public static void CalculateProgress(string chapter)
         { 
             _stories = Resources.LoadAll($@"Story/", typeof(StoryAsset));

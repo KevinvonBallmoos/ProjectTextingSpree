@@ -10,6 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Code.Controller;
 using Code.Dialogue.Story;
 using Code.Logger;
 
@@ -52,8 +53,8 @@ namespace Code.GameData
         // Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject saveGameScreen;
-        [SerializeField] private GameObject messageBoxScreen;
-		    [SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private GameObject messageBoxScreen; 
+        [SerializeField] private GameObject characterPropertiesScreen;
         // Slot view
         public GameObject slotView;
         // GameDataController
@@ -65,7 +66,7 @@ namespace Code.GameData
         private static string _filename;
         private static string _playerName;
         private static string _playerBackground;
-        
+        // Save Time
         private static readonly string SaveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
 
         #region Awake and Start
@@ -98,7 +99,7 @@ namespace Code.GameData
         #region Game States
         
         /// <summary>
-        /// When a new Game is started, it checks for a open save slot, are there non,
+        /// When a new Game is started, it checks for a open save slot, are there none,
         /// then the User has to choose an old save slot to override the date with the new Game
         /// </summary>
         public bool NewGame()
@@ -114,7 +115,7 @@ namespace Code.GameData
         }
 
         /// <summary>
-        /// Loads the Save Slots
+        /// Sets the SaveScreen and loads the data
         /// </summary>
         public void LoadGame()
         {
@@ -178,7 +179,7 @@ namespace Code.GameData
         }
         
         /// <summary>
-        /// When cancel is clicked, then the menu screen is visible
+        /// The Messagebox closes
         /// </summary>
         public void Cancel_CLick()
         {
@@ -280,7 +281,7 @@ namespace Code.GameData
         /// <summary>
         /// Updates the Slot view with empty data, if there is no save 
         /// </summary>
-        /// <param name="slotNum"></param>
+        /// <param name="slotNum">Slot number where the save data has to be placed</param>
         public void UpdateEmptySlot(int slotNum)
         {
             var slotObject = slotNum switch
@@ -307,7 +308,7 @@ namespace Code.GameData
         }
 
         /// <summary>
-        /// Loads the Clicked Game
+        /// Loads the Selected Game
         /// </summary>
         private static void LoadSelectedGame()
         {
@@ -403,7 +404,7 @@ namespace Code.GameData
         /// <summary>
         /// Saves the the status of the Game in a JSON File
         /// </summary>
-        /// <param name="save"></param>
+        /// <param name="save">The SaveData sent from StoryUI</param>
         public void SaveGame(SaveData save)
         {
             GetLoadedData();

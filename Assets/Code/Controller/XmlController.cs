@@ -1,10 +1,10 @@
 ﻿using System.Xml;
 using UnityEngine;
 
-namespace Code
+namespace Code.Controller
 {
     /// <summary>
-    /// This class contains Methods to access Xml File
+    /// This class contains Methods to access Xml Files
     /// Returns XmlDocument, XmlReader, XmlWriter, XmlNode, Node InnerText or Content
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
@@ -12,9 +12,9 @@ namespace Code
     public static class XmlController
     {
         /// <summary>
-        /// Returns the root node of the strings xml
+        /// Returns the MessageBox nodes of the strings xml
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">Determines the node to return</param>
         public static string GetMessageBoxText(int index)
         {
             var xmlFile = Resources.Load<TextAsset>("OutsourcedStrings/strings");
@@ -25,9 +25,9 @@ namespace Code
         }
         
         /// <summary>
-        /// Returns the root node of the strings xml
+        /// Returns the Information nodes of the strings xml
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">Determines the node to return</param>
         public static string GetInformationText(int index)
         {
             var xmlFile = Resources.Load<TextAsset>("OutsourcedStrings/strings");
