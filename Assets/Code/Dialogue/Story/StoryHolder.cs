@@ -25,13 +25,13 @@ namespace Code.Dialogue.Story
         [NonSerialized] public bool IsStoryNode;
         [NonSerialized] private bool _isNull;
 
-				#region Load Chapter
+		#region Load Chapter
 
-				/// <summary>
-				/// Loads the Save Data or Starts a new Chapter
-				/// </summary>
-				/// <param name="chapter">Is either null or a new chapter</param>
-				public void LoadChapterProperties(StoryAsset chapter)
+		/// <summary>
+		/// Loads the Save Data or Starts a new Chapter
+		/// </summary>
+		/// <param name="chapter">Is either null or a new chapter</param>
+		public void LoadChapterProperties(StoryAsset chapter)
         {
             if (chapter != null){
                 

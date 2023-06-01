@@ -22,17 +22,25 @@ namespace DefaultNamespace
         private readonly GameLogger _logger = new GameLogger("DialogueEditor");
         
         // ## 2.2 Class Variables ## //
-        // private Variable beginns with a underscore
+        // Visible only in own class, Variable beginns with a underscore
         private string _nameOfCar;
-        // [SerializeField] only when needed  and no underscore
+        // Visible in own class and Unity Editor, no underscore
         [SerializeField] private string nameOfCar;
         
         // Readonly: Can be initialized at Compiletime or Runtime
         private readonly string PathToStoryFile;
         // Const: Can only be initialized at Compiletime
         private const int MaxSpeed = 120;
+        // Visible to own class, does not need instance to access, First letter UpperCamelCase
+        private static List<string> StoryNodes;
         
-
+        // Visible from other classes bot nut the Unity Editor, UpperCamelCase
+        [NonSerialized] public string NewPlayer;
+        // Visible from other classes and Unity Editor, UpperCamelCase
+        public string NewEnemy;
+        // Visible from other classes, does not need instance to access, UpperCamelCase
+        public static List<string> ChoiceNodes;
+        
         // ## 2.3 Methods ## //
         // Method Name starts with Verb and UpperCamelCase
         private string GetCarName()

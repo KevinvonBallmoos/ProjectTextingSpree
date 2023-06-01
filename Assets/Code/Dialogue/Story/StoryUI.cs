@@ -36,41 +36,44 @@ namespace Code.Dialogue.Story
         private Image _saveImage;
         private Text _saveText;
 
-				#region Start
+		#region Start
 
-				/// <summary>
-				/// When the Game starts, gets the story, adds the next button click Event and updates the UI
-				/// </summary>
-				public void Start()
+		/// <summary>
+		/// When the Game starts, gets the story, adds the next button click Event and updates the UI
+		/// </summary>
+		public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             _storyHolder.LoadChapterProperties(currentChapter);
 
-            if (currentChapter == null)
-                currentChapter = _storyHolder.CurrentChapter;
+            //if (currentChapter == null)
+            currentChapter = _storyHolder.CurrentChapter;
             
             _saveImage = saveStatus.GetComponentInChildren<Image>();
             _saveText = saveStatus.GetComponentInChildren<Text>();
-            nextButton.gameObject.SetActive(false);
+            
+            nextButton.onClick.RemoveAllListeners();
             nextButton.onClick.AddListener(Next_Click);
+            nextButton.GetComponentInChildren<Text>().text = "Next";
+            nextButton.gameObject.SetActive(false);
             UpdateUI();
         }
 
-				#endregion
+		#endregion
 
-				#region Button Events
+		#region Button Events
 
-				/// <summary>
-				/// When the next button is clicked, it loads the next part of the story
-				/// </summary>
-				private void Next_Click()
-        {
-            StopCoroutine(_textCoroutine);
-            _storyHolder.Next();
-            UpdateUI();
-        }
+		/// <summary>
+		/// When the next button is clicked, it loads the next part of the story
+		/// </summary>
+		private void Next_Click()
+{
+    StopCoroutine(_textCoroutine);
+    _storyHolder.Next();
+    UpdateUI();
+}
 
-        #endregion
+#endregion
 
         #region Update UI
 
@@ -235,7 +238,7 @@ namespace Code.Dialogue.Story
                 _logger.LogEntry("UI log", "End of Chapter reached.", GameLogger.GetLineNumber());
                 // If No more nodes then Button Text = "Next Chapter", and switch Listener
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
-                nextButton.onClick.RemoveListener(Next_Click);
+                nextButton.onClick.RemoveAllListeners();
 
                 GameManager.Gm.IsEndOfChapter = true;
                 nextButton.onClick.AddListener(GameManager.Gm.NextChapter_Click);
@@ -245,7 +248,7 @@ namespace Code.Dialogue.Story
                 _logger.LogEntry("UI log", "End of Story reached.", GameLogger.GetLineNumber());
                 
                 nextButton.GetComponentInChildren<Text>().text = "Next Part";
-                nextButton.onClick.RemoveListener(Next_Click);
+                nextButton.onClick.RemoveAllListeners();
 
                 GameManager.Gm.IsEndOfStory = true;
                 nextButton.onClick.AddListener(GameManager.Gm.NextStory_Click);
