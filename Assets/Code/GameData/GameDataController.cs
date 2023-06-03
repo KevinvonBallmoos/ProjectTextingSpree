@@ -67,7 +67,7 @@ namespace Code.GameData
         private static string _playerName;
         private static string _playerBackground;
         // Save Time
-        private static readonly string SaveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
+        private static string _saveTime;
 
         #region Awake and Start
         
@@ -104,10 +104,12 @@ namespace Code.GameData
         /// </summary>
         public bool NewGame()
         {
+            _saveTime = "";
+            
             var length = Directory.GetFiles(Application.persistentDataPath).Length;
             if (length == 3)
                 return false;
-
+            
             _slotNum = length;
             
             SaveNewGame();
@@ -259,7 +261,7 @@ namespace Code.GameData
                 _ => null
             };
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < 5; i++)
             {
                 if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
@@ -269,10 +271,11 @@ namespace Code.GameData
                         CultureInfo.InvariantCulture);
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
-                    0 => $"Chapter: {LoadedData[slotNum].Title}",
-                    1 => $"Completion: {LoadedData[slotNum].ProgressPercentage} %",
-                    2 => $"Time of last Save: \n{time:dddd, dd MMMM yyyy. HH:mm:ss}",
-                    3 => $"Time spent in Game: {LoadedData[slotNum].TimeSpent}",
+                    0 => $"Player: {LoadedData[slotNum].PlayerName}",
+                    1 => $"Chapter: {LoadedData[slotNum].Title}",
+                    2 => $"Completion: {LoadedData[slotNum].ProgressPercentage} %",
+                    3 => $"Time of last Save: \n{time:dddd, dd MMMM yyyy. HH:mm:ss}",
+                    4 => $"Time spent in Game: {LoadedData[slotNum].TimeSpent}",
                     _ => obj.GetComponent<TextMeshProUGUI>().text
                 };
             }
@@ -292,16 +295,17 @@ namespace Code.GameData
                 _ => null
             };
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < 5; i++)
             {
                 if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
-                    0 => "Chapter: No data saved",
-                    1 => "Completion: ... %",
-                    2 => "Time of last Save: No data",
-                    3 => "Time spent in Game: 00:00:00",
+                    0 => $"Player: No data",
+                    1 => "Chapter: No data saved",
+                    2 => "Completion: ... %",
+                    3 => "Time of last Save: No data",
+                    4 => "Time spent in Game: 00:00:00",
                     _ => obj.GetComponent<TextMeshProUGUI>().text
                 };
             }
@@ -382,6 +386,7 @@ namespace Code.GameData
         {
             GetPlayer();
 
+            _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             var gameData = new GameData(new SaveData
             {
                 PlayerName = _playerName,
@@ -389,14 +394,14 @@ namespace Code.GameData
                 Title = "",
                 ProgressPercentage = 0,
                 TimeSpent = "00.00.00",
-                TimeOfSave = SaveTime,
+                TimeOfSave = _saveTime,
                 CurrentChapter = "",
                 ParentNode = "",
                 IsStoryNode = false
             });
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
             _filename = Application.persistentDataPath +
-                        $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{SaveTime}.json";
+                        $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{_saveTime}.json";
 
             File.WriteAllText(_filename, json);
         }
@@ -408,7 +413,7 @@ namespace Code.GameData
         public void SaveGame(SaveData save)
         {
             GetLoadedData();
-            
+            _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             TimeAndProgress.StopTime();
 
             var time = LoadedData[_slotNum].TimeSpent;
@@ -427,7 +432,7 @@ namespace Code.GameData
                     Title = save.Title,
                     ProgressPercentage = progress,
                     TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
-                    TimeOfSave = SaveTime,
+                    TimeOfSave = _saveTime,
                     CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>()
                         .currentChapter
                         .name,
@@ -441,7 +446,7 @@ namespace Code.GameData
             if (File.Exists(_filename))
                 File.Delete(_filename);
 
-            _filename = _filename[..^24] + SaveTime + ".json";
+            _filename = _filename[..^24] + _saveTime + ".json";
             File.WriteAllText(_filename, json);
             
             TimeAndProgress.StartTime();
