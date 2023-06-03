@@ -16,9 +16,13 @@ namespace Code.GameData
         public static void RemoveData_Click()
         {
             var slot = GameDataController.Gdc.GetSlotNum();
-            var file = Directory.GetFiles(Application.persistentDataPath)[slot];
-            if (File.Exists(file))
-                File.Delete(file);
+            var files = Directory.GetFiles(Application.persistentDataPath);
+            if (files.Length == 0) return;
+            if (files.Length <= slot)
+                slot -= 1;
+            var file = files[slot];
+           
+            File.Delete(file);
             
             GameDataController.Gdc.UpdateEmptySlot(slot + 1); // TODO Update Slots completely
             

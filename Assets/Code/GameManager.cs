@@ -10,7 +10,6 @@ using Code.Controller;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
-using Debug = UnityEngine.Debug;
 
 namespace Code
 {
@@ -36,9 +35,9 @@ namespace Code
         [SerializeField] private GameObject characters;
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
-				[SerializeField] private GameObject[] messageBoxScreenObjects;
-				// States of the Game
-				[NonSerialized] public bool IsGameOver;
+		[SerializeField] private GameObject[] messageBoxScreenObjects;
+		// States of the Game
+		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
         // Various variables
