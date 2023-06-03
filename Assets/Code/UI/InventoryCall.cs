@@ -15,22 +15,22 @@ namespace Code.UI
         [SerializeField] private GameObject mapCanvas;
         [SerializeField] private GameObject menuCanvas;
 
-        private List<ItemSlot> _itemSlotList = new List<ItemSlot>();
-        public GameObject _itemSlotPrefab;
-        public Transform _inventoryItemTransform;
+        private List<ItemSlot> _itemSlotList = new ();
+        public GameObject itemSlotPrefab;
+        public Transform inventoryItemTransform;
+
+        private bool _isInventoryOpen;
+        private bool _isMapOpen;
+        private bool _isMenuOpen;
         
         private void Start()
         {
             Inventory.Inventory._instance._onItemChange += UpdateInventoryUI;
             UpdateInventoryUI();
-        }
-
-        // Gets Called once per frame
-        private void Update()
-        {
-            inventoryButton.onClick.AddListener(CallInventory);
-            mapButton.onClick.AddListener(CallMap);
-            menuButton.onClick.AddListener(CallMenu);
+            
+            inventoryButton.onClick.AddListener(Inventory_Click);
+            mapButton.onClick.AddListener(Map_Click);
+            menuButton.onClick.AddListener(Menu_Click);
         }
 
         /// <summary>
@@ -76,38 +76,68 @@ namespace Code.UI
             for (int i = 0; i < amount; i++)
             {
                 // _inventoryItemTransform is the Content of the InventoryPanel Scrollview.
-                GameObject gameObject = Instantiate(_itemSlotPrefab, _inventoryItemTransform);
-                ItemSlot newSlot = gameObject.GetComponent<ItemSlot>();
+                var gameObject = Instantiate(itemSlotPrefab, inventoryItemTransform);
+                var newSlot = gameObject.GetComponent<ItemSlot>();
                 _itemSlotList.Add(newSlot);
             }
         }
 
         /// <summary>
-        /// Calls the inventory and disables the map.
+        /// Opens the inventory and disables the map.
         /// </summary>
-        private void CallInventory()
+        private void Inventory_Click()
         {
-            inventoryCanvas.gameObject.SetActive(true);
-            mapCanvas.gameObject.SetActive(false);
-            menuCanvas.gameObject.SetActive(false);
+            _isInventoryOpen = true;
+            _isMapOpen = false;
+            
+            SetScreens();
         }
 
         /// <summary>
-        /// Calls the map and disables the inventory.
+        /// Opens the map and disables the inventory.
         /// </summary>
-        private void CallMap()
+        private void Map_Click()
         {
-            mapCanvas.gameObject.SetActive(true);
-            inventoryCanvas.gameObject.SetActive(false);
+            _isMapOpen = true;
+            _isInventoryOpen = false;
+            
+           SetScreens();
+        }
+    
+        /// <summary>
+        /// Opens the menu above the map and the inventory
+        /// </summary>
+        private void Menu_Click()
+        {
+            if (_isMenuOpen)
+            {
+                _isMenuOpen = false;
+                menuCanvas.gameObject.SetActive(false);
+            }
+            else
+            {
+                _isMenuOpen = true;
+                menuCanvas.gameObject.SetActive(true);
+            }
+        }
+
+        /// <summary>
+        /// Sets the screen, according to the map and inventory 
+        /// </summary>
+        private void SetScreens()
+        {
+            if (_isInventoryOpen)
+            {
+                inventoryCanvas.gameObject.SetActive(true);
+                mapCanvas.gameObject.SetActive(false);
+            }
+            if (_isMapOpen)
+            {
+                mapCanvas.gameObject.SetActive(true);
+                inventoryCanvas.gameObject.SetActive(false);
+            } 
+
             menuCanvas.gameObject.SetActive(false);
         }
-    
-        private void CallMenu()
-        {
-            menuCanvas.gameObject.SetActive(true);
-            inventoryCanvas.gameObject.SetActive(false);
-            mapCanvas.gameObject.SetActive(false);
-        }
-    
     }
 }
