@@ -144,7 +144,7 @@ namespace Code.Dialogue.Story
             }
             
             // Displays Chapter Title
-            story.GetComponentInChildren<Text>().text = GetTitleText();
+            gameObject.GetComponentsInChildren<Text>()[0].text = GetTitleText();
         }
         
         /// <summary>
