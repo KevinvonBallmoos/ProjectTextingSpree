@@ -15,10 +15,10 @@ namespace Code.Dialogue.Story
     [CreateAssetMenu(fileName = "Chapter", menuName = "Viewer", order = 0)]
     public class StoryAsset : ScriptableObject
     {
-				// Current Asset
-				private StoryAsset _currentAsset;
-				// Lists with nodes
-				private readonly List<NodeInfo> _nodes = new ();
+		// Current Asset
+		private StoryAsset _currentAsset;
+		// Lists with nodes
+		private readonly List<NodeInfo> _nodes = new ();
         [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
         // Dictionary to store all nodes 
         [NonSerialized] private readonly Dictionary<string, StoryNode> _nodeLookup = new ();
@@ -111,13 +111,13 @@ namespace Code.Dialogue.Story
             return false;
         }
 
-				/// <summary>
-				/// Reads the Properties from the Xml to the according node
-				/// </summary>
-				/// <param name="node">Node whose properties must be read</param>
-				/// <param name="xmlDoc">The currently opened xml document</param>
-				/// §
-				private void ReadProperties(StoryNode node, XmlDocument xmlDoc)
+		/// <summary>
+		/// Reads the Properties from the Xml to the according node
+		/// </summary>
+		/// <param name="node">Node whose properties must be read</param>
+		/// <param name="xmlDoc">The currently opened xml document</param>
+		/// §
+		private void ReadProperties(StoryNode node, XmlDocument xmlDoc)
         {
             var nodeList = node.IsChoiceNode()? xmlDoc.GetElementsByTagName("Choice"): xmlDoc.GetElementsByTagName("Node");
             var xmlNode = nodeList.Cast<XmlNode>().FirstOrDefault(n => node.GetText() == n.InnerText);
@@ -257,6 +257,19 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
+        /// Returns all StoryNodes
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<StoryNode> GetAllStoryNodes()
+        {
+            foreach (var node in StoryNodes)
+            {
+                if (!node.IsChoiceNode())
+                    yield return node;
+            }
+        }
+
+        /// <summary>
         /// Returns all Child nodes from the Parent node
         /// </summary>
         /// <param name="parentNode">Parent Node to get the child nodes from</param>
@@ -313,30 +326,30 @@ namespace Code.Dialogue.Story
             }
         }
 
-				#endregion
+		#endregion
 
-				#region AssetDatabase
+		#region AssetDatabase
 
-				/// <summary>
-				/// Adds to or removes from the asset database
-				/// </summary>
-				private void SaveNodesToAssetDatabase()
+		/// <summary>
+		/// Adds to or removes from the asset database
+		/// </summary>
+		private void SaveNodesToAssetDatabase()
+{
+    // Assuming 'savedDataPath' is the path to the asset containing the saved data
+    var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/Story/" + _currentAsset.name + ".asset");
+
+    foreach (var n in _nodes)
+    {
+        if (!savedData.Contains(n.Node))
         {
-            // Assuming 'savedDataPath' is the path to the asset containing the saved data
-            var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/Story/" + _currentAsset.name + ".asset");
-
-            foreach (var n in _nodes)
-            {
-                if (!savedData.Contains(n.Node))
-                {
-                    if (AssetDatabase.GetAssetPath(n.Node) == "")
-                        AssetDatabase.AddObjectToAsset(n.Node, this);
-                }
-                else if (!n.IsTrue)
-                    AssetDatabase.RemoveObjectFromAsset(n.Node);
-            }
+            if (AssetDatabase.GetAssetPath(n.Node) == "")
+                AssetDatabase.AddObjectToAsset(n.Node, this);
         }
-        
-        #endregion
+        else if (!n.IsTrue)
+            AssetDatabase.RemoveObjectFromAsset(n.Node);
+    }
+}
+
+#endregion
     }
 }
