@@ -101,7 +101,7 @@ namespace Code.Dialogue.Story
         /// <param name="isSave"></param>
         private void UpdateUI(bool isSave)
         {
-            //pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode());
+            pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode());
 
             DisplayNodeProperties(); 
             UpdateNodeChoice();
