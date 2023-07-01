@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-using Code.Logger;
-using UnityEngine.Serialization;
 
 namespace Code.Dialogue.Story
 {
@@ -39,17 +34,17 @@ namespace Code.Dialogue.Story
         [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
         [SerializeField] private Rect textRect;
 
-				#region Setter
+		#region Setter
 
-				/// <summary>
-				/// Sets the Text of the node
-				/// </summary>
-				/// <param name="txt"></param>
-				public void SetText(string txt)
+		/// <summary>
+		/// Sets the Text of the node
+		/// </summary>
+		/// <param name="txt"></param>
+		public void SetText(string txt)
         {
             text = txt;
         }
-        
+
         /// <summary>
         /// Sets the Text of the node
         /// </summary>
@@ -60,7 +55,7 @@ namespace Code.Dialogue.Story
             labelText = label;
             nodeId = id;
         }
-        
+
         /// <summary>
         /// Sets the Item of the node
         /// </summary>
@@ -69,7 +64,7 @@ namespace Code.Dialogue.Story
         {
             item = itm;
         }
-        
+
         /// <summary>
         /// Sets the Image of the node
         /// </summary>
@@ -78,7 +73,7 @@ namespace Code.Dialogue.Story
         {
             image = img;
         }
-        
+
         /// <summary>
         /// Sets the Image of the node
         /// </summary>
@@ -87,7 +82,7 @@ namespace Code.Dialogue.Story
         {
             background = backgr;
         }
-
+        
         /// <summary>
         /// Sets the isRootNode
         /// </summary>
@@ -96,7 +91,7 @@ namespace Code.Dialogue.Story
         {
             isRootNode = isRoot;
         }
-        
+
         /// <summary>
         /// Sets the boolean IsGameOver
         /// </summary>
@@ -105,7 +100,7 @@ namespace Code.Dialogue.Story
         {
             isGameOver = isOver;
         }
-        
+
         /// <summary>
         /// Sets the boolean IsEndOfChapter
         /// </summary>
@@ -114,7 +109,7 @@ namespace Code.Dialogue.Story
         {
             isEndOfChapter = isEnd;
         }
-        
+
         /// <summary>
         /// Sets the boolean IsEndOfChapter
         /// </summary>
@@ -123,7 +118,7 @@ namespace Code.Dialogue.Story
         {
             isEndOfStory = isEnd;
         }
-        
+
         /// <summary>
         /// Sets the value of isStoryChoice to true or false
         /// </summary>
@@ -155,43 +150,43 @@ namespace Code.Dialogue.Story
             textRect = new Rect(x,y, width, height);
         }
 
-				#endregion
+		#endregion
 
-				#region Child nodes
+		#region Child nodes
 
-				/// <summary>
-				/// Adds the node name to the childnodes list
-				/// </summary>
-				/// <param name="childId"></param>
-				public void AddChildNode(string childId)
-				{
-						foreach (var c in GetChildNodes())
-						{
-								if (c.Equals(childId))
-										return;
-						}
-						childNodes.Add(childId);
-				}
+		/// <summary>
+		/// Adds the node name to the child nodes list
+		/// </summary>
+		/// <param name="childId"></param>
+		public void AddChildNode(string childId)
+		{
+			foreach (var c in GetChildNodes())
+			{
+				if (c.Equals(childId))
+						return;
+			}
+			childNodes.Add(childId);
+		}
 
-				/// <summary>
-				/// Removes node from childnodes
-				/// </summary>
-				/// <param name="childId"></param>
-				public void RemoveChildNode(string childId)
-				{
-						childNodes.Remove(childId);
-				}
+		/// <summary>
+		/// Removes node from child nodes
+		/// </summary>
+		/// <param name="childId"></param>
+		public void RemoveChildNode(string childId)
+		{
+            childNodes.Remove(childId);
+		}
 
-				#endregion
+		#endregion
 
-				#region Getter
+		#region Getter
 
 
-				public bool IsChoiceNode()
+		public bool IsChoiceNode()
         {
             return isChoiceNode;
         }
-        
+
         public bool IsRootNode()
         {
             return isRootNode;
@@ -201,7 +196,7 @@ namespace Code.Dialogue.Story
         {
             return isEndOfStory;
         }    
-        
+
         public bool IsEndOfChapter()
         {
             return isEndOfChapter;
@@ -221,12 +216,12 @@ namespace Code.Dialogue.Story
         {
             return labelText;
         }
-        
+
         public string GetNodeId()
         {
             return nodeId;
         }
-        
+
         public string GetImage()
         {
             return image is null or "" ? "" : "image";
@@ -236,7 +231,7 @@ namespace Code.Dialogue.Story
         {
             return !item.Equals("") ? item : "";
         }
-        
+
         public string GetBackground()
         {
             return !background.Equals("") ? background : "";
@@ -251,18 +246,12 @@ namespace Code.Dialogue.Story
         {
             return storyRect;
         }
-        
+
         public Rect GetTextRect()
         {
             return textRect;
         }
 
-        public Rect GetRect(Vector2 pos)
-        {
-            storyRect.position += pos;
-            return storyRect;
-        }
-
-				#endregion
+		#endregion
 		}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Xml;
 using TMPro;
 using UnityEngine;
@@ -26,10 +27,13 @@ namespace Code.Dialogue.Story
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
+        [SerializeField] private Button pageBackButton;
         [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         [SerializeField] private GameObject saveStatus;
         // Story Chapter
         public StoryAsset currentChapter;
+        //StoryNode
+        private StoryNode _nodeToDisplay;
         // Coroutine
         private Coroutine _textCoroutine;
         // Image, Text of save status
@@ -44,7 +48,7 @@ namespace Code.Dialogue.Story
 		public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            _storyHolder.LoadChapterProperties(currentChapter);
+            var isSave = _storyHolder.LoadChapterProperties(currentChapter);
 
             //if (currentChapter == null)
             currentChapter = _storyHolder.CurrentChapter;
@@ -56,7 +60,10 @@ namespace Code.Dialogue.Story
             nextButton.onClick.AddListener(Next_Click);
             nextButton.GetComponentInChildren<Text>().text = "Next";
             nextButton.gameObject.SetActive(false);
-            UpdateUI();
+
+            _nodeToDisplay = _storyHolder.GetCurrentNode();
+            
+            UpdateUI(isSave);
         }
 
 		#endregion
@@ -67,13 +74,23 @@ namespace Code.Dialogue.Story
 		/// When the next button is clicked, it loads the next part of the story
 		/// </summary>
 		private void Next_Click()
-{
-    StopCoroutine(_textCoroutine);
-    _storyHolder.Next();
-    UpdateUI();
-}
+        {
+            StopCoroutine(_textCoroutine);
+            _nodeToDisplay = _storyHolder.GetNextNode(_nodeToDisplay);
+            UpdateUI(true);
+        }
+        
+        /// <summary>
+        /// Scrolls back one page
+        /// </summary>
+        public void ScrollBack_Click()
+        {
+            StopCoroutine(_textCoroutine);
+            _nodeToDisplay = _storyHolder.GetNodeBefore();
+            UpdateUI(false);
+        }
 
-#endregion
+        #endregion
 
         #region Update UI
 
@@ -81,29 +98,38 @@ namespace Code.Dialogue.Story
         /// Updates the UI, loads the next story or choice nodes and their properties
         /// Saves the node state
         /// </summary>
-        private void UpdateUI()
+        /// <param name="isSave"></param>
+        private void UpdateUI(bool isSave)
         {
-            if (!_storyHolder.GetIsNull())
+            pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode());
+
+            DisplayNodeProperties(); 
+            UpdateNodeChoice();
+
+            if (!isSave) return;
+            SaveGameState();
+            AddItemToInventory();
+        }
+
+        /// <summary>
+        /// Updates the bottom UI with, either the choices or the next button
+        /// </summary>
+        private void UpdateNodeChoice()
+        {
+            // Checks if the current node has children
+            if (_storyHolder.HasMoreNodes(_nodeToDisplay).Any())
             {
-                // if Story Node
-                if (_storyHolder.GetIsStoryNode())
-                {
-                    if (_storyHolder.HasNext())
-                    {
-                        nextButton.gameObject.SetActive(true);
-                        choiceRoot.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        NextChapter();
-                    }
-                }
-                // if Choice Node
-                else if (!_storyHolder.GetIsStoryNode())
+                // if the children are choice nodes
+                if (_storyHolder.HasMoreNodes(_nodeToDisplay)[0].IsChoiceNode())
                 {
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
                     BuildChoiceList();
+                }
+                else
+                {
+                    nextButton.gameObject.SetActive(true);
+                    choiceRoot.gameObject.SetActive(false);
                 }
             }
             else
@@ -113,12 +139,6 @@ namespace Code.Dialogue.Story
                 choiceRoot.gameObject.SetActive(false);
                 NextChapter();
             }
-            
-            DisplayNodeProperties();
-            
-            SaveGameState();
-
-            AddItemToInventory();
         }
 
         /// <summary>
@@ -131,11 +151,12 @@ namespace Code.Dialogue.Story
             _textCoroutine = StartCoroutine(TextSlower(0.02f));
             
             // Displays Image
-            if (!_storyHolder.GetImage().Equals(""))
+            var image = _storyHolder.GetImage(_nodeToDisplay);
+            if (!image.Equals(""))
             {
                 imageHolder[0].SetActive(false);
                 imageHolder[1].SetActive(true);
-                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("StoryImage/" + _storyHolder.GetImage());
+                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("StoryImage/" + image);
             }
             else
             {
@@ -145,6 +166,17 @@ namespace Code.Dialogue.Story
             
             // Displays Chapter Title
             gameObject.GetComponentsInChildren<Text>()[0].text = GetTitleText();
+
+            //Displays Page Back Button, when the last node was a choice
+        }
+
+        /// <summary>
+        /// Scrolls back one page
+        /// </summary>
+        public void ScrollForward_Click()
+        {
+            _nodeToDisplay = _storyHolder.GetNextNode(_nodeToDisplay);
+            UpdateUI(false);
         }
         
         /// <summary>
@@ -155,8 +187,11 @@ namespace Code.Dialogue.Story
             GameDataController.Gdc.SaveGame(new SaveData
             {
                 Title = GetTitleText(),
-                ParentNode = _storyHolder.ParentNode.name,
+                ParentNode = _storyHolder.GetCurrentNode().name,
                 IsStoryNode = _storyHolder.IsStoryNode,
+                NodeIndex = _storyHolder.GetNodeIndex(),
+                PastStoryNodes = _storyHolder.GetPastStoryNodes(),
+                SelectedChoices = _storyHolder.GetSelectedChoices()
             });
             StartCoroutine(ShowImage());
         }
@@ -166,7 +201,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         private string GetTitleText()
         {
-            var xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();  // Maybe Xml Reader - better performance
             xmlDoc.Load($@"{Application.dataPath}/Resources/StoryFiles/{currentChapter.name}.xml"); 
             var rootNode = xmlDoc.SelectSingleNode($"//{currentChapter.name}");
             return rootNode?.FirstChild.InnerText;
@@ -179,7 +214,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetParentNodeText().Replace("{Name}", GameDataController.Gdc.GetPlayerName());
+            var text = _nodeToDisplay.GetText().Replace("{Name}", GameDataController.Gdc.GetPlayerName());
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
@@ -274,39 +309,57 @@ namespace Code.Dialogue.Story
         {
             foreach (Transform item in choiceRoot)
                 Destroy(item.gameObject);
-
-            foreach (var choice in _storyHolder.GetChoices())
+            var choices = _storyHolder.GetChoices(_nodeToDisplay).ToList();
+            if (!_storyHolder.CheckSelectedChoices(choices))
             {
-                var choiceInstance = Instantiate(choicePrefab, choiceRoot);
-                var background = choice.GetBackground();
+                foreach (var choice in choices)
+                    SetChoice(choice, true);
+            }
+            else
+            {
+                // only show choices, that is in the list
+                var choice = _storyHolder.GetSelectedChoice();
+                SetChoice(choice, false);
+            }
+        }
 
-                // Check if this node can only be used by a certain player
-                if (!background.Equals(""))
-                {
-                    if (background.Equals(GameDataController.Gdc.GetPlayerBackground()))
-                    {
-                        // Set Text
-                        var choiceText = choiceInstance.GetComponentInChildren<Text>();
-                        choiceText.text = choice.GetText();
-                    }
-                }
-                else
+        /// <summary>
+        /// Sets the choice node properties
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <param name="isSave"></param>
+        private void SetChoice(StoryNode choice, bool isSave)
+        {
+            var choiceInstance = Instantiate(choicePrefab, choiceRoot);
+            var background = choice.GetBackground();
+
+            // Check if this node can only be used by a certain player
+            if (!background.Equals(""))
+            {
+                if (background.Equals(GameDataController.Gdc.GetPlayerBackground()))
                 {
                     // Set Text
                     var choiceText = choiceInstance.GetComponentInChildren<Text>();
                     choiceText.text = choice.GetText();
                 }
-
-                // Add listener
-                var button = choiceInstance.GetComponentInChildren<Button>();
-                button.onClick.AddListener(() =>
-                {
-                    _storyHolder.Next(choice);
-                    UpdateUI();
-                });
+                else return;
             }
+            else
+            {
+                // Set Text
+                var choiceText = choiceInstance.GetComponentInChildren<Text>();
+                choiceText.text = choice.GetText();
+            }
+
+            // Add listener
+            var button = choiceInstance.GetComponentInChildren<Button>();
+            button.onClick.AddListener(() =>
+            {
+                _nodeToDisplay = _storyHolder.GetNextNode(choice);
+                UpdateUI(isSave);
+            });
         }
-        
+
         #endregion
     }
 }

@@ -1,18 +1,21 @@
 <Story1Chapter1>
 	<Title>Part 1 Chapter 1</Title>
 	<DialogueChoices>
-		<Choice id="1" node="6">Story Path1</Choice>
-		<Choice id="2" node="7">Story Path2</Choice>
-		<Choice id="3" node="8">Story 1 Go on</Choice>
-		<Choice id="4" node="10">Story 3 Path</Choice>
+		<Choice id="1" node="8">Path 1</Choice>
+		<Choice id="2" node="12">Path 2</Choice>
+		<Choice id="3" node="9">Path 1 Go on</Choice>
+		<Choice id="4" node="13">Path 3</Choice>
+		<Choice id="5" node="10">Path 1 further</Choice>
+		<Choice id="6" node="14">Path 4</Choice>
 	</DialogueChoices>
 	<DialogueStory>
-		<Node id="5" isRootNode="True" choice="1,2"> Start Chapter 1 My name is: {Name} El Gigante</Node>
-		<Node id="6" choice="3,4">Story 1</Node>
-		<Node id="7" isGameOver="True">Story 2 Game Over</Node>
-		<Node id="8" node="9">Story 1 Move Forward</Node>
-		<Node id="9" node="11">Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </Node>
-		<Node id="10" isGameOver="True">Story 3 Game Over </Node>
-		<Node id="11" isEndOfChapter="True">Story 1 END</Node>
+		<Node id="7" isRootNode="True" choice="1,2"> Start Chapter 1 Name</Node>
+		<Node id="8" item="Bread" choice="3,4">Chap 1 go On</Node>
+		<Node id="9" choice="5,6">Chap 1 go On 2</Node>
+		<Node id="10" node="11">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Node>
+		<Node id="11" isEndOfStory="True">Story 1 END</Node>
+		<Node id="12" isGameOver="True">Path 2 Game Over</Node>
+		<Node id="13" isGameOver="True">Path 3 Game Over</Node>
+		<Node id="14" isGameOver="True">Path 4 Game Over</Node>
 	</DialogueStory>
 </Story1Chapter1>

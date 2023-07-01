@@ -32,6 +32,9 @@ namespace Code.GameData
         public string CurrentChapter { get; set; }
         public string ParentNode { get; set; }
         public bool IsStoryNode { get; set; }
+        public string NodeIndex { get; set; }
+        public StoryNode[] PastStoryNodes { get; set; }
+        public StoryNode[] SelectedChoices { get; set; }
     }
     
     /// <summary>
@@ -397,7 +400,10 @@ namespace Code.GameData
                 TimeOfSave = _saveTime,
                 CurrentChapter = "",
                 ParentNode = "",
-                IsStoryNode = false
+                IsStoryNode = false,
+                NodeIndex = "0",
+                PastStoryNodes = null,
+                SelectedChoices = null
             });
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
             _filename = Application.persistentDataPath +
@@ -437,7 +443,10 @@ namespace Code.GameData
                         .currentChapter
                         .name,
                     ParentNode = save.ParentNode,
-                    IsStoryNode = save.IsStoryNode
+                    IsStoryNode = save.IsStoryNode,
+                    NodeIndex = save.NodeIndex,
+                    PastStoryNodes = save.PastStoryNodes,
+                    SelectedChoices = save.SelectedChoices,
                     // More Variables for Inventory
                 }
             );
