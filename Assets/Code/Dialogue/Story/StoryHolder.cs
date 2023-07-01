@@ -35,9 +35,10 @@ namespace Code.Dialogue.Story
 		/// Loads the Save Data or Starts a new Chapter
 		/// </summary>
 		/// <param name="chapter">Is either null or a new chapter</param>
-        public void LoadChapterProperties(StoryAsset chapter)
+        public bool LoadChapterProperties(StoryAsset chapter)
         {
             _choiceIndex = 0;
+            var isSave = true;
             if (chapter != null){
                 
                 CurrentChapter = chapter;
@@ -69,18 +70,35 @@ namespace Code.Dialogue.Story
                 }
                 IsStoryNode = saveData.IsStoryNode;
                 _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
-                _pastStoryNodes = saveData.PastStoryNodes;
                 _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
-                _selectedChoices = saveData.SelectedChoices;
-                foreach (var c in _selectedChoices)
+
+                var i = 0;
+                foreach (var node in CurrentChapter.GetAllNodes())
                 {
-                    if (c == null)
+                    foreach (var p in saveData.PastStoryNodes)
+                    {
+                        if (p == null) break;
+                        if (!node.name.Equals(p.name)) continue;
+                        _pastStoryNodes[i] = node;
+                        i++;
                         break;
-                    _choiceIndex++;
+                    }
+                    
+                    foreach (var c in saveData.SelectedChoices)
+                    {
+                        if (c == null) break;
+                        if (!node.name.Equals(c.name)) continue;
+                        _selectedChoices[_choiceIndex] = node;
+                        _choiceIndex++;
+                        break;
+                    }
                 }
+
                 _nodeIndex = int.Parse(saveData.NodeIndex);
+                isSave = false;
             }
             TimeAndProgress.CalculateProgress(CurrentChapter.name);
+            return isSave;
         }
         
         #endregion
@@ -93,9 +111,12 @@ namespace Code.Dialogue.Story
         /// <param name="selectedChoice">Parent that contains the next choices nodes</param>
         public StoryNode GetNextNode(StoryNode selectedChoice)
         {
-            _choiceIndex++;
-            _selectedChoices[_choiceIndex] = selectedChoice;
-            
+            if (!_selectedChoices.Contains(selectedChoice))
+            {
+                _choiceIndex++;
+                _selectedChoices[_choiceIndex] = selectedChoice;
+            }
+
             foreach (var n in CurrentChapter.GetStoryNodes(selectedChoice))
                 _currentNode = n;
 

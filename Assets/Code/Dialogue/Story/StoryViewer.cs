@@ -140,12 +140,12 @@ namespace Code.Dialogue.Story
 
 				#endregion
 
-				#region OnGUI
+		#region OnGUI
 
-				/// <summary>
-				/// Gets called every time a change happens on the Editor. Displays the nodes.
-				/// </summary>
-				private void OnGUI()
+		/// <summary>
+		/// Gets called every time a change happens on the Editor. Displays the nodes.
+		/// </summary>
+		private void OnGUI()
         {
             if (!_selectedChapter.HasReadNodes) return;
             

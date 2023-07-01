@@ -40,6 +40,11 @@ namespace Code.Dialogue.Story
         public StoryAsset ReadNodes(StoryAsset chapter)
         {
             HasReadNodes = false;
+
+            if (!_nodes.Any())
+                foreach (var n in chapter.GetAllNodes())
+                    _nodes.Add(new NodeInfo{Node = n, IsTrue = true});
+            
             var xmlDoc = new XmlDocument();
             var xmlFile = Resources.Load<TextAsset>($"StoryFiles/{chapter.name}");
             xmlDoc.LoadXml(xmlFile.text);
@@ -84,6 +89,14 @@ namespace Code.Dialogue.Story
             {
                 ReadProperties(n.Node, xmlDoc);
                 StoryNodes.Add(n.Node);
+            }
+            
+            foreach (var child in _nodes)
+            {
+                if (!child.Node.IsRootNode()) continue;
+                child.Node.SetTextRect(child.Node.GetRect().x + 5, child.Node.GetRect().y + 5, child.Node.GetRect().width - 50, child.Node.GetRect().height -50);
+                SetNodePosition(child.Node);
+                break;
             }
 
             _currentAsset = chapter;
@@ -159,14 +172,6 @@ namespace Code.Dialogue.Story
                         break;
                 }
             }
-            
-            foreach (var child in _nodes)
-            {
-                if (!child.Node.IsRootNode()) continue;
-                child.Node.SetTextRect(child.Node.GetRect().x + 5, child.Node.GetRect().y + 5, child.Node.GetRect().width - 50, child.Node.GetRect().height -50);
-                SetNodePosition(child.Node);
-                break;
-            }
         }
 
         /// <summary>
@@ -211,6 +216,7 @@ namespace Code.Dialogue.Story
                 foreach (var n in _nodes)
                 {
                     if (n.Node.name != child) continue;
+                    if (n.Node.GetRect().position.x != 10) continue;
                     n.Node.SetRect(node.GetRect().position.x + 350, node.GetRect().position.y + (i * 200));
                     n.Node.SetTextRect(n.Node.GetRect().x + 5, n.Node.GetRect().y + 5, n.Node.GetRect().width - 20, n.Node.GetRect().height -20);
                     SetNodePosition(n.Node);

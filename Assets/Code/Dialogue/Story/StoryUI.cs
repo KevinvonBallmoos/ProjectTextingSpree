@@ -27,6 +27,7 @@ namespace Code.Dialogue.Story
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
+        [SerializeField] private Button pageBackButton;
         [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         [SerializeField] private GameObject saveStatus;
         // Story Chapter
@@ -47,7 +48,7 @@ namespace Code.Dialogue.Story
 		public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            _storyHolder.LoadChapterProperties(currentChapter);
+            var isSave = _storyHolder.LoadChapterProperties(currentChapter);
 
             //if (currentChapter == null)
             currentChapter = _storyHolder.CurrentChapter;
@@ -62,7 +63,7 @@ namespace Code.Dialogue.Story
 
             _nodeToDisplay = _storyHolder.GetCurrentNode();
             
-            UpdateUI(true);
+            UpdateUI(isSave);
         }
 
 		#endregion
@@ -78,6 +79,16 @@ namespace Code.Dialogue.Story
             _nodeToDisplay = _storyHolder.GetNextNode(_nodeToDisplay);
             UpdateUI(true);
         }
+        
+        /// <summary>
+        /// Scrolls back one page
+        /// </summary>
+        public void ScrollBack_Click()
+        {
+            StopCoroutine(_textCoroutine);
+            _nodeToDisplay = _storyHolder.GetNodeBefore();
+            UpdateUI(false);
+        }
 
         #endregion
 
@@ -90,12 +101,14 @@ namespace Code.Dialogue.Story
         /// <param name="isSave"></param>
         private void UpdateUI(bool isSave)
         {
+            //pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode());
+
             DisplayNodeProperties(); 
             UpdateNodeChoice();
+
+            if (!isSave) return;
+            SaveGameState();
             AddItemToInventory();
-            
-            if (isSave)
-                SaveGameState();
         }
 
         /// <summary>
@@ -157,15 +170,6 @@ namespace Code.Dialogue.Story
             //Displays Page Back Button, when the last node was a choice
         }
 
-        /// <summary>
-        /// Scrolls back one page
-        /// </summary>
-        public void ScrollBack_Click()
-        {
-            _nodeToDisplay = _storyHolder.GetNodeBefore();
-            UpdateUI(false);
-        }
-        
         /// <summary>
         /// Scrolls back one page
         /// </summary>
@@ -305,26 +309,26 @@ namespace Code.Dialogue.Story
         {
             foreach (Transform item in choiceRoot)
                 Destroy(item.gameObject);
-            Debug.Log("hello3");
             var choices = _storyHolder.GetChoices(_nodeToDisplay).ToList();
             if (!_storyHolder.CheckSelectedChoices(choices))
             {
-                Debug.Log("hello");
                 foreach (var choice in choices)
-                {
-                    SetChoice(choice);
-                }
+                    SetChoice(choice, true);
             }
             else
             {
-                Debug.Log("hello2");
                 // only show choices, that is in the list
                 var choice = _storyHolder.GetSelectedChoice();
-                SetChoice(choice);
+                SetChoice(choice, false);
             }
         }
 
-        private void SetChoice(StoryNode choice)
+        /// <summary>
+        /// Sets the choice node properties
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <param name="isSave"></param>
+        private void SetChoice(StoryNode choice, bool isSave)
         {
             var choiceInstance = Instantiate(choicePrefab, choiceRoot);
             var background = choice.GetBackground();
@@ -338,6 +342,7 @@ namespace Code.Dialogue.Story
                     var choiceText = choiceInstance.GetComponentInChildren<Text>();
                     choiceText.text = choice.GetText();
                 }
+                else return;
             }
             else
             {
@@ -351,7 +356,7 @@ namespace Code.Dialogue.Story
             button.onClick.AddListener(() =>
             {
                 _nodeToDisplay = _storyHolder.GetNextNode(choice);
-                UpdateUI(true);
+                UpdateUI(isSave);
             });
         }
 

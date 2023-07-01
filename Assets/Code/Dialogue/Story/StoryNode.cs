@@ -160,12 +160,12 @@ namespace Code.Dialogue.Story
 		/// <param name="childId"></param>
 		public void AddChildNode(string childId)
 		{
-				foreach (var c in GetChildNodes())
-				{
-						if (c.Equals(childId))
-								return;
-				}
-				childNodes.Add(childId);
+			foreach (var c in GetChildNodes())
+			{
+				if (c.Equals(childId))
+						return;
+			}
+			childNodes.Add(childId);
 		}
 
 		/// <summary>
@@ -174,7 +174,7 @@ namespace Code.Dialogue.Story
 		/// <param name="childId"></param>
 		public void RemoveChildNode(string childId)
 		{
-				childNodes.Remove(childId);
+            childNodes.Remove(childId);
 		}
 
 		#endregion
