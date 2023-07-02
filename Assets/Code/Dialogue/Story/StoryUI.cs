@@ -30,6 +30,8 @@ namespace Code.Dialogue.Story
         [SerializeField] private Button pageBackButton;
         [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         [SerializeField] private GameObject saveStatus;
+        // Ending Screen
+        [SerializeField] private GameObject messageBoxEndScreen;
         // Story Chapter
         public StoryAsset currentChapter;
         //StoryNode
@@ -63,7 +65,7 @@ namespace Code.Dialogue.Story
 
             _nodeToDisplay = _storyHolder.GetCurrentNode();
             
-            UpdateUI(isSave);
+            UpdateUI(isSave, false);
         }
 
 		#endregion
@@ -77,7 +79,7 @@ namespace Code.Dialogue.Story
         {
             StopCoroutine(_textCoroutine);
             _nodeToDisplay = _storyHolder.GetNextNode(_nodeToDisplay);
-            UpdateUI(true);
+            UpdateUI(true, false);
         }
         
         /// <summary>
@@ -87,7 +89,18 @@ namespace Code.Dialogue.Story
         {
             StopCoroutine(_textCoroutine);
             _nodeToDisplay = _storyHolder.GetNodeBefore();
-            UpdateUI(false);
+            UpdateUI(false, false);
+        }
+
+        /// <summary>
+        /// Scrolls back to the last choice, but the already selected, cannot be chosen again
+        /// </summary>
+        public void ScrollBackGameOver_Click()
+        {
+            messageBoxEndScreen.SetActive(false);
+            StopCoroutine(_textCoroutine);
+            _nodeToDisplay = _storyHolder.GetNodeBefore();
+            UpdateUI(false, true);
         }
 
         #endregion
@@ -99,12 +112,13 @@ namespace Code.Dialogue.Story
         /// Saves the node state
         /// </summary>
         /// <param name="isSave"></param>
-        private void UpdateUI(bool isSave)
+        /// <param name="isGameOver"></param>
+        private void UpdateUI(bool isSave, bool isGameOver)
         {
             pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode());
 
             DisplayNodeProperties(); 
-            UpdateNodeChoice();
+            UpdateNodeChoice(isGameOver);
 
             if (!isSave) return;
             SaveGameState();
@@ -114,7 +128,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Updates the bottom UI with, either the choices or the next button
         /// </summary>
-        private void UpdateNodeChoice()
+        private void UpdateNodeChoice(bool isGameOver)
         {
             // Checks if the current node has children
             if (_storyHolder.HasMoreNodes(_nodeToDisplay).Any())
@@ -124,7 +138,7 @@ namespace Code.Dialogue.Story
                 {
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
-                    BuildChoiceList();
+                    BuildChoiceList(isGameOver);
                 }
                 else
                 {
@@ -170,15 +184,6 @@ namespace Code.Dialogue.Story
             //Displays Page Back Button, when the last node was a choice
         }
 
-        /// <summary>
-        /// Scrolls back one page
-        /// </summary>
-        public void ScrollForward_Click()
-        {
-            _nodeToDisplay = _storyHolder.GetNextNode(_nodeToDisplay);
-            UpdateUI(false);
-        }
-        
         /// <summary>
         /// Saves the actual node and their properties
         /// </summary>
@@ -305,11 +310,13 @@ namespace Code.Dialogue.Story
         /// Builds the choice list, depending on the count of the nodes
         /// Some choices are only visible for Player with the needed background
         /// </summary>
-        private void BuildChoiceList()
+        /// <param name="isGameOver"></param>
+        private void BuildChoiceList(bool isGameOver)
         {
             foreach (Transform item in choiceRoot)
                 Destroy(item.gameObject);
             var choices = _storyHolder.GetChoices(_nodeToDisplay).ToList();
+            
             if (!_storyHolder.CheckSelectedChoices(choices))
             {
                 foreach (var choice in choices)
@@ -317,9 +324,22 @@ namespace Code.Dialogue.Story
             }
             else
             {
-                // only show choices, that is in the list
-                var choice = _storyHolder.GetSelectedChoice();
-                SetChoice(choice, false);
+                if (!isGameOver)
+                {
+                    // only show choices, that is in the list
+                    var choice = _storyHolder.GetSelectedChoice();
+                    SetChoice(choice, false);
+                }
+                else
+                {
+                    var gameOverChoice = _storyHolder.GetSelectedChoice();
+                    foreach (var choice in choices)
+                    {
+                        if (choice != gameOverChoice)
+                            SetChoice(choice, true);
+                    }
+                    _storyHolder.SetChoiceIndex();
+                }
             }
         }
 
@@ -356,7 +376,7 @@ namespace Code.Dialogue.Story
             button.onClick.AddListener(() =>
             {
                 _nodeToDisplay = _storyHolder.GetNextNode(choice);
-                UpdateUI(isSave);
+                UpdateUI(isSave, false);
             });
         }
 

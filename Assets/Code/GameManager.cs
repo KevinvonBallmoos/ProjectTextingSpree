@@ -27,7 +27,7 @@ namespace Code
         // GameManager
         public static GameManager Gm;
         // Ending Screen
-        [SerializeField] private GameObject endingScreen;
+        [SerializeField] private GameObject messageBoxEndScreen;
         // Menu Save and Properties Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject messageBoxScreen;
@@ -187,7 +187,7 @@ namespace Code
         private void LoadGameOverScreen()
         {
             IsGameOver = false;
-            endingScreen.SetActive(true);
+            messageBoxEndScreen.SetActive(true);
             _logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
         }
 
@@ -249,25 +249,26 @@ namespace Code
             messageBoxScreenObjects[0].GetComponent<Button>().onClick.AddListener(eventMethod);
             messageBoxScreenObjects[1].GetComponent<Text>().text = text;
         }
-        
+
         #endregion
         
         #region Main Menu
 
-        public void BackToMainMenu() // TODO Rename to click
+        public void BackToMainMenu_Click()
         {
+            messageBoxEndScreen.SetActive(false);
             ActiveScene = 0;
             LoadScene();
         }
 
-				/// <summary>
-				/// Loads the next Scene
-				/// </summary>
-				public static void LoadScene()
-				{
-						SceneManager.LoadScene(ActiveScene);
-				}
-
-				#endregion
+		/// <summary>
+		/// Loads the next Scene
+		/// </summary>
+		public static void LoadScene()
+		{
+            SceneManager.LoadScene(ActiveScene);
 		}
+
+		#endregion
+    }
 }
