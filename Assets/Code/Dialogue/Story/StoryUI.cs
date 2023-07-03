@@ -90,6 +90,9 @@ namespace Code.Dialogue.Story
             StopCoroutine(_textCoroutine);
             _nodeToDisplay = _storyHolder.GetNodeBefore();
             UpdateUI(false, false);
+            nextButton.GetComponentInChildren<Text>().text = "Next";
+            nextButton.onClick.RemoveAllListeners();
+            nextButton.onClick.AddListener(Next_Click);
         }
 
         /// <summary>
