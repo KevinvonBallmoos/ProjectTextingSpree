@@ -3543,6 +3543,7 @@ MonoBehaviour:
   - {fileID: 0}
   saveStatus: {fileID: 7585498732195177469}
   messageBoxEndScreen: {fileID: 1371551799}
+  _storyScrollbar: {fileID: 1274101289}
   currentChapter: {fileID: 11400000, guid: 57bee8bef36c15840a43dabf1b686221, type: 2}
 --- !u!224 &2625038288853168621
 RectTransform:
