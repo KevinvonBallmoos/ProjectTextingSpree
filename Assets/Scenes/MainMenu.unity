@@ -2861,8 +2861,8 @@ Camera:
   m_GameObject: {fileID: 771046334}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.047169805, g: 0.03448736, b: 0.03448736, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -7269,7 +7269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e71370690e90646b496f559c87eb14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endingScreen: {fileID: 0}
+  messageBoxEndScreen: {fileID: 0}
   mainMenuScreen: {fileID: 1341287985}
   messageBoxScreen: {fileID: 158730989}
   characterPropertiesScreen: {fileID: 1163822378}
