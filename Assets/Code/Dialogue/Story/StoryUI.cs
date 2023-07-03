@@ -32,6 +32,8 @@ namespace Code.Dialogue.Story
         [SerializeField] private GameObject saveStatus;
         // Ending Screen
         [SerializeField] private GameObject messageBoxEndScreen;
+        // Scrollbar
+        [SerializeField] private Scrollbar _storyScrollbar;
         // Story Chapter
         public StoryAsset currentChapter;
         //StoryNode
@@ -234,6 +236,9 @@ namespace Code.Dialogue.Story
 
                 story.text += " ";
             }
+            
+            // Set Scroll view Position
+            _storyScrollbar.value = 1;
         }
         
         /// <summary>
