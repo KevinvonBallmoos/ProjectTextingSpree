@@ -131,8 +131,12 @@ namespace Code.Dialogue.Story
             _nodeIndex--;
             return _pastStoryNodes[_nodeIndex];
         }
-
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="choices"></param>
+        /// <returns></returns>
         public bool CheckSelectedChoices(IEnumerable<StoryNode> choices)
         {
             foreach (var c in choices)
@@ -143,6 +147,18 @@ namespace Code.Dialogue.Story
             }
 
             return false;
+        }
+
+        #endregion
+
+        #region Setter
+
+        /// <summary>
+        /// Decreases the Choice index by 1
+        /// </summary>
+        public void SetChoiceIndex()
+        {
+            _choiceIndex--;
         }
 
         #endregion
