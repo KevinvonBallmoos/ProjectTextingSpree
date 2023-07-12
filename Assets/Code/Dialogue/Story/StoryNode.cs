@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-using Code.Logger;
 
 namespace Code.Dialogue.Story
 {
@@ -14,10 +10,12 @@ namespace Code.Dialogue.Story
     /// <para name="date">04.12.2022</para>
     public class StoryNode : ScriptableObject
     {
-        // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryNode");
         // Text that is in the node
         [SerializeField] private string text;
+        // Text that is in the node
+        [SerializeField] private string labelText;
+        // Different Types of Nodes
+        [SerializeField] private string nodeId;
         // Different Types of Nodes
         [SerializeField] private bool isChoiceNode;
         [SerializeField] private bool isRootNode;
@@ -33,16 +31,29 @@ namespace Code.Dialogue.Story
         // ChildNodes
         [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
-        [SerializeField] private Rect storyRect = new (10, 10, 300, 150);
-        
-#if UNITY_EDITOR
+        [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
+        [SerializeField] private Rect textRect;
+
+		#region Setter
+
+		/// <summary>
+		/// Sets the Text of the node
+		/// </summary>
+		/// <param name="txt"></param>
+		public void SetText(string txt)
+        {
+            text = txt;
+        }
+
         /// <summary>
         /// Sets the Text of the node
         /// </summary>
-        /// <param name="txt"></param>
-        public void SetText(string txt)
+        /// <param name="label"></param>
+        /// <param name="id"></param>
+        public void SetLabelAndNodeId(string label, string id)
         {
-            text = txt;
+            labelText = label;
+            nodeId = id;
         }
 
         /// <summary>
@@ -53,7 +64,7 @@ namespace Code.Dialogue.Story
         {
             item = itm;
         }
-        
+
         /// <summary>
         /// Sets the Image of the node
         /// </summary>
@@ -62,7 +73,7 @@ namespace Code.Dialogue.Story
         {
             image = img;
         }
-        
+
         /// <summary>
         /// Sets the Image of the node
         /// </summary>
@@ -71,7 +82,7 @@ namespace Code.Dialogue.Story
         {
             background = backgr;
         }
-
+        
         /// <summary>
         /// Sets the isRootNode
         /// </summary>
@@ -80,7 +91,7 @@ namespace Code.Dialogue.Story
         {
             isRootNode = isRoot;
         }
-        
+
         /// <summary>
         /// Sets the boolean IsGameOver
         /// </summary>
@@ -89,7 +100,7 @@ namespace Code.Dialogue.Story
         {
             isGameOver = isOver;
         }
-        
+
         /// <summary>
         /// Sets the boolean IsEndOfChapter
         /// </summary>
@@ -98,7 +109,7 @@ namespace Code.Dialogue.Story
         {
             isEndOfChapter = isEnd;
         }
-        
+
         /// <summary>
         /// Sets the boolean IsEndOfChapter
         /// </summary>
@@ -107,42 +118,16 @@ namespace Code.Dialogue.Story
         {
             isEndOfStory = isEnd;
         }
-        
+
         /// <summary>
         /// Sets the value of isStoryChoice to true or false
         /// </summary>
         /// <param name="isChoice"></param>
         public void SetChoiceNode(bool isChoice)
         {
-            Undo.RecordObject(this, "Change Story or Dialogue");
-            this.isChoiceNode = isChoice;
-            EditorUtility.SetDirty(this);
-        }
-        
-        /// <summary>
-        /// Adds ChildNode
-        /// </summary>
-        /// <param name="childId"></param>
-        public void AddChildNode(string childId)
-        {
-            Undo.RecordObject(this, "Add Story Link");
-            childNodes.Add(childId);
-            EditorUtility.SetDirty(this);
-        }
-        
-        /// <summary>
-        /// Removes ChildNode
-        /// </summary>
-        /// <param name="childId"></param>
-        public void RemoveChildNode(string childId)
-        {
-            Undo.RecordObject(this, "Remove Story Link");
-            childNodes.Remove(childId);
-            EditorUtility.SetDirty(this);
-        }
+            isChoiceNode = isChoice;
+        }      
 
-#endif
-        
         /// <summary>
         /// Sets the rect to a new position
         /// </summary>
@@ -150,15 +135,58 @@ namespace Code.Dialogue.Story
         /// <param name="y"></param>
         public void SetRect(float x, float y)
         {
-            Undo.RecordObject(this, "Move Story Node");
             storyRect.position = new Vector2(x,y);
         }
 
-        public bool IsChoiceNode()
+        /// <summary>
+        /// Sets the rect to a new position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetTextRect(float x, float y, float width, float height)
+        {
+            textRect = new Rect(x,y, width, height);
+        }
+
+		#endregion
+
+		#region Child nodes
+
+		/// <summary>
+		/// Adds the node name to the child nodes list
+		/// </summary>
+		/// <param name="childId"></param>
+		public void AddChildNode(string childId)
+		{
+			foreach (var c in GetChildNodes())
+			{
+				if (c.Equals(childId))
+						return;
+			}
+			childNodes.Add(childId);
+		}
+
+		/// <summary>
+		/// Removes node from child nodes
+		/// </summary>
+		/// <param name="childId"></param>
+		public void RemoveChildNode(string childId)
+		{
+            childNodes.Remove(childId);
+		}
+
+		#endregion
+
+		#region Getter
+
+
+		public bool IsChoiceNode()
         {
             return isChoiceNode;
         }
-        
+
         public bool IsRootNode()
         {
             return isRootNode;
@@ -168,7 +196,7 @@ namespace Code.Dialogue.Story
         {
             return isEndOfStory;
         }    
-        
+
         public bool IsEndOfChapter()
         {
             return isEndOfChapter;
@@ -183,17 +211,27 @@ namespace Code.Dialogue.Story
         {
             return text;
         }
-        
+
+        public string GetLabel()
+        {
+            return labelText;
+        }
+
+        public string GetNodeId()
+        {
+            return nodeId;
+        }
+
         public string GetImage()
         {
-            return !image.Equals("") ? image : "";
+            return image is null or "" ? "" : "image";
         }
 
         public string GetItem()
         {
             return !item.Equals("") ? item : "";
         }
-        
+
         public string GetBackground()
         {
             return !background.Equals("") ? background : "";
@@ -209,10 +247,11 @@ namespace Code.Dialogue.Story
             return storyRect;
         }
 
-        public Rect GetRect(Vector2 pos)
+        public Rect GetTextRect()
         {
-            storyRect.position += pos;
-            return storyRect;
+            return textRect;
         }
-    }
+
+		#endregion
+		}
 }

@@ -10,8 +10,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Code.Controller;
 using Code.Dialogue.Story;
-using Code.Inventory;
+using Code.Logger;
 
 namespace Code.GameData
 {
@@ -31,6 +32,9 @@ namespace Code.GameData
         public string CurrentChapter { get; set; }
         public string ParentNode { get; set; }
         public bool IsStoryNode { get; set; }
+        public string NodeIndex { get; set; }
+        public StoryNode[] PastStoryNodes { get; set; }
+        public StoryNode[] SelectedChoices { get; set; }
     }
     
     /// <summary>
@@ -40,6 +44,8 @@ namespace Code.GameData
     /// <para name="date">30.01.2023</para>
     public class GameDataController : MonoBehaviour
     {
+        // Logger
+        private readonly GameLogger _logger = new GameLogger("GameManager");
         // Load save
         [SerializeField] private Button loadGameMenu;
         [SerializeField] private Text loadGameText;
@@ -50,8 +56,8 @@ namespace Code.GameData
         // Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject saveGameScreen;
-        [SerializeField] private GameObject messageBoxScreen;
-		[SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private GameObject messageBoxScreen; 
+        [SerializeField] private GameObject characterPropertiesScreen;
         // Slot view
         public GameObject slotView;
         // GameDataController
@@ -60,12 +66,11 @@ namespace Code.GameData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new ();
         private static int _slotNum;
-        private static bool _isNewGame;
         private static string _filename;
         private static string _playerName;
         private static string _playerBackground;
-        
-        private static readonly string SaveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
+        // Save Time
+        private static string _saveTime;
 
         #region Awake and Start
         
@@ -97,16 +102,17 @@ namespace Code.GameData
         #region Game States
         
         /// <summary>
-        /// When a new Game is started, it checks for a open save slot, are there non,
+        /// When a new Game is started, it checks for a open save slot, are there none,
         /// then the User has to choose an old save slot to override the date with the new Game
         /// </summary>
         public bool NewGame()
         {
-            _isNewGame = true;
+            _saveTime = "";
+            
             var length = Directory.GetFiles(Application.persistentDataPath).Length;
             if (length == 3)
                 return false;
-
+            
             _slotNum = length;
             
             SaveNewGame();
@@ -114,11 +120,10 @@ namespace Code.GameData
         }
 
         /// <summary>
-        /// Loads the Save Slots
+        /// Sets the SaveScreen and loads the data
         /// </summary>
         public void LoadGame()
         {
-            _isNewGame = false;
             mainMenuScreen.SetActive(false);
             saveGameScreen.SetActive(true);
             
@@ -157,10 +162,12 @@ namespace Code.GameData
             switch (loadGameText.text)
             {
                 case "LOAD":
+                    GameManager.ActiveScene = 2;
                     LoadSelectedGame();
                     break;
                 case "NEW GAME":
-                    GameManager.LoadScene(1);
+                    GameManager.ActiveScene = 1;
+                    GameManager.LoadScene();
                     break;
             }
         }
@@ -177,7 +184,7 @@ namespace Code.GameData
         }
         
         /// <summary>
-        /// When cancel is clicked, then the menu screen is visible
+        /// The Messagebox closes
         /// </summary>
         public void Cancel_CLick()
         {
@@ -191,7 +198,7 @@ namespace Code.GameData
         {
             mainMenuScreen.SetActive(true);
             saveGameScreen.SetActive(false);
-            _isNewGame = false;
+            characterPropertiesScreen.SetActive(false);
         }
 
         #endregion
@@ -257,19 +264,21 @@ namespace Code.GameData
                 _ => null
             };
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < 5; i++)
             {
+                if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
                 var time = DateTime.Now;
                 if (LoadedData[slotNum].TimeOfSave != null) 
                     time = DateTime.ParseExact(LoadedData[slotNum].TimeOfSave, "yyyy-dd-M--HH-mm-ss",
-                    CultureInfo.InvariantCulture);
+                        CultureInfo.InvariantCulture);
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
-                    0 => $"Chapter: {LoadedData[slotNum].Title}",
-                    1 => $"Completion: {LoadedData[slotNum].ProgressPercentage} %",
-                    2 => $"Time of last Save: \n{time:dddd, dd MMMM yyyy. HH:mm:ss}",
-                    3 => $"Time spent in Game: {LoadedData[slotNum].TimeSpent}",
+                    0 => $"Player: {LoadedData[slotNum].PlayerName}",
+                    1 => $"Chapter: {LoadedData[slotNum].Title}",
+                    2 => $"Completion: {LoadedData[slotNum].ProgressPercentage} %",
+                    3 => $"Time of last Save: \n{time:dddd, dd MMMM yyyy. HH:mm:ss}",
+                    4 => $"Time spent in Game: {LoadedData[slotNum].TimeSpent}",
                     _ => obj.GetComponent<TextMeshProUGUI>().text
                 };
             }
@@ -278,7 +287,7 @@ namespace Code.GameData
         /// <summary>
         /// Updates the Slot view with empty data, if there is no save 
         /// </summary>
-        /// <param name="slotNum"></param>
+        /// <param name="slotNum">Slot number where the save data has to be placed</param>
         public void UpdateEmptySlot(int slotNum)
         {
             var slotObject = slotNum switch
@@ -289,22 +298,24 @@ namespace Code.GameData
                 _ => null
             };
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < 5; i++)
             {
+                if (slotObject == null) continue;
                 var obj = slotObject.transform.GetChild(i).gameObject;
                 obj.GetComponent<TextMeshProUGUI>().text = i switch
                 {
-                    0 => "Chapter: No data saved",
-                    1 => "Completion: ... %",
-                    2 => "Time of last Save: No data",
-                    3 => "Time spent in Game: 00:00:00",
+                    0 => $"Player: No data",
+                    1 => "Chapter: No data saved",
+                    2 => "Completion: ... %",
+                    3 => "Time of last Save: No data",
+                    4 => "Time spent in Game: 00:00:00",
                     _ => obj.GetComponent<TextMeshProUGUI>().text
                 };
             }
         }
 
         /// <summary>
-        /// Loads the Clicked Game
+        /// Loads the Selected Game
         /// </summary>
         private static void LoadSelectedGame()
         {
@@ -314,7 +325,9 @@ namespace Code.GameData
             var json = File.ReadAllText(files[_slotNum], Encoding.UTF8);
             
             _saveData = JsonConvert.DeserializeObject<SaveData>(json);
-            GameManager.LoadScene(int.Parse(_saveData.CurrentChapter[5].ToString()));
+            _playerName = _saveData.PlayerName;
+            _playerBackground = _saveData.PlayerBackground;
+            GameManager.LoadScene(); // TODO: Kastriot Maybe only need 4 scenes
         }
 
         /// <summary>
@@ -376,6 +389,7 @@ namespace Code.GameData
         {
             GetPlayer();
 
+            _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             var gameData = new GameData(new SaveData
             {
                 PlayerName = _playerName,
@@ -383,14 +397,17 @@ namespace Code.GameData
                 Title = "",
                 ProgressPercentage = 0,
                 TimeSpent = "00.00.00",
-                TimeOfSave = SaveTime,
+                TimeOfSave = _saveTime,
                 CurrentChapter = "",
                 ParentNode = "",
-                IsStoryNode = false
+                IsStoryNode = false,
+                NodeIndex = "0",
+                PastStoryNodes = null,
+                SelectedChoices = null
             });
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
             _filename = Application.persistentDataPath +
-                        $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{SaveTime}.json";
+                        $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{_saveTime}.json";
 
             File.WriteAllText(_filename, json);
         }
@@ -398,11 +415,11 @@ namespace Code.GameData
         /// <summary>
         /// Saves the the status of the Game in a JSON File
         /// </summary>
-        /// <param name="save"></param>
+        /// <param name="save">The SaveData sent from StoryUI</param>
         public void SaveGame(SaveData save)
         {
             GetLoadedData();
-            
+            _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             TimeAndProgress.StopTime();
 
             var time = LoadedData[_slotNum].TimeSpent;
@@ -421,12 +438,15 @@ namespace Code.GameData
                     Title = save.Title,
                     ProgressPercentage = progress,
                     TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
-                    TimeOfSave = SaveTime,
-                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>()
-                        .selectedChapter
+                    TimeOfSave = _saveTime,
+                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>()
+                        .currentChapter
                         .name,
                     ParentNode = save.ParentNode,
-                    IsStoryNode = save.IsStoryNode
+                    IsStoryNode = save.IsStoryNode,
+                    NodeIndex = save.NodeIndex,
+                    PastStoryNodes = save.PastStoryNodes,
+                    SelectedChoices = save.SelectedChoices,
                     // More Variables for Inventory
                 }
             );
@@ -435,7 +455,7 @@ namespace Code.GameData
             if (File.Exists(_filename))
                 File.Delete(_filename);
 
-            _filename = _filename[..^24] + SaveTime + ".json";
+            _filename = _filename[..^24] + _saveTime + ".json";
             File.WriteAllText(_filename, json);
             
             TimeAndProgress.StartTime();
@@ -448,8 +468,8 @@ namespace Code.GameData
         public void GetPlayer()
         {
             var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>();
-            _playerName = gameobject[3].text;
-            _playerBackground = gameobject[1].text;
+            _playerName = gameobject[4].text;
+            _playerBackground = gameobject[2].text;
         }
         
         public string GetPlayerName()

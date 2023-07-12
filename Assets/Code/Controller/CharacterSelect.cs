@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code
+namespace Code.Controller
 {
     /// <summary>
     /// When a Character is clicked
@@ -15,6 +15,8 @@ namespace Code
         [SerializeField] private Text chosenCharacter;
         // Title of Character
         [SerializeField] private TextMeshProUGUI title;
+        // Slot view
+        [SerializeField] private GameObject characters;
         
         /// <summary>
         /// Loads the Character name in the invisible label
@@ -24,6 +26,22 @@ namespace Code
         {
             chosenCharacter.text = title.text;
             chosenCharacter.enabled = false;
+            
+            SetImage();
+        }
+
+        /// <summary>
+        /// Sets the select Image, when a character is selected
+        /// </summary>
+        private void SetImage()
+        {
+            var slots = characters.GetComponentsInChildren<Image>();
+            for (var i = 0; i < slots.Length; i++)
+            {
+                if (i is 2 or 5 or 8)
+                    slots[i].enabled = false;
+            }
+            gameObject.GetComponentsInChildren<Image>()[2].enabled = true;
         }
     }
 }

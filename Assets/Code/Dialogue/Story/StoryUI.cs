@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Threading;
+﻿using System.Collections;
+using System.Linq;
 using System.Xml;
 using TMPro;
 using UnityEngine;
@@ -20,7 +19,7 @@ namespace Code.Dialogue.Story
     public class  StoryUI : MonoBehaviour
     {
         // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryUI");
+        private readonly GameLogger _logger = new GameLogger("GameManager");
         // Story Holder
         private StoryHolder _storyHolder;
         // SerializedFields
@@ -28,65 +27,128 @@ namespace Code.Dialogue.Story
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
         [SerializeField] private Button nextButton;
+        [SerializeField] private Button pageBackButton;
         [SerializeField] private GameObject[] imageHolder = new GameObject[2];
         [SerializeField] private GameObject saveStatus;
+        // Ending Screen
+        [SerializeField] private GameObject messageBoxEndScreen;
+        // Scrollbar
+        [SerializeField] private Scrollbar _storyScrollbar;
+        // Story Chapter
+        public StoryAsset currentChapter;
+        //StoryNode
+        private StoryNode _nodeToDisplay;
         // Coroutine
         private Coroutine _textCoroutine;
         // Image, Text of save status
         private Image _saveImage;
         private Text _saveText;
 
-        /// <summary>
-        /// When the Game starts, gets the story, adds the Next button click Event and Updates the UI
-        /// </summary>
-        public void Start()
+		#region Start
+
+		/// <summary>
+		/// When the Game starts, gets the story, adds the next button click Event and updates the UI
+		/// </summary>
+		public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
-            if (_storyHolder.selectedChapter == null) return;
+            var isSave = _storyHolder.LoadChapterProperties(currentChapter);
 
+            //if (currentChapter == null)
+            currentChapter = _storyHolder.CurrentChapter;
+            
             _saveImage = saveStatus.GetComponentInChildren<Image>();
             _saveText = saveStatus.GetComponentInChildren<Text>();
-            nextButton.gameObject.SetActive(false);
+            
+            nextButton.onClick.RemoveAllListeners();
             nextButton.onClick.AddListener(Next_Click);
-            UpdateUI();
+            nextButton.GetComponentInChildren<Text>().text = "Next";
+            nextButton.gameObject.SetActive(false);
+
+            _nodeToDisplay = _storyHolder.GetCurrentNode();
+            
+            UpdateUI(isSave, false);
         }
 
-        /// <summary>
-        /// When the next button is clicked, it loads the next part of the story
-        /// </summary>
-        private void Next_Click()
+		#endregion
+
+		#region Button Events
+
+		/// <summary>
+		/// When the next button is clicked, it loads the next part of the story
+		/// </summary>
+		private void Next_Click()
         {
             StopCoroutine(_textCoroutine);
-            _storyHolder.Next();
-            UpdateUI();
+            _nodeToDisplay = _storyHolder.GetNextNode(_nodeToDisplay);
+            UpdateUI(true, false);
         }
         
         /// <summary>
-        /// Updates the Story, loads the next part of story and the choices nodes
+        /// Scrolls back one page
         /// </summary>
-        private void UpdateUI()
+        public void ScrollBack_Click()
         {
-            if (!_storyHolder.GetIsNull())
+            StopCoroutine(_textCoroutine);
+            _nodeToDisplay = _storyHolder.GetNodeBefore();
+            UpdateUI(false, false);
+            nextButton.GetComponentInChildren<Text>().text = "Next";
+            nextButton.onClick.RemoveAllListeners();
+            nextButton.onClick.AddListener(Next_Click);
+        }
+
+        /// <summary>
+        /// Scrolls back to the last choice, but the already selected, cannot be chosen again
+        /// </summary>
+        public void ScrollBackGameOver_Click()
+        {
+            messageBoxEndScreen.SetActive(false);
+            StopCoroutine(_textCoroutine);
+            _nodeToDisplay = _storyHolder.GetNodeBefore();
+            UpdateUI(false, true);
+        }
+
+        #endregion
+
+        #region Update UI
+
+        /// <summary>
+        /// Updates the UI, loads the next story or choice nodes and their properties
+        /// Saves the node state
+        /// </summary>
+        /// <param name="isSave"></param>
+        /// <param name="isGameOver"></param>
+        private void UpdateUI(bool isSave, bool isGameOver)
+        {
+            pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode());
+
+            DisplayNodeProperties(); 
+            UpdateNodeChoice(isGameOver);
+
+            if (!isSave) return;
+            SaveGameState();
+            AddItemToInventory();
+        }
+
+        /// <summary>
+        /// Updates the bottom UI with, either the choices or the next button
+        /// </summary>
+        private void UpdateNodeChoice(bool isGameOver)
+        {
+            // Checks if the current node has children
+            if (_storyHolder.HasMoreNodes(_nodeToDisplay).Any())
             {
-                // if Story Node
-                if (_storyHolder.GetIsStoryNode())
-                {
-                    if (_storyHolder.HasNext())
-                    {
-                        nextButton.gameObject.SetActive(true);
-                        choiceRoot.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        NextChapter();
-                    }
-                }
-                // if Choice Node
-                else if (!_storyHolder.GetIsStoryNode())
+                // if the children are choice nodes
+                if (_storyHolder.HasMoreNodes(_nodeToDisplay)[0].IsChoiceNode())
                 {
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
-                    BuildChoiceList();
+                    BuildChoiceList(isGameOver);
+                }
+                else
+                {
+                    nextButton.gameObject.SetActive(true);
+                    choiceRoot.gameObject.SetActive(false);
                 }
             }
             else
@@ -96,12 +158,6 @@ namespace Code.Dialogue.Story
                 choiceRoot.gameObject.SetActive(false);
                 NextChapter();
             }
-            
-            DisplayNodeProperties();
-            
-            SaveGameState();
-
-            AddItemToInventory();
         }
 
         /// <summary>
@@ -114,11 +170,12 @@ namespace Code.Dialogue.Story
             _textCoroutine = StartCoroutine(TextSlower(0.02f));
             
             // Displays Image
-            if (!_storyHolder.GetImage().Equals(""))
+            var image = _storyHolder.GetImage(_nodeToDisplay);
+            if (!image.Equals(""))
             {
                 imageHolder[0].SetActive(false);
                 imageHolder[1].SetActive(true);
-                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("StoryImage/" + _storyHolder.GetImage());
+                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("StoryImage/" + image);
             }
             else
             {
@@ -127,9 +184,11 @@ namespace Code.Dialogue.Story
             }
             
             // Displays Chapter Title
-            story.GetComponentInChildren<Text>().text = GetTitleText();
+            gameObject.GetComponentsInChildren<Text>()[0].text = GetTitleText();
+
+            //Displays Page Back Button, when the last node was a choice
         }
-        
+
         /// <summary>
         /// Saves the actual node and their properties
         /// </summary>
@@ -138,8 +197,11 @@ namespace Code.Dialogue.Story
             GameDataController.Gdc.SaveGame(new SaveData
             {
                 Title = GetTitleText(),
-                ParentNode = _storyHolder.ParentNode.name,
+                ParentNode = _storyHolder.GetCurrentNode().name,
                 IsStoryNode = _storyHolder.IsStoryNode,
+                NodeIndex = _storyHolder.GetNodeIndex(),
+                PastStoryNodes = _storyHolder.GetPastStoryNodes(),
+                SelectedChoices = _storyHolder.GetSelectedChoices()
             });
             StartCoroutine(ShowImage());
         }
@@ -149,10 +211,10 @@ namespace Code.Dialogue.Story
         /// </summary>
         private string GetTitleText()
         {
-            var xmlDoc = new XmlDocument();
-            xmlDoc.Load($@"{Application.dataPath}/StoryFiles/{_storyHolder.selectedChapter.name}.xml"); 
-            var rootNode = xmlDoc.SelectSingleNode($"//{_storyHolder.selectedChapter.name}");
-            return rootNode.FirstChild.InnerText;
+            var xmlDoc = new XmlDocument();  // Maybe Xml Reader - better performance
+            xmlDoc.Load($@"{Application.dataPath}/Resources/StoryFiles/{currentChapter.name}.xml"); 
+            var rootNode = xmlDoc.SelectSingleNode($"//{currentChapter.name}");
+            return rootNode?.FirstChild.InnerText;
         }
 
         /// <summary>
@@ -162,7 +224,7 @@ namespace Code.Dialogue.Story
         /// <returns></returns>
         private IEnumerator TextSlower(float time)
         {
-            var text = _storyHolder.GetParentNodeText().Replace(GameDataController.Gdc.GetPlayerName(), "Name");
+            var text = _nodeToDisplay.GetText().Replace("{Name}", GameDataController.Gdc.GetPlayerName());
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {
@@ -174,6 +236,9 @@ namespace Code.Dialogue.Story
 
                 story.text += " ";
             }
+            
+            // Set Scroll view Position
+            _storyScrollbar.value = 1;
         }
         
         /// <summary>
@@ -205,10 +270,14 @@ namespace Code.Dialogue.Story
             if (!item.Equals(""))
                 InventoryController.instance.AddItem(item);
         }
+        
+        #endregion
 
+        #region Next Chapter / End
+        
         /// <summary>
         /// Loads the next Chapter when the End of Chapter node is reached
-        /// Or the GameOver Screen when the GameOver node is reached
+        /// or the GameOver Screen when the GameOver node is reached
         /// </summary>
         private void NextChapter()
         {
@@ -217,7 +286,7 @@ namespace Code.Dialogue.Story
                 _logger.LogEntry("UI log", "End of Chapter reached.", GameLogger.GetLineNumber());
                 // If No more nodes then Button Text = "Next Chapter", and switch Listener
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
-                nextButton.onClick.RemoveListener(Next_Click);
+                nextButton.onClick.RemoveAllListeners();
 
                 GameManager.Gm.IsEndOfChapter = true;
                 nextButton.onClick.AddListener(GameManager.Gm.NextChapter_Click);
@@ -227,7 +296,7 @@ namespace Code.Dialogue.Story
                 _logger.LogEntry("UI log", "End of Story reached.", GameLogger.GetLineNumber());
                 
                 nextButton.GetComponentInChildren<Text>().text = "Next Part";
-                nextButton.onClick.RemoveListener(Next_Click);
+                nextButton.onClick.RemoveAllListeners();
 
                 GameManager.Gm.IsEndOfStory = true;
                 nextButton.onClick.AddListener(GameManager.Gm.NextStory_Click);
@@ -240,47 +309,86 @@ namespace Code.Dialogue.Story
                 GameManager.Gm.IsGameOver = true;
             }
         }
+        
+        #endregion
+        
+        #region Choices 
 
         /// <summary>
         /// Builds the choice list, depending on the count of the nodes
-        /// Some choices are only for a different Player visible
+        /// Some choices are only visible for Player with the needed background
         /// </summary>
-        private void BuildChoiceList()
+        /// <param name="isGameOver"></param>
+        private void BuildChoiceList(bool isGameOver)
         {
             foreach (Transform item in choiceRoot)
                 Destroy(item.gameObject);
-
-            foreach (var choice in _storyHolder.GetChoices())
+            var choices = _storyHolder.GetChoices(_nodeToDisplay).ToList();
+            
+            if (!_storyHolder.CheckSelectedChoices(choices))
             {
-                var choiceInstance = Instantiate(choicePrefab, choiceRoot);
-                var background = choice.GetBackground();
-
-                // Check if this node can only be used by a certain player
-                if (!background.Equals(""))
+                foreach (var choice in choices)
+                    SetChoice(choice, true);
+            }
+            else
+            {
+                if (!isGameOver)
                 {
-                    if (background.Equals(GameDataController.Gdc.GetPlayerBackground()))
-                    {
-                        // Set Text
-                        var choiceText = choiceInstance.GetComponentInChildren<Text>();
-                        choiceText.text = choice.GetText();
-                    }
+                    // only show choices, that is in the list
+                    var choice = _storyHolder.GetSelectedChoice();
+                    SetChoice(choice, false);
                 }
                 else
+                {
+                    var gameOverChoice = _storyHolder.GetSelectedChoice();
+                    foreach (var choice in choices)
+                    {
+                        if (choice != gameOverChoice)
+                            SetChoice(choice, true);
+                    }
+                    _storyHolder.SetChoiceIndex();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the choice node properties
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <param name="isSave"></param>
+        private void SetChoice(StoryNode choice, bool isSave)
+        {
+            var choiceInstance = Instantiate(choicePrefab, choiceRoot);
+            var background = choice.GetBackground();
+
+            // Check if this node can only be used by a certain player
+            if (!background.Equals(""))
+            {
+                if (background.Equals(GameDataController.Gdc.GetPlayerBackground()))
                 {
                     // Set Text
                     var choiceText = choiceInstance.GetComponentInChildren<Text>();
                     choiceText.text = choice.GetText();
                 }
-
-                // Add listener
-                var button = choiceInstance.GetComponentInChildren<Button>();
-                button.onClick.AddListener(() =>
-                {
-                    _storyHolder.Next(choice);
-                    UpdateUI();
-                });
+                else return;
             }
+            else
+            {
+                // Set Text
+                var choiceText = choiceInstance.GetComponentInChildren<Text>();
+                choiceText.text = choice.GetText();
+            }
+
+            // Add listener
+            var button = choiceInstance.GetComponentInChildren<Button>();
+            button.onClick.AddListener(() =>
+            {
+                _nodeToDisplay = _storyHolder.GetNextNode(choice);
+                UpdateUI(isSave, false);
+            });
         }
+
+        #endregion
     }
 }
 

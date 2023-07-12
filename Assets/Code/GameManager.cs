@@ -1,18 +1,15 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
-using System.Xml;
-using Code.Dialogue.Story;
-using Code.GameData;
-using Code.Logger;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Debug = UnityEngine.Debug;
+
+using Code.Controller;
+using Code.Dialogue.Story;
+using Code.GameData;
+using Code.Logger;
 
 namespace Code
 {
@@ -27,28 +24,26 @@ namespace Code
         private readonly GameLogger _logger = new GameLogger("GameManager");
         // Story UI
         private static StoryUI _storyUI;
-        // StoryHolder
-        private static StoryHolder _selectedStory;
         // GameManager
         public static GameManager Gm;
         // Ending Screen
-        [SerializeField] private GameObject endingScreen;
-        
+        [SerializeField] private GameObject messageBoxEndScreen;
         // Menu Save and Properties Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject messageBoxScreen;
         [SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private GameObject characters;
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
-        
-        [NonSerialized] public bool IsGameOver;
+		[SerializeField] private GameObject[] messageBoxScreenObjects;
+		// States of the Game
+		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
-
-        [SerializeField] private GameObject[] messageBoxScreenObjects;
-
+        // Various variables
         private int _chapter;
-        private int _part;
+        private int _part; 
+        public static int ActiveScene = 0;
         private string _runPath;
         private string _storyPath;
 
@@ -62,20 +57,16 @@ namespace Code
             if (Gm == null)
                 Gm = this;
         }
-        
+
         /// <summary>
         /// Start of the GameManager
         /// </summary>
         private void Start()
         {
-            // Queue the StoryAsset.ReloadStoryProperties method to the thread pool
-            ThreadPool.QueueUserWorkItem(_ => StoryAsset.ReloadStoryProperties());
-            
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
                 _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
-                _selectedStory = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
 
                 _chapter = 1;
             }
@@ -84,20 +75,31 @@ namespace Code
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
-        
+
         #endregion
 
-        #region Game States
+        #region Game State Button Events
         
         /// <summary>
-        /// Starts a new Game
+        /// Opens the character select window and sets the Image to false
         /// </summary>
         public void NewGame_Click()
         {
             mainMenuScreen.SetActive(false);
+            
+            var slots = characters.GetComponentsInChildren<Image>();
+            for (var i = 0; i < slots.Length; i++)
+            {
+                if (i is 2 or 5 or 8)
+                    slots[i].enabled = false;
+            }
+            
             characterPropertiesScreen.SetActive(true);
         }
 
+        /// <summary>
+        /// Starts a new game and checks if a save slot is empty, else asks to override another slot
+        /// </summary>
         public void StartNewGame_Click()
         {
             if (playerName.text.Equals(""))
@@ -114,7 +116,10 @@ namespace Code
             character.color = Color.white;
 
             if (GameDataController.Gdc.NewGame())
-                LoadScene(1);
+            {
+                ActiveScene = 1;
+                LoadScene();
+            }
             else
             {
                 GameDataController.Gdc.GetPlayer();
@@ -133,21 +138,12 @@ namespace Code
             GameDataController.Gdc.LoadGame();
         }
 
-        /// <summary>
-        /// Loads the saved Scene
-        /// </summary>
-        /// <param name="scene"></param>
-        public static void LoadScene(int scene)
-        {
-            SceneManager.LoadScene(scene);
-        }
-
         #endregion
         
         #region Next Chapter / Story or End
         
         /// <summary>
-        /// Checks if its Game Over or end of Chapter
+        /// Checks if its Game Over, end of Chapter or end of story
         /// </summary>
         private void Update()
         {
@@ -167,11 +163,10 @@ namespace Code
             IsEndOfChapter = false;
             _part = GetPath();
             _chapter++;
-            _storyPath = $@"Story/Part{_part}/Story{_part}Chapter{_chapter}.asset";
+            _storyPath = $@"Story/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
-            _selectedStory.selectedChapter = Resources.Load<Story>(_storyPath.Replace(".asset", ""));
-            _selectedStory.Start();
+            _storyUI.currentChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
             _logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
 
@@ -192,7 +187,7 @@ namespace Code
         private void LoadGameOverScreen()
         {
             IsGameOver = false;
-            endingScreen.SetActive(true);
+            messageBoxEndScreen.SetActive(true);
             _logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
         }
 
@@ -202,7 +197,7 @@ namespace Code
         /// <returns></returns>
         private static int GetPath()
         {
-            var path = _selectedStory.selectedChapter.name;
+            var path = _storyUI.currentChapter.name;
             foreach (var t in path)
             {
                 if (char.IsDigit(t))
@@ -213,10 +208,10 @@ namespace Code
         
         #endregion
         
-        #region Next Chapter / Story Click Events
+        #region Next Chapter / Story Button Events
         
         /// <summary>
-        /// When the next Chapter Button is clicked
+        /// When the next chapter Button is clicked
         /// </summary>
         public void NextChapter_Click()
         {
@@ -224,11 +219,19 @@ namespace Code
         }
 
         /// <summary>
-        /// When the next Chapter Button is clicked
+        /// When the next story Button is clicked
         /// </summary>
         public void NextStory_Click()
         {
-            SceneManager.LoadScene(_part);
+            ActiveScene = ActiveScene switch
+            {
+                1 => 2,
+                2 => 3,
+                3 => 2,
+                _ => ActiveScene
+            };
+
+            SceneManager.LoadScene(ActiveScene);
         }
         
         #endregion
@@ -246,16 +249,26 @@ namespace Code
             messageBoxScreenObjects[0].GetComponent<Button>().onClick.AddListener(eventMethod);
             messageBoxScreenObjects[1].GetComponent<Text>().text = text;
         }
-        
+
         #endregion
         
         #region Main Menu
 
-        public void BackToMainMenu()
+        public void BackToMainMenu_Click()
         {
-            LoadScene(0);
+            messageBoxEndScreen.SetActive(false);
+            ActiveScene = 0;
+            LoadScene();
         }
-        
-        #endregion
+
+		/// <summary>
+		/// Loads the next Scene
+		/// </summary>
+		public static void LoadScene()
+		{
+            SceneManager.LoadScene(ActiveScene);
+		}
+
+		#endregion
     }
 }

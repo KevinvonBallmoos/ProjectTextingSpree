@@ -1,13 +1,10 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code
+namespace Code.Controller
 {
     /// <summary>
     /// When a save slot is clicked
-    /// The Image is visible
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">05.05.2023</para>
@@ -17,7 +14,7 @@ namespace Code
         public GameObject slotView;
 
         /// <summary>
-        /// When the save slot is clicked
+        /// Sets the select Image, when a save slot is selected.
         /// </summary>
         public void GameObject_Click()
         {
