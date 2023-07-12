@@ -39,6 +39,9 @@ namespace Code.Dialogue.Story
         {
             _choiceIndex = 0;
             var isSave = true;
+            _pastStoryNodes = Array.Empty<StoryNode>();
+            _selectedChoices = Array.Empty<StoryNode>();
+            
             if (chapter != null){
                 
                 CurrentChapter = chapter;
