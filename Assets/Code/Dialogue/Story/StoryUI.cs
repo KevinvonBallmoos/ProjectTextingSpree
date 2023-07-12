@@ -89,7 +89,8 @@ namespace Code.Dialogue.Story
         /// </summary>
         public void ScrollBack_Click()
         {
-            StopCoroutine(_textCoroutine);
+            if (_textCoroutine != null)
+                StopCoroutine(_textCoroutine);
             _nodeToDisplay = _storyHolder.GetNodeBefore();
             UpdateUI(false, false);
             nextButton.GetComponentInChildren<Text>().text = "Next";
@@ -103,7 +104,8 @@ namespace Code.Dialogue.Story
         public void ScrollBackGameOver_Click()
         {
             messageBoxEndScreen.SetActive(false);
-            StopCoroutine(_textCoroutine);
+            if (_textCoroutine != null)
+                StopCoroutine(_textCoroutine);
             _nodeToDisplay = _storyHolder.GetNodeBefore();
             UpdateUI(false, true);
         }
@@ -165,9 +167,13 @@ namespace Code.Dialogue.Story
         /// </summary>
         private void DisplayNodeProperties()
         {
-            // Displays Story Text
+            // Displays Story Text either one letter after another, or the whole text at once
             story.text = "";
-            _textCoroutine = StartCoroutine(TextSlower(0.02f));
+            var text = _nodeToDisplay.GetText().Replace("{Name}", GameDataController.Gdc.GetPlayerName());
+            if (GameManager.Gm.GetIsTextSlowed())
+                _textCoroutine = StartCoroutine(TextSlower(0.02f, text));
+            else
+                story.text = text;
             
             // Displays Image
             var image = _storyHolder.GetImage(_nodeToDisplay);
@@ -222,9 +228,8 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        private IEnumerator TextSlower(float time)
+        private IEnumerator TextSlower(float time, string text)
         {
-            var text = _nodeToDisplay.GetText().Replace("{Name}", GameDataController.Gdc.GetPlayerName());
             var strArray = text.Split(' ');
             foreach (var t in strArray)
             {

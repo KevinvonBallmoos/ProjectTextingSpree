@@ -36,6 +36,8 @@ namespace Code
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
 		[SerializeField] private GameObject[] messageBoxScreenObjects;
+        // Menu Option TextSpeed
+        [NonSerialized] private bool _isTextSlowed = true; 
 		// States of the Game
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
@@ -270,5 +272,27 @@ namespace Code
 		}
 
 		#endregion
+
+        #region Menu Options
+
+        /// <summary>
+        /// Sets the isTextSlowed Property
+        /// </summary>
+        /// <param name="isSlowed"></param>
+        public void SetIsTextSlowed(bool isSlowed)
+        {
+            _isTextSlowed = isSlowed;
+        }
+
+        /// <summary>
+        /// Gets the isTextSlowed Property
+        /// </summary>
+        /// <returns></returns>
+        public bool GetIsTextSlowed()
+        {
+            return _isTextSlowed;
+        }
+
+        #endregion
     }
 }
