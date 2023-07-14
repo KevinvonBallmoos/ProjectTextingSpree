@@ -1,0 +1,21 @@
+<Combat1>
+	<Title>Part 1 Chapter 1</Title>
+	<DialogueChoices>
+		<Choice id="1" node="8">Attack</Choice>
+		<Choice id="2" node="12">Defense</Choice>
+		<Choice id="3" node="9">Attack2</Choice>
+		<Choice id="4" node="13">Defense2</Choice>
+		<Choice id="5" node="10">Attack3</Choice>
+		<Choice id="6" node="14">Defense3</Choice>
+	</DialogueChoices>
+	<DialogueStory>
+		<Node id="7" isRootNode="True" choice="1,2">The Battle Starts</Node>
+		<Node id="8" choice="3,4">12 Point Hit</Node>
+		<Node id="9" choice="5,6">20 Point Crit Hit</Node>
+		<Node id="10" node="11">Your opponent has bleeding Damage, he looses 20 more Points</Node>
+		<Node id="11" hasLost="False">Your enemy bled out in front of you. You win!</Node>
+		<Node id="12" choice="3,4"> Successful Block2</Node>
+		<Node id="13" node="14">You took 10 Points of Damage</Node>
+		<Node id="14" hasLost="True">Your enemy stabs you in your face. You Die instantly!</Node>
+	</DialogueStory>
+</Combat1>

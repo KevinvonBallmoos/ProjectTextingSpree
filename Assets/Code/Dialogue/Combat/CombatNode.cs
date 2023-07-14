@@ -1,39 +1,31 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Dialogue.Story
+namespace Code.Dialogue.Combat
 {
     /// <summary>
-    /// Object Class for StoryNode
+    /// Object Class for CombatNode
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
-    /// <para name="date">04.12.2022</para>
-    public class StoryNode : ScriptableObject
+    /// <para name="date">14.07.2023</para>
+    public class CombatNode : ScriptableObject
     {
         // Text that is in the node
         [SerializeField] private string text;
         // Text that is in the node
         [SerializeField] private string labelText;
-        // Node id
+        // Different Types of Nodes
         [SerializeField] private string nodeId;
-        // States and Nodes
+        // Different Types of Nodes
         [SerializeField] private bool isChoiceNode;
         [SerializeField] private bool isRootNode;
-        [SerializeField] private bool isEndOfStory;
-        [SerializeField] private bool isEndOfChapter;
-        [SerializeField] private bool isGameOver;
+        [SerializeField] private bool hasLost;
         // Image
         [SerializeField] private string image;
-        // Item
-        [SerializeField] private string item = "";
-        // Player Character
-        [SerializeField] private string background = "";
-        // Combat
-        [SerializeField] private string isCombat;
         // ChildNodes
         [SerializeField] private List<string> childNodes = new ();
         // Rect of Editor
-        [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
+        [SerializeField] private Rect dialogueRect = new (10, 10, 300, 180);
         [SerializeField] private Rect textRect;
 
 		#region Setter
@@ -57,16 +49,7 @@ namespace Code.Dialogue.Story
             labelText = label;
             nodeId = id;
         }
-
-        /// <summary>
-        /// Sets the Item of the node
-        /// </summary>
-        /// <param name="itm"></param>
-        public void SetItem(string itm)
-        {
-            item = itm;
-        }
-
+        
         /// <summary>
         /// Sets the Image of the node
         /// </summary>
@@ -75,16 +58,16 @@ namespace Code.Dialogue.Story
         {
             image = img;
         }
-
-        /// <summary>
-        /// Sets the Image of the node
-        /// </summary>
-        /// <param name="backgr"></param>
-        public void SetBackground(string backgr)
-        {
-            background = backgr;
-        }
         
+        /// <summary>
+        /// Sets the HasLost Property of the node
+        /// </summary>
+        /// <param name="lost"></param>
+        public void SetHasLost(bool lost)
+        {
+            hasLost = lost;
+        }
+
         /// <summary>
         /// Sets the isRootNode
         /// </summary>
@@ -95,34 +78,7 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Sets the boolean IsGameOver
-        /// </summary>
-        /// <param name="isOver"></param>
-        public void SetIsGameOver(bool isOver)
-        {
-            isGameOver = isOver;
-        }
-
-        /// <summary>
-        /// Sets the boolean IsEndOfChapter
-        /// </summary>
-        /// <param name="isEnd"></param>
-        public void SetIsEndOfChapter(bool isEnd)
-        {
-            isEndOfChapter = isEnd;
-        }
-
-        /// <summary>
-        /// Sets the boolean IsEndOfChapter
-        /// </summary>
-        /// <param name="isEnd"></param>
-        public void SetIsEndOfStory(bool isEnd)
-        {
-            isEndOfStory = isEnd;
-        }
-
-        /// <summary>
-        /// Sets the value of isStoryChoice to true or false
+        /// Sets the value of isChoiceNode to true or false
         /// </summary>
         /// <param name="isChoice"></param>
         public void SetChoiceNode(bool isChoice)
@@ -137,7 +93,7 @@ namespace Code.Dialogue.Story
         /// <param name="y"></param>
         public void SetRect(float x, float y)
         {
-            storyRect.position = new Vector2(x,y);
+            dialogueRect.position = new Vector2(x,y);
         }
 
         /// <summary>
@@ -183,6 +139,10 @@ namespace Code.Dialogue.Story
 
 		#region Getter
 
+        public bool HasLost()
+        {
+            return hasLost;
+        }
 
 		public bool IsChoiceNode()
         {
@@ -193,22 +153,7 @@ namespace Code.Dialogue.Story
         {
             return isRootNode;
         }        
-
-        public bool IsEndOfStory()
-        {
-            return isEndOfStory;
-        }    
-
-        public bool IsEndOfChapter()
-        {
-            return isEndOfChapter;
-        }        
-         
-        public bool IsGameOver()
-        {
-            return isGameOver;
-        }
-
+        
         public string GetText()
         {
             return text;
@@ -229,16 +174,6 @@ namespace Code.Dialogue.Story
             return image is null or "" ? "" : "image";
         }
 
-        public string GetItem()
-        {
-            return !item.Equals("") ? item : "";
-        }
-
-        public string GetBackground()
-        {
-            return !background.Equals("") ? background : "";
-        }
-
         public List<string> GetChildNodes()
         {
             return childNodes;
@@ -246,7 +181,7 @@ namespace Code.Dialogue.Story
 
         public Rect GetRect()
         {
-            return storyRect;
+            return dialogueRect;
         }
 
         public Rect GetTextRect()

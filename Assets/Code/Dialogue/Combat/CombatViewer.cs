@@ -4,18 +4,18 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Code.Dialogue.Story
+namespace Code.Dialogue.Combat
 {
     /// <summary>
-    /// Displays the selected Story
+    /// Displays the selected Combat 
     /// If there are 0 nodes then it reads them from the xml file
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
-    /// <para name="date">10.05.2023</para>
-    public class StoryViewer : EditorWindow
+    /// <para name="date">14.07.2023</para>
+    public class CombatViewer : EditorWindow
     {
-        // Story Asset
-        private StoryAsset _selectedChapter;
+        // Combat Asset
+        private CombatAsset _selectedCombat;
         // Scroll Area / Position
         private Vector2 _scrollPosition;
         private Vector2 _scrollPositionTextArea = Vector2.zero;
@@ -27,11 +27,11 @@ namespace Code.Dialogue.Story
         private const float CanvasSize = 4000;
         private const float BackGround = 50;
         // Node style
-        [NonSerialized] private GUIStyle _storyNodeStyle;
+        [NonSerialized] private GUIStyle _combatNodeStyle;
         [NonSerialized] private GUIStyle _choiceNodeStyle;
         [NonSerialized] private GUIStyle _textAreaStyle;
         // Drag
-        [NonSerialized] private StoryNode _storyNode;
+        [NonSerialized] private CombatNode _combatNode;
         [NonSerialized] private bool _dragCanvas;
         [NonSerialized] private Vector2 _dragOffset;
         [NonSerialized] private Vector2 _dragCanvasOffset;
@@ -42,30 +42,30 @@ namespace Code.Dialogue.Story
         // Text
         private string _textContent;
 
-        #region StoryWindow
+        #region CombatWindow
 
         /// <summary>
-        /// Shows the Editor Window, depending if a Story is loaded or not
+        /// Shows the Editor Window, depending if a Combat Asset is loaded or not
         /// Asset Callback : In computer programming, a callback is executable code that is passed as an argument to other code.
         /// </summary>
         /// <param name="instanceId"></param>
-        /// <returns>true when a Story is loaded and false when not</returns>
+        /// <returns>true when a Combat is loaded and false when not</returns>
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceId)
         {
-            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAsset;
-            if (story == null) return false;
+            var combat = EditorUtility.InstanceIDToObject(instanceId) as CombatAsset;
+            if (combat == null) return false;
             ShowEditorWindow();
             return true;
         }
 
         /// <summary>
-        /// Extends Unity with the Story Viewer
+        /// Extends Unity with the Combat Viewer
         /// </summary>
-        [MenuItem("Window/Story Viewer")]
+        [MenuItem("Window/Combat Viewer")]
         public static void ShowEditorWindow()
         {
-            GetWindow(typeof(StoryViewer), false, "Story Viewer");
+            GetWindow(typeof(CombatViewer), false, "Combat Viewer");
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Code.Dialogue.Story
         {
             Selection.selectionChanged += OnSelectionChanged;
 
-            _storyNodeStyle = new GUIStyle
+            _combatNodeStyle = new GUIStyle
             {
                 normal =
                 {
@@ -117,21 +117,21 @@ namespace Code.Dialogue.Story
         /// </summary>
         private void OnSelectionChanged()
         {
-            var newChapter = Selection.activeObject as StoryAsset;
+            var newChapter = Selection.activeObject as CombatAsset;
             if (newChapter == null || newChapter.name == "") return;
             
-            _selectedChapter = null;
-            _storyNode = null;
-            _xmlFiles = Resources.LoadAll($@"StoryFiles/", typeof(TextAsset));
+            _selectedCombat = null;
+            _combatNode = null;
+            _xmlFiles = Resources.LoadAll($@"CombatFiles/", typeof(TextAsset));
             foreach (var file in _xmlFiles)
             {
                 if (file.name != newChapter.name) continue;
-                _selectedChapter = newChapter;
+                _selectedCombat = newChapter;
                 break;
             }
-            if (_selectedChapter == null) return;
+            if (_selectedCombat == null) return;
             
-            _selectedChapter.ReadNodes(_selectedChapter);
+            _selectedCombat.ReadNodes(_selectedCombat);
 
             Repaint();
             
@@ -147,7 +147,7 @@ namespace Code.Dialogue.Story
 		/// </summary>
 		private void OnGUI()
         {
-            if (!_selectedChapter.HasReadNodes) return;
+            if (!_selectedCombat.HasReadNodes) return;
             
             // Mouse Events
             ProcessEvents();
@@ -156,10 +156,10 @@ namespace Code.Dialogue.Story
             DrawSurface();
             
             //if (_selectedChapter.GetAllNodes() == null) return;
-            foreach (var node in _selectedChapter.GetAllNodes())
+            foreach (var node in _selectedCombat.GetAllNodes())
                 DrawNode(node);
             
-            foreach (var node in _selectedChapter.GetAllNodes())
+            foreach (var node in _selectedCombat.GetAllNodes())
             {
                 if (!node.IsRootNode()) continue;
                 DrawConnections(node);
@@ -191,9 +191,9 @@ namespace Code.Dialogue.Story
         /// Draws the node
         /// </summary>
         /// <param name="node">Next node to draw</param>
-        private void DrawNode(StoryNode node)
+        private void DrawNode(CombatNode node)
         {
-            var style = _storyNodeStyle;
+            var style = _combatNodeStyle;
             if (node.IsChoiceNode())
                 style = _choiceNodeStyle; 
             
@@ -211,14 +211,14 @@ namespace Code.Dialogue.Story
         /// Add Bezier Curve between the nodes to connect parent and child nodes
         /// </summary>
         /// <param name="node"></param>
-        private void DrawConnections(StoryNode node)
+        private void DrawConnections(CombatNode node)
         {
             var children = node.GetChildNodes();
             if (children.Count == 0) return;
 
              for (var i = 0; i < children.Count; i++)
              {
-                 var child = _selectedChapter.GetAllChildNodes(node)[i];
+                 var child = _selectedCombat.GetAllChildNodes(node)[i];
                  // Set the start point of the Bezier - parentNode
                  var startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);
                 
@@ -253,25 +253,23 @@ namespace Code.Dialogue.Story
             switch (e.type)
             {
                 // Mouse Down is true 
-                case EventType.MouseDown when _storyNode == null:
+                case EventType.MouseDown when _combatNode == null:
                 {
-                    _storyNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPositionTextArea);
-                    if (_storyNode == null)
+                    _combatNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPositionTextArea);
+                    if (_combatNode == null)
                     {
                         _dragCanvas = true;
                         _dragCanvasOffset = Event.current.mousePosition + _scrollPosition;
-                        Selection.activeObject = _selectedChapter;
+                        Selection.activeObject = _selectedCombat;
                     }
                     else
                     {
-                        Selection.activeObject = _storyNode;
+                        Selection.activeObject = _combatNode;
                     }
                     break;
                 }
                 // Mouse Drag is true
-                case EventType.MouseDrag when _storyNode != null:
-                    //_storyNode.SetRect(Event.current.mousePosition.x + _dragOffset.x, Event.current.mousePosition.y + _dragOffset.y );
-                    //GUI.changed = true;
+                case EventType.MouseDrag when _combatNode != null:
                     break;
                 // Mouse Drag and draggingCanvas is true
                 case EventType.MouseDrag when _dragCanvas:
@@ -279,8 +277,8 @@ namespace Code.Dialogue.Story
                     GUI.changed = true;
                     break;
                 // Mouse Up is true 
-                case EventType.MouseUp when _storyNode != null:
-                    _storyNode = null;
+                case EventType.MouseUp when _combatNode != null:
+                    _combatNode = null;
                     break;
                 // MouseUp and draggingCanvas is true
                 case EventType.MouseUp when _dragCanvas:
@@ -295,10 +293,10 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="point">Point where the Mouse currently is</param>
         /// <returns>node</returns>
-        private StoryNode GetNodeAtPoint(Vector2 point)
+        private CombatNode GetNodeAtPoint(Vector2 point)
         {
-            StoryNode selectedNode = null;
-            foreach (var node in _selectedChapter.GetAllNodes())
+            CombatNode selectedNode = null;
+            foreach (var node in _selectedCombat.GetAllNodes())
                 if (node.GetTextRect().Contains(point))
                 {
                     selectedNode = node;

@@ -181,7 +181,7 @@ namespace Code.Dialogue.Story
             {
                 imageHolder[0].SetActive(false);
                 imageHolder[1].SetActive(true);
-                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("StoryImage/" + image);
+                imageHolder[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("Images/StoryImages/" + image);
             }
             else
             {
