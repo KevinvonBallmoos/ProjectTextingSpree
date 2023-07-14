@@ -165,7 +165,7 @@ namespace Code
             IsEndOfChapter = false;
             _part = GetPath();
             _chapter++;
-            _storyPath = $@"Story/Story{_part}Chapter{_chapter}.asset";
+            _storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
             _storyUI.currentChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));

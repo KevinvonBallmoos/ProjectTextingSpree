@@ -5,29 +5,29 @@ using System.Xml;
 using UnityEditor;
 using UnityEngine;
 
-namespace Code.Dialogue.Story
+namespace Code.Dialogue.Combat
 {
     /// <summary>
-    /// Reads the properties of the Story assets
+    /// Reads the properties of the Combat assets
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
-    /// <para name="date">10.05.2023</para>
-    [CreateAssetMenu(fileName = "Chapter", menuName = "StoryViewer", order = 0)]
-    public class StoryAsset : ScriptableObject
+    /// <para name="date">14.07.2023</para>
+    [CreateAssetMenu(fileName = "Combat", menuName = "CombatViewer", order = 0)]
+    public class CombatAsset : ScriptableObject
     {
-		// Current Asset
-		private StoryAsset _currentAsset;
-		// Lists with nodes
-		private readonly List<NodeInfo> _nodes = new ();
-        [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
+        // Current Asset
+        private CombatAsset _currentAsset;
+        // Lists with nodes
+        private readonly List<NodeInfo> _nodes = new ();
+        [field: SerializeField] public List<CombatNode> CombatNodes { get; private set; } = new();
         // Dictionary to store all nodes 
-        [NonSerialized] private readonly Dictionary<string, StoryNode> _nodeLookup = new ();
+        [NonSerialized] private readonly Dictionary<string, CombatNode> _nodeLookup = new ();
         // Boolean that is true when the nodes have been read
         [NonSerialized] public bool HasReadNodes;
         // Is needed to evaluate if a node needs to be added or removed
         private class NodeInfo
         {
-            public StoryNode Node { get; set; }
+            public CombatNode Node { get; set; }
             public bool IsTrue { get; set; }
         }
 
@@ -37,7 +37,7 @@ namespace Code.Dialogue.Story
         /// Reads the Nodes from the Xml File and puts them in the right order
         /// </summary>
         /// <param name="chapter">Chapter to be read in</param>
-        public StoryAsset ReadNodes(StoryAsset chapter)
+        public CombatAsset ReadNodes(CombatAsset chapter)
         {
             HasReadNodes = false;
 
@@ -46,7 +46,7 @@ namespace Code.Dialogue.Story
                     _nodes.Add(new NodeInfo{Node = n, IsTrue = true});
             
             var xmlDoc = new XmlDocument();
-            var xmlFile = Resources.Load<TextAsset>($"StoryFiles/{chapter.name}");
+            var xmlFile = Resources.Load<TextAsset>($"CombatFiles/{chapter.name}");
             xmlDoc.LoadXml(xmlFile.text);
             
             var choiceNodes = xmlDoc.GetElementsByTagName("Choice");
@@ -58,12 +58,12 @@ namespace Code.Dialogue.Story
                 _nodes.Add(new NodeInfo { Node = node, IsTrue = true });
             }
 
-            var storyNodes = xmlDoc.GetElementsByTagName("Node");
-            foreach (XmlNode story in storyNodes)
+            var combatNodes = xmlDoc.GetElementsByTagName("Node");
+            foreach (XmlNode combat in combatNodes)
             {
-                var id = story.Attributes?[0].Value;
+                var id = combat.Attributes?[0].Value;
                 if (CheckNodes(id)) continue;
-                var node = CreateNode(story, id, false);
+                var node = CreateNode(combat, id, false);
                 _nodes.Add(new NodeInfo{ Node = node, IsTrue = true });
             }
 
@@ -84,11 +84,11 @@ namespace Code.Dialogue.Story
                 _nodes.RemoveAt(i);
             }
             
-            StoryNodes.Clear();
+            CombatNodes.Clear();
             foreach (var n in _nodes)
             {
                 ReadProperties(n.Node, xmlDoc);
-                StoryNodes.Add(n.Node);
+                CombatNodes.Add(n.Node);
             }
             
             foreach (var child in _nodes)
@@ -124,13 +124,13 @@ namespace Code.Dialogue.Story
             return false;
         }
 
-		/// <summary>
-		/// Reads the Properties from the Xml to the according node
-		/// </summary>
-		/// <param name="node">Node whose properties must be read</param>
-		/// <param name="xmlDoc">The currently opened xml document</param>
-		/// §
-		private void ReadProperties(StoryNode node, XmlDocument xmlDoc)
+        /// <summary>
+        /// Reads the Properties from the Xml to the according node
+        /// </summary>
+        /// <param name="node">Node whose properties must be read</param>
+        /// <param name="xmlDoc">The currently opened xml document</param>
+        /// §
+        private void ReadProperties(CombatNode node, XmlDocument xmlDoc)
         {
             var nodeList = node.IsChoiceNode()? xmlDoc.GetElementsByTagName("Choice"): xmlDoc.GetElementsByTagName("Node");
             var xmlNode = nodeList.Cast<XmlNode>().FirstOrDefault(n => node.GetText() == n.InnerText);
@@ -144,31 +144,19 @@ namespace Code.Dialogue.Story
                 switch (attribute)
                 {
                     case "node":
-                        AddStoryChild(node, xmlNode.Attributes[attribute].Value);
+                        AddCombatChild(node, xmlNode.Attributes[attribute].Value);
                         break;
                     case "choice":
-                        AddStoryChild(node, xmlNode.Attributes[attribute].Value);
+                        AddCombatChild(node, xmlNode.Attributes[attribute].Value);
                         break;
                     case "image":
                         node.SetImage(xmlNode.Attributes[attribute].Value);
                         break;
-                    case "item":
-                        node.SetItem(xmlNode.Attributes[attribute].Value);
-                        break;
                     case "isRootNode":
                         node.SetIsRootNode(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
                         break;
-                    case "isGameOver":
-                        node.SetIsGameOver(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
-                        break;
-                    case "isEndOfChapter":
-                        node.SetIsEndOfChapter(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
-                        break;
-                    case "isEndOfStory":
-                        node.SetIsEndOfStory(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
-                        break;
-                    case "background":
-                        node.SetBackground(xmlNode.Attributes[attribute].Value);
+                    case "hasLost":
+                        node.SetHasLost(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
                         break;
                 }
             }
@@ -177,7 +165,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Adds the Child/s to the parent Node
         /// </summary>
-        private void AddStoryChild(StoryNode node, string id)
+        private void AddCombatChild(CombatNode node, string id)
         {
             var ids = id.Split(',');
             foreach (var i in ids)
@@ -205,7 +193,7 @@ namespace Code.Dialogue.Story
         /// Sets the Position of all nodes
         /// </summary>
         /// <param name="node"></param>
-        private void SetNodePosition(StoryNode node)
+        private void SetNodePosition(CombatNode node)
         {
             var children = node.GetChildNodes();
             if (children.Count == 0) return;
@@ -238,9 +226,9 @@ namespace Code.Dialogue.Story
         /// <param name="id">Id Attribute in xml File</param>
         /// <param name="isChoice">Declares if Node is a choice or not</param>
         /// <returns>new Node</returns>
-        private static StoryNode CreateNode(XmlNode node, string id, bool isChoice)
+        private static CombatNode CreateNode(XmlNode node, string id, bool isChoice)
         {
-            var child = CreateInstance<StoryNode>();
+            var child = CreateInstance<CombatNode>();
             child.name = Guid.NewGuid().ToString();
             if (node == null) return child;
             child.SetLabelAndNodeId(node.Name, id);
@@ -258,18 +246,18 @@ namespace Code.Dialogue.Story
         /// Return the List of DialogueNodes
         /// </summary>
         /// <returns>nodes</returns>
-        public IEnumerable<StoryNode> GetAllNodes()
+        public IEnumerable<CombatNode> GetAllNodes()
         {
-            return StoryNodes;
+            return CombatNodes;
         }
 
         /// <summary>
-        /// Returns all StoryNodes
+        /// Returns all CombatNodes
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<StoryNode> GetAllStoryNodes()
+        public IEnumerable<CombatNode> GetAllCombatNodes()
         {
-            foreach (var node in StoryNodes)
+            foreach (var node in CombatNodes)
             {
                 if (!node.IsChoiceNode())
                     yield return node;
@@ -281,10 +269,10 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="parentNode">Parent Node to get the child nodes from</param>
         /// <returns>Child nodes of the parent Node</returns>
-        public List<StoryNode> GetAllChildNodes(StoryNode parentNode)
+        public List<CombatNode> GetAllChildNodes(CombatNode parentNode)
         {
             SaveChildNodes();
-            var childNodes = new List<StoryNode>();
+            var childNodes = new List<CombatNode>();
             foreach (var childID in parentNode.GetChildNodes())
                 childNodes.Add(_nodeLookup[childID]);
             
@@ -295,7 +283,7 @@ namespace Code.Dialogue.Story
         /// Returns RootNode
         /// </summary>
         /// <returns>if found rootNode else null</returns>
-        public StoryNode GetRootNode()
+        public CombatNode GetRootNode()
         {
             foreach (var node in GetAllNodes())
             {
@@ -310,7 +298,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="currentNode">Current Node to get the choice nodes from</param>
         /// <returns>All choice nodes of the current Node</returns>
-        public IEnumerable<StoryNode> GetChoiceNodes(StoryNode currentNode)
+        public IEnumerable<CombatNode> GetChoiceNodes(CombatNode currentNode)
         {
             foreach (var child in GetAllChildNodes(currentNode))
             {
@@ -320,11 +308,11 @@ namespace Code.Dialogue.Story
         }
         
         /// <summary>
-        /// Returns all Story nodes from current node
+        /// Returns all Combat nodes from current node
         /// </summary>
-        /// <param name="currentNode">Current Node to get the story Nodes from</param>
-        /// <returns>All story nodes of the current Node</returns>
-        public IEnumerable<StoryNode> GetStoryNodes(StoryNode currentNode)
+        /// <param name="currentNode">Current Node to get the combat Nodes from</param>
+        /// <returns>All combat nodes of the current Node</returns>
+        public IEnumerable<CombatNode> GetCombatNodes(CombatNode currentNode)
         {
             foreach (var child in GetAllChildNodes(currentNode))
             {
@@ -333,30 +321,30 @@ namespace Code.Dialogue.Story
             }
         }
 
-		#endregion
+        #endregion
 
-		#region AssetDatabase
+        #region AssetDatabase
 
-		/// <summary>
-		/// Adds to or removes from the asset database
-		/// </summary>
-		private void SaveNodesToAssetDatabase()
-{
-    // Assuming 'savedDataPath' is the path to the asset containing the saved data
-    var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/StoryAssets/" + _currentAsset.name + ".asset");
-
-    foreach (var n in _nodes)
-    {
-        if (!savedData.Contains(n.Node))
+        /// <summary>
+        /// Adds to or removes from the asset database
+        /// </summary>
+        private void SaveNodesToAssetDatabase()
         {
-            if (AssetDatabase.GetAssetPath(n.Node) == "")
-                AssetDatabase.AddObjectToAsset(n.Node, this);
+            // Assuming 'savedDataPath' is the path to the asset containing the saved data
+            var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/Combat/" + _currentAsset.name + ".asset");
+        
+            foreach (var n in _nodes)
+            {
+                if (!savedData.Contains(n.Node))
+                {
+                    if (AssetDatabase.GetAssetPath(n.Node) == "")
+                        AssetDatabase.AddObjectToAsset(n.Node, this);
+                }
+                else if (!n.IsTrue)
+                    AssetDatabase.RemoveObjectFromAsset(n.Node);
+            }
         }
-        else if (!n.IsTrue)
-            AssetDatabase.RemoveObjectFromAsset(n.Node);
-    }
-}
-
-#endregion
+        
+        #endregion
     }
 }
