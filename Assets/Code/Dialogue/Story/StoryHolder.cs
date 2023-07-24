@@ -58,7 +58,7 @@ namespace Code.Dialogue.Story
             {
                 GameDataController.LoadData();
                 var saveData = GameDataController.GetSaveData();
-                var stories =Resources.LoadAll($@"Story/", typeof(StoryAsset)).ToList();
+                var stories =Resources.LoadAll($@"StoryAssets/", typeof(StoryAsset)).ToList();
                 foreach (var asset in stories)
                 {
                     if (!asset.name.Equals(saveData.CurrentChapter)) continue;

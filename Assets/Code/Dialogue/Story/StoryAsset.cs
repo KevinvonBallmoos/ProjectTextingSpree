@@ -341,22 +341,24 @@ namespace Code.Dialogue.Story
 		/// Adds to or removes from the asset database
 		/// </summary>
 		private void SaveNodesToAssetDatabase()
-{
-    // Assuming 'savedDataPath' is the path to the asset containing the saved data
-    var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/StoryAssets/" + _currentAsset.name + ".asset");
-
-    foreach (var n in _nodes)
-    {
-        if (!savedData.Contains(n.Node))
         {
-            if (AssetDatabase.GetAssetPath(n.Node) == "")
-                AssetDatabase.AddObjectToAsset(n.Node, this);
-        }
-        else if (!n.IsTrue)
-            AssetDatabase.RemoveObjectFromAsset(n.Node);
-    }
-}
+            // Assuming 'savedDataPath' is the path to the asset containing the saved data
+            var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/StoryAssets/" + _currentAsset.name + ".asset");
 
-#endregion
+            foreach (var n in _nodes)
+            {
+                if (!savedData.Contains(n.Node))
+                {
+                    if (AssetDatabase.GetAssetPath(n.Node) == "")
+                        AssetDatabase.AddObjectToAsset(n.Node, this);
+                }
+                else if (!n.IsTrue)
+                    AssetDatabase.RemoveObjectFromAsset(n.Node);
+                
+                AssetDatabase.SaveAssets();
+            }
+        }
+
+        #endregion
     }
 }
