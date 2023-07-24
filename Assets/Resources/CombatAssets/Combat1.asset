@@ -1,0 +1,493 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9204735097850787500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: ff23a53a-04e9-4883-ba46-58a4d5e6cb66
+  m_EditorClassIdentifier: 
+  text: Attack3
+  labelText: Choice
+  nodeId: 5
+  isChoiceNode: 1
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - dd2cc434-372b-4da0-bf94-6c40a04bdcdd
+  dialogueRect:
+    serializedVersion: 2
+    x: 1760
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1765
+    y: 15
+    width: 280
+    height: 160
+--- !u!114 &-8920438499056918652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: c86b292f-7d52-43e6-b19e-0f8c29d37fb9
+  m_EditorClassIdentifier: 
+  text: Defense2
+  labelText: Choice
+  nodeId: 4
+  isChoiceNode: 1
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - a6175179-9158-453f-ac6c-9f7c312c5cb9
+  dialogueRect:
+    serializedVersion: 2
+    x: 1060
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1065
+    y: 215
+    width: 280
+    height: 160
+--- !u!114 &-6677273860495591865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: dd2cc434-372b-4da0-bf94-6c40a04bdcdd
+  m_EditorClassIdentifier: 
+  text: Your opponent has bleeding Damage, he looses 20 more Points
+  labelText: Node
+  nodeId: 10
+  isChoiceNode: 0
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - a289c5ac-ab6e-40c4-a0f1-d00c104820a2
+  dialogueRect:
+    serializedVersion: 2
+    x: 2110
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 2115
+    y: 15
+    width: 280
+    height: 160
+--- !u!114 &-3453862010688400399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: ad58e2ed-fe85-4729-b49f-c16472cc4a7f
+  m_EditorClassIdentifier: 
+  text: Your enemy stabs you in your face. You Die instantly!
+  labelText: Node
+  nodeId: 14
+  isChoiceNode: 0
+  isRootNode: 0
+  hasLost: 1
+  image: 
+  childNodes: []
+  dialogueRect:
+    serializedVersion: 2
+    x: 2110
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 2115
+    y: 215
+    width: 280
+    height: 160
+--- !u!114 &-2379637075361957165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: 958379c8-cb8d-4615-bdab-494b4287b22d
+  m_EditorClassIdentifier: 
+  text: The Battle Starts
+  labelText: Node
+  nodeId: 7
+  isChoiceNode: 0
+  isRootNode: 1
+  hasLost: 0
+  image: 
+  childNodes:
+  - 6dc9f0c8-f41f-445b-9a69-5154910e09ae
+  - b7e1dd18-4f6c-4235-b5c0-bdc6e10f1366
+  dialogueRect:
+    serializedVersion: 2
+    x: 10
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 15
+    y: 15
+    width: 250
+    height: 130
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2346d2a3e59648d6b0f8d88e6f3d52bb, type: 3}
+  m_Name: Combat1
+  m_EditorClassIdentifier: 
+  <CombatNodes>k__BackingField:
+  - {fileID: 7007219656668016668}
+  - {fileID: 8581101241208236047}
+  - {fileID: 2860810137584340329}
+  - {fileID: -8920438499056918652}
+  - {fileID: -9204735097850787500}
+  - {fileID: 1146620547573988975}
+  - {fileID: -2379637075361957165}
+  - {fileID: 7848105708873460151}
+  - {fileID: 8782876241547304465}
+  - {fileID: -6677273860495591865}
+  - {fileID: 6853140461092116434}
+  - {fileID: 6745534421645291860}
+  - {fileID: 5444252051634317702}
+  - {fileID: -3453862010688400399}
+--- !u!114 &1146620547573988975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: d2630636-7d0a-4e40-a296-5e49a38eae09
+  m_EditorClassIdentifier: 
+  text: Defense3
+  labelText: Choice
+  nodeId: 6
+  isChoiceNode: 1
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - ad58e2ed-fe85-4729-b49f-c16472cc4a7f
+  dialogueRect:
+    serializedVersion: 2
+    x: 1760
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1765
+    y: 215
+    width: 280
+    height: 160
+--- !u!114 &2860810137584340329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: 32b59b8a-7456-4a41-92fd-98facca3f997
+  m_EditorClassIdentifier: 
+  text: Attack2
+  labelText: Choice
+  nodeId: 3
+  isChoiceNode: 1
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - 15685532-01b8-4d93-a893-8f42ae914205
+  dialogueRect:
+    serializedVersion: 2
+    x: 1060
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1065
+    y: 15
+    width: 280
+    height: 160
+--- !u!114 &5444252051634317702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: a6175179-9158-453f-ac6c-9f7c312c5cb9
+  m_EditorClassIdentifier: 
+  text: You took 10 Points of Damage
+  labelText: Node
+  nodeId: 13
+  isChoiceNode: 0
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - ad58e2ed-fe85-4729-b49f-c16472cc4a7f
+  dialogueRect:
+    serializedVersion: 2
+    x: 1410
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1415
+    y: 215
+    width: 280
+    height: 160
+--- !u!114 &6745534421645291860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: 954e0a71-a092-4408-97b8-c23a1957c628
+  m_EditorClassIdentifier: 
+  text: ' Successful Block2'
+  labelText: Node
+  nodeId: 12
+  isChoiceNode: 0
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - 32b59b8a-7456-4a41-92fd-98facca3f997
+  - c86b292f-7d52-43e6-b19e-0f8c29d37fb9
+  dialogueRect:
+    serializedVersion: 2
+    x: 710
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 715
+    y: 215
+    width: 280
+    height: 160
+--- !u!114 &6853140461092116434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: a289c5ac-ab6e-40c4-a0f1-d00c104820a2
+  m_EditorClassIdentifier: 
+  text: Your enemy bled out in front of you. You win!
+  labelText: Node
+  nodeId: 11
+  isChoiceNode: 0
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes: []
+  dialogueRect:
+    serializedVersion: 2
+    x: 2460
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 2465
+    y: 15
+    width: 280
+    height: 160
+--- !u!114 &7007219656668016668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: 6dc9f0c8-f41f-445b-9a69-5154910e09ae
+  m_EditorClassIdentifier: 
+  text: Attack
+  labelText: Choice
+  nodeId: 1
+  isChoiceNode: 1
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - ef7be291-5845-4e20-8268-e4492067315b
+  dialogueRect:
+    serializedVersion: 2
+    x: 360
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 365
+    y: 15
+    width: 280
+    height: 160
+--- !u!114 &7848105708873460151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: ef7be291-5845-4e20-8268-e4492067315b
+  m_EditorClassIdentifier: 
+  text: 12 Point Hit
+  labelText: Node
+  nodeId: 8
+  isChoiceNode: 0
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - 32b59b8a-7456-4a41-92fd-98facca3f997
+  - c86b292f-7d52-43e6-b19e-0f8c29d37fb9
+  dialogueRect:
+    serializedVersion: 2
+    x: 710
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 715
+    y: 15
+    width: 280
+    height: 160
+--- !u!114 &8581101241208236047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: b7e1dd18-4f6c-4235-b5c0-bdc6e10f1366
+  m_EditorClassIdentifier: 
+  text: Defense
+  labelText: Choice
+  nodeId: 2
+  isChoiceNode: 1
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - 954e0a71-a092-4408-97b8-c23a1957c628
+  dialogueRect:
+    serializedVersion: 2
+    x: 360
+    y: 210
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 365
+    y: 215
+    width: 280
+    height: 160
+--- !u!114 &8782876241547304465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bb6e71b1554fd4a00bd840cced074b, type: 3}
+  m_Name: 15685532-01b8-4d93-a893-8f42ae914205
+  m_EditorClassIdentifier: 
+  text: 20 Point Crit Hit
+  labelText: Node
+  nodeId: 9
+  isChoiceNode: 0
+  isRootNode: 0
+  hasLost: 0
+  image: 
+  childNodes:
+  - ff23a53a-04e9-4883-ba46-58a4d5e6cb66
+  - d2630636-7d0a-4e40-a296-5e49a38eae09
+  dialogueRect:
+    serializedVersion: 2
+    x: 1410
+    y: 10
+    width: 300
+    height: 180
+  textRect:
+    serializedVersion: 2
+    x: 1415
+    y: 15
+    width: 280
+    height: 160

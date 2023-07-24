@@ -7,16 +7,16 @@ using Object = UnityEngine.Object;
 namespace Code.Dialogue.Story
 {
     /// <summary>
-    /// Displays the Story
+    /// Displays the selected Story
     /// If there are 0 nodes then it reads them from the xml file
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">10.05.2023</para>
     public class StoryViewer : EditorWindow
     {
-        // Story
+        // Story Asset
         private StoryAsset _selectedChapter;
-        // Vector
+        // Scroll Area / Position
         private Vector2 _scrollPosition;
         private Vector2 _scrollPositionTextArea = Vector2.zero;
         private Vector2 _scrollbarDragStartPos;
@@ -137,12 +137,15 @@ namespace Code.Dialogue.Story
             
             Selection.activeObject = null;
         }
-        
-        #endregion
-        
-        #region OnGUI
 
-        private void OnGUI()
+				#endregion
+
+		#region OnGUI
+
+		/// <summary>
+		/// Gets called every time a change happens on the Editor. Displays the nodes.
+		/// </summary>
+		private void OnGUI()
         {
             if (!_selectedChapter.HasReadNodes) return;
             
@@ -185,9 +188,9 @@ namespace Code.Dialogue.Story
         }
         
         /// <summary>
-        /// Draws node from Xml File
+        /// Draws the node
         /// </summary>
-        /// <param name="node">Next Node to Draw</param>
+        /// <param name="node">Next node to draw</param>
         private void DrawNode(StoryNode node)
         {
             var style = _storyNodeStyle;
@@ -283,21 +286,6 @@ namespace Code.Dialogue.Story
                 case EventType.MouseUp when _dragCanvas:
                     _dragCanvas = false;
                     break;
-                // case EventType.MouseMove when _storyNode == null:
-                //     _storyNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPositionTextArea);
-                //     if (_storyNode != null)
-                //         Selection.activeObject = _storyNode;
-                //     break;
-                // case EventType.ScrollWheel:
-                //     if (_storyNode != null)
-                //     {
-                //         //Debug.Log(_storyNode.name);
-                //         _scrollPositionTextArea.y += e.delta.y * 2;
-                //         e.Use();
-                //         _storyNode = null;
-                //         GUI.changed = true;
-                //     }
-                //     break;
             }
         }
         

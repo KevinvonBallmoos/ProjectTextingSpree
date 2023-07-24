@@ -6,10 +6,10 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using Code.Controller;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
-using UnityEngine.Serialization;
 
 namespace Code
 {
@@ -27,8 +27,7 @@ namespace Code
         // GameManager
         public static GameManager Gm;
         // Ending Screen
-        [SerializeField] private GameObject endingScreen;
-        
+        [SerializeField] private GameObject messageBoxEndScreen;
         // Menu Save and Properties Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject messageBoxScreen;
@@ -36,13 +35,14 @@ namespace Code
         [SerializeField] private GameObject characters;
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
-        
-        [NonSerialized] public bool IsGameOver;
+		[SerializeField] private GameObject[] messageBoxScreenObjects;
+        // Menu Option TextSpeed
+        [NonSerialized] private bool _isTextSlowed = true; 
+		// States of the Game
+		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
-
-        [SerializeField] private GameObject[] messageBoxScreenObjects;
-
+        // Various variables
         private int _chapter;
         private int _part; 
         public static int ActiveScene = 0;
@@ -80,11 +80,10 @@ namespace Code
 
         #endregion
 
-        #region Game States
+        #region Game State Button Events
         
         /// <summary>
-        /// Starts a new Game
-        /// Sets the visibility Image in the character select to false
+        /// Opens the character select window and sets the Image to false
         /// </summary>
         public void NewGame_Click()
         {
@@ -100,6 +99,9 @@ namespace Code
             characterPropertiesScreen.SetActive(true);
         }
 
+        /// <summary>
+        /// Starts a new game and checks if a save slot is empty, else asks to override another slot
+        /// </summary>
         public void StartNewGame_Click()
         {
             if (playerName.text.Equals(""))
@@ -138,20 +140,12 @@ namespace Code
             GameDataController.Gdc.LoadGame();
         }
 
-        /// <summary>
-        /// Loads the saved Scene
-        /// </summary>
-        public static void LoadScene()
-        {
-            SceneManager.LoadScene(ActiveScene);
-        }
-
         #endregion
         
         #region Next Chapter / Story or End
         
         /// <summary>
-        /// Checks if its Game Over or end of Chapter
+        /// Checks if its Game Over, end of Chapter or end of story
         /// </summary>
         private void Update()
         {
@@ -171,7 +165,7 @@ namespace Code
             IsEndOfChapter = false;
             _part = GetPath();
             _chapter++;
-            _storyPath = $@"Story/Story{_part}Chapter{_chapter}.asset";
+            _storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
             _storyUI.currentChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
@@ -195,7 +189,7 @@ namespace Code
         private void LoadGameOverScreen()
         {
             IsGameOver = false;
-            endingScreen.SetActive(true);
+            messageBoxEndScreen.SetActive(true);
             _logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
         }
 
@@ -216,10 +210,10 @@ namespace Code
         
         #endregion
         
-        #region Next Chapter / Story Click Events
+        #region Next Chapter / Story Button Events
         
         /// <summary>
-        /// When the next Chapter Button is clicked
+        /// When the next chapter Button is clicked
         /// </summary>
         public void NextChapter_Click()
         {
@@ -227,7 +221,7 @@ namespace Code
         }
 
         /// <summary>
-        /// When the next Chapter Button is clicked
+        /// When the next story Button is clicked
         /// </summary>
         public void NextStory_Click()
         {
@@ -257,17 +251,48 @@ namespace Code
             messageBoxScreenObjects[0].GetComponent<Button>().onClick.AddListener(eventMethod);
             messageBoxScreenObjects[1].GetComponent<Text>().text = text;
         }
-        
+
         #endregion
         
         #region Main Menu
 
-        public void BackToMainMenu()
+        public void BackToMainMenu_Click()
         {
+            messageBoxEndScreen.SetActive(false);
             ActiveScene = 0;
             LoadScene();
         }
-        
+
+		/// <summary>
+		/// Loads the next Scene
+		/// </summary>
+		public static void LoadScene()
+		{
+            SceneManager.LoadScene(ActiveScene);
+		}
+
+		#endregion
+
+        #region Menu Options
+
+        /// <summary>
+        /// Sets the isTextSlowed Property
+        /// </summary>
+        /// <param name="isSlowed"></param>
+        public void SetIsTextSlowed(bool isSlowed)
+        {
+            _isTextSlowed = isSlowed;
+        }
+
+        /// <summary>
+        /// Gets the isTextSlowed Property
+        /// </summary>
+        /// <returns></returns>
+        public bool GetIsTextSlowed()
+        {
+            return _isTextSlowed;
+        }
+
         #endregion
     }
 }

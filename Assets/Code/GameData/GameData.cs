@@ -1,5 +1,4 @@
-
-using System;
+using Code.Dialogue.Story;
 
 namespace Code.GameData
 {
@@ -19,13 +18,17 @@ namespace Code.GameData
         public readonly string TimeOfSave;
         public readonly string CurrentChapter;
         public readonly string ParentNode;
-        public readonly bool IsStoryNode; 
+        public readonly bool IsStoryNode;
+        public readonly string NodeIndex;
+        public readonly StoryNode[] PastStoryNodes;
+        public readonly StoryNode[] SelectedChoices;
+        
 
-        /// <summary>
-        /// Constructor to save an Object of type GameData
-        /// </summary>
-        /// <param name="saveData"></param>
-        public GameData (SaveData saveData)
+		/// <summary>
+		/// Constructor to save an Object of type GameData
+		/// </summary>
+		/// <param name="saveData">Contains all necessary elements to save the status</param>
+		public GameData (SaveData saveData)
         {
             PlayerName = saveData.PlayerName;
             PlayerBackground = saveData.PlayerBackground;
@@ -36,6 +39,9 @@ namespace Code.GameData
             CurrentChapter = saveData.CurrentChapter;
             ParentNode = saveData.ParentNode;
             IsStoryNode = saveData.IsStoryNode;
+            NodeIndex = saveData.NodeIndex;
+            PastStoryNodes = saveData.PastStoryNodes;
+            SelectedChoices = saveData.SelectedChoices;
         }
    }
 }

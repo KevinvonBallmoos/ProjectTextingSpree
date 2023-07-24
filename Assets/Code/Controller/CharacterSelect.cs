@@ -1,9 +1,8 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Code
+namespace Code.Controller
 {
     /// <summary>
     /// When a Character is clicked
@@ -31,6 +30,9 @@ namespace Code
             SetImage();
         }
 
+        /// <summary>
+        /// Sets the select Image, when a character is selected
+        /// </summary>
         private void SetImage()
         {
             var slots = characters.GetComponentsInChildren<Image>();
