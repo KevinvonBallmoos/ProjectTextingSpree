@@ -55,7 +55,6 @@ namespace Code.GameData
         [SerializeField] private GameObject saveSlot3;
         // Screens
         [SerializeField] private GameObject mainMenuScreen;
-        [SerializeField] private GameObject saveGameScreen;
         [SerializeField] private GameObject messageBoxScreen; 
         [SerializeField] private GameObject characterPropertiesScreen;
         // Slot view
@@ -125,8 +124,7 @@ namespace Code.GameData
         public void LoadGame()
         {
             mainMenuScreen.SetActive(false);
-            saveGameScreen.SetActive(true);
-            
+
             SetSaveScreen("LOAD", 0);
             LoadDataIntoSlots();
         }
@@ -178,7 +176,6 @@ namespace Code.GameData
         public void Continue_Click()
         {
             mainMenuScreen.SetActive(false);
-            saveGameScreen.SetActive(true);
             messageBoxScreen.SetActive(false);
             LoadDataIntoSlots();
         }
@@ -197,7 +194,6 @@ namespace Code.GameData
         public void BackToMenu_Click()
         {
             mainMenuScreen.SetActive(true);
-            saveGameScreen.SetActive(false);
             characterPropertiesScreen.SetActive(false);
         }
 
