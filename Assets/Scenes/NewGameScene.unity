@@ -1807,14 +1807,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e71370690e90646b496f559c87eb14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageBoxEndScreen: {fileID: 1371551799}
-  mainMenuScreen: {fileID: 0}
-  messageBoxScreen: {fileID: 0}
-  characterPropertiesScreen: {fileID: 0}
+  screenObjects: []
+  messageBox: []
+  messageBoxGameOver: {fileID: 1371551799}
   characters: {fileID: 0}
   character: {fileID: 0}
   playerName: {fileID: 0}
-  messageBoxScreenObjects: []
   storyUIScript: {fileID: 2592773734813605163}
 --- !u!4 &1553586390
 Transform:

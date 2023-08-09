@@ -47,7 +47,6 @@ namespace Code.GameData
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
         // Load save
-        [SerializeField] private Button loadGameMenu;
         [SerializeField] private Text loadGameText;
         // GameObjects
         [SerializeField] private GameObject saveSlot1;
@@ -91,8 +90,6 @@ namespace Code.GameData
         /// </summary>
         private void Start()
         {
-            if (Directory.GetFiles(Application.persistentDataPath).Length > 0)
-                loadGameMenu.interactable = true;
             TimeAndProgress.StartTime();
         }
         
