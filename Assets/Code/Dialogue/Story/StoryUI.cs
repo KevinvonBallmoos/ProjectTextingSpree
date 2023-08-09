@@ -227,6 +227,7 @@ namespace Code.Dialogue.Story
         /// Displays the text char by char, gives a visual effect
         /// </summary>
         /// <param name="time"></param>
+        /// <param name="text"></param>
         /// <returns></returns>
         private IEnumerator TextSlower(float time, string text)
         {

@@ -59,6 +59,7 @@ namespace Code
 
         /// <summary>
         /// Awake of the GameManager
+        /// Assigns the GameManager so it's always the same Object and does not get destroyed when switching scenes
         /// </summary>
         private void Awake()
         {
@@ -68,6 +69,9 @@ namespace Code
 
         /// <summary>
         /// Start of the GameManager
+        /// Sets the path, chapter and active scene
+        /// When the Game is started (buildIndex = 0) -> loads the Save Files and displays them on the Paper Object
+        /// When another Scene was loaded (buildIndex = 1 - 3) -> instantiates the story script
         /// </summary>
         private void Start()
         {
@@ -95,10 +99,13 @@ namespace Code
         #region Game State Button Events
         
         /// <summary>
-        /// Opens the character select window and sets the Image to false
+        /// Opens the character select window and disables the select Images
         /// </summary>
         public void NewGame_Click()
         {
+            // TODO: Turns to page 2
+            // Display Character on pages 2 - 3,4 - 5
+            // Remove line 109 + 118
             screenObjects[0].SetActive(false);
             
             var slots = characters.GetComponentsInChildren<Image>();
@@ -112,7 +119,9 @@ namespace Code
         }
 
         /// <summary>
+        /// Checks if a character was selected and a Name was given
         /// Starts a new game and checks if a save slot is empty, else asks to override another slot
+        /// TODO: Always ask which slot should be taken?
         /// </summary>
         public void StartNewGame_Click()
         {
@@ -149,7 +158,8 @@ namespace Code
         #region Next Chapter / Story or End
         
         /// <summary>
-        /// Checks if its Game Over, end of Chapter or end of story
+        /// Update Method
+        /// Checks the status if its Game Over, end of Chapter or end of story
         /// </summary>
         private void Update()
         {
@@ -162,6 +172,7 @@ namespace Code
         }
 
         /// <summary>
+        /// Sets the Path for the next Chapter
         /// Loads next chapter
         /// </summary>
         private void LoadNextChapter()
