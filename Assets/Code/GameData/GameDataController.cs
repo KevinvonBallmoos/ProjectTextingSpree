@@ -123,8 +123,6 @@ namespace Code.GameData
         /// </summary>
         public void LoadGame()
         {
-            mainMenuScreen.SetActive(false);
-
             SetSaveScreen("LOAD", 0);
             LoadDataIntoSlots();
         }

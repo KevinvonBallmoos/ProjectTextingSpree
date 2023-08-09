@@ -10,6 +10,7 @@ using Code.Controller;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
+using Debug = UnityEngine.Debug;
 
 namespace Code
 {
@@ -68,12 +69,14 @@ namespace Code
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
-                _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
-
                 _chapter = 1;
+                
+                if (SceneManager.GetActiveScene().buildIndex == 0)
+                    GameDataController.Gdc.LoadGame();
             }
             catch (Exception ex)
             {
+                Debug.Log("Start Game Fail");
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
@@ -137,7 +140,7 @@ namespace Code
         /// </summary>
         public void LoadGame_Click()
         {
-            GameDataController.Gdc.LoadGame();
+            
         }
 
         #endregion
