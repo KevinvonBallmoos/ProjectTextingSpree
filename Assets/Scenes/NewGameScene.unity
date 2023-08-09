@@ -1815,6 +1815,7 @@ MonoBehaviour:
   character: {fileID: 0}
   playerName: {fileID: 0}
   messageBoxScreenObjects: []
+  storyUIScript: {fileID: 2592773734813605163}
 --- !u!4 &1553586390
 Transform:
   m_ObjectHideFlags: 0
