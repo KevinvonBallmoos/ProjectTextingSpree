@@ -35,10 +35,14 @@ namespace Code
         [Header("Game over Message Box")]
         [SerializeField] private GameObject messageBoxGameOver;
         // Character
-        [Header("Character Objects")]
+        [Header("Character")] 
+        [SerializeField] private GameObject[] characterPages;
         [SerializeField] private GameObject characters;
         [SerializeField] private Text character;
         [SerializeField] private InputField playerName;
+        // Buttons
+        [Header("TopBar Buttons")] 
+        [SerializeField] private Button[] buttons;
         // StoryUI Script
         [Header("Scripts")]
         [SerializeField] private StoryUI storyUIScript;
@@ -103,7 +107,7 @@ namespace Code
         /// </summary>
         public void NewGame_Click()
         {
-            // TODO: Turns to page 2
+            // TODO: Animation Turns to page 2
             // Display Character on pages 2 - 3,4 - 5
             // Remove line 109 + 118
             screenObjects[0].SetActive(false);
@@ -116,6 +120,7 @@ namespace Code
             }
             
             screenObjects[2].SetActive(true);
+            buttons[0].onClick.AddListener(BackToMainMenu_Click);
         }
 
         /// <summary>
@@ -153,6 +158,30 @@ namespace Code
             }
         }
 
+        public void ScrollNextCharacterPage_CLick()
+        {
+            characterPages[0].SetActive(false);
+            characterPages[1].SetActive(true);
+            ChangeButtonProperties(ScrollPreviousCharacterPage_CLick, "Go back", false);
+
+        }
+
+        private void ScrollPreviousCharacterPage_CLick()
+        {
+            characterPages[0].SetActive(true);
+            characterPages[1].SetActive(false);
+            ChangeButtonProperties(BackToMainMenu_Click, "Back to Menu", true);
+        }
+
+        private void ChangeButtonProperties(UnityAction eventMethod, string text, bool isEnabled)
+        {
+            buttons[0].onClick.RemoveAllListeners();
+            buttons[0].onClick.AddListener(eventMethod);
+            buttons[0].GetComponentInChildren<Text>().text = text;
+            
+            buttons[1].gameObject.SetActive(isEnabled);
+        }
+        
         #endregion
         
         #region Next Chapter / Story or End
