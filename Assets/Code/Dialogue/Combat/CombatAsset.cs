@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Code.Dialogue.Combat
@@ -102,7 +104,7 @@ namespace Code.Dialogue.Combat
             _currentAsset = chapter;
             
             SaveChildNodes();
-            SaveNodesToAssetDatabase();
+            //SaveNodesToAssetDatabase();
             
             HasReadNodes = true;
             return _currentAsset;
@@ -324,27 +326,28 @@ namespace Code.Dialogue.Combat
         #endregion
 
         #region AssetDatabase
-
-        /// <summary>
-        /// Adds to or removes from the asset database
-        /// </summary>
-        private void SaveNodesToAssetDatabase()
-        {
-            // Assuming 'savedDataPath' is the path to the asset containing the saved data
-            var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/Combat/" + _currentAsset.name + ".asset");
-        
-            foreach (var n in _nodes)
-            {
-                if (!savedData.Contains(n.Node))
-                {
-                    if (AssetDatabase.GetAssetPath(n.Node) == "")
-                        AssetDatabase.AddObjectToAsset(n.Node, this);
-                }
-                else if (!n.IsTrue)
-                    AssetDatabase.RemoveObjectFromAsset(n.Node);
-            }
-        }
-        
+#if UNITY_EDITOR
+        // UNCOMMENT LINE 107
+        // /// <summary>
+        // /// Adds to or removes from the asset database
+        // /// </summary>
+        // private void SaveNodesToAssetDatabase()
+        // {
+        //     // Assuming 'savedDataPath' is the path to the asset containing the saved data
+        //     var savedData = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/Combat/" + _currentAsset.name);
+        //
+        //     foreach (var n in _nodes)
+        //     {
+        //         if (!savedData.Contains(n.Node))
+        //         {
+        //             if (AssetDatabase.GetAssetPath(n.Node) == "")
+        //                 AssetDatabase.AddObjectToAsset(n.Node, this);
+        //         }
+        //         else if (!n.IsTrue)
+        //             AssetDatabase.RemoveObjectFromAsset(n.Node);
+        //     }
+        // }
+#endif
         #endregion
     }
 }

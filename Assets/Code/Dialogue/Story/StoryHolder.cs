@@ -48,17 +48,19 @@ namespace Code.Dialogue.Story
                 CurrentChapter = CurrentChapter.ReadNodes(chapter);
             
                 _currentNode = CurrentChapter.GetRootNode();
-                _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
+                
                 _pastStoryNodes[0] = _currentNode;
                 _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
+                // for (int i = 0; i < _selectedChoices.Length; i++)
+                //     _selectedChoices[i] = ScriptableObject.CreateInstance<StoryNode>();
+                
                 _nodeIndex = 0;
                 IsStoryNode = false;
             }
             else
             {
-                GameDataController.LoadData();
                 var saveData = GameDataController.GetSaveData();
-                var stories =Resources.LoadAll($@"StoryAssets/", typeof(StoryAsset)).ToList();
+                var stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAsset)).ToList();
                 foreach (var asset in stories)
                 {
                     if (!asset.name.Equals(saveData.CurrentChapter)) continue;
@@ -72,8 +74,14 @@ namespace Code.Dialogue.Story
                         _currentNode = node;
                 }
                 IsStoryNode = saveData.IsStoryNode;
+                
                 _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
+                // for (int p = 0; p < _pastStoryNodes.Length; p++)
+                //     _selectedChoices[p] = ScriptableObject.CreateInstance<StoryNode>();
+                
                 _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
+                // for (int s = 0; s < _selectedChoices.Length; s++)
+                //     _selectedChoices[s] = ScriptableObject.CreateInstance<StoryNode>();
 
                 var i = 0;
                 foreach (var node in CurrentChapter.GetAllNodes())

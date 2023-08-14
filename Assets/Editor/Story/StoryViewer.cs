@@ -1,10 +1,13 @@
-﻿using System;
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Callbacks;
+#endif
+using System;
+using Code.Dialogue.Story;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Code.Dialogue.Story
+namespace Editor.Story
 {
     /// <summary>
     /// Displays the selected Story

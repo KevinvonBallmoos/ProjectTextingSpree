@@ -1,10 +1,13 @@
-﻿using System;
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Callbacks;
+#endif
+using System;
+using Code.Dialogue.Combat;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Code.Dialogue.Combat
+namespace Editor.Combat
 {
     /// <summary>
     /// Displays the selected Combat 

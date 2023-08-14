@@ -349,7 +349,7 @@ namespace Code.GameData
         #endregion
 
         #region Loaded Data
-
+        
         /// <summary>
         /// Returns true if Data has been loaded,
         /// else when not
@@ -357,7 +357,7 @@ namespace Code.GameData
         /// <returns></returns>
         public static bool LoadData()
         {
-            return _saveData != null;
+            return _saveData == null;
         }
         
         /// <summary>
@@ -399,7 +399,7 @@ namespace Code.GameData
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
             _filename = Application.persistentDataPath +
                         $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{_saveTime}.json";
-
+ 
             File.WriteAllText(_filename, json);
         }
 

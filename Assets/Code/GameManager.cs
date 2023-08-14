@@ -93,7 +93,6 @@ namespace Code
             }
             catch (Exception ex)
             {
-                Debug.Log("Start Game Fail");
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }

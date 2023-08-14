@@ -8,6 +8,7 @@ namespace Code.Dialogue.Story
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
+    [System.Serializable]
     public class StoryNode : ScriptableObject
     {
         // Text that is in the node
