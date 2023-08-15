@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Xml;
+using Code.GameData;
 using Newtonsoft.Json;
 using UnityEngine;
 using Formatting = Newtonsoft.Json.Formatting;
@@ -35,6 +37,7 @@ namespace Code.Dialogue.Story
         // Is needed to evaluate if a node needs to be added or removed
         private class NodeInfo
         {
+            public string NodeId { get; set; }
             public StoryNode Node { get; set; }
             public bool IsTrue { get; set; }
         }
@@ -49,9 +52,24 @@ namespace Code.Dialogue.Story
         {
             HasReadNodes = false;
 
-            if (!_nodes.Any())
-                foreach (var n in chapter.GetAllNodes())
-                    _nodes.Add(new NodeInfo { Node = n, IsTrue = true });
+            if (StoryNodes.Count != 0)
+            {
+                if (StoryNodes[0] == null)
+                {
+                    var json = File.ReadAllText(
+                        Application.persistentDataPath + $"/NodeInformation/" + chapter.name + ".json",
+                        Encoding.UTF8);
+                    var array = JsonConvert.DeserializeObject<StoryNodeData[]>(json);
+
+                    StoryNodes.Clear();
+                    foreach (var n in array)
+                    {
+                        var node = CreateInstance<StoryNode>();
+                        node.InitializeStoryNode(n);
+                        _nodes.Add(new NodeInfo { Node = node, IsTrue = true });
+                    }
+                }
+            }
 
             var xmlDoc = new XmlDocument();
             var xmlFile = Resources.Load<TextAsset>($"StoryFiles/{chapter.name}");
@@ -63,7 +81,7 @@ namespace Code.Dialogue.Story
                 var id = choice.Attributes?[0].Value;
                 if (CheckNodes(id)) continue;
                 var node = CreateNode(choice, id, true);
-                _nodes.Add(new NodeInfo { Node = node, IsTrue = true });
+                _nodes.Add(new NodeInfo { NodeId = id, Node = node, IsTrue = true });
             }
 
             var storyNodes = xmlDoc.GetElementsByTagName("Node");
@@ -72,7 +90,7 @@ namespace Code.Dialogue.Story
                 var id = story.Attributes?[0].Value;
                 if (CheckNodes(id)) continue;
                 var node = CreateNode(story, id, false);
-                _nodes.Add(new NodeInfo { Node = node, IsTrue = true });
+                _nodes.Add(new NodeInfo { NodeId = id, Node = node, IsTrue = true });
             }
 
             var i = 0;
@@ -99,7 +117,7 @@ namespace Code.Dialogue.Story
                 ReadProperties(n.Node, xmlDoc);
                 StoryNodes.Add(n.Node);
             }
-
+            
             foreach (var child in _nodes)
             {
                 if (!child.Node.IsRootNode()) continue;
@@ -255,8 +273,8 @@ namespace Code.Dialogue.Story
         {
             var child = CreateInstance<StoryNode>();
             child.name = Guid.NewGuid().ToString();
-            if (node == null) return child;
-            child.SetLabelAndNodeId(node.Name, id);
+            child.SetNodeId(id);
+            child.SetLabel(node.Name);
             child.SetText(node.InnerText);
             child.SetChoiceNode(isChoice);
 
@@ -355,30 +373,16 @@ namespace Code.Dialogue.Story
         /// </summary>
         private void SaveNodesToAssetDatabase()
         {
-            // // Assuming 'savedDataPath' is the path to the asset containing the saved data
-            // var savedData =
-            //     AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/StoryAssets/" + _currentAsset.name + ".asset");
-            //
-            // foreach (var n in _nodes)
-            // {
-            //     if (!savedData.Contains(n.Node))
-            //     {
-            //         if (AssetDatabase.GetAssetPath(n.Node) == "")
-            //             AssetDatabase.AddObjectToAsset(n.Node, this);
-            //     }
-            //     else if (!n.IsTrue)
-            //         AssetDatabase.RemoveObjectFromAsset(n.Node);
-            //
-            //     AssetDatabase.SaveAssets();
-            // }
-            var json = "";
-            foreach (var n in _nodes)
-                json += JsonConvert.SerializeObject(n, Formatting.Indented);
+
+            var jsonArray = new StoryNodeData[_nodes.Count];
+            for (int i = 0;  i < _nodes.Count;i++)
+                jsonArray[i] = new StoryNodeData(_nodes[i].Node);
             
+            var json = JsonConvert.SerializeObject(jsonArray, Formatting.Indented);
             var filename = Application.persistentDataPath + $"/NodeInformation";
             Directory.CreateDirectory(filename);
+            
             filename += $"/{_currentAsset.name}.json";
-            //File.Delete(filename);
             File.WriteAllText(filename, json);
         }
         #endregion

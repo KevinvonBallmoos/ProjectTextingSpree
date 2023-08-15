@@ -12,31 +12,55 @@ namespace Code.Dialogue.Story
     public class StoryNode : ScriptableObject
     {
         // Text that is in the node
-        [SerializeField] private string text;
+        [SerializeField] internal string text;
         // Text that is in the node
-        [SerializeField] private string labelText;
+        [SerializeField] internal string labelText;
         // Node id
-        [SerializeField] private string nodeId;
+        [SerializeField] internal string nodeId;
         // States and Nodes
-        [SerializeField] private bool isChoiceNode;
-        [SerializeField] private bool isRootNode;
-        [SerializeField] private bool isEndOfStory;
-        [SerializeField] private bool isEndOfChapter;
-        [SerializeField] private bool isGameOver;
+        [SerializeField] internal bool isChoiceNode;
+        [SerializeField] internal bool isRootNode;
+        [SerializeField] internal bool isEndOfStory;
+        [SerializeField] internal bool isEndOfChapter;
+        [SerializeField] internal bool isGameOver;
         // Image
-        [SerializeField] private string image;
+        [SerializeField] internal string image;
         // Item
-        [SerializeField] private string item = "";
+        [SerializeField] internal string item = "";
         // Player Character
-        [SerializeField] private string background = "";
+        [SerializeField] internal string background = "";
         // Combat
-        [SerializeField] private string isCombat;
+        [SerializeField] internal string isCombat;
         // ChildNodes
-        [SerializeField] private List<string> childNodes = new ();
+        [SerializeField] internal List<string> childNodes = new ();
         // Rect of Editor
-        [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
-        [SerializeField] private Rect textRect;
+        [SerializeField] internal Rect storyRect = new (10, 10, 300, 180);
+        [SerializeField] internal Rect textRect;
+        
+        #region Initializing
 
+        /// <summary>
+        /// Initializes a new StoryNode
+        /// </summary>
+        /// <param name="node"></param>
+        public void InitializeStoryNode(StoryNodeData node)
+        {
+            nodeId = node.NodeId;
+            labelText = node.LabelText;
+            text = node.Text;
+            isChoiceNode = node.IsChoiceNode;
+            isRootNode = node.IsRootNode;
+            isEndOfStory = node.IsEndOfStory;
+            isEndOfChapter = node.IsEndOfChapter;
+            isGameOver = node.IsGameOver;
+            image = node.Image;
+            item = node.Item;
+            background = node.Background;
+            childNodes = node.ChildNodes;
+        }
+        
+        #endregion
+        
 		#region Setter
 
 		/// <summary>
@@ -52,10 +76,17 @@ namespace Code.Dialogue.Story
         /// Sets the label and id of the node
         /// </summary>
         /// <param name="label"></param>
-        /// <param name="id"></param>
-        public void SetLabelAndNodeId(string label, string id)
+        public void SetLabel(string label)
         {
             labelText = label;
+        }
+        
+        /// <summary>
+        /// Sets the label and id of the node
+        /// </summary>
+        /// <param name="id"></param>
+        public void SetNodeId( string id)
+        {
             nodeId = id;
         }
 

@@ -318,7 +318,7 @@ namespace Code.GameData
             _saveData = JsonConvert.DeserializeObject<SaveData>(json);
             _playerName = _saveData.PlayerName;
             _playerBackground = _saveData.PlayerBackground;
-            GameManager.LoadScene(); // TODO: Kastriot Maybe only need 4 scenes
+            GameManager.LoadScene();
         }
 
         /// <summary>
