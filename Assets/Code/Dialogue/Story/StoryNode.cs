@@ -43,7 +43,7 @@ namespace Code.Dialogue.Story
         /// Initializes a new StoryNode
         /// </summary>
         /// <param name="node"></param>
-        public void InitializeStoryNode(StoryNodeData node)
+        public void InitializeStoryNode(StoryNodeDataProperty node)
         {
             nodeId = node.NodeId;
             labelText = node.LabelText;

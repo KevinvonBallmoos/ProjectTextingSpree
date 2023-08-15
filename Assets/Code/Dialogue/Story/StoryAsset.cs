@@ -59,7 +59,7 @@ namespace Code.Dialogue.Story
                     var json = File.ReadAllText(
                         Application.persistentDataPath + $"/NodeInformation/" + chapter.name + ".json",
                         Encoding.UTF8);
-                    var array = JsonConvert.DeserializeObject<StoryNodeData[]>(json);
+                    var array = JsonConvert.DeserializeObject<StoryNodeDataProperty[]>(json);
 
                     StoryNodes.Clear();
                     foreach (var n in array)

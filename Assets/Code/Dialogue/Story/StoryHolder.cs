@@ -48,7 +48,7 @@ namespace Code.Dialogue.Story
                 CurrentChapter = CurrentChapter.ReadNodes(chapter);
             
                 _currentNode = CurrentChapter.GetRootNode();
-                
+                _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
                 _pastStoryNodes[0] = _currentNode;
                 _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
                 
