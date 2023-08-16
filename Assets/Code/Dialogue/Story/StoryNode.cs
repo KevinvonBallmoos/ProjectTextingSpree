@@ -120,13 +120,13 @@ namespace Code.Dialogue.Story
 
         public string Item
         {
-            get => !item.Equals("") ? item : "";
+            get => item ?? "";
             set => item = value;
         }
 
         public string Background
         {
-            get => !background.Equals("") ? Background : "";
+            get => background?? "";
             set => background = value;
         }
 

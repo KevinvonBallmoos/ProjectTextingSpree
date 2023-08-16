@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using TMPro;
@@ -218,7 +219,9 @@ namespace Code.Dialogue.Story
         private string GetTitleText()
         {
             var xmlDoc = new XmlDocument();  // Maybe Xml Reader - better performance
-            xmlDoc.Load($@"{Application.dataPath}/Resources/StoryFiles/{currentChapter.name}.xml"); 
+            var filePath = Path.Combine(Application.streamingAssetsPath, $"StoryFiles/{currentChapter.name}.xml");
+            var xmlFile = File.ReadAllText(filePath);
+            xmlDoc.LoadXml(xmlFile);
             var rootNode = xmlDoc.SelectSingleNode($"//{currentChapter.name}");
             return rootNode?.FirstChild.InnerText;
         }
