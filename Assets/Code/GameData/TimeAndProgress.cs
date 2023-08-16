@@ -97,7 +97,7 @@ namespace Code.GameData
             var count = 0;
             foreach (var child in story.StoryNodes)
             {
-                if (!child.IsChoiceNode())
+                if (!child.IsChoiceNode)
                     count++;
             }
             return count -2;

@@ -1982,7 +1982,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 478221889}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 478221891}
+        m_TargetAssemblyTypeName: Code.Controller.CharacterSelect, Assembly-CSharp
+        m_MethodName: Character_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &478221889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2034,8 +2046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chosenCharacter: {fileID: 1785532806}
-  title: {fileID: 1359107606}
-  characters: {fileID: 494401944}
+  characterTitle: {fileID: 1359107606}
 --- !u!1 &494401944
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,7 +2225,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1439.9421, y: -32.5}
+  m_AnchoredPosition: {x: 1456.6089, y: -40.5}
   m_SizeDelta: {x: 200, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &530563553
@@ -2369,8 +2380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chosenCharacter: {fileID: 1785532806}
-  title: {fileID: 823264673}
-  characters: {fileID: 1006051109}
+  characterTitle: {fileID: 823264673}
 --- !u!114 &538086273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4170,8 +4180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chosenCharacter: {fileID: 1785532806}
-  title: {fileID: 1489612240}
-  characters: {fileID: 494401944}
+  characterTitle: {fileID: 1489612240}
 --- !u!1 &901522383
 GameObject:
   m_ObjectHideFlags: 0
@@ -4606,7 +4615,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -533.8751}
+  m_AnchoredPosition: {x: 960, y: -1291.6255}
   m_SizeDelta: {x: 1610, y: 757.7503}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1006051111
@@ -6566,11 +6575,11 @@ RectTransform:
   - {fileID: 1101531716}
   - {fileID: 675952361}
   m_Father: {fileID: 1330810675}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 811.3008, y: -30.5}
+  m_AnchoredPosition: {x: 388.5837, y: -38.5}
   m_SizeDelta: {x: 557.1674, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1316802021
@@ -6626,13 +6635,37 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1553586388}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1553586389}
+        m_TargetAssemblyTypeName: Code.GameManager, Assembly-CSharp
+        m_MethodName: InputField_OnValueChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
@@ -6708,8 +6741,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1785532805}
   - {fileID: 1316802020}
+  - {fileID: 1785532805}
   - {fileID: 530563552}
   m_Father: {fileID: 1163822383}
   m_RootOrder: 3
@@ -6732,12 +6765,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: -180
-    m_Top: 0
+    m_Left: 110
+    m_Right: -110
+    m_Top: 8
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 40
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -7411,8 +7444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chosenCharacter: {fileID: 1785532806}
-  title: {fileID: 1945978212}
-  characters: {fileID: 1006051109}
+  characterTitle: {fileID: 1945978212}
 --- !u!114 &1372157407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8254,12 +8286,16 @@ MonoBehaviour:
   messageBox:
   - {fileID: 1092745925}
   - {fileID: 956612883}
-  messageBoxGameOver: {fileID: 0}
+  messageBoxGameOver: {fileID: 158730989}
   characterPages:
   - {fileID: 494401944}
   - {fileID: 1006051109}
-  characters: {fileID: 494401944}
-  character: {fileID: 1785532806}
+  characters:
+  - {fileID: 478221886}
+  - {fileID: 874827145}
+  - {fileID: 1372157404}
+  - {fileID: 538086270}
+  chosenCharacter: {fileID: 1785532806}
   playerName: {fileID: 1316802021}
   buttons:
   - {fileID: 996183976}
@@ -9755,11 +9791,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1330810675}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 141.32965, y: -26.2189}
+  m_AnchoredPosition: {x: 1011.8882, y: -34.218903}
   m_SizeDelta: {x: 282.6593, y: 52.4378}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1785532806
@@ -9783,19 +9819,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b16f4823ad548a74fb6ba76fcf281770, type: 3}
     m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: The Beastmaster
 --- !u!222 &1785532807
 CanvasRenderer:
   m_ObjectHideFlags: 0

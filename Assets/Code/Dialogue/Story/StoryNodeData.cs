@@ -1,53 +1,68 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Code.Dialogue.Story
 {
     public class StoryNodeDataProperty
     {
-        public string NodeId { get; set; }
-        public string LabelText { get; set; }
-        public string Text { get; set; }
-        public bool IsChoiceNode { get; set; }
-        public bool IsRootNode { get; set; }
-        public bool IsEndOfStory { get; set; }
-        public bool IsEndOfChapter { get; set; }
-        public bool IsGameOver { get; set; }
-        public string Image { get; set; }
-        public string Item { get; set; }
-        public string Background { get; set; }
-        public List<string> ChildNodes { get; set; }
+        public StoryNodeDataProperty(string nodeId, string labelText, string text, bool isChoiceNode, bool isRootNode, bool isEndOfStory, bool isEndOfChapter, bool isGameOver, string image, string item, string background, List<string> childNodes)
+        {
+            NodeId = nodeId;
+            LabelText = labelText;
+            Text = text;
+            IsChoiceNode = isChoiceNode;
+            IsRootNode = isRootNode;
+            IsEndOfStory = isEndOfStory;
+            IsEndOfChapter = isEndOfChapter;
+            IsGameOver = isGameOver;
+            Image = image;
+            Item = item;
+            Background = background;
+            ChildNodes = childNodes;
+        }
+
+        public string NodeId { get; }
+        public string LabelText { get;}
+        public string Text { get; }
+        public bool IsChoiceNode { get; }
+        public bool IsRootNode { get; }
+        public bool IsEndOfStory { get; }
+        public bool IsEndOfChapter { get; }
+        public bool IsGameOver { get; }
+        public string Image { get; }
+        public string Item { get; }
+        public string Background { get; }
+        public List<string> ChildNodes { get; }
     }
     
     public class StoryNodeData
     {
-        public readonly string NodeId;
-        public readonly string LabelText;
-        public readonly string Text;
-        public readonly bool IsChoiceNode;
-        public readonly bool IsRootNode;
-        public readonly bool IsEndOfStory;
-        public readonly bool IsEndOfChapter;
-        public readonly bool IsGameOver;
-        public readonly string Image;
-        public readonly string Item;
-        public readonly string Background;
-        public readonly List<string> ChildNodes;
+        private readonly string _nodeId;
+        private readonly string _labelText;
+        private readonly string _text;
+        private readonly bool _isChoiceNode;
+        private readonly bool _isRootNode;
+        private readonly bool _isEndOfStory;
+        private readonly bool _isEndOfChapter;
+        private readonly bool _isGameOver;
+        private readonly string _image;
+        private readonly string _item;
+        private readonly string _background;
+        private readonly List<string> _childNodes;
         
         public StoryNodeData(StoryNode node)
         {
-            NodeId = node.nodeId;
-            LabelText = node.labelText;
-            Text = node.text;
-            IsChoiceNode = node.isChoiceNode;
-            IsRootNode = node.isRootNode;
-            IsEndOfStory = node.isEndOfStory;
-            IsEndOfChapter = node.isEndOfChapter;
-            IsGameOver = node.isGameOver;
-            Image = node.image;
-            Item = node.item;
-            Background = node.background;
-            ChildNodes = node.childNodes;
+            _nodeId = node.NodeId;
+            _labelText = node.LabelText;
+            _text = node.Text;
+            _isChoiceNode = node.IsChoiceNode;
+            _isRootNode = node.IsRootNode;
+            _isEndOfStory = node.IsEndOfStory;
+            _isEndOfChapter = node.IsEndOfChapter;
+            _isGameOver = node.IsGameOver;
+            _image = node.Image;
+            _item = node.Item;
+            _background = node.Background;
+            _childNodes = node.ChildNodes;
         }
     }
 }

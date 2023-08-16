@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Xml;
-using Code.GameData;
 using Newtonsoft.Json;
 using UnityEngine;
 using Formatting = Newtonsoft.Json.Formatting;
@@ -27,10 +25,7 @@ namespace Code.Dialogue.Story
         private readonly List<NodeInfo> _nodes = new();
 
         [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
-
-        // Dictionary to store all nodes 
-        [NonSerialized] private readonly Dictionary<string, StoryNode> _nodeLookup = new();
-
+        
         // Boolean that is true when the nodes have been read
         [NonSerialized] public bool HasReadNodes;
 
@@ -57,17 +52,18 @@ namespace Code.Dialogue.Story
                 if (StoryNodes[0] == null)
                 {
                     var json = File.ReadAllText(
-                        Application.persistentDataPath + $"/NodeInformation/" + chapter.name + ".json",
+                        Application.persistentDataPath + $"/StoryAssets/" + chapter.name + ".json",
                         Encoding.UTF8);
                     var array = JsonConvert.DeserializeObject<StoryNodeDataProperty[]>(json);
 
                     StoryNodes.Clear();
-                    foreach (var n in array)
-                    {
-                        var node = CreateInstance<StoryNode>();
-                        node.InitializeStoryNode(n);
-                        _nodes.Add(new NodeInfo { Node = node, IsTrue = true });
-                    }
+                    if (array != null)
+                        foreach (var n in array)
+                        {
+                            var node = CreateInstance<StoryNode>();
+                            node.InitializeStoryNode(n);
+                            _nodes.Add(new NodeInfo { Node = node, IsTrue = true });
+                        }
                 }
             }
 
@@ -104,7 +100,7 @@ namespace Code.Dialogue.Story
 
                 foreach (var n in _nodes)
                 {
-                    if (n.Node.GetChildNodes().Contains(_nodes[i].Node.name))
+                    if (n.Node.ChildNodes.Contains(_nodes[i].Node.name))
                         n.Node.RemoveChildNode(_nodes[i].Node.name);
                 }
 
@@ -117,19 +113,19 @@ namespace Code.Dialogue.Story
                 ReadProperties(n.Node, xmlDoc);
                 StoryNodes.Add(n.Node);
             }
-            
+
             foreach (var child in _nodes)
             {
-                if (!child.Node.IsRootNode()) continue;
-                child.Node.SetTextRect(child.Node.GetRect().x + 5, child.Node.GetRect().y + 5,
-                    child.Node.GetRect().width - 50, child.Node.GetRect().height - 50);
+                //child.Node.StoryRect = new Rect(10, 10, 300, 180);
+                if (!child.Node.IsRootNode) continue;
+                child.Node.TextRect = new Rect(child.Node.StoryRect.x + 5, child.Node.StoryRect.y + 5,
+                    child.Node.StoryRect.width - 50, child.Node.StoryRect.height - 50);
                 SetNodePosition(child.Node);
                 break;
             }
 
             _currentAsset = chapter;
-
-            SaveChildNodes();
+            
             SaveNodesToAssetDatabase();
 
             HasReadNodes = true;
@@ -145,7 +141,7 @@ namespace Code.Dialogue.Story
         {
             foreach (var n in _nodes)
             {
-                if (n.Node.GetNodeId() == id)
+                if (n.Node.NodeId == id)
                     return true;
             }
 
@@ -157,13 +153,12 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="node">Node whose properties must be read</param>
         /// <param name="xmlDoc">The currently opened xml document</param>
-        /// §
         private void ReadProperties(StoryNode node, XmlDocument xmlDoc)
         {
-            var nodeList = node.IsChoiceNode()
+            var nodeList = node.IsChoiceNode
                 ? xmlDoc.GetElementsByTagName("Choice")
                 : xmlDoc.GetElementsByTagName("Node");
-            var xmlNode = nodeList.Cast<XmlNode>().FirstOrDefault(n => node.GetText() == n.InnerText);
+            var xmlNode = nodeList.Cast<XmlNode>().FirstOrDefault(n => node.Text == n.InnerText);
             int? attributesCount = xmlNode?.Attributes?.Count;
 
             if (attributesCount == 0) return;
@@ -180,25 +175,25 @@ namespace Code.Dialogue.Story
                         AddStoryChild(node, xmlNode.Attributes[attribute].Value);
                         break;
                     case "image":
-                        node.SetImage(xmlNode.Attributes[attribute].Value);
+                        node.Image = xmlNode.Attributes[attribute].Value;
                         break;
                     case "item":
-                        node.SetItem(xmlNode.Attributes[attribute].Value);
+                        node.Item = xmlNode.Attributes[attribute].Value;
                         break;
                     case "isRootNode":
-                        node.SetIsRootNode(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        node.IsRootNode = Convert.ToBoolean(xmlNode.Attributes[attribute].Value);
                         break;
                     case "isGameOver":
-                        node.SetIsGameOver(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        node.IsGameOver = Convert.ToBoolean(xmlNode.Attributes[attribute].Value);
                         break;
                     case "isEndOfChapter":
-                        node.SetIsEndOfChapter(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        node.IsEndOfChapter = Convert.ToBoolean(xmlNode.Attributes[attribute].Value);
                         break;
                     case "isEndOfStory":
-                        node.SetIsEndOfStory(Convert.ToBoolean(xmlNode.Attributes[attribute].Value));
+                        node.IsEndOfStory = Convert.ToBoolean(xmlNode.Attributes[attribute].Value);
                         break;
                     case "background":
-                        node.SetBackground(xmlNode.Attributes[attribute].Value);
+                        node.Background = xmlNode.Attributes[attribute].Value;
                         break;
                 }
             }
@@ -214,21 +209,11 @@ namespace Code.Dialogue.Story
             {
                 foreach (var n in _nodes)
                 {
-                    if (n.Node.GetNodeId() != i) continue;
+                    if (n.Node.NodeId != i) continue;
                     node.AddChildNode(n.Node.name);
                     break;
                 }
             }
-        }
-
-        /// <summary>
-        /// Saves all node ids in a Dictionary
-        /// </summary>
-        private void SaveChildNodes()
-        {
-            _nodeLookup.Clear();
-            foreach (var node in GetAllNodes())
-                _nodeLookup[node.name] = node;
         }
 
         /// <summary>
@@ -237,20 +222,21 @@ namespace Code.Dialogue.Story
         /// <param name="node"></param>
         private void SetNodePosition(StoryNode node)
         {
-            var children = node.GetChildNodes();
+            var children = node.ChildNodes;
             if (children.Count == 0) return;
 
             for (var i = 0; i < children.Count; i++)
             {
-                var child = node.GetChildNodes()[i];
+                var child = node.ChildNodes[i];
                 foreach (var n in _nodes)
                 {
                     if (n.Node.name != child) continue;
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    if (n.Node.GetRect().position.x != 10) continue;
-                    n.Node.SetRect(node.GetRect().position.x + 350, node.GetRect().position.y + (i * 200));
-                    n.Node.SetTextRect(n.Node.GetRect().x + 5, n.Node.GetRect().y + 5, n.Node.GetRect().width - 20,
-                        n.Node.GetRect().height - 20);
+
+                    if (n.Node.StoryRect.position.x != 10) continue;
+                    n.Node.StoryRect = new Rect(node.StoryRect.position.x + 350, node.StoryRect.position.y + (i * 200), node.StoryRect.width, node.StoryRect.height);
+                    n.Node.TextRect = new Rect(n.Node.StoryRect.x + 5, n.Node.StoryRect.y + 5, n.Node.StoryRect.width - 20,
+                        n.Node.StoryRect.height - 20);
                     SetNodePosition(n.Node);
                     break;
                 }
@@ -273,10 +259,10 @@ namespace Code.Dialogue.Story
         {
             var child = CreateInstance<StoryNode>();
             child.name = Guid.NewGuid().ToString();
-            child.SetNodeId(id);
-            child.SetLabel(node.Name);
-            child.SetText(node.InnerText);
-            child.SetChoiceNode(isChoice);
+            child.NodeId = id;
+            child.LabelText = node.Name;
+            child.Text = node.InnerText;
+            child.IsChoiceNode = isChoice;
 
             return child;
         }
@@ -302,7 +288,7 @@ namespace Code.Dialogue.Story
         {
             foreach (var node in StoryNodes)
             {
-                if (!node.IsChoiceNode())
+                if (!node.IsChoiceNode)
                     yield return node;
             }
         }
@@ -314,10 +300,13 @@ namespace Code.Dialogue.Story
         /// <returns>Child nodes of the parent Node</returns>
         public List<StoryNode> GetAllChildNodes(StoryNode parentNode)
         {
-            SaveChildNodes();
             var childNodes = new List<StoryNode>();
-            foreach (var childID in parentNode.GetChildNodes())
-                childNodes.Add(_nodeLookup[childID]);
+            foreach (var nodeId in parentNode.ChildNodes)
+                foreach (var node in _nodes)
+                {
+                    if (node.Node.name.Equals(nodeId))
+                        childNodes.Add(node.Node);
+                }
 
             return childNodes;
         }
@@ -330,7 +319,7 @@ namespace Code.Dialogue.Story
         {
             foreach (var node in GetAllNodes())
             {
-                if (node.IsRootNode())
+                if (node.IsRootNode)
                     return node;
             }
 
@@ -346,7 +335,7 @@ namespace Code.Dialogue.Story
         {
             foreach (var child in GetAllChildNodes(currentNode))
             {
-                if (child.IsChoiceNode())
+                if (child.IsChoiceNode)
                     yield return child;
             }
         }
@@ -360,7 +349,7 @@ namespace Code.Dialogue.Story
         {
             foreach (var child in GetAllChildNodes(currentNode))
             {
-                if (!child.IsChoiceNode())
+                if (!child.IsChoiceNode)
                     yield return child;
             }
         }
@@ -379,7 +368,7 @@ namespace Code.Dialogue.Story
                 jsonArray[i] = new StoryNodeData(_nodes[i].Node);
             
             var json = JsonConvert.SerializeObject(jsonArray, Formatting.Indented);
-            var filename = Application.persistentDataPath + $"/NodeInformation";
+            var filename = Application.persistentDataPath + "/StoryAssets";
             Directory.CreateDirectory(filename);
             
             filename += $"/{_currentAsset.name}.json";

@@ -211,27 +211,27 @@ namespace Code.Dialogue.Story
 
         public bool GetIsEndOfStory()
         {
-            return _currentNode.IsEndOfStory();
+            return _currentNode.IsEndOfStory;
         }
         
         public bool GetIsEndOfChapter()
         {
-            return _currentNode.IsEndOfChapter();
+            return _currentNode.IsEndOfChapter;
         }
 
         public bool GetIsGameOver()
         {
-            return _currentNode.IsGameOver();
+            return _currentNode.IsGameOver;
         }
 
         public string GetImage(StoryNode nodeToDisplay)
         {
-            return nodeToDisplay.GetImage();
+            return nodeToDisplay.Image;
         }
         
         public string GetItem()
         {
-            return _currentNode.GetItem();
+            return _currentNode.Item;
         }
 
         #endregion

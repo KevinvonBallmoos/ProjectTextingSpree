@@ -44,7 +44,7 @@ namespace Code.Dialogue.Story
         private Image _saveImage;
         private Text _saveText;
 
-		#region Start
+        #region Start
 
 		/// <summary>
 		/// When the Game starts, gets the story, adds the next button click Event and updates the UI
@@ -122,7 +122,7 @@ namespace Code.Dialogue.Story
         /// <param name="isGameOver"></param>
         private void UpdateUI(bool isSave, bool isGameOver)
         {
-            pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode());
+            pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode);
 
             DisplayNodeProperties(); 
             UpdateNodeChoice(isGameOver);
@@ -141,7 +141,7 @@ namespace Code.Dialogue.Story
             if (_storyHolder.HasMoreNodes(_nodeToDisplay).Any())
             {
                 // if the children are choice nodes
-                if (_storyHolder.HasMoreNodes(_nodeToDisplay)[0].IsChoiceNode())
+                if (_storyHolder.HasMoreNodes(_nodeToDisplay)[0].IsChoiceNode)
                 {
                     nextButton.gameObject.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
@@ -169,7 +169,7 @@ namespace Code.Dialogue.Story
         {
             // Displays Story Text either one letter after another, or the whole text at once
             story.text = "";
-            var text = _nodeToDisplay.GetText().Replace("{Name}", GameDataController.Gdc.GetPlayerName());
+            var text = _nodeToDisplay.Text.Replace("{Name}", GameDataController.Gdc.PlayerName);
             if (GameManager.Gm.GetIsTextSlowed())
                 _textCoroutine = StartCoroutine(TextSlower(0.02f, text));
             else
@@ -365,16 +365,16 @@ namespace Code.Dialogue.Story
         private void SetChoice(StoryNode choice, bool isSave)
         {
             var choiceInstance = Instantiate(choicePrefab, choiceRoot);
-            var background = choice.GetBackground();
+            var background = choice.Background;
 
             // Check if this node can only be used by a certain player
             if (!background.Equals(""))
             {
-                if (background.Equals(GameDataController.Gdc.GetPlayerBackground()))
+                if (background.Equals(GameDataController.Gdc.PlayerBackground))
                 {
                     // Set Text
                     var choiceText = choiceInstance.GetComponentInChildren<Text>();
-                    choiceText.text = choice.GetText();
+                    choiceText.text = choice.Text;
                 }
                 else return;
             }
@@ -382,7 +382,7 @@ namespace Code.Dialogue.Story
             {
                 // Set Text
                 var choiceText = choiceInstance.GetComponentInChildren<Text>();
-                choiceText.text = choice.GetText();
+                choiceText.text = choice.Text;
             }
 
             // Add listener

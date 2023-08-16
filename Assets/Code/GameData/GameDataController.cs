@@ -101,11 +101,12 @@ namespace Code.GameData
         /// When a new Game is started, it checks for a open save slot, are there none,
         /// then the User has to choose an old save slot to override the date with the new Game
         /// </summary>
-        public bool NewGame()
+        public bool NewGame(string player, string background)
         {
             _saveTime = "";
-            
-            var length = Directory.GetFiles(Application.persistentDataPath).Length;
+            PlayerName = player;
+            PlayerBackground = background;
+            var length = Directory.GetFiles(Application.persistentDataPath + "/SaveData").Length;
             if (length == 3)
                 return false;
             
@@ -170,9 +171,8 @@ namespace Code.GameData
         /// </summary>
         public void Continue_Click()
         {
-            mainMenuScreen.SetActive(false);
+            mainMenuScreen.SetActive(true);
             messageBoxScreen.SetActive(false);
-            LoadDataIntoSlots();
         }
         
         /// <summary>
@@ -234,7 +234,7 @@ namespace Code.GameData
         private static void GetLoadedData()
         {
             LoadedData.Clear();
-            foreach (var file in Directory.GetFiles(Application.persistentDataPath))
+            foreach (var file in Directory.GetFiles(Application.persistentDataPath + "/SaveData"))
             {
                 var json = File.ReadAllText(file, Encoding.UTF8);
                 LoadedData.Add(JsonConvert.DeserializeObject<SaveData>(json));
@@ -308,16 +308,24 @@ namespace Code.GameData
         /// <summary>
         /// Loads the Selected Game
         /// </summary>
-        private static void LoadSelectedGame()
+        private void LoadSelectedGame()
         {
-            var files = Directory.GetFiles(Application.persistentDataPath);
+            var files = Directory.GetFiles(Application.persistentDataPath + "/SaveData");
             
             if (files.Length <= _slotNum) return;
             var json = File.ReadAllText(files[_slotNum], Encoding.UTF8);
-            
-            _saveData = JsonConvert.DeserializeObject<SaveData>(json);
-            _playerName = _saveData.PlayerName;
-            _playerBackground = _saveData.PlayerBackground;
+
+            try
+            {
+                _saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            }
+            catch (Exception ex)
+            {
+                LoadSelectedGame();
+            }
+
+            PlayerName = _saveData?.PlayerName;
+            PlayerBackground = _saveData?.PlayerBackground;
             GameManager.LoadScene();
         }
 
@@ -378,13 +386,12 @@ namespace Code.GameData
         /// </summary>
         private void SaveNewGame()
         {
-            GetPlayer();
-
+            
             _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             var gameData = new GameData(new SaveData
             {
-                PlayerName = _playerName,
-                PlayerBackground = _playerBackground, 
+                PlayerName = PlayerName,
+                PlayerBackground = PlayerBackground, 
                 Title = "",
                 ProgressPercentage = 0,
                 TimeSpent = "00.00.00",
@@ -397,8 +404,8 @@ namespace Code.GameData
                 SelectedChoices = null
             });
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
-            _filename = Application.persistentDataPath +
-                        $"\\SaveGame_{Directory.GetFiles(Application.persistentDataPath).Count() + 1}_{_saveTime}.json";
+            _filename = Application.persistentDataPath + "/SaveData" +
+                        $"/SaveGame_{Directory.GetFiles(Application.persistentDataPath + "/SaveData").Count() + 1}_{_saveTime}.json";
  
             File.WriteAllText(_filename, json);
         }
@@ -424,8 +431,8 @@ namespace Code.GameData
             var gameData = new GameData(
                 new SaveData
                 {
-                    PlayerName = GetPlayerName(),
-                    PlayerBackground = GetPlayerBackground(),
+                    PlayerName = PlayerName,
+                    PlayerBackground = PlayerBackground,
                     Title = save.Title,
                     ProgressPercentage = progress,
                     TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
@@ -442,7 +449,7 @@ namespace Code.GameData
                 }
             );
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
-            _filename = Directory.GetFiles(Application.persistentDataPath)[_slotNum];
+            _filename = Directory.GetFiles(Application.persistentDataPath + "/SaveData")[_slotNum];
             if (File.Exists(_filename))
                 File.Delete(_filename);
 
@@ -455,22 +462,17 @@ namespace Code.GameData
         #endregion
 
         #region Player and PlayerBackground
-
-        public void GetPlayer()
-        {
-            var gameobject = characterPropertiesScreen.GetComponentsInChildren<Text>();
-            _playerName = gameobject[4].text;
-            _playerBackground = gameobject[2].text;
-        }
         
-        public string GetPlayerName()
+        public string PlayerName
         {
-            return _playerName;
+            get => _playerName;
+            set => _playerName = value;
         }
 
-        public string GetPlayerBackground()
+        public string PlayerBackground
         {
-            return _playerBackground;
+            get => _playerBackground;
+            set => _playerBackground = value;
         }
 
         #endregion

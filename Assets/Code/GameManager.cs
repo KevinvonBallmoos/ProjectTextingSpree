@@ -37,8 +37,8 @@ namespace Code
         // Character
         [Header("Character")] 
         [SerializeField] private GameObject[] characterPages;
-        [SerializeField] private GameObject characters;
-        [SerializeField] private Text character;
+        [SerializeField] public GameObject[] characters;
+        [SerializeField] private Text chosenCharacter;
         [SerializeField] private InputField playerName;
         // Buttons
         [Header("TopBar Buttons")] 
@@ -85,6 +85,8 @@ namespace Code
                 _chapter = 1;
                 ActiveScene = 0;
                 
+                CreateFolders();
+                
                 if (SceneManager.GetActiveScene().buildIndex == 0)
                     GameDataController.Gdc.LoadGame();
                 else if (SceneManager.GetActiveScene().buildIndex != 0)
@@ -98,6 +100,25 @@ namespace Code
         }
 
         #endregion
+        
+        #region Folders
+        
+        /// <summary>
+        /// Creates Folders
+        /// SaveData: stores the Save Data from the Game
+        /// StoryAssets: stores the node Information as Json files
+        /// </summary>
+        private static void CreateFolders()
+        {
+            var folders = new [] { "/SaveData", "/StoryAssets" };
+            foreach (var f in folders)
+            {
+                if (Directory.Exists(Application.persistentDataPath + f)) return;
+                Directory.CreateDirectory(Application.persistentDataPath + f);
+            }
+        }
+        
+        #endregion
 
         #region Game State Button Events
         
@@ -110,14 +131,13 @@ namespace Code
             // Display Character on pages 2 - 3,4 - 5
             // Remove line 109 + 118
             screenObjects[0].SetActive(false);
-            
-            var slots = characters.GetComponentsInChildren<Image>();
-            for (var i = 0; i < slots.Length; i++)
+
+            foreach (var c in characters)
             {
-                if (i is 2 or 5 or 8)
-                    slots[i].enabled = false;
+                var image = c.GetComponentsInChildren<Image>()[2];
+                image.enabled = false;
             }
-            
+
             screenObjects[2].SetActive(true);
             buttons[0].onClick.AddListener(BackToMainMenu_Click);
         }
@@ -129,27 +149,21 @@ namespace Code
         /// </summary>
         public void StartNewGame_Click()
         {
-            if (playerName.text.Equals(""))
-            {
-                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
-                return;
-            }
-            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
-            if (character.text.Equals(""))
+            if (!InputField_OnSubmit()) return;
+            if (chosenCharacter.text.Equals(""))
             {
                 screenObjects[2].GetComponentsInChildren<Text>()[0].color = Color.red;
                 return;
             }
-            character.color = Color.white;
+            chosenCharacter.color = Color.white;
 
-            if (GameDataController.Gdc.NewGame())
+            if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
             {
                 ActiveScene = 1;
                 LoadScene();
             }
             else
             {
-                GameDataController.Gdc.GetPlayer();
                 GameDataController.Gdc.SetSaveScreen("NEW GAME", 1);
                 screenObjects[2].SetActive(false);
                 SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlController.GetMessageBoxText(0));
@@ -281,6 +295,31 @@ namespace Code
         
         #endregion
         
+        #region Inputfield Evetns
+
+        /// <summary>
+        /// Handles the event when the user starts writing
+        /// </summary>
+        public void InputField_OnValueChanged()
+        {
+            if (playerName.text.Equals(""))
+            {
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
+        }
+
+        /// <summary>
+        ///  When the 
+        /// </summary>
+        public bool InputField_OnSubmit()
+        {
+            return !playerName.text.Equals("");
+        }
+        
+        #endregion
+        
         #region MessageBox
 
         /// <summary>
@@ -296,7 +335,7 @@ namespace Code
         }
 
         #endregion
-        
+
         #region Main Menu
 
         public void BackToMainMenu_Click()

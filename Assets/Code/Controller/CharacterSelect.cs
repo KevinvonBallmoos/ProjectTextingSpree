@@ -14,18 +14,18 @@ namespace Code.Controller
         // Character chosen
         [SerializeField] private Text chosenCharacter;
         // Title of Character
-        [SerializeField] private TextMeshProUGUI title;
+        [SerializeField] private TextMeshProUGUI characterTitle;
         // Slot view
-        [SerializeField] private GameObject characters;
-        
+        private GameObject[] _characters;
+
         /// <summary>
         /// Loads the Character name in the invisible label
         /// So the GameDataController knows which character to save
         /// </summary>
         public void Character_Click()
         {
-            chosenCharacter.text = title.text;
-            chosenCharacter.enabled = false;
+            chosenCharacter.text = characterTitle.text;
+            //chosenCharacter.enabled = false;
             
             SetImage();
         }
@@ -35,11 +35,11 @@ namespace Code.Controller
         /// </summary>
         private void SetImage()
         {
-            var slots = characters.GetComponentsInChildren<Image>();
-            for (var i = 0; i < slots.Length; i++)
+            _characters = GameManager.Gm.characters;
+            foreach (var c in _characters)
             {
-                if (i is 2 or 5 or 8)
-                    slots[i].enabled = false;
+                var image = c.GetComponentsInChildren<Image>()[2];
+                image.enabled = false;
             }
             gameObject.GetComponentsInChildren<Image>()[2].enabled = true;
         }

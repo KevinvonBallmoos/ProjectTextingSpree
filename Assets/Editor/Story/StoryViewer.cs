@@ -164,7 +164,7 @@ namespace Editor.Story
             
             foreach (var node in _selectedChapter.GetAllNodes())
             {
-                if (!node.IsRootNode()) continue;
+                if (!node.IsRootNode) continue;
                 DrawConnections(node);
                 break;
             }
@@ -197,14 +197,14 @@ namespace Editor.Story
         private void DrawNode(StoryNode node)
         {
             var style = _storyNodeStyle;
-            if (node.IsChoiceNode())
+            if (node.IsChoiceNode)
                 style = _choiceNodeStyle; 
             
-            GUILayout.BeginArea(node.GetRect(), style);
-            EditorGUILayout.LabelField(node.GetLabel());
+            GUILayout.BeginArea(node.StoryRect, style);
+            EditorGUILayout.LabelField(node.LabelText);
             
             _scrollPositionTextArea = EditorGUILayout.BeginScrollView(_scrollPositionTextArea, GUILayout.Width(260), GUILayout.Height(110));
-            EditorGUILayout.LabelField(node.GetText(), _textAreaStyle);
+            EditorGUILayout.LabelField(node.Text, _textAreaStyle);
             EditorGUILayout.EndScrollView();
 
             GUILayout.EndArea();
@@ -216,17 +216,17 @@ namespace Editor.Story
         /// <param name="node"></param>
         private void DrawConnections(StoryNode node)
         {
-            var children = node.GetChildNodes();
+            var children = node.ChildNodes;
             if (children.Count == 0) return;
 
              for (var i = 0; i < children.Count; i++)
              {
                  var child = _selectedChapter.GetAllChildNodes(node)[i];
                  // Set the start point of the Bezier - parentNode
-                 var startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);
+                 var startPos = new Vector2(node.StoryRect.xMax, node.StoryRect.center.y);
                 
                  // Set the end point of the Bezier - childNode
-                 var endPos = new Vector2(child.GetRect().xMin, child.GetRect().center.y);
+                 var endPos = new Vector2(child.StoryRect.xMin, child.StoryRect.center.y);
                  // Set a offset for the Tangent
                  var controlPointOffset = endPos - startPos;
                  controlPointOffset.y = 0;
@@ -302,7 +302,7 @@ namespace Editor.Story
         {
             StoryNode selectedNode = null;
             foreach (var node in _selectedChapter.GetAllNodes())
-                if (node.GetTextRect().Contains(point))
+                if (node.TextRect.Contains(point))
                 {
                     selectedNode = node;
                 }
