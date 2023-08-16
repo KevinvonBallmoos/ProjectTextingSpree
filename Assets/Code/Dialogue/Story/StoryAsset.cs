@@ -68,8 +68,9 @@ namespace Code.Dialogue.Story
             }
 
             var xmlDoc = new XmlDocument();
-            var xmlFile = Resources.Load<TextAsset>($"StoryFiles/{chapter.name}");
-            xmlDoc.LoadXml(xmlFile.text);
+            var filePath = Path.Combine(Application.streamingAssetsPath, $"StoryFiles/{chapter.name}.xml");
+            var xmlFile = File.ReadAllText(filePath);
+            xmlDoc.LoadXml(xmlFile);
 
             var choiceNodes = xmlDoc.GetElementsByTagName("Choice");
             foreach (XmlNode choice in choiceNodes)

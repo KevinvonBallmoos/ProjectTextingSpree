@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 #endif
 using System;
+using System.IO;
 using Code.Dialogue.Story;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -40,7 +41,7 @@ namespace Editor.Story
         [NonSerialized] private Vector2 _dragCanvasOffset;
         
         // Object
-        private Object[] _xmlFiles;
+        private string[] _xmlFiles;
         private Object _previousSelection;
         // Text
         private string _textContent;
@@ -125,10 +126,12 @@ namespace Editor.Story
             
             _selectedChapter = null;
             _storyNode = null;
-            _xmlFiles = Resources.LoadAll($@"StoryFiles/", typeof(TextAsset));
+            //_xmlFiles = Resources.LoadAll($@"StreamingAssets/StoryFiles/", typeof(TextAsset));
+            var directoryPath = Path.Combine(Application.streamingAssetsPath, "StoryFiles");
+            _xmlFiles = Directory.GetFiles(directoryPath, "*.xml");
             foreach (var file in _xmlFiles)
             {
-                if (file.name != newChapter.name) continue;
+                if (Path.GetFileName(file).Replace(".xml", "") != newChapter.name) continue;
                 _selectedChapter = newChapter;
                 break;
             }
