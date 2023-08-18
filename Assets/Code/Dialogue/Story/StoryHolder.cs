@@ -51,14 +51,14 @@ namespace Code.Dialogue.Story
                 _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
                 _pastStoryNodes[0] = _currentNode;
                 _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
+                
                 _nodeIndex = 0;
                 IsStoryNode = false;
             }
             else
             {
-                GameDataController.LoadData();
                 var saveData = GameDataController.GetSaveData();
-                var stories =Resources.LoadAll($@"StoryAssets/", typeof(StoryAsset)).ToList();
+                var stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAsset)).ToList();
                 foreach (var asset in stories)
                 {
                     if (!asset.name.Equals(saveData.CurrentChapter)) continue;
@@ -72,6 +72,7 @@ namespace Code.Dialogue.Story
                         _currentNode = node;
                 }
                 IsStoryNode = saveData.IsStoryNode;
+                
                 _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
                 _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
 
@@ -210,27 +211,27 @@ namespace Code.Dialogue.Story
 
         public bool GetIsEndOfStory()
         {
-            return _currentNode.IsEndOfStory();
+            return _currentNode.IsEndOfStory;
         }
         
         public bool GetIsEndOfChapter()
         {
-            return _currentNode.IsEndOfChapter();
+            return _currentNode.IsEndOfChapter;
         }
 
         public bool GetIsGameOver()
         {
-            return _currentNode.IsGameOver();
+            return _currentNode.IsGameOver;
         }
 
         public string GetImage(StoryNode nodeToDisplay)
         {
-            return nodeToDisplay.GetImage();
+            return nodeToDisplay.Image;
         }
         
         public string GetItem()
         {
-            return _currentNode.GetItem();
+            return _currentNode.Item;
         }
 
         #endregion

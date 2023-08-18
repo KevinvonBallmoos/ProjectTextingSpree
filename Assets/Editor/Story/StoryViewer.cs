@@ -1,10 +1,14 @@
-﻿using System;
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Callbacks;
+#endif
+using System;
+using System.IO;
+using Code.Dialogue.Story;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Code.Dialogue.Story
+namespace Editor.Story
 {
     /// <summary>
     /// Displays the selected Story
@@ -37,7 +41,7 @@ namespace Code.Dialogue.Story
         [NonSerialized] private Vector2 _dragCanvasOffset;
         
         // Object
-        private Object[] _xmlFiles;
+        private string[] _xmlFiles;
         private Object _previousSelection;
         // Text
         private string _textContent;
@@ -122,10 +126,12 @@ namespace Code.Dialogue.Story
             
             _selectedChapter = null;
             _storyNode = null;
-            _xmlFiles = Resources.LoadAll($@"StoryFiles/", typeof(TextAsset));
+            //_xmlFiles = Resources.LoadAll($@"StreamingAssets/StoryFiles/", typeof(TextAsset));
+            var directoryPath = Path.Combine(Application.streamingAssetsPath, "StoryFiles");
+            _xmlFiles = Directory.GetFiles(directoryPath, "*.xml");
             foreach (var file in _xmlFiles)
             {
-                if (file.name != newChapter.name) continue;
+                if (Path.GetFileName(file).Replace(".xml", "") != newChapter.name) continue;
                 _selectedChapter = newChapter;
                 break;
             }
@@ -161,7 +167,7 @@ namespace Code.Dialogue.Story
             
             foreach (var node in _selectedChapter.GetAllNodes())
             {
-                if (!node.IsRootNode()) continue;
+                if (!node.IsRootNode) continue;
                 DrawConnections(node);
                 break;
             }
@@ -194,14 +200,14 @@ namespace Code.Dialogue.Story
         private void DrawNode(StoryNode node)
         {
             var style = _storyNodeStyle;
-            if (node.IsChoiceNode())
+            if (node.IsChoiceNode)
                 style = _choiceNodeStyle; 
             
-            GUILayout.BeginArea(node.GetRect(), style);
-            EditorGUILayout.LabelField(node.GetLabel());
+            GUILayout.BeginArea(node.StoryRect, style);
+            EditorGUILayout.LabelField(node.LabelText);
             
             _scrollPositionTextArea = EditorGUILayout.BeginScrollView(_scrollPositionTextArea, GUILayout.Width(260), GUILayout.Height(110));
-            EditorGUILayout.LabelField(node.GetText(), _textAreaStyle);
+            EditorGUILayout.LabelField(node.Text, _textAreaStyle);
             EditorGUILayout.EndScrollView();
 
             GUILayout.EndArea();
@@ -213,17 +219,17 @@ namespace Code.Dialogue.Story
         /// <param name="node"></param>
         private void DrawConnections(StoryNode node)
         {
-            var children = node.GetChildNodes();
+            var children = node.ChildNodes;
             if (children.Count == 0) return;
 
              for (var i = 0; i < children.Count; i++)
              {
                  var child = _selectedChapter.GetAllChildNodes(node)[i];
                  // Set the start point of the Bezier - parentNode
-                 var startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);
+                 var startPos = new Vector2(node.StoryRect.xMax, node.StoryRect.center.y);
                 
                  // Set the end point of the Bezier - childNode
-                 var endPos = new Vector2(child.GetRect().xMin, child.GetRect().center.y);
+                 var endPos = new Vector2(child.StoryRect.xMin, child.StoryRect.center.y);
                  // Set a offset for the Tangent
                  var controlPointOffset = endPos - startPos;
                  controlPointOffset.y = 0;
@@ -299,7 +305,7 @@ namespace Code.Dialogue.Story
         {
             StoryNode selectedNode = null;
             foreach (var node in _selectedChapter.GetAllNodes())
-                if (node.GetTextRect().Contains(point))
+                if (node.TextRect.Contains(point))
                 {
                     selectedNode = node;
                 }

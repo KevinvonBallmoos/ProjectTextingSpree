@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Code.Dialogue.Story
@@ -8,252 +9,180 @@ namespace Code.Dialogue.Story
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
+    [System.Serializable]
     public class StoryNode : ScriptableObject
     {
         // Text that is in the node
-        [SerializeField] private string text;
+        [SerializeField] internal string text;
         // Text that is in the node
-        [SerializeField] private string labelText;
+        [SerializeField] internal string labelText;
         // Node id
-        [SerializeField] private string nodeId;
+        [SerializeField] internal string nodeId;
         // States and Nodes
-        [SerializeField] private bool isChoiceNode;
-        [SerializeField] private bool isRootNode;
-        [SerializeField] private bool isEndOfStory;
-        [SerializeField] private bool isEndOfChapter;
-        [SerializeField] private bool isGameOver;
+        [SerializeField] internal bool isChoiceNode;
+        [SerializeField] internal bool isRootNode;
+        [SerializeField] internal bool isEndOfStory;
+        [SerializeField] internal bool isEndOfChapter;
+        [SerializeField] internal bool isGameOver;
         // Image
-        [SerializeField] private string image;
+        [SerializeField] internal string image;
         // Item
-        [SerializeField] private string item = "";
+        [SerializeField] internal string item = "";
         // Player Character
-        [SerializeField] private string background = "";
+        [SerializeField] internal string background = "";
         // Combat
-        [SerializeField] private string isCombat;
+        [SerializeField] internal string combat;
         // ChildNodes
-        [SerializeField] private List<string> childNodes = new ();
+        [SerializeField] internal List<string> childNodes = new ();
         // Rect of Editor
-        [SerializeField] private Rect storyRect = new (10, 10, 300, 180);
-        [SerializeField] private Rect textRect;
-
-		#region Setter
-
-		/// <summary>
-		/// Sets the Text of the node
-		/// </summary>
-		/// <param name="txt"></param>
-		public void SetText(string txt)
-        {
-            text = txt;
-        }
+        [SerializeField] internal Rect storyRect = new (10, 10, 300, 180);
+        [SerializeField] internal Rect textRect;
+        
+        #region Initializing
 
         /// <summary>
-        /// Sets the label and id of the node
+        /// Initializes a new StoryNode
         /// </summary>
-        /// <param name="label"></param>
-        /// <param name="id"></param>
-        public void SetLabelAndNodeId(string label, string id)
+        /// <param name="node"></param>
+        public void InitializeStoryNode(StoryNodeDataProperty node)
         {
-            labelText = label;
-            nodeId = id;
-        }
-
-        /// <summary>
-        /// Sets the Item of the node
-        /// </summary>
-        /// <param name="itm"></param>
-        public void SetItem(string itm)
-        {
-            item = itm;
-        }
-
-        /// <summary>
-        /// Sets the Image of the node
-        /// </summary>
-        /// <param name="img"></param>
-        public void SetImage(string img)
-        {
-            image = img;
-        }
-
-        /// <summary>
-        /// Sets the Image of the node
-        /// </summary>
-        /// <param name="backgr"></param>
-        public void SetBackground(string backgr)
-        {
-            background = backgr;
+            NodeId = node.NodeId;
+            LabelText = node.LabelText;
+            Text = node.Text;
+            IsChoiceNode = node.IsChoiceNode;
+            IsRootNode = node.IsRootNode;
+            IsEndOfStory = node.IsEndOfStory;
+            IsEndOfChapter = node.IsEndOfChapter;
+            IsGameOver = node.IsGameOver;
+            Image = node.Image;
+            Item = node.Item;
+            Background = node.Background;
+            ChildNodes = node.ChildNodes;
         }
         
-        /// <summary>
-        /// Sets the isRootNode
-        /// </summary>
-        /// <param name="isRoot"></param>
-        public void SetIsRootNode(bool isRoot)
+        #endregion
+
+        #region StoryNode Properties
+        
+        public string Text
         {
-            isRootNode = isRoot;
+            get => text;
+            set => text = value;
         }
 
-        /// <summary>
-        /// Sets the boolean IsGameOver
-        /// </summary>
-        /// <param name="isOver"></param>
-        public void SetIsGameOver(bool isOver)
+        public string LabelText
         {
-            isGameOver = isOver;
+            get => labelText;
+            set => labelText = value;
         }
 
-        /// <summary>
-        /// Sets the boolean IsEndOfChapter
-        /// </summary>
-        /// <param name="isEnd"></param>
-        public void SetIsEndOfChapter(bool isEnd)
+        public string NodeId
         {
-            isEndOfChapter = isEnd;
+            get => nodeId;
+            set => nodeId = value;
         }
 
-        /// <summary>
-        /// Sets the boolean IsEndOfChapter
-        /// </summary>
-        /// <param name="isEnd"></param>
-        public void SetIsEndOfStory(bool isEnd)
+        public bool IsChoiceNode
         {
-            isEndOfStory = isEnd;
+            get => isChoiceNode;
+            set => isChoiceNode = value;
         }
 
-        /// <summary>
-        /// Sets the value of isStoryChoice to true or false
-        /// </summary>
-        /// <param name="isChoice"></param>
-        public void SetChoiceNode(bool isChoice)
+        public bool IsRootNode
         {
-            isChoiceNode = isChoice;
-        }      
-
-        /// <summary>
-        /// Sets the rect to a new position
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void SetRect(float x, float y)
-        {
-            storyRect.position = new Vector2(x,y);
+            get => isRootNode;
+            set => isRootNode = value;
         }
 
-        /// <summary>
-        /// Sets the rect to a new position
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetTextRect(float x, float y, float width, float height)
+        public bool IsEndOfStory
         {
-            textRect = new Rect(x,y, width, height);
+            get => isEndOfStory;
+            set => isEndOfStory = value;
         }
 
+        public bool IsEndOfChapter
+        {
+            get => isEndOfChapter;
+            set => isEndOfChapter = value;
+        }
+
+        public bool IsGameOver
+        {
+            get => isGameOver;
+            set => isGameOver = value;
+        }
+
+        public string Image
+        {
+            get => image is null or "" ? "" : "image";
+            set => image = value;
+        }
+
+        public string Item
+        {
+            get => item ?? "";
+            set => item = value;
+        }
+
+        public string Background
+        {
+            get => background?? "";
+            set => background = value;
+        }
+
+        public string Combat
+        {
+            get => combat;
+            set => combat = value;
+        }
+
+        public List<string> ChildNodes
+        {
+            get => childNodes;
+            set => childNodes = value;
+        }
+
+        [JsonIgnore]
+        public Rect StoryRect
+        {
+            get => storyRect;
+            set => storyRect = new Rect(value.x, value.y, storyRect.width, storyRect.height);
+        }
+
+        [JsonIgnore]
+        public Rect TextRect
+        {
+            get => textRect;
+            set => textRect = new Rect(value.x,value.y, value.width, value.height);
+        }
+        
 		#endregion
+        
+        #region Child nodes
 
-		#region Child nodes
-
-		/// <summary>
-		/// Adds the node name to the child nodes list
-		/// </summary>
-		/// <param name="childId"></param>
-		public void AddChildNode(string childId)
-		{
-			foreach (var c in GetChildNodes())
-			{
-				if (c.Equals(childId))
-						return;
-			}
-			childNodes.Add(childId);
-		}
-
-		/// <summary>
-		/// Removes node from child nodes
-		/// </summary>
-		/// <param name="childId"></param>
-		public void RemoveChildNode(string childId)
-		{
-            childNodes.Remove(childId);
-		}
-
-		#endregion
-
-		#region Getter
-
-
-		public bool IsChoiceNode()
+        /// <summary>
+        /// Adds the node name to the child nodes list
+        /// </summary>
+        /// <param name="childId"></param>
+        public void AddChildNode(string childId)
         {
-            return isChoiceNode;
+            foreach (var c in ChildNodes)
+            {
+                if (c.Equals(childId))
+                    return;
+            }
+            ChildNodes.Add(childId);
         }
 
-        public bool IsRootNode()
+        /// <summary>
+        /// Removes node from child nodes
+        /// </summary>
+        /// <param name="childId"></param>
+        public void RemoveChildNode(string childId)
         {
-            return isRootNode;
-        }        
-
-        public bool IsEndOfStory()
-        {
-            return isEndOfStory;
-        }    
-
-        public bool IsEndOfChapter()
-        {
-            return isEndOfChapter;
-        }        
-         
-        public bool IsGameOver()
-        {
-            return isGameOver;
+            ChildNodes.Remove(childId);
         }
 
-        public string GetText()
-        {
-            return text;
-        }
-
-        public string GetLabel()
-        {
-            return labelText;
-        }
-
-        public string GetNodeId()
-        {
-            return nodeId;
-        }
-
-        public string GetImage()
-        {
-            return image is null or "" ? "" : "image";
-        }
-
-        public string GetItem()
-        {
-            return !item.Equals("") ? item : "";
-        }
-
-        public string GetBackground()
-        {
-            return !background.Equals("") ? background : "";
-        }
-
-        public List<string> GetChildNodes()
-        {
-            return childNodes;
-        }
-
-        public Rect GetRect()
-        {
-            return storyRect;
-        }
-
-        public Rect GetTextRect()
-        {
-            return textRect;
-        }
-
-		#endregion
+        #endregion
     }
 }
