@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ using Code.Controller;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
+using Debug = UnityEngine.Debug;
 
 namespace Code
 {
@@ -22,37 +24,49 @@ namespace Code
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
-        // Story UI
-        private static StoryUI _storyUI;
         // GameManager
         public static GameManager Gm;
-        // Ending Screen
-        [SerializeField] private GameObject messageBoxEndScreen;
-        // Menu Save and Properties Screens
-        [SerializeField] private GameObject mainMenuScreen;
-        [SerializeField] private GameObject messageBoxScreen;
-        [SerializeField] private GameObject characterPropertiesScreen;
-        [SerializeField] private GameObject characters;
-        [SerializeField] private Text character;
+        // Story UI
+        private static StoryUI _storyUI;
+        // Menu, Message Box and Character Screen Objects
+        [Header("Menu, Save and Message Box Screen Objects")]
+        [SerializeField] private GameObject[] screenObjects;
+        [SerializeField] private GameObject[] messageBox;
+        // Message Box Game Over Screen Object
+        [Header("Game over Message Box")]
+        [SerializeField] private GameObject messageBoxGameOver;
+        // Character
+        [Header("Character")] 
+        [SerializeField] private GameObject[] characterPages;
+        [SerializeField] public GameObject[] characters;
+        [SerializeField] private Text chosenCharacter;
         [SerializeField] private InputField playerName;
-		[SerializeField] private GameObject[] messageBoxScreenObjects;
-        // Menu Option TextSpeed
-        [NonSerialized] private bool _isTextSlowed = true; 
+        // Buttons
+        [Header("TopBar Buttons")] 
+        [SerializeField] private Button[] buttons;
+        // StoryUI Script
+        [Header("Scripts")]
+        [SerializeField] private StoryUI storyUIScript;
 		// States of the Game
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
+        // Menu Option TextSpeed
+        private bool _isTextSlowed = true; 
         // Various variables
         private int _chapter;
         private int _part; 
-        public static int ActiveScene = 0;
+        public static int ActiveScene;
         private string _runPath;
         private string _storyPath;
+        // Regex Pattern for InputField
+        private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
 
         #region Awake and Start
 
         /// <summary>
         /// Awake of the GameManager
+        /// Assigns the GameManager so it's always the same Object and does not get destroyed when switching scenes
         /// </summary>
         private void Awake()
         {
@@ -62,15 +76,25 @@ namespace Code
 
         /// <summary>
         /// Start of the GameManager
+        /// Sets the path, chapter and active scene
+        /// When the Game is started (buildIndex = 0) -> loads the Save Files and displays them on the Paper Object
+        /// When another Scene was loaded (buildIndex = 1 - 3) -> instantiates the story script
         /// </summary>
         private void Start()
         {
             try
             {
                 _runPath = $"{Application.dataPath}/Resources/";
-                _storyUI = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>();
-
                 _chapter = 1;
+                ActiveScene = 0;
+                
+                CreateFolders();
+                
+                if (SceneManager.GetActiveScene().buildIndex == 0)
+                    GameDataController.Gdc.LoadGame();
+                else if (SceneManager.GetActiveScene().buildIndex != 0)
+                    _storyUI = storyUIScript;
+                    
             }
             catch (Exception ex)
             {
@@ -79,73 +103,106 @@ namespace Code
         }
 
         #endregion
+        
+        #region Folders
+        
+        /// <summary>
+        /// Creates Folders
+        /// SaveData: stores the Save Data from the Game
+        /// StoryAssets: stores the node Information as Json files
+        /// </summary>
+        private static void CreateFolders()
+        {
+            var folders = new [] { "/SaveData", "/StoryAssets" };
+            foreach (var f in folders)
+            {
+                if (Directory.Exists(Application.persistentDataPath + f)) return;
+                Directory.CreateDirectory(Application.persistentDataPath + f);
+            }
+        }
+        
+        #endregion
 
         #region Game State Button Events
         
         /// <summary>
-        /// Opens the character select window and sets the Image to false
+        /// Opens the character select window and disables the select Images
         /// </summary>
         public void NewGame_Click()
         {
-            mainMenuScreen.SetActive(false);
-            
-            var slots = characters.GetComponentsInChildren<Image>();
-            for (var i = 0; i < slots.Length; i++)
+            // TODO: Animation Turns to page 2
+            // Display Character on pages 2 - 3,4 - 5
+            screenObjects[0].SetActive(false);
+            screenObjects[2].SetActive(true);
+            foreach (var c in characters)
             {
-                if (i is 2 or 5 or 8)
-                    slots[i].enabled = false;
+                var image = c.GetComponentsInChildren<Image>()[2];
+                image.enabled = false;
+                var scrollbar = c.GetComponentInChildren<Scrollbar>();
+                scrollbar.value = 1;
             }
-            
-            characterPropertiesScreen.SetActive(true);
+            buttons[0].onClick.AddListener(BackToMainMenu_Click);
         }
 
         /// <summary>
+        /// Checks if a character was selected and a Name was given
         /// Starts a new game and checks if a save slot is empty, else asks to override another slot
         /// </summary>
         public void StartNewGame_Click()
         {
-            if (playerName.text.Equals(""))
+            if (!InputField_OnSubmit()) return;
+            if (chosenCharacter.text.Equals(""))
             {
-                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+                screenObjects[2].GetComponentsInChildren<Text>()[0].color = Color.red;
                 return;
             }
-            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
-            if (character.text.Equals(""))
-            {
-                characterPropertiesScreen.GetComponentsInChildren<Text>()[0].color = Color.red;
-                return;
-            }
-            character.color = Color.white;
+            chosenCharacter.color = Color.white;
 
-            if (GameDataController.Gdc.NewGame())
+            if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
             {
                 ActiveScene = 1;
                 LoadScene();
             }
             else
             {
-                GameDataController.Gdc.GetPlayer();
                 GameDataController.Gdc.SetSaveScreen("NEW GAME", 1);
-                characterPropertiesScreen.SetActive(false);
+                screenObjects[2].SetActive(false);
                 SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlController.GetMessageBoxText(0));
-                messageBoxScreen.SetActive(true);
+                screenObjects[1].SetActive(true);
             }
         }
 
-        /// <summary>
-        /// Loads a saved Game
-        /// </summary>
-        public void LoadGame_Click()
+        public void ScrollNextCharacterPage_CLick()
         {
-            GameDataController.Gdc.LoadGame();
+            characterPages[0].SetActive(false);
+            characterPages[1].SetActive(true);
+            ChangeButtonProperties(ScrollPreviousCharacterPage_CLick, "Go back", false);
+
         }
 
+        private void ScrollPreviousCharacterPage_CLick()
+        {
+            characterPages[0].SetActive(true);
+            characterPages[1].SetActive(false);
+            ChangeButtonProperties(BackToMainMenu_Click, "Back to Menu", true);
+        }
+
+        private void ChangeButtonProperties(UnityAction eventMethod, string text, bool isEnabled)
+        {
+            buttons[0].onClick.RemoveAllListeners();
+            buttons[0].onClick.AddListener(eventMethod);
+            buttons[0].GetComponentInChildren<Text>().text = text;
+            
+            buttons[1].gameObject.SetActive(isEnabled);
+        }
+        
         #endregion
         
         #region Next Chapter / Story or End
         
         /// <summary>
-        /// Checks if its Game Over, end of Chapter or end of story
+        /// Update Method
+        /// Checks the status if its Game Over, end of Chapter or end of story
         /// </summary>
         private void Update()
         {
@@ -158,6 +215,7 @@ namespace Code
         }
 
         /// <summary>
+        /// Sets the Path for the next Chapter
         /// Loads next chapter
         /// </summary>
         private void LoadNextChapter()
@@ -165,7 +223,7 @@ namespace Code
             IsEndOfChapter = false;
             _part = GetPath();
             _chapter++;
-            _storyPath = $@"Story/Story{_part}Chapter{_chapter}.asset";
+            _storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{_storyPath}")) return;
             _storyUI.currentChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
@@ -189,7 +247,7 @@ namespace Code
         private void LoadGameOverScreen()
         {
             IsGameOver = false;
-            messageBoxEndScreen.SetActive(true);
+            messageBoxGameOver.SetActive(true);
             _logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
         }
 
@@ -238,6 +296,41 @@ namespace Code
         
         #endregion
         
+        #region Inputfield Events
+
+        /// <summary>
+        /// Handles the event when the user starts writing
+        /// </summary>
+        public void InputField_OnValueChanged()
+        {
+            var text = playerName.text;
+            if (text.Equals(""))
+            {
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+
+            var isMatch = Regex.IsMatch(text[^1].ToString(), RegexPattern);
+            if (!isMatch)
+            {
+                playerName.text = text[..^1];
+                return;
+            }
+            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
+        }
+
+        /// <summary>
+        ///  When the 
+        /// </summary>
+        private bool InputField_OnSubmit()
+        {
+            if (playerName.text.Equals(""))
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+            return !playerName.text.Equals("");
+        }
+        
+        #endregion
+        
         #region MessageBox
 
         /// <summary>
@@ -247,18 +340,18 @@ namespace Code
         /// <param name="text"></param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string text)
         {
-            messageBoxScreenObjects[0].GetComponent<Button>().onClick.RemoveAllListeners();
-            messageBoxScreenObjects[0].GetComponent<Button>().onClick.AddListener(eventMethod);
-            messageBoxScreenObjects[1].GetComponent<Text>().text = text;
+            messageBox[0].GetComponent<Button>().onClick.RemoveAllListeners();
+            messageBox[0].GetComponent<Button>().onClick.AddListener(eventMethod);
+            messageBox[1].GetComponent<Text>().text = text;
         }
 
         #endregion
-        
+
         #region Main Menu
 
         public void BackToMainMenu_Click()
         {
-            messageBoxEndScreen.SetActive(false);
+            messageBoxGameOver.SetActive(false);
             ActiveScene = 0;
             LoadScene();
         }

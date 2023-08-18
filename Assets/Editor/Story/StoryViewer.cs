@@ -1,22 +1,26 @@
-﻿using System;
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Callbacks;
+#endif
+using System;
+using System.IO;
+using Code.Dialogue.Story;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Code.Dialogue.Story
+namespace Editor.Story
 {
     /// <summary>
-    /// Displays the Story
+    /// Displays the selected Story
     /// If there are 0 nodes then it reads them from the xml file
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">10.05.2023</para>
     public class StoryViewer : EditorWindow
     {
-        // Story
+        // Story Asset
         private StoryAsset _selectedChapter;
-        // Vector
+        // Scroll Area / Position
         private Vector2 _scrollPosition;
         private Vector2 _scrollPositionTextArea = Vector2.zero;
         private Vector2 _scrollbarDragStartPos;
@@ -37,7 +41,7 @@ namespace Code.Dialogue.Story
         [NonSerialized] private Vector2 _dragCanvasOffset;
         
         // Object
-        private Object[] _xmlFiles;
+        private string[] _xmlFiles;
         private Object _previousSelection;
         // Text
         private string _textContent;
@@ -122,10 +126,12 @@ namespace Code.Dialogue.Story
             
             _selectedChapter = null;
             _storyNode = null;
-            _xmlFiles = Resources.LoadAll($@"StoryFiles/", typeof(TextAsset));
+            //_xmlFiles = Resources.LoadAll($@"StreamingAssets/StoryFiles/", typeof(TextAsset));
+            var directoryPath = Path.Combine(Application.streamingAssetsPath, "StoryFiles");
+            _xmlFiles = Directory.GetFiles(directoryPath, "*.xml");
             foreach (var file in _xmlFiles)
             {
-                if (file.name != newChapter.name) continue;
+                if (Path.GetFileName(file).Replace(".xml", "") != newChapter.name) continue;
                 _selectedChapter = newChapter;
                 break;
             }
@@ -161,7 +167,7 @@ namespace Code.Dialogue.Story
             
             foreach (var node in _selectedChapter.GetAllNodes())
             {
-                if (!node.IsRootNode()) continue;
+                if (!node.IsRootNode) continue;
                 DrawConnections(node);
                 break;
             }
@@ -194,14 +200,14 @@ namespace Code.Dialogue.Story
         private void DrawNode(StoryNode node)
         {
             var style = _storyNodeStyle;
-            if (node.IsChoiceNode())
+            if (node.IsChoiceNode)
                 style = _choiceNodeStyle; 
             
-            GUILayout.BeginArea(node.GetRect(), style);
-            EditorGUILayout.LabelField(node.GetLabel());
+            GUILayout.BeginArea(node.StoryRect, style);
+            EditorGUILayout.LabelField(node.LabelText);
             
             _scrollPositionTextArea = EditorGUILayout.BeginScrollView(_scrollPositionTextArea, GUILayout.Width(260), GUILayout.Height(110));
-            EditorGUILayout.LabelField(node.GetText(), _textAreaStyle);
+            EditorGUILayout.LabelField(node.Text, _textAreaStyle);
             EditorGUILayout.EndScrollView();
 
             GUILayout.EndArea();
@@ -213,17 +219,17 @@ namespace Code.Dialogue.Story
         /// <param name="node"></param>
         private void DrawConnections(StoryNode node)
         {
-            var children = node.GetChildNodes();
+            var children = node.ChildNodes;
             if (children.Count == 0) return;
 
              for (var i = 0; i < children.Count; i++)
              {
                  var child = _selectedChapter.GetAllChildNodes(node)[i];
                  // Set the start point of the Bezier - parentNode
-                 var startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);
+                 var startPos = new Vector2(node.StoryRect.xMax, node.StoryRect.center.y);
                 
                  // Set the end point of the Bezier - childNode
-                 var endPos = new Vector2(child.GetRect().xMin, child.GetRect().center.y);
+                 var endPos = new Vector2(child.StoryRect.xMin, child.StoryRect.center.y);
                  // Set a offset for the Tangent
                  var controlPointOffset = endPos - startPos;
                  controlPointOffset.y = 0;
@@ -286,21 +292,6 @@ namespace Code.Dialogue.Story
                 case EventType.MouseUp when _dragCanvas:
                     _dragCanvas = false;
                     break;
-                // case EventType.MouseMove when _storyNode == null:
-                //     _storyNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPositionTextArea);
-                //     if (_storyNode != null)
-                //         Selection.activeObject = _storyNode;
-                //     break;
-                // case EventType.ScrollWheel:
-                //     if (_storyNode != null)
-                //     {
-                //         //Debug.Log(_storyNode.name);
-                //         _scrollPositionTextArea.y += e.delta.y * 2;
-                //         e.Use();
-                //         _storyNode = null;
-                //         GUI.changed = true;
-                //     }
-                //     break;
             }
         }
         
@@ -314,7 +305,7 @@ namespace Code.Dialogue.Story
         {
             StoryNode selectedNode = null;
             foreach (var node in _selectedChapter.GetAllNodes())
-                if (node.GetTextRect().Contains(point))
+                if (node.TextRect.Contains(point))
                 {
                     selectedNode = node;
                 }
