@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -58,6 +59,8 @@ namespace Code
         public static int ActiveScene;
         private string _runPath;
         private string _storyPath;
+        // Regex Pattern for InputField
+        private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
 
         #region Awake and Start
 
@@ -129,7 +132,6 @@ namespace Code
         {
             // TODO: Animation Turns to page 2
             // Display Character on pages 2 - 3,4 - 5
-            // Remove line 109 + 118
             screenObjects[0].SetActive(false);
 
             foreach (var c in characters)
@@ -295,16 +297,24 @@ namespace Code
         
         #endregion
         
-        #region Inputfield Evetns
+        #region Inputfield Events
 
         /// <summary>
         /// Handles the event when the user starts writing
         /// </summary>
         public void InputField_OnValueChanged()
         {
-            if (playerName.text.Equals(""))
+            var text = playerName.text;
+            if (text.Equals(""))
             {
                 playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+
+            var isMatch = Regex.IsMatch(text[^1].ToString(), RegexPattern);
+            if (!isMatch)
+            {
+                playerName.text = text[..^1];
                 return;
             }
             playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
@@ -313,8 +323,10 @@ namespace Code
         /// <summary>
         ///  When the 
         /// </summary>
-        public bool InputField_OnSubmit()
+        private bool InputField_OnSubmit()
         {
+            if (playerName.text.Equals(""))
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
             return !playerName.text.Equals("");
         }
         

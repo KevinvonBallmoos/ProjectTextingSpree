@@ -319,7 +319,7 @@ namespace Code.GameData
             {
                 _saveData = JsonConvert.DeserializeObject<SaveData>(json);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 LoadSelectedGame();
             }
