@@ -1811,8 +1811,9 @@ MonoBehaviour:
   messageBox: []
   messageBoxGameOver: {fileID: 1371551799}
   characterPages: []
-  characters: {fileID: 0}
-  character: {fileID: 0}
+  characters:
+  - {fileID: 0}
+  chosenCharacter: {fileID: 0}
   playerName: {fileID: 0}
   buttons: []
   storyUIScript: {fileID: 2592773734813605163}
@@ -3545,7 +3546,7 @@ MonoBehaviour:
   saveStatus: {fileID: 7585498732195177469}
   messageBoxEndScreen: {fileID: 1371551799}
   _storyScrollbar: {fileID: 1274101289}
-  currentChapter: {fileID: 11400000, guid: 07dee842fcfa8b746aa82923270b85cc, type: 2}
+  currentChapter: {fileID: 11400000, guid: 9b6fcf45dca4f6443b30e002e3d4de42, type: 2}
 --- !u!224 &2625038288853168621
 RectTransform:
   m_ObjectHideFlags: 0

@@ -133,21 +133,20 @@ namespace Code
             // TODO: Animation Turns to page 2
             // Display Character on pages 2 - 3,4 - 5
             screenObjects[0].SetActive(false);
-
+            screenObjects[2].SetActive(true);
             foreach (var c in characters)
             {
                 var image = c.GetComponentsInChildren<Image>()[2];
                 image.enabled = false;
+                var scrollbar = c.GetComponentInChildren<Scrollbar>();
+                scrollbar.value = 1;
             }
-
-            screenObjects[2].SetActive(true);
             buttons[0].onClick.AddListener(BackToMainMenu_Click);
         }
 
         /// <summary>
         /// Checks if a character was selected and a Name was given
         /// Starts a new game and checks if a save slot is empty, else asks to override another slot
-        /// TODO: Always ask which slot should be taken?
         /// </summary>
         public void StartNewGame_Click()
         {

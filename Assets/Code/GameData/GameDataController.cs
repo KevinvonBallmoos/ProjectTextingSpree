@@ -181,6 +181,7 @@ namespace Code.GameData
         public void Cancel_CLick()
         {
             messageBoxScreen.SetActive(false);
+            mainMenuScreen.SetActive(true);
         }
         
         /// <summary>
