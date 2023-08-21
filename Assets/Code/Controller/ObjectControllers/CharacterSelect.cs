@@ -2,45 +2,45 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Controller
+namespace Code.Controller.ObjectControllers
 {
     /// <summary>
-    /// When a Character is clicked
+    /// Enables the Image on the clicked Character
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">29.04.23</para>
     public class CharacterSelect : MonoBehaviour
     {
         // Character chosen
-        [SerializeField] private Text chosenCharacter;
+        [SerializeField] private Text character;
         // Title of Character
-        [SerializeField] private TextMeshProUGUI characterTitle;
-        // Slot view
+        [SerializeField] private TextMeshProUGUI characterName;
+        // All characters
         private GameObject[] _characters;
 
         /// <summary>
-        /// Loads the Character name in the invisible label
-        /// So the GameDataController knows which character to save
+        /// Sets the character Field, with the title of the selected Character
         /// </summary>
         public void Character_Click()
         {
-            chosenCharacter.text = characterTitle.text;
-            //chosenCharacter.enabled = false;
-            
+            character.text = characterName.text;
             SetImage();
         }
 
         /// <summary>
-        /// Sets the select Image, when a character is selected
+        /// Disables the select Image on all character, when a character is selected
+        /// Enables the select Image on the current Character game object
         /// </summary>
         private void SetImage()
         {
+            // Disable all Images
             _characters = GameManager.Gm.characters;
             foreach (var c in _characters)
             {
                 var image = c.GetComponentsInChildren<Image>()[2];
                 image.enabled = false;
             }
+            // Enable Image of current game object 
             gameObject.GetComponentsInChildren<Image>()[2].enabled = true;
         }
     }

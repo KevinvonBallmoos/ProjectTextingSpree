@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Code.Controller
+namespace Code.Controller.ObjectControllers
 {
     /// <summary>
     /// Rotates an Element around the Z Axis
@@ -13,7 +13,7 @@ namespace Code.Controller
         [SerializeField] private float zRotation;
         
         /// <summary>
-        /// Every frame the GameObject gets rotated
+        /// In each frame the object is rotated
         /// </summary>
         private void Update()
         {

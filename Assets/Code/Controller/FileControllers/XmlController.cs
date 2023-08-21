@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using UnityEngine;
 
-namespace Code.Controller
+namespace Code.Controller.FileControllers
 {
     /// <summary>
     /// This class contains Methods to access Xml Files

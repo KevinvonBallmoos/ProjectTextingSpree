@@ -171,7 +171,7 @@ namespace Code.Dialogue.Story
             // Displays Story Text either one letter after another, or the whole text at once
             story.text = "";
             var text = _nodeToDisplay.Text.Replace("{Name}", GameDataController.Gdc.PlayerName);
-            if (GameManager.Gm.GetIsTextSlowed())
+            if (GameManager.Gm.IsTextSlowed)
                 _textCoroutine = StartCoroutine(TextSlower(0.02f, text));
             else
                 story.text = text;

@@ -7,16 +7,15 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-using Code.Controller;
+using Code.Controller.FileControllers;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
-using Debug = UnityEngine.Debug;
 
 namespace Code
 {
     /// <summary>
-    /// Is in Control of the Story
+    /// Is in Control of the Game, Story and handles the Scenes
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">11.01.2023</para>
@@ -51,14 +50,12 @@ namespace Code
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfStory;
-        // Menu Option TextSpeed
-        private bool _isTextSlowed = true; 
-        // Various variables
+        // Active Scene
+        [NonSerialized] public static int ActiveScene;
+        // Chapter, Part and Path
         private int _chapter;
-        private int _part; 
-        public static int ActiveScene;
+        private int _part;
         private string _runPath;
-        private string _storyPath;
         // Regex Pattern for InputField
         private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
 
@@ -77,8 +74,11 @@ namespace Code
         /// <summary>
         /// Start of the GameManager
         /// Sets the path, chapter and active scene
+        /// Creates necessary Folders
         /// When the Game is started (buildIndex = 0) -> loads the Save Files and displays them on the Paper Object
         /// When another Scene was loaded (buildIndex = 1 - 3) -> instantiates the story script
+        /// This is needed, because the GameManager is existing in all scenes,
+        /// this determines from which scene the GameManager is started
         /// </summary>
         private void Start()
         {
@@ -88,7 +88,7 @@ namespace Code
                 _chapter = 1;
                 ActiveScene = 0;
                 
-                CreateFolders();
+                FileController.CreateFolders();
                 
                 if (SceneManager.GetActiveScene().buildIndex == 0)
                     GameDataController.Gdc.LoadGame();
@@ -98,35 +98,18 @@ namespace Code
             }
             catch (Exception ex)
             {
+                // TODO: Maybe quit Game??
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
 
-        #endregion
-        
-        #region Folders
-        
-        /// <summary>
-        /// Creates Folders
-        /// SaveData: stores the Save Data from the Game
-        /// StoryAssets: stores the node Information as Json files
-        /// </summary>
-        private static void CreateFolders()
-        {
-            var folders = new [] { "/SaveData", "/StoryAssets" };
-            foreach (var f in folders)
-            {
-                if (Directory.Exists(Application.persistentDataPath + f)) return;
-                Directory.CreateDirectory(Application.persistentDataPath + f);
-            }
-        }
-        
         #endregion
 
         #region Game State Button Events
         
         /// <summary>
         /// Opens the character select window and disables the select Images
+        /// Sets the scrollbar to the top
         /// </summary>
         public void NewGame_Click()
         {
@@ -223,10 +206,10 @@ namespace Code
             IsEndOfChapter = false;
             _part = GetPath();
             _chapter++;
-            _storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
+            var storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
             
-            if (!File.Exists($@"{_runPath}{_storyPath}")) return;
-            _storyUI.currentChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
+            if (!File.Exists($@"{_runPath}{storyPath}")) return;
+            _storyUI.currentChapter = Resources.Load<StoryAsset>(storyPath.Replace(".asset", ""));
             _logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
 
@@ -367,24 +350,8 @@ namespace Code
 		#endregion
 
         #region Menu Options
-
-        /// <summary>
-        /// Sets the isTextSlowed Property
-        /// </summary>
-        /// <param name="isSlowed"></param>
-        public void SetIsTextSlowed(bool isSlowed)
-        {
-            _isTextSlowed = isSlowed;
-        }
-
-        /// <summary>
-        /// Gets the isTextSlowed Property
-        /// </summary>
-        /// <returns></returns>
-        public bool GetIsTextSlowed()
-        {
-            return _isTextSlowed;
-        }
+        
+        public bool IsTextSlowed { get; set; }
 
         #endregion
     }
