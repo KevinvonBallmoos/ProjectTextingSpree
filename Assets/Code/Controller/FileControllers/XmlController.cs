@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
+using Code.Dialogue.Story;
 using UnityEngine;
 
 namespace Code.Controller.FileControllers
@@ -12,9 +14,10 @@ namespace Code.Controller.FileControllers
     public static class XmlController
     {
         /// <summary>
-        /// Returns the MessageBox nodes of the strings xml
+        /// Reads the MessageBox Nodes from the OutsourcedStrings/strings.xml
         /// </summary>
         /// <param name="index">Determines the node to return</param>
+        /// <returns>MessageBox nodes</returns>
         public static string GetMessageBoxText(int index)
         {
             var xmlFile = Resources.Load<TextAsset>("OutsourcedStrings/strings");
@@ -25,9 +28,10 @@ namespace Code.Controller.FileControllers
         }
         
         /// <summary>
-        /// Returns the Information nodes of the strings xml
+        /// Reads the MessageBox Nodes from the OutsourcedStrings/strings.xml
         /// </summary>
         /// <param name="index">Determines the node to return</param>
+        /// <returns>Information nodes</returns>
         public static string GetInformationText(int index)
         {
             var xmlFile = Resources.Load<TextAsset>("OutsourcedStrings/strings");
@@ -35,6 +39,21 @@ namespace Code.Controller.FileControllers
             xmlDoc.LoadXml(xmlFile.text);
             var messageNodes = xmlDoc.GetElementsByTagName("Information");
             return messageNodes[index].InnerText;
+        }
+        
+        /// <summary>
+        /// Reads the title node from the current StoryAssets/StoryChapter.xml 
+        /// </summary>
+        /// <param name="currentChapter">current Chapter that is loaded</param>
+        /// <returns>Chapter name</returns>
+        public static string GetChapterTitle(StoryAsset currentChapter)
+        {
+            var xmlDoc = new XmlDocument();
+            var filePath = Path.Combine(Application.streamingAssetsPath, $"StoryFiles/{currentChapter.name}.xml");
+            var xmlFile = File.ReadAllText(filePath);
+            xmlDoc.LoadXml(xmlFile);
+            var rootNode = xmlDoc.SelectSingleNode($"//{currentChapter.name}");
+            return rootNode?.FirstChild.InnerText;
         }
     }
 }

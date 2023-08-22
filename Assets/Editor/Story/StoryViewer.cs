@@ -153,25 +153,33 @@ namespace Editor.Story
 		/// </summary>
 		private void OnGUI()
         {
-            if (!_selectedChapter.HasReadNodes) return;
-            
-            // Mouse Events
-            ProcessEvents();
-            
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-            DrawSurface();
-            
-            //if (_selectedChapter.GetAllNodes() == null) return;
-            foreach (var node in _selectedChapter.GetAllNodes())
-                DrawNode(node);
-            
-            foreach (var node in _selectedChapter.GetAllNodes())
+            try
             {
-                if (!node.IsRootNode) continue;
-                DrawConnections(node);
-                break;
+                if (!_selectedChapter.HasReadNodes) return;
+
+                // Mouse Events
+                ProcessEvents();
+
+                _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+                DrawSurface();
+
+                //if (_selectedChapter.GetAllNodes() == null) return;
+                foreach (var node in _selectedChapter.GetAllNodes())
+                    DrawNode(node);
+
+                foreach (var node in _selectedChapter.GetAllNodes())
+                {
+                    if (!node.IsRootNode) continue;
+                    DrawConnections(node);
+                    break;
+                }
+
+                EditorGUILayout.EndScrollView();
             }
-            EditorGUILayout.EndScrollView();
+            catch (Exception)
+            {
+                // do nothing
+            }
         }
         
         #endregion

@@ -190,8 +190,8 @@ namespace Code.Dialogue.Story
                     case "isEndOfChapter":
                         node.IsEndOfChapter = Convert.ToBoolean(xmlNode.Attributes[attribute].Value);
                         break;
-                    case "isEndOfStory":
-                        node.IsEndOfStory = Convert.ToBoolean(xmlNode.Attributes[attribute].Value);
+                    case "isEndOfPart":
+                        node.IsEndOfPart = Convert.ToBoolean(xmlNode.Attributes[attribute].Value);
                         break;
                     case "background":
                         node.Background = xmlNode.Attributes[attribute].Value;

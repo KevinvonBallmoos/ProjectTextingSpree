@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.Dialogue.Story
 {
@@ -21,7 +22,7 @@ namespace Code.Dialogue.Story
         // States and Nodes
         [SerializeField] internal bool isChoiceNode;
         [SerializeField] internal bool isRootNode;
-        [SerializeField] internal bool isEndOfStory;
+        [SerializeField] internal bool isEndOfPart;
         [SerializeField] internal bool isEndOfChapter;
         [SerializeField] internal bool isGameOver;
         // Image
@@ -51,7 +52,7 @@ namespace Code.Dialogue.Story
             Text = node.Text;
             IsChoiceNode = node.IsChoiceNode;
             IsRootNode = node.IsRootNode;
-            IsEndOfStory = node.IsEndOfStory;
+            IsEndOfPart = node.IsEndOfStory;
             IsEndOfChapter = node.IsEndOfChapter;
             IsGameOver = node.IsGameOver;
             Image = node.Image;
@@ -94,10 +95,10 @@ namespace Code.Dialogue.Story
             set => isRootNode = value;
         }
 
-        public bool IsEndOfStory
+        public bool IsEndOfPart
         {
-            get => isEndOfStory;
-            set => isEndOfStory = value;
+            get => isEndOfPart;
+            set => isEndOfPart = value;
         }
 
         public bool IsEndOfChapter

@@ -211,7 +211,7 @@ namespace Code.Dialogue.Story
 
         public bool GetIsEndOfStory()
         {
-            return _currentNode.IsEndOfStory;
+            return _currentNode.IsEndOfPart;
         }
         
         public bool GetIsEndOfChapter()

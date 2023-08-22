@@ -56,7 +56,7 @@ namespace Code.Dialogue.Story
             _text = node.Text;
             _isChoiceNode = node.IsChoiceNode;
             _isRootNode = node.IsRootNode;
-            _isEndOfStory = node.IsEndOfStory;
+            _isEndOfStory = node.IsEndOfPart;
             _isEndOfChapter = node.IsEndOfChapter;
             _isGameOver = node.IsGameOver;
             _image = node.Image;

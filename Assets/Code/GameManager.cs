@@ -49,7 +49,7 @@ namespace Code
 		// States of the Game
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
-        [NonSerialized] public bool IsEndOfStory;
+        [NonSerialized] public bool IsEndOfPart;
         // Active Scene
         [NonSerialized] public static int ActiveScene;
         // Chapter, Part and Path
@@ -109,7 +109,6 @@ namespace Code
         
         /// <summary>
         /// Opens the character select window and disables the select Images
-        /// Sets the scrollbar to the top
         /// </summary>
         public void NewGame_Click()
         {
@@ -121,9 +120,11 @@ namespace Code
             {
                 var image = c.GetComponentsInChildren<Image>()[2];
                 image.enabled = false;
+                // Sets the scrollbar to the top
                 var scrollbar = c.GetComponentInChildren<Scrollbar>();
                 scrollbar.value = 1;
             }
+            // Adds Listener,to go back to the menu
             buttons[0].onClick.AddListener(BackToMainMenu_Click);
         }
 
@@ -155,14 +156,19 @@ namespace Code
             }
         }
 
+        /// <summary>
+        /// Displays the 2nd Character Page
+        /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
             characterPages[0].SetActive(false);
             characterPages[1].SetActive(true);
             ChangeButtonProperties(ScrollPreviousCharacterPage_CLick, "Go back", false);
-
         }
 
+        /// <summary>
+        /// Displays the 1st Character Page
+        /// </summary>
         private void ScrollPreviousCharacterPage_CLick()
         {
             characterPages[0].SetActive(true);
@@ -170,12 +176,20 @@ namespace Code
             ChangeButtonProperties(BackToMainMenu_Click, "Back to Menu", true);
         }
 
+        /// <summary>
+        /// Removes all Listeners on the Button
+        /// Adds a new Listener
+        /// Sets the Button Text
+        /// </summary>
+        /// <param name="eventMethod">Listener Method to add to the Button</param>
+        /// <param name="text">For the Button caption</param>
+        /// <param name="isEnabled">If character page 2 is active, the Button in the top right corner is disabled</param>
         private void ChangeButtonProperties(UnityAction eventMethod, string text, bool isEnabled)
         {
             buttons[0].onClick.RemoveAllListeners();
             buttons[0].onClick.AddListener(eventMethod);
             buttons[0].GetComponentInChildren<Text>().text = text;
-            
+            // On Character Page 2 this Button is disabled
             buttons[1].gameObject.SetActive(isEnabled);
         }
         
@@ -185,16 +199,23 @@ namespace Code
         
         /// <summary>
         /// Update Method
-        /// Checks the status if its Game Over, end of Chapter or end of story
+        /// Checks the status of the Game
+        /// 1. End of the current Chapter
+        /// 2. End of the current Story Part
+        /// 3. Game over
+        /// 4. The Game is finished
         /// </summary>
         private void Update()
         {
             if (IsEndOfChapter)
                 LoadNextChapter();
-            if (IsEndOfStory)
+            if (IsEndOfPart)
                 LoadNextStoryPart();
             if (IsGameOver)
                 LoadGameOverScreen();
+            // TODO: EndCreditScene
+            // if (IsEndOfTale)
+            //     LoadEndCreditScene();
         }
 
         /// <summary>
@@ -218,7 +239,7 @@ namespace Code
         /// </summary>
         private void LoadNextStoryPart()
         {
-            IsEndOfStory = false;
+            IsEndOfPart = false;
             _part++;
             _logger.LogEntry("GameManager Log", $"Next Story Part: Story{_part}Chapter{_chapter}",
                 GameLogger.GetLineNumber());
@@ -251,10 +272,10 @@ namespace Code
         
         #endregion
         
-        #region Next Chapter / Story Button Events
+        #region Next Chapter / Next Part Button Events
         
         /// <summary>
-        /// When the next chapter Button is clicked
+        /// Starts the new Chapter
         /// </summary>
         public void NextChapter_Click()
         {
@@ -262,9 +283,12 @@ namespace Code
         }
 
         /// <summary>
-        /// When the next story Button is clicked
+        /// Switching between scenes
+        /// 1 => 2 NewGameScene to StoryScene1
+        /// 2 => 3 StoryScene1 to StoryScene2
+        /// 3 => 2 StoryScene2 to StoryScene1
         /// </summary>
-        public void NextStory_Click()
+        public void NextPart_Click()
         {
             ActiveScene = ActiveScene switch
             {
@@ -282,7 +306,9 @@ namespace Code
         #region Inputfield Events
 
         /// <summary>
-        /// Handles the event when the user starts writing
+        /// Is triggered, when the value of the input field changes
+        /// Compares the last entered char of the input with the regex string
+        /// if the input does not match, the last entered char is removed
         /// </summary>
         public void InputField_OnValueChanged()
         {
@@ -303,7 +329,8 @@ namespace Code
         }
 
         /// <summary>
-        ///  When the 
+        /// Is triggered when the User submits the Username
+        /// It checks if the input is empty or not
         /// </summary>
         private bool InputField_OnSubmit()
         {
@@ -319,8 +346,8 @@ namespace Code
         /// <summary>
         /// Sets the properties of the MessageBox
         /// </summary>
-        /// <param name="eventMethod"></param>
-        /// <param name="text"></param>
+        /// <param name="eventMethod">Listener to add to the Button</param>
+        /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string text)
         {
             messageBox[0].GetComponent<Button>().onClick.RemoveAllListeners();
@@ -332,6 +359,10 @@ namespace Code
 
         #region Main Menu
 
+        /// <summary>
+        /// Hides the Message Box
+        /// Loads the MainMenu Scene
+        /// </summary>
         public void BackToMainMenu_Click()
         {
             messageBoxGameOver.SetActive(false);
@@ -340,7 +371,7 @@ namespace Code
         }
 
 		/// <summary>
-		/// Loads the next Scene
+		/// Loads the Scene saved in the 'ActiveScene' variable
 		/// </summary>
 		public static void LoadScene()
 		{
@@ -351,6 +382,11 @@ namespace Code
 
         #region Menu Options
         
+        /// <summary>
+        /// Menu Option Property :
+        /// true  : the Story Text will appear letter by letter
+        /// false : the Story Text will appear directly
+        /// </summary>
         public bool IsTextSlowed { get; set; }
 
         #endregion

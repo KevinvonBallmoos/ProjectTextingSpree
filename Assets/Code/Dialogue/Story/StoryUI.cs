@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
+using Code.Controller.FileControllers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,6 +45,8 @@ namespace Code.Dialogue.Story
         // Image, Text of save status
         private Image _saveImage;
         private Text _saveText;
+        // Chapter Title
+        private string _chapterTitle;
 
         #region Start
 
@@ -67,6 +70,7 @@ namespace Code.Dialogue.Story
             nextButton.gameObject.SetActive(false);
 
             _nodeToDisplay = _storyHolder.GetCurrentNode();
+            _chapterTitle = XmlController.GetChapterTitle(currentChapter);
             
             UpdateUI(isSave, false);
         }
@@ -191,7 +195,7 @@ namespace Code.Dialogue.Story
             }
             
             // Displays Chapter Title
-            gameObject.GetComponentsInChildren<Text>()[0].text = GetTitleText();
+            gameObject.GetComponentsInChildren<Text>()[0].text = _chapterTitle;
 
             //Displays Page Back Button, when the last node was a choice
         }
@@ -203,7 +207,7 @@ namespace Code.Dialogue.Story
         {
             GameDataController.Gdc.SaveGame(new SaveData
             {
-                Title = GetTitleText(),
+                Title = _chapterTitle,
                 ParentNode = _storyHolder.GetCurrentNode().name,
                 IsStoryNode = _storyHolder.IsStoryNode,
                 NodeIndex = _storyHolder.GetNodeIndex(),
@@ -211,19 +215,6 @@ namespace Code.Dialogue.Story
                 SelectedChoices = _storyHolder.GetSelectedChoices()
             });
             StartCoroutine(ShowImage());
-        }
-
-        /// <summary>
-        /// Sets the Title Text
-        /// </summary>
-        private string GetTitleText()
-        {
-            var xmlDoc = new XmlDocument();  // Maybe Xml Reader - better performance
-            var filePath = Path.Combine(Application.streamingAssetsPath, $"StoryFiles/{currentChapter.name}.xml");
-            var xmlFile = File.ReadAllText(filePath);
-            xmlDoc.LoadXml(xmlFile);
-            var rootNode = xmlDoc.SelectSingleNode($"//{currentChapter.name}");
-            return rootNode?.FirstChild.InnerText;
         }
 
         /// <summary>
@@ -286,7 +277,8 @@ namespace Code.Dialogue.Story
         
         /// <summary>
         /// Loads the next Chapter when the End of Chapter node is reached
-        /// or the GameOver Screen when the GameOver node is reached
+        /// , when the EndOfStoryNode is reached
+        /// Loads the GameOver Screen when the GameOver node is reached
         /// </summary>
         private void NextChapter()
         {
@@ -307,8 +299,8 @@ namespace Code.Dialogue.Story
                 nextButton.GetComponentInChildren<Text>().text = "Next Part";
                 nextButton.onClick.RemoveAllListeners();
 
-                GameManager.Gm.IsEndOfStory = true;
-                nextButton.onClick.AddListener(GameManager.Gm.NextStory_Click);
+                GameManager.Gm.IsEndOfPart = true;
+                nextButton.onClick.AddListener(GameManager.Gm.NextPart_Click);
             }
             else if (_storyHolder.GetIsGameOver())
             {
@@ -317,6 +309,12 @@ namespace Code.Dialogue.Story
 
                 GameManager.Gm.IsGameOver = true;
             }
+            // else if (_storyHolder.GetIsEndOfTale())
+            // {
+            //      _logger.LogEntry("UI log", "End of Tale reached.", GameLogger.GetLineNumber());
+            //
+            //      GameManager.GM.IsEndOfTale = true;
+            // }
         }
         
         #endregion
