@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Code.GameData
 {
     /// <summary>
-    /// Removes Saved Data
+    /// Deletes the selected Saved Data File
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">05.05.23</para>
@@ -24,7 +24,7 @@ namespace Code.GameData
            
             File.Delete(file);
             
-            GameDataController.Gdc.UpdateEmptySlot(slot + 1); // TODO Update Slots completely
+            GameDataController.Gdc.UpdateEmptySlot(slot + 1); // TODO: Update Slots completely
             
             SortFiles();
         }

@@ -46,34 +46,34 @@ namespace Code.GameData
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
+        // GameDataController
+        public static GameDataController Gdc;
         // Load save
         [SerializeField] private Text loadGameText;
-        // GameObjects
+        // Save slots
         [SerializeField] private GameObject saveSlot1;
         [SerializeField] private GameObject saveSlot2;
         [SerializeField] private GameObject saveSlot3;
+        [SerializeField] private GameObject[] saveSlots;
         // Screens
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject messageBoxScreen; 
         [SerializeField] private GameObject characterPropertiesScreen;
+        [SerializeField] private GameObject[] screenObjects;
         // Slot view
         public GameObject slotView;
-        // GameDataController
-        public static GameDataController Gdc;
+        private int _slotNum;
         // SaveData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new ();
-        private static int _slotNum;
-        private static string _filename;
-        private static string _playerName;
-        private static string _playerBackground;
         // Save Time
-        private static string _saveTime;
+        private string _saveTime;
 
         #region Awake and Start
         
         /// <summary>
-        /// Sets the language of the program to en-US
+        /// Sets the language of the game to en-US
+        /// TODO: Why again / reason?
         /// </summary>
         private void Awake()
         {
@@ -86,7 +86,8 @@ namespace Code.GameData
         }
         
         /// <summary>
-        /// If there are any save files, then the LoadSaveGame Button in the Menu is activated
+        /// Starts the Timer
+        /// In the save data the User can see how much time he spent already for the game
         /// </summary>
         private void Start()
         {
@@ -357,17 +358,7 @@ namespace Code.GameData
         
         #endregion
 
-        #region Loaded Data
-        
-        /// <summary>
-        /// Returns true if Data has been loaded,
-        /// else when not
-        /// </summary>
-        /// <returns></returns>
-        public static bool LoadData()
-        {
-            return _saveData == null;
-        }
+        #region Get Saved Data
         
         /// <summary>
         /// Returns the loaded Data
@@ -387,7 +378,6 @@ namespace Code.GameData
         /// </summary>
         private void SaveNewGame()
         {
-            
             _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             var gameData = new GameData(new SaveData
             {
@@ -405,10 +395,10 @@ namespace Code.GameData
                 SelectedChoices = null
             });
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
-            _filename = Application.persistentDataPath + "/SaveData" +
+            var filename = Application.persistentDataPath + "/SaveData" +
                         $"/SaveGame_{Directory.GetFiles(Application.persistentDataPath + "/SaveData").Count() + 1}_{_saveTime}.json";
  
-            File.WriteAllText(_filename, json);
+            File.WriteAllText(filename, json);
         }
 
         /// <summary>
@@ -450,12 +440,12 @@ namespace Code.GameData
                 }
             );
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
-            _filename = Directory.GetFiles(Application.persistentDataPath + "/SaveData")[_slotNum];
-            if (File.Exists(_filename))
-                File.Delete(_filename);
+            var filename = Directory.GetFiles(Application.persistentDataPath + "/SaveData")[_slotNum];
+            if (File.Exists(filename))
+                File.Delete(filename);
 
-            _filename = _filename[..^24] + _saveTime + ".json";
-            File.WriteAllText(_filename, json);
+            filename = filename[..^24] + _saveTime + ".json";
+            File.WriteAllText(filename, json);
             
             TimeAndProgress.StartTime();
         }
@@ -466,14 +456,14 @@ namespace Code.GameData
         
         public string PlayerName
         {
-            get => _playerName;
-            set => _playerName = value;
+            get;
+            private set;
         }
 
         public string PlayerBackground
         {
-            get => _playerBackground;
-            set => _playerBackground = value;
+            get;
+            private set;
         }
 
         #endregion

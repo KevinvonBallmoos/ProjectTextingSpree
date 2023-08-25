@@ -198,8 +198,7 @@ namespace Code
         #region Next Chapter / Story or End
         
         /// <summary>
-        /// Update Method
-        /// Checks the status of the Game
+        /// Checks the status of the Game every frame
         /// 1. End of the current Chapter
         /// 2. End of the current Story Part
         /// 3. Game over
