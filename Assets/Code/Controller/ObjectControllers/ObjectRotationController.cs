@@ -7,7 +7,7 @@ namespace Code.Controller.ObjectControllers
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">30.01.2023</para>
-    public class ObjectRotation : MonoBehaviour
+    public class ObjectRotationController : MonoBehaviour
     {
         // Z Rotation
         [SerializeField] private float zRotation;

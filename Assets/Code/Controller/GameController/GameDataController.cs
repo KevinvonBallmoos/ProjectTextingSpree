@@ -14,10 +14,11 @@ using Code.Controller.FileControllers;
 using Code.Dialogue.Story;
 using Code.Logger;
 
-namespace Code.GameData
+namespace Code.Controller.GameController
 {
     /// <summary>
-    /// Saves the content of the Game
+    /// This class is used to temporarily store the game data, until it is passed to the GameData class
+    /// TODO: in separate File?
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">30.01.2023</para>
@@ -38,7 +39,7 @@ namespace Code.GameData
     }
     
     /// <summary>
-    /// Saves and Loads the status of the Game
+    /// This controller is responsible for loading and saving the game states
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">30.01.2023</para>
@@ -49,19 +50,21 @@ namespace Code.GameData
         // GameDataController
         public static GameDataController Gdc;
         // Load save
+        [Header("Load Game Text")]
         [SerializeField] private Text loadGameText;
         // Save slots
-        [SerializeField] private GameObject saveSlot1;
-        [SerializeField] private GameObject saveSlot2;
-        [SerializeField] private GameObject saveSlot3;
+        [Header("Save slots")]
         [SerializeField] private GameObject[] saveSlots;
-        // Screens
+        // Main Menu, Message Box and Character Screen Objects
+        [Header("Main Menu, Message Box and Character Screens")]
         [SerializeField] private GameObject mainMenuScreen;
         [SerializeField] private GameObject messageBoxScreen; 
         [SerializeField] private GameObject characterPropertiesScreen;
         [SerializeField] private GameObject[] screenObjects;
         // Slot view
-        public GameObject slotView;
+        [Header("Save Slot view")]
+        [SerializeField] private GameObject slotView;
+        // Slot Number
         private int _slotNum;
         // SaveData
         private static SaveData _saveData;
@@ -251,9 +254,9 @@ namespace Code.GameData
         {
             var slotObject = slotNum switch
             {
-                0 => saveSlot1,
-                1 => saveSlot2,
-                2 => saveSlot3,
+                0 => saveSlots[0],
+                1 => saveSlots[1],
+                2 => saveSlots[2],
                 _ => null
             };
 
@@ -278,16 +281,17 @@ namespace Code.GameData
         }
 
         /// <summary>
-        /// Updates the Slot view with empty data, if there is no save 
+        /// Updates the Slot view with empty data, if there is no save
+        /// TODO: 
         /// </summary>
         /// <param name="slotNum">Slot number where the save data has to be placed</param>
         public void UpdateEmptySlot(int slotNum)
         {
             var slotObject = slotNum switch
             {
-                1 => saveSlot1,
-                2 => saveSlot2,
-                3 => saveSlot3,
+                1 => saveSlots[0],
+                2 => saveSlots[1],
+                3 => saveSlots[2],
                 _ => null
             };
 

@@ -4,7 +4,7 @@ using Code.Dialogue.Story;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Code.GameData
+namespace Code.Controller.GameController
 {
     /// <summary>
     /// Calculates the elapsed Time and Progress

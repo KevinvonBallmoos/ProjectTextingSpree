@@ -1,6 +1,6 @@
 using Code.Dialogue.Story;
 
-namespace Code.GameData
+namespace Code.Controller.GameController
 {
     /// <summary>
     /// Object Class to save the status of the Game

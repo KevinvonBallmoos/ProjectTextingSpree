@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 using Code.Controller.FileControllers;
 using Code.Dialogue.Story;
-using Code.GameData;
+using Code.Controller.GameController;
 using Code.Logger;
 
 namespace Code
@@ -27,8 +27,8 @@ namespace Code
         public static GameManager Gm;
         // Story UI
         private static StoryUI _storyUI;
-        // Menu, Message Box and Character Screen Objects
-        [Header("Menu, Save and Message Box Screen Objects")]
+        // Main Menu, Save and Message Box Objects
+        [Header("Main Menu, Save and Message Box Screens")]
         [SerializeField] private GameObject[] screenObjects;
         [SerializeField] private GameObject[] messageBox;
         // Message Box Game Over Screen Object

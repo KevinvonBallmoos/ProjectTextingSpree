@@ -9,7 +9,7 @@ namespace Code.Controller.ObjectControllers
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">29.04.23</para>
-    public class CharacterSelect : MonoBehaviour
+    public class CharacterSelectController : MonoBehaviour
     {
         // Character chosen
         [SerializeField] private Text character;

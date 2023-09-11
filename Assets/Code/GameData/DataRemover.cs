@@ -1,17 +1,18 @@
 using System.IO;
 using UnityEngine;
 
-namespace Code.GameData
+namespace Code.Controller.GameController
 {
     /// <summary>
     /// Deletes the selected Saved Data File
+    /// and sorts the rest of the files
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">05.05.23</para>
     public static class DataRemover
     {
         /// <summary>
-        /// Deletes the selected Data
+        /// Searches the selected Data and deletes the according File
         /// </summary>
         public static void RemoveData_Click()
         {
@@ -30,7 +31,7 @@ namespace Code.GameData
         }
 
         /// <summary>
-        /// Sorts the Files after one was deleted
+        /// Sorts and renames the Files after one was deleted
         /// </summary>
         private static void SortFiles()
         {

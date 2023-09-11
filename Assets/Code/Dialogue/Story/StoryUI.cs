@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
-using Code.GameData;
+using Code.Controller.GameController;
 using Code.Inventory;
 
 namespace Code.Dialogue.Story

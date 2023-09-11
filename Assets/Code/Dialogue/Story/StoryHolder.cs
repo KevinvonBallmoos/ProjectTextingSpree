@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Code.GameData;
+using Code.Controller.GameController;
 using Code.Logger;
 
 namespace Code.Dialogue.Story

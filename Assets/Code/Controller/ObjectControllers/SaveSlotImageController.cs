@@ -8,7 +8,7 @@ namespace Code.Controller.ObjectControllers
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">05.05.2023</para>
-    public class SaveSlotImage : MonoBehaviour
+    public class SaveSlotImageController : MonoBehaviour
     {
         // Save slot view
         public GameObject slotView;
