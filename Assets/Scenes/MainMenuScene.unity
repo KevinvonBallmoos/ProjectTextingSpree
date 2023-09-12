@@ -8910,7 +8910,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 868398589}
-        m_TargetAssemblyTypeName: Code.GameData.GameDataController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Code.Controller.GameController.GameDataController,
+          Assembly-CSharp
         m_MethodName: RemoveData_Click
         m_Mode: 1
         m_Arguments:
