@@ -12,6 +12,7 @@ using UnityEngine.UI;
 
 using Code.Controller.FileControllers;
 using Code.Dialogue.Story;
+using Code.GameData;
 using Code.Logger;
 
 namespace Code.Controller.GameController
@@ -52,20 +53,17 @@ namespace Code.Controller.GameController
         // Load save
         [Header("Load Game Text")]
         [SerializeField] private Text loadGameText;
-        // Save slots
-        [Header("Save slots")]
-        [SerializeField] private GameObject[] saveSlots;
+        // Savedata Placeholders
+        [Header("Savedata Placeholders")]
+        [SerializeField] private GameObject[] placeholders;
         // Main Menu, Message Box and Character Screen Objects
         [Header("Main Menu, Message Box and Character Screens")]
-        [SerializeField] private GameObject mainMenuScreen;
-        [SerializeField] private GameObject messageBoxScreen; 
-        [SerializeField] private GameObject characterPropertiesScreen;
         [SerializeField] private GameObject[] screenObjects;
-        // Slot view
-        [Header("Save Slot view")]
-        [SerializeField] private GameObject slotView;
-        // Slot Number
-        private int _slotNum;
+        // Placeholder view
+        [Header("Placeholder view")]
+        [SerializeField] private GameObject placeholderView;
+        // Placeholder Number
+        private int _placeholderNum;
         // SaveData
         private static SaveData _saveData;
         private static readonly List<SaveData> LoadedData = new ();
@@ -76,7 +74,7 @@ namespace Code.Controller.GameController
         
         /// <summary>
         /// Sets the language of the game to en-US
-        /// TODO: Why again / reason?
+        /// TODO: Why again / reason? // Maybe its the Time spent in Game Line 291
         /// </summary>
         private void Awake()
         {
@@ -102,8 +100,10 @@ namespace Code.Controller.GameController
         #region Game States
         
         /// <summary>
-        /// When a new Game is started, it checks for a open save slot, are there none,
-        /// then the User has to choose an old save slot to override the date with the new Game
+        /// There is a limit of 3 Savedata files
+        /// When a new Game is started, it checks if there are 3 savedata files or not
+        /// If not, the it just creates a new on,
+        /// else the User has to choose an old save to override with the new Game
         /// </summary>
         public bool NewGame(string player, string background)
         {
@@ -114,36 +114,38 @@ namespace Code.Controller.GameController
             if (length == 3)
                 return false;
             
-            _slotNum = length;
+            _placeholderNum = length;
             
             SaveNewGame();
             return true;
         }
 
         /// <summary>
-        /// Sets the SaveScreen and loads the data
+        /// Initializes the Save panel and loads the data into the placeholders
         /// </summary>
         public void LoadGame()
         {
-            SetSaveScreen("LOAD", 0);
-            LoadDataIntoSlots();
+            InitializeSaveDataPanel("LOAD", 0);
+            LoadDataIntoPlaceholders();
         }
 
         /// <summary>
-        /// Resets the Images of the Slots
+        /// Initializes the Savedata panel
+        /// Disables the check Images of all placeholders
+        /// Sets the Button text and the overview text
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="index"></param>
-        public void SetSaveScreen(string text, int index)
+        /// <param name="text">Text for the Button, either Load Game or New Game</param>
+        /// <param name="index">Identifies which text from the xml file should be displayed</param>
+        public void InitializeSaveDataPanel(string text, int index)
         {
-            var slots = slotView.GetComponentsInChildren<Image>();
-            for (var i = 0; i < slots.Length; i++)
+            var holders = placeholderView.GetComponentsInChildren<Image>();
+            for (var i = 0; i < holders.Length; i++)
             {
                 if (i is 1 or 3 or 5)
-                    slots[i].enabled = false;
+                    holders[i].enabled = false;
             }
             loadGameText.text = text;
-            slotView.GetComponentsInChildren<Text>()[0].text = XmlController.GetInformationText(index);
+            placeholderView.GetComponentsInChildren<Text>()[0].text = XmlController.GetInformationText(index);
         }
         
         #endregion
@@ -151,11 +153,11 @@ namespace Code.Controller.GameController
         #region Button Events
 
         /// <summary>
-        /// Loads the selected Game
+        /// Starts either a new game or loads a selected one 
         /// </summary>
         public void LoadGame_Click()
         {
-            SetSlotNum();
+            SetPlaceholderNum();
             
             switch (loadGameText.text)
             {
@@ -171,70 +173,70 @@ namespace Code.Controller.GameController
         }
         
         /// <summary>
-        /// When continue is clicked, the User can select a save slot to override the old data
+        /// When continue is clicked, the User can choose a save to override the old data with the new Game
+        /// [0]: Enables the title screen
+        /// [1]: Disables the messagebox
         /// </summary>
         public void Continue_Click()
         {
-            mainMenuScreen.SetActive(true);
-            messageBoxScreen.SetActive(false);
+            screenObjects[0].SetActive(true);
+            screenObjects[1].SetActive(false);
         }
         
         /// <summary>
-        /// The Messagebox closes
+        /// Action to cancel the Messagebox
+        /// [0]: Enables the title screen
+        /// [1]: Disables the messagebox
         /// </summary>
         public void Cancel_CLick()
         {
-            messageBoxScreen.SetActive(false);
-            mainMenuScreen.SetActive(true);
+            screenObjects[0].SetActive(true);
+            screenObjects[1].SetActive(false);
         }
         
         /// <summary>
         /// Button Click to get back to the main menu
+        /// [0]: Disables the title screen
+        /// [2]: Enables the character properties screen
+        /// TODO : delete when unused
         /// </summary>
         public void BackToMenu_Click()
         {
-            mainMenuScreen.SetActive(true);
-            characterPropertiesScreen.SetActive(false);
+            screenObjects[0].SetActive(true);
+            screenObjects[2].SetActive(false);
+        }
+        
+        /// <summary>
+        /// Display the messagebox with the according text, to remove a selected save
+        /// [1]: Enables the messagebox
+        /// </summary>
+        public void RemoveData_Click()
+        {
+            GameManager.Gm.SetMessageBoxProperties(GameDataRemover.RemoveData_Click, XmlController.GetMessageBoxText(1));
+            screenObjects[1].SetActive(true);
+            SetPlaceholderNum();
         }
 
         #endregion
         
-        #region SlotView
+        #region Placeholder View
 
         /// <summary>
-        /// When the LoadGame Button is clicked, then the save files getting loaded into the save-slots
-        /// Is there no save for a slot, then the slot stays empty
+        /// Gets all save data files and stores the data in the placeholders
         /// </summary>
-        private void LoadDataIntoSlots()
+        public void LoadDataIntoPlaceholders()
         {
             GetLoadedData();
-
-            // Load Data into save-slots
-            for (var i = 0; i < LoadedData.Count; i++)
-                UpdateSlotView(i);
-
-            if (LoadedData.Count >= 3) return;
+            
+            for (var i = 0; i < 3; i++)
             {
-                var length = 3 - LoadedData.Count;
-                switch (length)
-                {
-                    case 1:
-                    {
-                        UpdateEmptySlot(3);
-                        break;
-                    }
-                    case 2:
-                    {
-                        for (var i = 2; i <= 3; i++)
-                            UpdateEmptySlot(i);
-                        break;
-                    }
-                }
+                UpdatePlaceholderView(i, i < LoadedData.Count ? LoadedData : null);
             }
         }
 
         /// <summary>
-        /// Reloads the save files
+        /// Searches all save files
+        /// Deserializes the data into the LoadedData List
         /// </summary>
         private static void GetLoadedData()
         {
@@ -245,81 +247,54 @@ namespace Code.Controller.GameController
                 LoadedData.Add(JsonConvert.DeserializeObject<SaveData>(json));
             }
         }
-        
+
         /// <summary>
-        /// Updates the Slot view with loaded data
+        /// Updates the Placeholder view with data.
+        /// If loaded data is null, then the placeholder is empty
         /// </summary>
-        /// <param name="slotNum"></param>
-        private void UpdateSlotView(int slotNum)
+        /// <param name="placeholderNum">Placeholder number where the data has to be placed</param>
+        /// <param name="loadedData">List of all loaded data to display</param>
+        private void UpdatePlaceholderView(int placeholderNum, IReadOnlyList<SaveData> loadedData)
         {
-            var slotObject = slotNum switch
+            var placeholderObject = placeholderNum switch
             {
-                0 => saveSlots[0],
-                1 => saveSlots[1],
-                2 => saveSlots[2],
+                0 => placeholders[0],
+                1 => placeholders[1],
+                2 => placeholders[2],
                 _ => null
             };
 
             for (var i = 0; i < 5; i++)
             {
-                if (slotObject == null) continue;
-                var obj = slotObject.transform.GetChild(i).gameObject;
+                if (placeholderObject == null) continue;
+                
                 var time = DateTime.Now;
-                if (LoadedData[slotNum].TimeOfSave != null) 
-                    time = DateTime.ParseExact(LoadedData[slotNum].TimeOfSave, "yyyy-dd-M--HH-mm-ss",
-                        CultureInfo.InvariantCulture);
-                obj.GetComponent<TextMeshProUGUI>().text = i switch
+                if (loadedData != null && loadedData[placeholderNum].TimeOfSave != null) 
+                    time = DateTime.ParseExact(loadedData[placeholderNum].TimeOfSave, "yyyy-dd-M--HH-mm-ss", CultureInfo.InvariantCulture);
+                
+                var obj = placeholderObject.transform.GetChild(i).gameObject;
+                var text = i switch
                 {
-                    0 => $"Player: {LoadedData[slotNum].PlayerName}",
-                    1 => $"Chapter: {LoadedData[slotNum].Title}",
-                    2 => $"Completion: {LoadedData[slotNum].ProgressPercentage} %",
-                    3 => $"Time of last Save: \n{time:dddd, dd MMMM yyyy. HH:mm:ss}",
-                    4 => $"Time spent in Game: {LoadedData[slotNum].TimeSpent}",
+                    0 => loadedData != null ? $"Player: {loadedData[placeholderNum].PlayerName}" : "Player: No data",
+                    1 => loadedData != null ? $"Chapter: {loadedData[placeholderNum].Title}" : "Chapter: No data saved",
+                    2 => loadedData != null ? $"Completion: {loadedData[placeholderNum].ProgressPercentage} %" : "Completion: ... %",
+                    3 => loadedData != null ? $"Time of last Save: \n{time}" : "Time of last Save: No data",
+                    4 => loadedData != null ? $"Time spent in Game: {loadedData[placeholderNum].TimeSpent}" : "Time spent in Game: 00:00:00",
                     _ => obj.GetComponent<TextMeshProUGUI>().text
                 };
+                obj.GetComponent<TextMeshProUGUI>().text = text;
             }
         }
 
         /// <summary>
-        /// Updates the Slot view with empty data, if there is no save
-        /// TODO: 
-        /// </summary>
-        /// <param name="slotNum">Slot number where the save data has to be placed</param>
-        public void UpdateEmptySlot(int slotNum)
-        {
-            var slotObject = slotNum switch
-            {
-                1 => saveSlots[0],
-                2 => saveSlots[1],
-                3 => saveSlots[2],
-                _ => null
-            };
-
-            for (var i = 0; i < 5; i++)
-            {
-                if (slotObject == null) continue;
-                var obj = slotObject.transform.GetChild(i).gameObject;
-                obj.GetComponent<TextMeshProUGUI>().text = i switch
-                {
-                    0 => $"Player: No data",
-                    1 => "Chapter: No data saved",
-                    2 => "Completion: ... %",
-                    3 => "Time of last Save: No data",
-                    4 => "Time spent in Game: 00:00:00",
-                    _ => obj.GetComponent<TextMeshProUGUI>().text
-                };
-            }
-        }
-
-        /// <summary>
-        /// Loads the Selected Game
+        /// Loads the data for the selected game Selected Game
         /// </summary>
         private void LoadSelectedGame()
         {
             var files = Directory.GetFiles(Application.persistentDataPath + "/SaveData");
             
-            if (files.Length <= _slotNum) return;
-            var json = File.ReadAllText(files[_slotNum], Encoding.UTF8);
+            if (files.Length <= _placeholderNum) return;
+            var json = File.ReadAllText(files[_placeholderNum], Encoding.UTF8);
 
             try
             {
@@ -336,28 +311,27 @@ namespace Code.Controller.GameController
         }
 
         /// <summary>
-        /// Checks on which save slot the slotImage is active
-        /// and saves the slot number
+        /// Checks on which placeholder the check Image is active and saves the number
         /// </summary>
         /// <returns></returns>
-        private void SetSlotNum()
+        private void SetPlaceholderNum()
         {
-            var slots = slotView.GetComponentsInChildren<Image>();
-            for (var i = 1; i < slots.Length; i += 2)
+            var holders = placeholderView.GetComponentsInChildren<Image>();
+            for (var i = 1; i < holders.Length; i += 2)
             {
-                if (!slots[i].enabled) continue;
-                _slotNum = (i - 1) / 2;
+                if (!holders[i].enabled) continue;
+                _placeholderNum = (i - 1) / 2;
                 break;
             }
         }
 
         /// <summary>
-        /// Returns the slot number
+        /// Returns the placeholder number
         /// </summary>
         /// <returns></returns>
-        public int GetSlotNum()
+        public int GetPlaceholderNum()
         {
-            return _slotNum;
+            return _placeholderNum;
         }
         
         #endregion
@@ -415,13 +389,13 @@ namespace Code.Controller.GameController
             _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             TimeAndProgress.StopTime();
 
-            var time = LoadedData[_slotNum].TimeSpent;
+            var time = LoadedData[_placeholderNum].TimeSpent;
             var timeSaved = time == "00.00.00" ? TimeSpan.Zero : TimeSpan.Parse(time);
             var elapsedTime = Math.Floor(timeSaved.TotalSeconds + TimeAndProgress.GetElapsedTime().TotalSeconds);
 
             var progress = TimeAndProgress.GetProgress(save.ParentNode);
-            if (progress <= LoadedData[_slotNum].ProgressPercentage)
-                progress += Math.Round(LoadedData[_slotNum].ProgressPercentage, 2);
+            if (progress <= LoadedData[_placeholderNum].ProgressPercentage)
+                progress += Math.Round(LoadedData[_placeholderNum].ProgressPercentage, 2);
             
             var gameData = new GameData(
                 new SaveData
@@ -444,7 +418,7 @@ namespace Code.Controller.GameController
                 }
             );
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
-            var filename = Directory.GetFiles(Application.persistentDataPath + "/SaveData")[_slotNum];
+            var filename = Directory.GetFiles(Application.persistentDataPath + "/SaveData")[_placeholderNum];
             if (File.Exists(filename))
                 File.Delete(filename);
 
@@ -468,20 +442,6 @@ namespace Code.Controller.GameController
         {
             get;
             private set;
-        }
-
-        #endregion
-
-        #region Remove Data
-
-        /// <summary>
-        /// Asks if the User really want to delete the Saved Data
-        /// </summary>
-        public void RemoveData_Click()
-        {
-            GameManager.Gm.SetMessageBoxProperties(DataRemover.RemoveData_Click, XmlController.GetMessageBoxText(1));
-            messageBoxScreen.SetActive(true);
-            SetSlotNum();
         }
 
         #endregion

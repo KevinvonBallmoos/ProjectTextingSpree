@@ -149,7 +149,7 @@ namespace Code
             }
             else
             {
-                GameDataController.Gdc.SetSaveScreen("NEW GAME", 1);
+                GameDataController.Gdc.InitializeSaveDataPanel("NEW GAME", 1);
                 screenObjects[2].SetActive(false);
                 SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlController.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);

@@ -1,7 +1,9 @@
 using System.IO;
 using UnityEngine;
 
-namespace Code.Controller.GameController
+using Code.Controller.GameController;
+
+namespace Code.GameData
 {
     /// <summary>
     /// Deletes the selected Saved Data File
@@ -9,33 +11,38 @@ namespace Code.Controller.GameController
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">05.05.23</para>
-    public static class DataRemover
+    public static class GameDataRemover
     {
+        // Path to the Save files
+        private static readonly string SaveDataPath = Application.persistentDataPath + "/SaveData";
+        
         /// <summary>
         /// Searches the selected Data and deletes the according File
         /// </summary>
         public static void RemoveData_Click()
         {
-            var slot = GameDataController.Gdc.GetSlotNum();
-            var files = Directory.GetFiles(Application.persistentDataPath);
-            if (files.Length == 0) return;
-            if (files.Length <= slot)
-                slot -= 1;
-            var file = files[slot];
-           
-            File.Delete(file);
+            var placeholder = GameDataController.Gdc.GetPlaceholderNum();
+            var files = Directory.GetFiles(SaveDataPath);
             
-            GameDataController.Gdc.UpdateEmptySlot(slot + 1); // TODO: Update Slots completely
+            if (files.Length <= 0) return;
             
+            if (placeholder >= files.Length)
+                placeholder = files.Length - 1;
+            
+            // Deletes the file
+            File.Delete(files[placeholder]);
+            // Updates the placeholder view
+            GameDataController.Gdc.LoadDataIntoPlaceholders();
+            // Sorts the other save files
             SortFiles();
         }
-
+        
         /// <summary>
         /// Sorts and renames the Files after one was deleted
         /// </summary>
         private static void SortFiles()
         {
-            var files = Directory.GetFiles(Application.persistentDataPath);
+            var files = Directory.GetFiles(SaveDataPath);
             for (int i = 0; i < files.Length; i++)
             {
                 var file = Path.GetFileName(files[i]);

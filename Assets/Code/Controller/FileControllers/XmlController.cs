@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using System.Xml;
-using Code.Dialogue.Story;
 using UnityEngine;
+
+using Code.Dialogue.Story;
 
 namespace Code.Controller.FileControllers
 {
