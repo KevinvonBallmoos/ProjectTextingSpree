@@ -16,7 +16,7 @@ namespace Code.Dialogue.Story
     public class StoryHolder : MonoBehaviour
     {
         // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryHolder");
+        //private readonly GameLogger _logger = new GameLogger("StoryHolder");
         // Dialogue and Nodes
         [NonSerialized] public StoryAsset CurrentChapter;
         [NonSerialized] private StoryNode _currentNode;

@@ -107,6 +107,8 @@ namespace Code
 
         #region Game State Button Events
         
+        #region Game States
+        
         /// <summary>
         /// Opens the character select window and disables the select Images
         /// </summary>
@@ -155,7 +157,11 @@ namespace Code
                 screenObjects[1].SetActive(true);
             }
         }
+        
+        #endregion
 
+        #region Page Scroll
+        
         /// <summary>
         /// Displays the 2nd Character Page
         /// </summary>
@@ -175,6 +181,8 @@ namespace Code
             characterPages[1].SetActive(false);
             ChangeButtonProperties(BackToMainMenu_Click, "Back to Menu", true);
         }
+        
+        #endregion
 
         /// <summary>
         /// Removes all Listeners on the Button

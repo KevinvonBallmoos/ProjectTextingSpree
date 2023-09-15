@@ -96,6 +96,87 @@ namespace Code.Controller.GameController
         }
         
         #endregion
+        
+        #region Button Events
+        
+        #region GameStates
+        
+        /// <summary>
+        /// Starts either a new game or loads a selected one 
+        /// </summary>
+        public void LoadGame_Click()
+        {
+            SetPlaceholderNum();
+            
+            switch (loadGameText.text)
+            {
+                case "LOAD":
+                    GameManager.ActiveScene = 2;
+                    LoadSelectedGame();
+                    break;
+                case "NEW GAME":
+                    GameManager.ActiveScene = 1;
+                    GameManager.LoadScene();
+                    break;
+            }
+        }
+        
+        /// <summary>
+        /// Button Click to get back to the main menu
+        /// [0]: Disables the title screen
+        /// [2]: Enables the character properties screen
+        /// TODO : delete when unused
+        /// </summary>
+        public void BackToMenu_Click()
+        {
+            screenObjects[0].SetActive(true);
+            screenObjects[2].SetActive(false);
+        }
+        
+        #endregion
+        
+        #region Messagebox Buttons
+        
+        /// <summary>
+        /// When continue is clicked, the User can choose a save to override the old data with the new Game
+        /// [0]: Enables the title screen
+        /// [1]: Disables the messagebox
+        /// </summary>
+        public void Continue_Click()
+        {
+            screenObjects[0].SetActive(true);
+            screenObjects[1].SetActive(false);
+        }
+        
+        /// <summary>
+        /// Action to cancel the Messagebox
+        /// [0]: Enables the title screen
+        /// [1]: Disables the messagebox
+        /// </summary>
+        public void Cancel_CLick()
+        {
+            screenObjects[0].SetActive(true);
+            screenObjects[1].SetActive(false);
+        }
+        
+        #endregion
+        
+        #region Remove Data
+        
+        /// <summary>
+        /// Display the messagebox with the according text, to remove a selected save
+        /// [1]: Enables the messagebox
+        /// </summary>
+        public void RemoveData_Click()
+        {
+            GameManager.Gm.SetMessageBoxProperties(GameDataRemover.RemoveData_Click, XmlController.GetMessageBoxText(1));
+            screenObjects[1].SetActive(true);
+            SetPlaceholderNum();
+        }
+        
+        #endregion
+
+        #endregion
 
         #region Game States
         
@@ -148,75 +229,6 @@ namespace Code.Controller.GameController
             placeholderView.GetComponentsInChildren<Text>()[0].text = XmlController.GetInformationText(index);
         }
         
-        #endregion
-
-        #region Button Events
-
-        /// <summary>
-        /// Starts either a new game or loads a selected one 
-        /// </summary>
-        public void LoadGame_Click()
-        {
-            SetPlaceholderNum();
-            
-            switch (loadGameText.text)
-            {
-                case "LOAD":
-                    GameManager.ActiveScene = 2;
-                    LoadSelectedGame();
-                    break;
-                case "NEW GAME":
-                    GameManager.ActiveScene = 1;
-                    GameManager.LoadScene();
-                    break;
-            }
-        }
-        
-        /// <summary>
-        /// When continue is clicked, the User can choose a save to override the old data with the new Game
-        /// [0]: Enables the title screen
-        /// [1]: Disables the messagebox
-        /// </summary>
-        public void Continue_Click()
-        {
-            screenObjects[0].SetActive(true);
-            screenObjects[1].SetActive(false);
-        }
-        
-        /// <summary>
-        /// Action to cancel the Messagebox
-        /// [0]: Enables the title screen
-        /// [1]: Disables the messagebox
-        /// </summary>
-        public void Cancel_CLick()
-        {
-            screenObjects[0].SetActive(true);
-            screenObjects[1].SetActive(false);
-        }
-        
-        /// <summary>
-        /// Button Click to get back to the main menu
-        /// [0]: Disables the title screen
-        /// [2]: Enables the character properties screen
-        /// TODO : delete when unused
-        /// </summary>
-        public void BackToMenu_Click()
-        {
-            screenObjects[0].SetActive(true);
-            screenObjects[2].SetActive(false);
-        }
-        
-        /// <summary>
-        /// Display the messagebox with the according text, to remove a selected save
-        /// [1]: Enables the messagebox
-        /// </summary>
-        public void RemoveData_Click()
-        {
-            GameManager.Gm.SetMessageBoxProperties(GameDataRemover.RemoveData_Click, XmlController.GetMessageBoxText(1));
-            screenObjects[1].SetActive(true);
-            SetPlaceholderNum();
-        }
-
         #endregion
         
         #region Placeholder View
@@ -287,30 +299,6 @@ namespace Code.Controller.GameController
         }
 
         /// <summary>
-        /// Loads the data for the selected game Selected Game
-        /// </summary>
-        private void LoadSelectedGame()
-        {
-            var files = Directory.GetFiles(Application.persistentDataPath + "/SaveData");
-            
-            if (files.Length <= _placeholderNum) return;
-            var json = File.ReadAllText(files[_placeholderNum], Encoding.UTF8);
-
-            try
-            {
-                _saveData = JsonConvert.DeserializeObject<SaveData>(json);
-            }
-            catch (Exception)
-            {
-                LoadSelectedGame();
-            }
-
-            PlayerName = _saveData?.PlayerName;
-            PlayerBackground = _saveData?.PlayerBackground;
-            GameManager.LoadScene();
-        }
-
-        /// <summary>
         /// Checks on which placeholder the check Image is active and saves the number
         /// </summary>
         /// <returns></returns>
@@ -335,8 +323,34 @@ namespace Code.Controller.GameController
         }
         
         #endregion
+        
+        #region Load Game
+        
+        /// <summary>
+        /// Loads the data for the selected game
+        /// In case the deserializing throws an error, the method is executed again
+        /// TODO : Bug Fix: Try catch can result in endless loop
+        /// </summary>
+        private void LoadSelectedGame()
+        {
+            var files = Directory.GetFiles(Application.persistentDataPath + "/SaveData");
+            
+            if (files.Length <= _placeholderNum) return;
+            var json = File.ReadAllText(files[_placeholderNum], Encoding.UTF8);
 
-        #region Get Saved Data
+            try
+            {
+                _saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            }
+            catch (Exception)
+            {
+                LoadSelectedGame();
+            }
+
+            PlayerName = _saveData?.PlayerName;
+            PlayerBackground = _saveData?.PlayerBackground;
+            GameManager.LoadScene();
+        }
         
         /// <summary>
         /// Returns the loaded Data
@@ -346,13 +360,13 @@ namespace Code.Controller.GameController
         {
             return _saveData;
         }
-
+        
         #endregion
         
         #region Save
         
         /// <summary>
-        /// Saves the name and the Character Properties as first Save for a New Game
+        /// Saves the name and the Character Properties as first Save for a New Game in a Json File
         /// </summary>
         private void SaveNewGame()
         {
@@ -380,7 +394,7 @@ namespace Code.Controller.GameController
         }
 
         /// <summary>
-        /// Saves the the status of the Game in a JSON File
+        /// Saves the the status of the Game in a Json File
         /// </summary>
         /// <param name="save">The SaveData sent from StoryUI</param>
         public void SaveGame(SaveData save)
@@ -414,7 +428,7 @@ namespace Code.Controller.GameController
                     NodeIndex = save.NodeIndex,
                     PastStoryNodes = save.PastStoryNodes,
                     SelectedChoices = save.SelectedChoices,
-                    // More Variables for Inventory
+                    // TODO : More Variables for Inventory
                 }
             );
             var json = JsonConvert.SerializeObject(gameData, Formatting.Indented);
@@ -432,12 +446,18 @@ namespace Code.Controller.GameController
 
         #region Player and PlayerBackground
         
+        /// <summary>
+        /// Property for the Player name
+        /// </summary>
         public string PlayerName
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Property for the Player Background/Character
+        /// </summary>
         public string PlayerBackground
         {
             get;

@@ -1,18 +1,31 @@
-﻿using System;
+﻿using Formatting = Newtonsoft.Json.Formatting;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Newtonsoft.Json;
+using Code.Controller.FileControllers;
 using UnityEngine;
-using Formatting = Newtonsoft.Json.Formatting;
-
 
 namespace Code.Dialogue.Story
 {
     /// <summary>
-    /// Reads the properties of the Story assets
+    /// This class is needed to evaluate if a node needs to be added or removed
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">01.07.2023</para>
+    internal class NodeInfo
+    {
+        public string NodeId { get; set; }
+        public StoryNode Node { get; set; }
+        public bool IsTrue { get; set; }
+    }
+    
+    /// <summary>
+    /// This class is responsible for reading the node information from the xml files,
+    /// saving the story parts in assets files and loading the saved story parts. 
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">10.05.2023</para>
@@ -21,33 +34,23 @@ namespace Code.Dialogue.Story
     {
         // Current Asset
         private StoryAsset _currentAsset;
-
         // Lists with nodes
         private readonly List<NodeInfo> _nodes = new();
-
         [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
-        
         // Boolean that is true when the nodes have been read
         [NonSerialized] public bool HasReadNodes;
-
-        // Is needed to evaluate if a node needs to be added or removed
-        private class NodeInfo
-        {
-            public string NodeId { get; set; }
-            public StoryNode Node { get; set; }
-            public bool IsTrue { get; set; }
-        }
-
+        
         #region ReadNodes and Properties
 
         /// <summary>
-        /// Reads the Nodes from the Xml File and puts them in the right order
+        /// Reads the Node Information from the Xml File and puts them in the right order
         /// </summary>
         /// <param name="chapter">Chapter to be read in</param>
         public StoryAsset ReadNodes(StoryAsset chapter)
         {
             HasReadNodes = false;
 
+            // Checks if StoryNodes have been read already
             if (StoryNodes.Count != 0)
             {
                 if (StoryNodes[0] == null)
@@ -68,29 +71,26 @@ namespace Code.Dialogue.Story
                 }
             }
 
-            var xmlDoc = new XmlDocument();
-            var filePath = Path.Combine(Application.streamingAssetsPath, $"StoryFiles/{chapter.name}.xml");
-            var xmlFile = File.ReadAllText(filePath);
-            xmlDoc.LoadXml(xmlFile);
+            var xmlDoc = XmlController.GetXmlDocOfStoryFile(chapter.name);
 
-            var choiceNodes = xmlDoc.GetElementsByTagName("Choice");
-            foreach (XmlNode choice in choiceNodes)
-            {
-                var id = choice.Attributes?[0].Value;
-                if (CheckNodes(id)) continue;
-                var node = CreateNode(choice, id, true);
-                _nodes.Add(new NodeInfo { NodeId = id, Node = node, IsTrue = true });
-            }
-
-            var storyNodes = xmlDoc.GetElementsByTagName("Node");
-            foreach (XmlNode story in storyNodes)
-            {
-                var id = story.Attributes?[0].Value;
-                if (CheckNodes(id)) continue;
-                var node = CreateNode(story, id, false);
-                _nodes.Add(new NodeInfo { NodeId = id, Node = node, IsTrue = true });
-            }
-
+            foreach (XmlNode choice in xmlDoc.GetElementsByTagName("Choice"))
+                ProcessNode(choice, true);
+            
+            foreach (XmlNode story in xmlDoc.GetElementsByTagName("Node"))
+                ProcessNode(story, false);
+            
+            
+            /*
+             *         private void ProcessNode(XmlNode node, bool isChoice)
+                        {
+                            var id = node.Attributes?[0].Value;
+                            if (CheckNodes(id)) return;
+                            
+                            var newNode = CreateNode(node, id, isChoice);
+                            _nodes.Add(new NodeInfo { NodeId = id, Node = newNode, IsTrue = true });
+                        }
+             */
+            
             var i = 0;
             while (i < _nodes.Count)
             {
@@ -132,6 +132,20 @@ namespace Code.Dialogue.Story
 
             HasReadNodes = true;
             return _currentAsset;
+        }
+        
+        /// <summary>
+        /// Processes the Node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="isChoice"></param>
+        private void ProcessNode(XmlNode node, bool isChoice)
+        {
+            var id = node.Attributes?[0].Value;
+            if (CheckNodes(id)) return;
+            
+            var newNode = CreateNode(node, id, isChoice);
+            _nodes.Add(new NodeInfo { NodeId = id, Node = newNode, IsTrue = true });
         }
 
         /// <summary>
