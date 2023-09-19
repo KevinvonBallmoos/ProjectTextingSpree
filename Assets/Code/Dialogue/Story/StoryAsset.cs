@@ -20,12 +20,11 @@ namespace Code.Dialogue.Story
     {
         public string NodeId { get; set; }
         public StoryNode Node { get; set; }
-        public bool IsTrue { get; set; }
     }
     
     /// <summary>
-    /// This class is responsible for reading the node information from the xml files,
-    /// saving the story parts in assets files and loading the saved story parts. 
+    /// This class reads the content of the Story xml files
+    /// Creates asset files by saving the node Information in Json Files
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">10.05.2023</para>
@@ -36,6 +35,7 @@ namespace Code.Dialogue.Story
         private StoryAsset _currentAsset;
         // Lists with nodes
         private readonly List<NodeInfo> _nodes = new();
+        // List Property of all nodes
         [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
         // Boolean that is true when the nodes have been read
         [NonSerialized] public bool HasReadNodes;
@@ -45,32 +45,17 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Reads the Node Information from the Xml File and puts them in the right order
         /// </summary>
-        /// <param name="chapter">Chapter to be read in</param>
+        /// <param name="chapter">The name of the chapter is needed to find the according json file</param>
         public StoryAsset ReadNodes(StoryAsset chapter)
         {
+            var path = Application.persistentDataPath + "/StoryAssets/" + chapter.name + ".json";
             HasReadNodes = false;
+            
+            // Check if json file exists
+            if (File.Exists(path))
+                ReadJsonFile(path);
 
-            // Checks if StoryNodes have been read already
-            if (StoryNodes.Count != 0)
-            {
-                if (StoryNodes[0] == null)
-                {
-                    var json = File.ReadAllText(
-                        Application.persistentDataPath + $"/StoryAssets/" + chapter.name + ".json",
-                        Encoding.UTF8);
-                    var array = JsonConvert.DeserializeObject<StoryNodeDataProperty[]>(json);
-
-                    StoryNodes.Clear();
-                    if (array != null)
-                        foreach (var n in array)
-                        {
-                            var node = CreateInstance<StoryNode>();
-                            node.InitializeStoryNode(n);
-                            _nodes.Add(new NodeInfo { Node = node, IsTrue = true });
-                        }
-                }
-            }
-
+            // ReadXmlFIle(){}
             var xmlDoc = XmlController.GetXmlDocOfStoryFile(chapter.name);
 
             foreach (XmlNode choice in xmlDoc.GetElementsByTagName("Choice"))
@@ -79,36 +64,21 @@ namespace Code.Dialogue.Story
             foreach (XmlNode story in xmlDoc.GetElementsByTagName("Node"))
                 ProcessNode(story, false);
             
-            
-            /*
-             *         private void ProcessNode(XmlNode node, bool isChoice)
-                        {
-                            var id = node.Attributes?[0].Value;
-                            if (CheckNodes(id)) return;
-                            
-                            var newNode = CreateNode(node, id, isChoice);
-                            _nodes.Add(new NodeInfo { NodeId = id, Node = newNode, IsTrue = true });
-                        }
-             */
-            
-            var i = 0;
-            while (i < _nodes.Count)
-            {
-                if (_nodes[i].IsTrue)
-                {
-                    i++;
-                    continue;
-                }
+            // TODO : Do I need this ?
+            // var i = 0;
+            // while (i < _nodes.Count)
+            // {
+            //
+            //     foreach (var n in _nodes)
+            //     {
+            //         if (n.Node.ChildNodes.Contains(_nodes[i].Node.name))
+            //             n.Node.RemoveChildNode(_nodes[i].Node.name);
+            //     }
+            //
+            //     _nodes.RemoveAt(i);
+            // }
 
-                foreach (var n in _nodes)
-                {
-                    if (n.Node.ChildNodes.Contains(_nodes[i].Node.name))
-                        n.Node.RemoveChildNode(_nodes[i].Node.name);
-                }
-
-                _nodes.RemoveAt(i);
-            }
-
+            // ReadXmlAttributes(){}
             StoryNodes.Clear();
             foreach (var n in _nodes)
             {
@@ -116,6 +86,7 @@ namespace Code.Dialogue.Story
                 StoryNodes.Add(n.Node);
             }
 
+            // SetNodePosition(){}
             foreach (var child in _nodes)
             {
                 //child.Node.StoryRect = new Rect(10, 10, 300, 180);
@@ -127,11 +98,37 @@ namespace Code.Dialogue.Story
             }
 
             _currentAsset = chapter;
-            
+            // Rename to SaveNodesToJson
             SaveNodesToAssetDatabase();
 
             HasReadNodes = true;
             return _currentAsset;
+        }
+
+        /// <summary>
+        /// Reads the JsonFile
+        /// </summary>
+        private void ReadJsonFile(string path)
+        {
+            // Checks if StoryNodes have been read already
+            if (StoryNodes.Count != 0)
+            {
+                if (StoryNodes[0] == null)
+                {
+                    var json = File.ReadAllText(path,
+                        Encoding.UTF8);
+                    var nodeArray = JsonConvert.DeserializeObject<StoryNodeDataProperty[]>(json);
+
+                    //StoryNodes.Clear();
+                    if (nodeArray != null)
+                        foreach (var n in nodeArray)
+                        {
+                            var node = CreateInstance<StoryNode>();
+                            node.InitializeStoryNode(n);
+                            _nodes.Add(new NodeInfo { Node = node });
+                        }
+                }
+            }
         }
         
         /// <summary>
@@ -145,7 +142,7 @@ namespace Code.Dialogue.Story
             if (CheckNodes(id)) return;
             
             var newNode = CreateNode(node, id, isChoice);
-            _nodes.Add(new NodeInfo { NodeId = id, Node = newNode, IsTrue = true });
+            _nodes.Add(new NodeInfo { NodeId = id, Node = newNode });
         }
 
         /// <summary>
@@ -391,5 +388,8 @@ namespace Code.Dialogue.Story
             File.WriteAllText(filename, json);
         }
         #endregion
+        
+        // TODO : Function to delete Json Files, that do not have any asset files of the same name
+        
     }
 }

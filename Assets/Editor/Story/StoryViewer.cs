@@ -47,6 +47,7 @@ namespace Editor.Story
         private string _textContent;
 
         #region StoryWindow
+        
 
         /// <summary>
         /// Shows the Editor Window, depending if a Story is loaded or not
@@ -70,6 +71,26 @@ namespace Editor.Story
         public static void ShowEditorWindow()
         {
             GetWindow(typeof(StoryViewer), false, "Story Viewer");
+        }
+
+        /// <summary>
+        /// Deletes the asset file and Json file with the same name
+        /// </summary>
+        [MenuItem("Custom / Delete Asset")]
+        public static void DeleteAsset()
+        {
+            // Selected asset in Unity Editor
+            Object selectedAsset = Selection.activeObject as StoryAsset;
+
+            if (selectedAsset == null) return;
+            
+            var jsonPath = Application.persistentDataPath + "/StoryAssets/" + selectedAsset.name + ".json";
+            if (!File.Exists(jsonPath)) return;
+            
+            File.Delete(jsonPath);
+            File.Delete(AssetDatabase.GetAssetPath(selectedAsset));
+                
+            Debug.Log("Asset and Json Deleted successfully!");
         }
 
         /// <summary>
@@ -126,7 +147,6 @@ namespace Editor.Story
             
             _selectedChapter = null;
             _storyNode = null;
-            //_xmlFiles = Resources.LoadAll($@"StreamingAssets/StoryFiles/", typeof(TextAsset));
             var directoryPath = Path.Combine(Application.streamingAssetsPath, "StoryFiles");
             _xmlFiles = Directory.GetFiles(directoryPath, "*.xml");
             foreach (var file in _xmlFiles)
@@ -162,8 +182,7 @@ namespace Editor.Story
 
                 _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
                 DrawSurface();
-
-                //if (_selectedChapter.GetAllNodes() == null) return;
+                
                 foreach (var node in _selectedChapter.GetAllNodes())
                     DrawNode(node);
 

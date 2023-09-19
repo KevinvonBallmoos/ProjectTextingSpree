@@ -14,7 +14,7 @@ namespace Code.Dialogue.Story
     {
         // Text that is in the node
         [SerializeField] internal string text;
-        // Text that is in the node
+        // Node name
         [SerializeField] internal string labelText;
         // Node id
         [SerializeField] internal string nodeId;
