@@ -58,6 +58,8 @@ namespace Code
         private string _runPath;
         // Regex Pattern for InputField
         private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
+        
+        // TODO : GetInstance Method like StoryViewer for Gm
 
         #region Awake and Start
 

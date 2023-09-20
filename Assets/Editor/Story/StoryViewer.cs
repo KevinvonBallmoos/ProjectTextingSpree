@@ -18,6 +18,7 @@ namespace Editor.Story
     /// <para name="date">10.05.2023</para>
     public class StoryViewer : EditorWindow
     {
+        private static StoryViewer Sv;
         // Story Asset
         private StoryAsset _selectedChapter;
         // Scroll Area / Position
@@ -46,9 +47,20 @@ namespace Editor.Story
         // Text
         private string _textContent;
 
-        #region StoryWindow
-        
+        private static bool _clearGUI;
 
+        #region StoryWindow
+
+        private void Awake()
+        {
+            Sv = this;
+        }
+
+        private static StoryViewer GetInstance()
+        {
+            return Sv;
+        }        
+        
         /// <summary>
         /// Shows the Editor Window, depending if a Story is loaded or not
         /// Asset Callback : In computer programming, a callback is executable code that is passed as an argument to other code.
@@ -79,6 +91,7 @@ namespace Editor.Story
         [MenuItem("Custom / Delete Asset")]
         public static void DeleteAsset()
         {
+            var storyViewer = GetInstance();           
             // Selected asset in Unity Editor
             Object selectedAsset = Selection.activeObject as StoryAsset;
 
@@ -89,7 +102,13 @@ namespace Editor.Story
             
             File.Delete(jsonPath);
             File.Delete(AssetDatabase.GetAssetPath(selectedAsset));
-                
+
+            if (storyViewer != null)
+            {
+                _clearGUI = true;
+                storyViewer.Repaint();
+            }
+
             Debug.Log("Asset and Json Deleted successfully!");
         }
 
@@ -177,23 +196,30 @@ namespace Editor.Story
             {
                 if (!_selectedChapter.HasReadNodes) return;
 
-                // Mouse Events
-                ProcessEvents();
-
                 _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
                 DrawSurface();
-                
-                foreach (var node in _selectedChapter.GetAllNodes())
-                    DrawNode(node);
 
-                foreach (var node in _selectedChapter.GetAllNodes())
+                if (!_clearGUI)
                 {
-                    if (!node.IsRootNode) continue;
-                    DrawConnections(node);
-                    break;
-                }
+                    // Mouse Events
+                    ProcessEvents();
+                    
+                    foreach (var node in _selectedChapter.GetAllNodes())
+                        DrawNode(node);
 
+                    foreach (var node in _selectedChapter.GetAllNodes())
+                    {
+                        if (!node.IsRootNode) continue;
+                        DrawConnections(node);
+                        break;
+                    }
+                }
+                else
+                    _selectedChapter.HasReadNodes = false;
+
+                _clearGUI = false;
                 EditorGUILayout.EndScrollView();
+                
             }
             catch (Exception)
             {

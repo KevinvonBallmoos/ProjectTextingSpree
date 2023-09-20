@@ -69,6 +69,8 @@ namespace Code.Controller.GameController
         private static readonly List<SaveData> LoadedData = new ();
         // Save Time
         private string _saveTime;
+        
+        // TODO : GetInstance Method like StoryViewer for Gdc
 
         #region Awake and Start
         
