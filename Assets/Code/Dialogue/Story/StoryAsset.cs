@@ -34,17 +34,16 @@ namespace Code.Dialogue.Story
     {
         // Current Asset
         private StoryAsset _currentAsset;
-
         // Lists with nodes
         private readonly List<NodeInfo> _nodes = new();
-
         // List Property of all nodes
         [field: SerializeField] public List<StoryNode> StoryNodes { get; private set; } = new();
-
         // Boolean that is true when the nodes have been read
         public bool HasReadNodes { get; set; }
 
         #region ReadNodes and Properties
+        
+        #region Read Nodes from Json and Xml File
 
         /// <summary>
         /// Reads the Node Information from the Xml File and puts them in the right order
@@ -60,13 +59,9 @@ namespace Code.Dialogue.Story
             if (File.Exists(path))
                 ReadJsonFile(path);
             
-            // Read nodes and properties from Xml file
+            // Read nodes and properties from xml file
             var xmlDoc = XmlController.GetXmlDocOfStoryFile(chapter.name);
-            ReadXmlFile(xmlDoc);
-            ReadXmlAttributes(xmlDoc);
-            
-            // Remove nodes that ore not needed anymore
-            RemoveUnusedNodes();
+            ReadNodesFromXmlFile(xmlDoc);
 
             // Set the node position
             SetNodePosition();
@@ -79,8 +74,10 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Reads the JsonFile
+        /// Reads the JsonFile that matches the chapter,
+        /// and deserializes each object into a StoryNodeDataProperty
         /// </summary>
+        /// <param name="path">The path to the json file</param>
         private void ReadJsonFile(string path)
         {
             // Checks if StoryNodes have been read already
@@ -91,30 +88,40 @@ namespace Code.Dialogue.Story
                     var json = File.ReadAllText(path,
                         Encoding.UTF8);
                     var nodeArray = JsonConvert.DeserializeObject<StoryNodeDataProperty[]>(json);
-
-                    //StoryNodes.Clear();
-                    if (nodeArray != null)
-                        foreach (var n in nodeArray)
-                        {
-                            var node = CreateInstance<StoryNode>();
-                            node.InitializeStoryNode(n);
-                            _nodes.Add(new NodeInfo { Node = node });
-                        }
+                    
+                    if (nodeArray == null) return;
+                    foreach (var n in nodeArray)
+                    {
+                        var node = CreateInstance<StoryNode>();
+                        node.InitializeStoryNode(n);
+                        _nodes.Add(new NodeInfo { Node = node });
+                    }
                 }
             }
         }
 
-        private void ReadXmlFile(XmlDocument xmlDoc)
+        /// <summary>
+        /// Reads the Xml file that matches the chapter and Processes each node
+        /// Remove nodes that ore not needed anymore
+        /// Reads the properties of the rest of the nodes
+        /// </summary>
+        /// <param name="xmlDoc">The XmlDocument info of the file to read</param>
+        private void ReadNodesFromXmlFile(XmlDocument xmlDoc)
         {
             foreach (XmlNode choice in xmlDoc.GetElementsByTagName("Choice"))
                 ProcessNode(choice, true);
 
             foreach (XmlNode story in xmlDoc.GetElementsByTagName("Node"))
                 ProcessNode(story, false);
+            
+            // Remove nodes that ore not needed anymore
+            RemoveUnusedNodes();
+            ReadXmlAttributes(xmlDoc);
         }
 
         /// <summary>
-        /// Processes the Node
+        /// Checks if the nodes exists
+        /// if not a new node is created
         /// </summary>
         /// <param name="node"></param>
         /// <param name="isChoice"></param>
@@ -126,22 +133,12 @@ namespace Code.Dialogue.Story
             var newNode = CreateNode(node, id, isChoice);
             _nodes.Add(new NodeInfo { NodeId = id, Node = newNode });
         }
-
-        private void ReadXmlAttributes(XmlDocument xmlDoc)
-        {
-            StoryNodes.Clear();
-            foreach (var n in _nodes)
-            {
-                ReadProperties(n.Node, xmlDoc);
-                StoryNodes.Add(n.Node);
-            }
-        }
-
+        
         /// <summary>
         /// Checks if the node already exists 
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">the id to check if its existing in the _nodes List</param>
+        /// <returns>true when the node exists or false when the node is not in the List</returns>
         private bool CheckNodes(string id)
         {
             foreach (var n in _nodes)
@@ -152,10 +149,12 @@ namespace Code.Dialogue.Story
                     return true;
                 }
             }
-
             return false;
         }
-
+        
+        /// <summary>
+        /// // Remove nodes that ore not needed anymore
+        /// </summary>
         private void RemoveUnusedNodes()
         {
             int i = 0;
@@ -173,6 +172,25 @@ namespace Code.Dialogue.Story
                         n.Node.RemoveChildNode(_nodes[i].Node.name);
                 }
                 _nodes.RemoveAt(i);
+            }
+        }
+        
+        #endregion
+
+        #region Node Properties
+        
+        /// <summary>
+        /// Clears the StoryNodes list
+        /// Reads every property of the xml file and adds the node to the StoryNodes list
+        /// </summary>
+        /// <param name="xmlDoc">The XmlDocument info of the file to read</param>
+        private void ReadXmlAttributes(XmlDocument xmlDoc)
+        {
+            StoryNodes.Clear();
+            foreach (var n in _nodes)
+            {
+                ReadProperties(n.Node, xmlDoc);
+                StoryNodes.Add(n.Node);
             }
         }
         
@@ -230,6 +248,8 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Adds the Child/s to the parent Node
         /// </summary>
+        /// <param name="node">node to add a child node</param>
+        /// <param name="id">comma separated string of all child node ids</param>
         private void AddStoryChild(StoryNode node, string id)
         {
             var ids = id.Split(',');
@@ -243,8 +263,14 @@ namespace Code.Dialogue.Story
                 }
             }
         }
-
         
+        #endregion
+
+        #region Node Position
+
+        /// <summary>
+        /// Sets the Position of all nodes
+        /// </summary>
         private void SetNodePosition()
         {
             foreach (var child in _nodes)
@@ -260,9 +286,9 @@ namespace Code.Dialogue.Story
 
         /// <summary>
         /// Overload of SetNodePosition
-        /// Sets the Position of all nodes
+        /// Sets the Position of all nodes recursive
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">Node to set the position and its children</param>
         private void SetNodePosition(StoryNode node)
         {
             var children = node.ChildNodes;
@@ -287,15 +313,17 @@ namespace Code.Dialogue.Story
         }
 
         #endregion
+        
+        #endregion
 
         #region Create, Add Nodes
 
         /// <summary>
-        /// Creates a new Node and a unique GUID
-        /// Saves the label, id, text and type of the node
+        /// Creates a new Node with a unique GUID
+        /// an id, a label, a text and a type of the node (choice or story boolean)
         /// </summary>
         /// <param name="node">Node name</param>
-        /// <param name="id">Id Attribute in xml File</param>
+        /// <param name="id">Id Attribute from xml File</param>
         /// <param name="isChoice">Declares if Node is a choice or not</param>
         /// <returns>new Node</returns>
         private static StoryNode CreateNode(XmlNode node, string id, bool isChoice)
@@ -315,18 +343,18 @@ namespace Code.Dialogue.Story
         #region Getter and Setter
 
         /// <summary>
-        /// Return the List of DialogueNodes
+        /// Getter to get all nodes
         /// </summary>
-        /// <returns>nodes</returns>
+        /// <returns>Returns the List of DialogueNodes</returns>
         public IEnumerable<StoryNode> GetAllNodes()
         {
             return StoryNodes;
         }
 
         /// <summary>
-        /// Returns all StoryNodes
+        /// Getter to get only the Story nodes
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns all StoryNodes</returns>
         public IEnumerable<StoryNode> GetAllStoryNodes()
         {
             foreach (var node in StoryNodes)
@@ -337,27 +365,28 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Returns all Child nodes from the Parent node
+        /// Getter to get all child nodes of a specific node
         /// </summary>
         /// <param name="parentNode">Parent Node to get the child nodes from</param>
-        /// <returns>Child nodes of the parent Node</returns>
+        /// <returns>Returns all Child nodes from the Parent node</returns>
         public List<StoryNode> GetAllChildNodes(StoryNode parentNode)
         {
             var childNodes = new List<StoryNode>();
             foreach (var nodeId in parentNode.ChildNodes)
-                foreach (var node in _nodes)
+                foreach (var node in StoryNodes)
                 {
-                    if (node.Node.name.Equals(nodeId))
-                        childNodes.Add(node.Node);
+                    if (node.name.Equals(nodeId))
+                        childNodes.Add(node);
                 }
 
             return childNodes;
         }
 
         /// <summary>
-        /// Returns RootNode
+        /// Getter to get the root node
+        /// Searches the node with the root node attribute = true
         /// </summary>
-        /// <returns>if found rootNode else null</returns>
+        /// <returns>Returns the root node if it was found, else returns null </returns>
         public StoryNode GetRootNode()
         {
             foreach (var node in GetAllNodes())
@@ -370,13 +399,13 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Returns all Choice nodes from current node
+        /// Getter to get all choice nodes of a specific node
         /// </summary>
-        /// <param name="currentNode">Current Node to get the choice nodes from</param>
-        /// <returns>All choice nodes of the current Node</returns>
-        public IEnumerable<StoryNode> GetChoiceNodes(StoryNode currentNode)
+        /// <param name="node">Current Node to get the choice nodes from</param>
+        /// <returns>Returns all Choice nodes from current node</returns>
+        public IEnumerable<StoryNode> GetChoiceNodes(StoryNode node)
         {
-            foreach (var child in GetAllChildNodes(currentNode))
+            foreach (var child in GetAllChildNodes(node))
             {
                 if (child.IsChoiceNode)
                     yield return child;
@@ -384,13 +413,13 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Returns all Story nodes from current node
+        /// Getter to get all story nodes of a specific node
         /// </summary>
-        /// <param name="currentNode">Current Node to get the story Nodes from</param>
-        /// <returns>All story nodes of the current Node</returns>
-        public IEnumerable<StoryNode> GetStoryNodes(StoryNode currentNode)
+        /// <param name="node">Current Node to get the story Nodes from</param>
+        /// <returns>Returns all Story nodes from current node</returns>
+        public IEnumerable<StoryNode> GetStoryNodes(StoryNode node)
         {
-            foreach (var child in GetAllChildNodes(currentNode))
+            foreach (var child in GetAllChildNodes(node))
             {
                 if (!child.IsChoiceNode)
                     yield return child;
@@ -402,7 +431,7 @@ namespace Code.Dialogue.Story
         #region AssetDatabase
         
         /// <summary>
-        /// Saves the nodes as a JSON File
+        /// Writes the nodes in a JSON File
         /// </summary>
         private void SaveNodesToJson()
         {
