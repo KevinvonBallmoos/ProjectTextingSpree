@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using Code.Logger;
 using Code.Controller.GameController;
 using Code.Inventory;
+using UnityEngine.Serialization;
 
 namespace Code.Dialogue.Story
 {
@@ -24,25 +25,36 @@ namespace Code.Dialogue.Story
         private readonly GameLogger _logger = new GameLogger("GameManager");
         // Story Holder
         private StoryHolder _storyHolder;
-        // SerializedFields
+        // Text Control that holds the story text
+        [Header("Story Text")]
         [SerializeField] private TextMeshProUGUI story;
+        // Choice objects
+        [Header("Choice Root and Prefab")]
         [SerializeField] private Transform choiceRoot;
         [SerializeField] private GameObject choicePrefab;
+        // Buttons
+        [Header("TopBar Buttons")] 
         [SerializeField] private Button nextButton;
         [SerializeField] private Button pageBackButton;
+        // Object that displays image
+        [Header("Image-holder")]
         [SerializeField] private GameObject[] imageHolder = new GameObject[2];
+        // Object for the save animation
+        [Header("Save Object")]
         [SerializeField] private GameObject saveStatus;
         // Ending Screen
+        [Header("End screen")]
         [SerializeField] private GameObject messageBoxEndScreen;
         // Scrollbar
-        [SerializeField] private Scrollbar _storyScrollbar;
-        // Story Chapter
+        [Header("Scrollbar")]
+        [SerializeField] private Scrollbar storyScrollbar;
+        // Current story chapter
         public StoryAsset currentChapter;
-        //StoryNode
+        // Current node to display
         private StoryNode _nodeToDisplay;
-        // Coroutine
+        // Coroutine for the save status text
         private Coroutine _textCoroutine;
-        // Image, Text of save status
+        // Image and Text of save status
         private Image _saveImage;
         private Text _saveText;
         // Chapter Title
@@ -51,14 +63,14 @@ namespace Code.Dialogue.Story
         #region Start
 
 		/// <summary>
-		/// When the Game starts, gets the story, adds the next button click Event and updates the UI
+		/// Hands over the current chapter to the Story holder
+		/// adds the next button click Event and updates the UI
 		/// </summary>
 		public void Start()
         {
             _storyHolder = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolder>();
             var isSave = _storyHolder.LoadChapterProperties(currentChapter);
-
-            //if (currentChapter == null)
+            
             currentChapter = _storyHolder.CurrentChapter;
             
             _saveImage = saveStatus.GetComponentInChildren<Image>();
@@ -123,8 +135,8 @@ namespace Code.Dialogue.Story
         /// Updates the UI, loads the next story or choice nodes and their properties
         /// Saves the node state
         /// </summary>
-        /// <param name="isSave"></param>
-        /// <param name="isGameOver"></param>
+        /// <param name="isSave">true the game is saved, false then not</param>
+        /// <param name="isGameOver">if true, then only the choices which haven't been selected are visible</param>
         private void UpdateUI(bool isSave, bool isGameOver)
         {
             pageBackButton.gameObject.SetActive(!_nodeToDisplay.IsRootNode);
@@ -140,6 +152,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Updates the bottom UI with, either the choices or the next button
         /// </summary>
+        /// <param name="isGameOver">if true, then only the choices which haven't been selected are visible</param>
         private void UpdateNodeChoice(bool isGameOver)
         {
             // Checks if the current node has children
@@ -196,8 +209,6 @@ namespace Code.Dialogue.Story
             
             // Displays Chapter Title
             gameObject.GetComponentsInChildren<Text>()[0].text = _chapterTitle;
-
-            //Displays Page Back Button, when the last node was a choice
         }
 
         /// <summary>
@@ -220,8 +231,8 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Displays the text char by char, gives a visual effect
         /// </summary>
-        /// <param name="time"></param>
-        /// <param name="text"></param>
+        /// <param name="time">duration of the time to wait till the next letter is printed</param>
+        /// <param name="text">text to print</param>
         /// <returns></returns>
         private IEnumerator TextSlower(float time, string text)
         {
@@ -238,7 +249,7 @@ namespace Code.Dialogue.Story
             }
             
             // Set Scroll view Position
-            _storyScrollbar.value = 1;
+            storyScrollbar.value = 1;
         }
         
         /// <summary>
@@ -254,6 +265,10 @@ namespace Code.Dialogue.Story
             SetSaveStatus(false);
         }
 
+        /// <summary>
+        /// Enables or disables the save status image and text
+        /// </summary>
+        /// <param name="isEnabled">true to enable the objects, false to disable</param>
         private void SetSaveStatus(bool isEnabled)
         {
             _saveImage.enabled = isEnabled;
@@ -276,9 +291,10 @@ namespace Code.Dialogue.Story
         #region Next Chapter / End
         
         /// <summary>
-        /// Loads the next Chapter when the End of Chapter node is reached
-        /// , when the EndOfStoryNode is reached
-        /// Loads the GameOver Screen when the GameOver node is reached
+        /// Loads the next Chapter, when the End of Chapter node is reached
+        /// Loads the next Story, when the EndOfStoryNode is reached
+        /// Loads the GameOver Screen, when the GameOver node is reached
+        /// Loads the End of Tale Screen (End Credits screen), when the Game is finished (Not yet developed)
         /// </summary>
         private void NextChapter()
         {
@@ -325,7 +341,7 @@ namespace Code.Dialogue.Story
         /// Builds the choice list, depending on the count of the nodes
         /// Some choices are only visible for Player with the needed background
         /// </summary>
-        /// <param name="isGameOver"></param>
+        /// <param name="isGameOver">if true, then only the choices which haven't been selected are visible</param>
         private void BuildChoiceList(bool isGameOver)
         {
             foreach (Transform item in choiceRoot)
@@ -359,10 +375,10 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Sets the choice node properties
+        /// Sets the properties of the choice nodes
         /// </summary>
-        /// <param name="choice"></param>
-        /// <param name="isSave"></param>
+        /// <param name="choice">the choice node, to display</param>
+        /// <param name="isSave">true the game is saved, false then not</param>
         private void SetChoice(StoryNode choice, bool isSave)
         {
             var choiceInstance = Instantiate(choicePrefab, choiceRoot);
