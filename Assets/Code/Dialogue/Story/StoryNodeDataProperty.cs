@@ -2,6 +2,11 @@ using System.Collections.Generic;
 
 namespace Code.Dialogue.Story
 {
+    /// <summary>
+    /// Object Class to cache the Story nodes
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">15.08.2023</para>
     public abstract class StoryNodeDataProperty
     {
         protected StoryNodeDataProperty(

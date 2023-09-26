@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 using Code.Controller.GameController;
+using Code.GameData;
 using Code.Logger;
 
 namespace Code.Dialogue.Story

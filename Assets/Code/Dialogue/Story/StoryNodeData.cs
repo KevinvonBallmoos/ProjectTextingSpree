@@ -2,6 +2,11 @@ using System.Collections.Generic;
 
 namespace Code.Dialogue.Story
 {
+    /// <summary>
+    /// Object Class to save the Story nodes
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">15.08.2023</para>
     public class StoryNodeData
     {
         private readonly string _nodeId;
@@ -17,6 +22,10 @@ namespace Code.Dialogue.Story
         private readonly string _background;
         private readonly List<string> _childNodes;
         
+        /// <summary>
+        /// Constructor to save an Object of type StoryNode
+        /// </summary>
+        /// <param name="node">contains all properties</param>
         public StoryNodeData(StoryNode node)
         {
             _nodeId = node.NodeId;

@@ -373,7 +373,7 @@ namespace Code.Controller.GameController
         private void SaveNewGame()
         {
             _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
-            var gameData = new GameData(new SaveData
+            var gameData = new GameData.GameData(new SaveData
             {
                 PlayerName = PlayerName,
                 PlayerBackground = PlayerBackground, 
@@ -413,7 +413,7 @@ namespace Code.Controller.GameController
             if (progress <= LoadedData[_placeholderNum].ProgressPercentage)
                 progress += Math.Round(LoadedData[_placeholderNum].ProgressPercentage, 2);
             
-            var gameData = new GameData(
+            var gameData = new GameData.GameData(
                 new SaveData
                 {
                     PlayerName = PlayerName,

@@ -1,4 +1,5 @@
 using System.IO;
+using Code.Controller.FileControllers;
 using UnityEngine;
 
 using Code.Controller.GameController;
@@ -30,25 +31,11 @@ namespace Code.GameData
                 placeholder = files.Length - 1;
             
             // Deletes the file
-            File.Delete(files[placeholder]);
+            FileController.DeleteFile(files[placeholder]);
             // Updates the placeholder view
             GameDataController.Gdc.LoadDataIntoPlaceholders();
             // Sorts the other save files
-            SortFiles();
-        }
-        
-        /// <summary>
-        /// Sorts and renames the Files after one was deleted
-        /// </summary>
-        private static void SortFiles()
-        {
-            var files = Directory.GetFiles(SaveDataPath);
-            for (int i = 0; i < files.Length; i++)
-            {
-                var file = Path.GetFileName(files[i]);
-                var newFile = Path.GetDirectoryName(files[i]) + "\\" + file.Replace(file.Substring(0,10), "SaveGame_" +  (i + 1));
-                File.Move(files[i], newFile);
-            }
+            FileController.SortSaveFiles();
         }
     }
 }
