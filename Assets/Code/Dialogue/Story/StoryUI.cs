@@ -283,7 +283,7 @@ namespace Code.Dialogue.Story
         {
             var item = _storyHolder.GetItem();
             if (!item.Equals(""))
-                InventoryController.instance.AddItem(item);
+                InventoryController.Ic.AddItem(item);
         }
         
         #endregion

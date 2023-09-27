@@ -48,7 +48,7 @@ namespace Code.Controller.GameController
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
-        // GameDataController
+        // GameDataController instance
         public static GameDataController Gdc;
         // Load save
         [Header("Load Game Text")]

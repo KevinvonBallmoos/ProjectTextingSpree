@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
-using Code.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
+
+using Code.Inventory;
 
 namespace Code.UI
 {
@@ -15,7 +15,7 @@ namespace Code.UI
         [SerializeField] private GameObject mapCanvas;
         [SerializeField] private GameObject menuCanvas;
 
-        private List<ItemSlot> _itemSlotList = new ();
+        private readonly List<ItemSlot> _itemSlotList = new ();
         public GameObject itemSlotPrefab;
         public Transform inventoryItemTransform;
 
@@ -25,7 +25,7 @@ namespace Code.UI
         
         private void Start()
         {
-            Inventory.Inventory._instance._onItemChange += UpdateInventoryUI;
+            Inventory.Inventory.Instance.OnItemChangeDelegate += UpdateInventoryUI;
             UpdateInventoryUI();
             
             inventoryButton.onClick.AddListener(Inventory_Click);
@@ -39,7 +39,7 @@ namespace Code.UI
         private void UpdateInventoryUI()
         {
             // First we check the count of the items in our inventory.
-            int currentItemCount = Inventory.Inventory._instance._inventoryItemList.Count;
+            int currentItemCount = Inventory.Inventory.Instance.inventoryItemList.Count;
             
             // // Check if we have enough item slots.
             if (currentItemCount > _itemSlotList.Count)
@@ -53,7 +53,7 @@ namespace Code.UI
                 if (i < currentItemCount)
                 {
                     // Update the current item in the slot
-                    _itemSlotList[i].AddItem(Inventory.Inventory._instance._inventoryItemList[i]);
+                    _itemSlotList[i].AddItem(Inventory.Inventory.Instance.inventoryItemList[i]);
                 }
                 else
                 {

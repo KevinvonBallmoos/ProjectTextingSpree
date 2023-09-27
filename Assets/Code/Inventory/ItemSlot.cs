@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using Code.Controller.GameController;
+using UnityEngine.Serialization;
+
 namespace Code.Inventory
 {
     public class ItemSlot : MonoBehaviour
     {
-        public Image _icon;
+        // Image icon
+        public Image icon;
+        // Item
         private Item _item;
 
         /// <summary>
@@ -15,7 +20,7 @@ namespace Code.Inventory
         public void AddItem(Item newItem)
         {
             _item = newItem;
-            _icon.sprite = newItem._icon;
+            icon.sprite = newItem._icon;
         }
 
         /// <summary>
@@ -24,13 +29,11 @@ namespace Code.Inventory
         public void UseItem()
         {
             if (_item != null)
-            {
                 _item.Use();
-            }
         }
 
         /// <summary>
-        /// Distroy item slot, so that other items can be created.
+        /// Destroy item slot, so that other items can be created.
         /// </summary>
         public void DestroySlot()
         {
@@ -43,9 +46,7 @@ namespace Code.Inventory
         public void OnRemoveButtonClicked()
         {
             if (_item != null)
-            {
-                Inventory._instance.RemoveItem(_item);
-            }
+                Inventory.Instance.RemoveItem(_item);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Code.Inventory
         public void OnCourserEnter()
         {
             // Call the data from the GameManager script
-            InventoryController.instance.DisplayItemInfo(_item.name, _item.GetItemDescription(), transform.position);
+            InventoryController.Ic.DisplayItemInfo(_item.name, _item.GetItemDescription(), transform.position);
         }
         
         /// <summary>
@@ -62,7 +63,7 @@ namespace Code.Inventory
         /// </summary>
         public void OnCourserExit()
         {
-            InventoryController.instance.DestroyItemInfo();
+            InventoryController.Ic.DestroyItemInfo();
         }
     }
 }

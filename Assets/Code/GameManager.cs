@@ -23,7 +23,7 @@ namespace Code
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
-        // GameManager
+        // GameManager instance
         public static GameManager Gm;
         // Story UI
         private static StoryUI _storyUI;
