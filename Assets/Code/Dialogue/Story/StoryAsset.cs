@@ -94,7 +94,7 @@ namespace Code.Dialogue.Story
                     {
                         var node = CreateInstance<StoryNode>();
                         node.InitializeStoryNode(n);
-                        _nodes.Add(new NodeInfo { Node = node });
+                        _nodes.Add(new NodeInfo { Node = node, IsTrue = false});
                     }
                 }
             }
@@ -123,15 +123,15 @@ namespace Code.Dialogue.Story
         /// Checks if the nodes exists
         /// if not a new node is created
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="isChoice"></param>
+        /// <param name="node">node to create</param>
+        /// <param name="isChoice">true if the node is a choice node</param>
         private void ProcessNode(XmlNode node, bool isChoice)
         {
             var id = node.Attributes?[0].Value;
             if (CheckNodes(id)) return;
 
             var newNode = CreateNode(node, id, isChoice);
-            _nodes.Add(new NodeInfo { NodeId = id, Node = newNode });
+            _nodes.Add(new NodeInfo { NodeId = id, Node = newNode, IsTrue = true});
         }
         
         /// <summary>

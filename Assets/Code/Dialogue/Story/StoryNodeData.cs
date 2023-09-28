@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Code.Dialogue.Story
 {
@@ -7,20 +8,21 @@ namespace Code.Dialogue.Story
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">15.08.2023</para>
+    [System.Serializable]
     public class StoryNodeData
     {
-        private readonly string _nodeId;
-        private readonly string _labelText;
-        private readonly string _text;
-        private readonly bool _isChoiceNode;
-        private readonly bool _isRootNode;
-        private readonly bool _isEndOfStory;
-        private readonly bool _isEndOfChapter;
-        private readonly bool _isGameOver;
-        private readonly string _image;
-        private readonly string _item;
-        private readonly string _background;
-        private readonly List<string> _childNodes;
+        [JsonProperty] private readonly string _nodeId;
+        [JsonProperty] private readonly string _labelText;
+        [JsonProperty] private readonly string _text;
+        [JsonProperty] private readonly bool _isChoiceNode;
+        [JsonProperty] private readonly bool _isRootNode;
+        [JsonProperty] private readonly bool _isEndOfStory;
+        [JsonProperty] private readonly bool _isEndOfChapter;
+        [JsonProperty] private readonly bool _isGameOver;
+        [JsonProperty] private readonly string _image;
+        [JsonProperty] private readonly string _item;
+        [JsonProperty] private readonly string _background;
+        [JsonProperty] private readonly List<string> _childNodes;
         
         /// <summary>
         /// Constructor to save an Object of type StoryNode
@@ -28,18 +30,18 @@ namespace Code.Dialogue.Story
         /// <param name="node">contains all properties</param>
         public StoryNodeData(StoryNode node)
         {
-            _nodeId = node.NodeId;
-            _labelText = node.LabelText;
-            _text = node.Text;
-            _isChoiceNode = node.IsChoiceNode;
-            _isRootNode = node.IsRootNode;
-            _isEndOfStory = node.IsEndOfPart;
-            _isEndOfChapter = node.IsEndOfChapter;
-            _isGameOver = node.IsGameOver;
-            _image = node.Image;
-            _item = node.Item;
             _background = node.Background;
             _childNodes = node.ChildNodes;
+            _image = node.Image;
+            _isChoiceNode = node.IsChoiceNode;
+            _isEndOfChapter = node.IsEndOfChapter;
+            _isEndOfStory = node.IsEndOfPart;
+            _isGameOver = node.IsGameOver;
+            _isRootNode = node.IsRootNode;
+            _item = node.Item;
+            _labelText = node.LabelText;
+            _nodeId = node.NodeId;
+            _text = node.Text;
         }
     }
 }

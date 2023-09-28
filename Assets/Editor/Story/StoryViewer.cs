@@ -101,7 +101,10 @@ namespace Editor.Story
             if (!File.Exists(jsonPath)) return;
             
             File.Delete(jsonPath);
-            File.Delete(AssetDatabase.GetAssetPath(selectedAsset));
+            
+            var assetPath = Path.Combine(Application.dataPath, "Resources", "StoryAssets/" + selectedAsset.name + ".asset");
+            if (File.Exists(assetPath))
+                File.Delete(assetPath);
 
             if (storyViewer != null)
             {
