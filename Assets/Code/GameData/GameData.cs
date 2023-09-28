@@ -1,3 +1,4 @@
+using Code.Controller.GameController;
 using Code.Dialogue.Story;
 
 namespace Code.GameData

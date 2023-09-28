@@ -13,28 +13,31 @@ namespace Code.Dialogue.Story
     public class StoryNode : ScriptableObject
     {
         // Text that is in the node
+        [Header("Story Text")]
         [SerializeField] internal string text;
-        // Text that is in the node
+        // Node id, name
+        [Header("Node ID and Name")]
         [SerializeField] internal string labelText;
-        // Node id
         [SerializeField] internal string nodeId;
         // States and Nodes
+        [Header("States and Nodes")]
         [SerializeField] internal bool isChoiceNode;
         [SerializeField] internal bool isRootNode;
-        [SerializeField] internal bool isEndOfStory;
+        [SerializeField] internal bool isEndOfPart;
         [SerializeField] internal bool isEndOfChapter;
         [SerializeField] internal bool isGameOver;
-        // Image
+        // Image, item and Player Character
+        [Header("Image, item and Player Character")]
         [SerializeField] internal string image;
-        // Item
         [SerializeField] internal string item = "";
-        // Player Character
         [SerializeField] internal string background = "";
-        // Combat
+        // Combat (Not yet developed)
         [SerializeField] internal string combat;
         // ChildNodes
+        [Header("Child nodes")]
         [SerializeField] internal List<string> childNodes = new ();
         // Rect of Editor
+        [Header("Rects")]
         [SerializeField] internal Rect storyRect = new (10, 10, 300, 180);
         [SerializeField] internal Rect textRect;
         
@@ -43,7 +46,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Initializes a new StoryNode
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">needed to serialize and deserialize the story nodes</param>
         public void InitializeStoryNode(StoryNodeDataProperty node)
         {
             NodeId = node.NodeId;
@@ -51,7 +54,7 @@ namespace Code.Dialogue.Story
             Text = node.Text;
             IsChoiceNode = node.IsChoiceNode;
             IsRootNode = node.IsRootNode;
-            IsEndOfStory = node.IsEndOfStory;
+            IsEndOfPart = node.IsEndOfStory;
             IsEndOfChapter = node.IsEndOfChapter;
             IsGameOver = node.IsGameOver;
             Image = node.Image;
@@ -94,10 +97,10 @@ namespace Code.Dialogue.Story
             set => isRootNode = value;
         }
 
-        public bool IsEndOfStory
+        public bool IsEndOfPart
         {
-            get => isEndOfStory;
-            set => isEndOfStory = value;
+            get => isEndOfPart;
+            set => isEndOfPart = value;
         }
 
         public bool IsEndOfChapter
@@ -163,7 +166,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Adds the node name to the child nodes list
         /// </summary>
-        /// <param name="childId"></param>
+        /// <param name="childId">child to add to the list</param>
         public void AddChildNode(string childId)
         {
             foreach (var c in ChildNodes)
@@ -177,7 +180,7 @@ namespace Code.Dialogue.Story
         /// <summary>
         /// Removes node from child nodes
         /// </summary>
-        /// <param name="childId"></param>
+        /// <param name="childId">child to remove from the list</param>
         public void RemoveChildNode(string childId)
         {
             ChildNodes.Remove(childId);

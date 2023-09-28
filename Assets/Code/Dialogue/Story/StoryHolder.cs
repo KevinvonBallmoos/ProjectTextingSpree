@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Code.Controller.GameController;
 using Code.GameData;
 using Code.Logger;
 
@@ -16,29 +17,34 @@ namespace Code.Dialogue.Story
     public class StoryHolder : MonoBehaviour
     {
         // Logger
-        private readonly GameLogger _logger = new GameLogger("StoryHolder");
-        // Dialogue and Nodes
+        //private readonly GameLogger _logger = new GameLogger("StoryHolder");
+        // Current Chapter
         [NonSerialized] public StoryAsset CurrentChapter;
+        // Current node 
         [NonSerialized] private StoryNode _currentNode;
+        // Selected choice node
         [NonSerialized] private StoryNode _selectedChoice;
-        // Booleans
+        // Story node or not
         [NonSerialized] public bool IsStoryNode;
-
+        // Stores all story nodes
         private StoryNode[] _pastStoryNodes;
+        // Stores all selected choices
         private StoryNode[] _selectedChoices;
+        // node indexes
         private int _nodeIndex;
         private int _choiceIndex;
         
 		#region Load Chapter
 
 		/// <summary>
-		/// Loads the Save Data or Starts a new Chapter
+		/// Sets the Information for the current chapter and nodes (New Game),
+		/// or has to get the information from the savedata (Load Game)
 		/// </summary>
 		/// <param name="chapter">Is either null or a new chapter</param>
+		/// <returns>True if the chapter is not null, and false if the chapter was null</returns>
         public bool LoadChapterProperties(StoryAsset chapter)
         {
             _choiceIndex = 0;
-            var isSave = true;
             _pastStoryNodes = Array.Empty<StoryNode>();
             _selectedChoices = Array.Empty<StoryNode>();
             
@@ -54,6 +60,9 @@ namespace Code.Dialogue.Story
                 
                 _nodeIndex = 0;
                 IsStoryNode = false;
+                
+                TimeAndProgress.CalculateProgress(CurrentChapter.name);
+                return true;
             }
             else
             {
@@ -99,10 +108,10 @@ namespace Code.Dialogue.Story
                 }
 
                 _nodeIndex = int.Parse(saveData.NodeIndex);
-                isSave = false;
+                
+                TimeAndProgress.CalculateProgress(CurrentChapter.name);
+                return false;
             }
-            TimeAndProgress.CalculateProgress(CurrentChapter.name);
-            return isSave;
         }
         
         #endregion
@@ -130,6 +139,10 @@ namespace Code.Dialogue.Story
             return _currentNode;
         }
 
+        /// <summary>
+        /// Gets the node that was selected before
+        /// </summary>
+        /// <returns></returns>
         public StoryNode GetNodeBefore()
         {
             _nodeIndex--;
@@ -137,10 +150,11 @@ namespace Code.Dialogue.Story
         }
         
         /// <summary>
-        /// 
+        /// Checks if the array with selected choices contains the choice node
+        /// Sets the selected choice if it was found
         /// </summary>
         /// <param name="choices"></param>
-        /// <returns></returns>
+        /// <returns>true if the selected choice was found</returns>
         public bool CheckSelectedChoices(IEnumerable<StoryNode> choices)
         {
             foreach (var c in choices)
@@ -170,15 +184,20 @@ namespace Code.Dialogue.Story
         #region Getter
         
         /// <summary>
-        /// Returns true if the current node has children
+        /// Get all child nodes from a specific node
         /// </summary>
-        /// <param name="nodeToDisplay">currentNode</param>
-        /// <returns></returns>
+        /// <param name="nodeToDisplay">from this node the child nodes are needed</param>
+        /// <returns>list of all child nodes from a specific node</returns>
         public List<StoryNode> HasMoreNodes(StoryNode nodeToDisplay)
         {
             return CurrentChapter.GetAllChildNodes(nodeToDisplay);
         }
 
+        /// <summary>
+        /// Get all choice nodes from a specific node
+        /// </summary>
+        /// <param name="nodeToDisplay">rom this node the choice nodes are needed</param>
+        /// <returns>list of all choice nodes from a specific node</returns>
         public IEnumerable<StoryNode> GetChoices(StoryNode nodeToDisplay)
         {
             return CurrentChapter.GetChoiceNodes(nodeToDisplay);
@@ -209,9 +228,11 @@ namespace Code.Dialogue.Story
             return _selectedChoice;
         }
 
+        #region  node Properties
+        
         public bool GetIsEndOfStory()
         {
-            return _currentNode.IsEndOfStory;
+            return _currentNode.IsEndOfPart;
         }
         
         public bool GetIsEndOfChapter()
@@ -234,6 +255,8 @@ namespace Code.Dialogue.Story
             return _currentNode.Item;
         }
 
+        #endregion
+        
         #endregion
     }
 }

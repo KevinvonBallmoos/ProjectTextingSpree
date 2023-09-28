@@ -7,16 +7,15 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-using Code.Controller;
+using Code.Controller.FileControllers;
 using Code.Dialogue.Story;
-using Code.GameData;
+using Code.Controller.GameController;
 using Code.Logger;
-using Debug = UnityEngine.Debug;
 
 namespace Code
 {
     /// <summary>
-    /// Is in Control of the Story
+    /// Is in Control of the Game, Story and handles the Scenes
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">11.01.2023</para>
@@ -24,12 +23,12 @@ namespace Code
     {
         // Logger
         private readonly GameLogger _logger = new GameLogger("GameManager");
-        // GameManager
+        // GameManager instance
         public static GameManager Gm;
         // Story UI
         private static StoryUI _storyUI;
-        // Menu, Message Box and Character Screen Objects
-        [Header("Menu, Save and Message Box Screen Objects")]
+        // Main Menu, Save and Message Box Objects
+        [Header("Main Menu, Save and Message Box Screens")]
         [SerializeField] private GameObject[] screenObjects;
         [SerializeField] private GameObject[] messageBox;
         // Message Box Game Over Screen Object
@@ -50,17 +49,17 @@ namespace Code
 		// States of the Game
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
-        [NonSerialized] public bool IsEndOfStory;
-        // Menu Option TextSpeed
-        private bool _isTextSlowed = true; 
-        // Various variables
+        [NonSerialized] public bool IsEndOfPart;
+        // Active Scene
+        [NonSerialized] public static int ActiveScene;
+        // Chapter, Part and Path
         private int _chapter;
-        private int _part; 
-        public static int ActiveScene;
+        private int _part;
         private string _runPath;
-        private string _storyPath;
         // Regex Pattern for InputField
         private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
+        
+        // TODO : GetInstance Method like StoryViewer for Gm
 
         #region Awake and Start
 
@@ -77,8 +76,11 @@ namespace Code
         /// <summary>
         /// Start of the GameManager
         /// Sets the path, chapter and active scene
+        /// Creates necessary Folders
         /// When the Game is started (buildIndex = 0) -> loads the Save Files and displays them on the Paper Object
         /// When another Scene was loaded (buildIndex = 1 - 3) -> instantiates the story script
+        /// This is needed, because the GameManager is existing in all scenes,
+        /// this determines from which scene the GameManager is started
         /// </summary>
         private void Start()
         {
@@ -88,7 +90,7 @@ namespace Code
                 _chapter = 1;
                 ActiveScene = 0;
                 
-                CreateFolders();
+                FileController.CreateFolders();
                 
                 if (SceneManager.GetActiveScene().buildIndex == 0)
                     GameDataController.Gdc.LoadGame();
@@ -98,32 +100,16 @@ namespace Code
             }
             catch (Exception ex)
             {
+                // TODO: Maybe quit Game??
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
 
         #endregion
-        
-        #region Folders
-        
-        /// <summary>
-        /// Creates Folders
-        /// SaveData: stores the Save Data from the Game
-        /// StoryAssets: stores the node Information as Json files
-        /// </summary>
-        private static void CreateFolders()
-        {
-            var folders = new [] { "/SaveData", "/StoryAssets" };
-            foreach (var f in folders)
-            {
-                if (Directory.Exists(Application.persistentDataPath + f)) return;
-                Directory.CreateDirectory(Application.persistentDataPath + f);
-            }
-        }
-        
-        #endregion
 
         #region Game State Button Events
+        
+        #region Game States
         
         /// <summary>
         /// Opens the character select window and disables the select Images
@@ -138,9 +124,11 @@ namespace Code
             {
                 var image = c.GetComponentsInChildren<Image>()[2];
                 image.enabled = false;
+                // Sets the scrollbar to the top
                 var scrollbar = c.GetComponentInChildren<Scrollbar>();
                 scrollbar.value = 1;
             }
+            // Adds Listener,to go back to the menu
             buttons[0].onClick.AddListener(BackToMainMenu_Click);
         }
 
@@ -165,34 +153,53 @@ namespace Code
             }
             else
             {
-                GameDataController.Gdc.SetSaveScreen("NEW GAME", 1);
+                GameDataController.Gdc.InitializeSaveDataPanel("NEW GAME", 1);
                 screenObjects[2].SetActive(false);
                 SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlController.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);
             }
         }
+        
+        #endregion
 
+        #region Page Scroll
+        
+        /// <summary>
+        /// Displays the 2nd Character Page
+        /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
             characterPages[0].SetActive(false);
             characterPages[1].SetActive(true);
             ChangeButtonProperties(ScrollPreviousCharacterPage_CLick, "Go back", false);
-
         }
 
+        /// <summary>
+        /// Displays the 1st Character Page
+        /// </summary>
         private void ScrollPreviousCharacterPage_CLick()
         {
             characterPages[0].SetActive(true);
             characterPages[1].SetActive(false);
             ChangeButtonProperties(BackToMainMenu_Click, "Back to Menu", true);
         }
+        
+        #endregion
 
+        /// <summary>
+        /// Removes all Listeners on the Button
+        /// Adds a new Listener
+        /// Sets the Button Text
+        /// </summary>
+        /// <param name="eventMethod">Listener Method to add to the Button</param>
+        /// <param name="text">For the Button caption</param>
+        /// <param name="isEnabled">If character page 2 is active, the Button in the top right corner is disabled</param>
         private void ChangeButtonProperties(UnityAction eventMethod, string text, bool isEnabled)
         {
             buttons[0].onClick.RemoveAllListeners();
             buttons[0].onClick.AddListener(eventMethod);
             buttons[0].GetComponentInChildren<Text>().text = text;
-            
+            // On Character Page 2 this Button is disabled
             buttons[1].gameObject.SetActive(isEnabled);
         }
         
@@ -201,17 +208,23 @@ namespace Code
         #region Next Chapter / Story or End
         
         /// <summary>
-        /// Update Method
-        /// Checks the status if its Game Over, end of Chapter or end of story
+        /// Checks the status of the Game every frame
+        /// 1. End of the current Chapter
+        /// 2. End of the current Story Part
+        /// 3. Game over
+        /// 4. The Game is finished
         /// </summary>
         private void Update()
         {
             if (IsEndOfChapter)
                 LoadNextChapter();
-            if (IsEndOfStory)
+            if (IsEndOfPart)
                 LoadNextStoryPart();
             if (IsGameOver)
                 LoadGameOverScreen();
+            // TODO: EndCreditScene
+            // if (IsEndOfTale)
+            //     LoadEndCreditScene();
         }
 
         /// <summary>
@@ -223,10 +236,10 @@ namespace Code
             IsEndOfChapter = false;
             _part = GetPath();
             _chapter++;
-            _storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
+            var storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
             
-            if (!File.Exists($@"{_runPath}{_storyPath}")) return;
-            _storyUI.currentChapter = Resources.Load<StoryAsset>(_storyPath.Replace(".asset", ""));
+            if (!File.Exists($@"{_runPath}{storyPath}")) return;
+            _storyUI.currentChapter = Resources.Load<StoryAsset>(storyPath.Replace(".asset", ""));
             _logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
 
@@ -235,7 +248,7 @@ namespace Code
         /// </summary>
         private void LoadNextStoryPart()
         {
-            IsEndOfStory = false;
+            IsEndOfPart = false;
             _part++;
             _logger.LogEntry("GameManager Log", $"Next Story Part: Story{_part}Chapter{_chapter}",
                 GameLogger.GetLineNumber());
@@ -268,10 +281,10 @@ namespace Code
         
         #endregion
         
-        #region Next Chapter / Story Button Events
+        #region Next Chapter / Next Part Button Events
         
         /// <summary>
-        /// When the next chapter Button is clicked
+        /// Starts the new Chapter
         /// </summary>
         public void NextChapter_Click()
         {
@@ -279,9 +292,12 @@ namespace Code
         }
 
         /// <summary>
-        /// When the next story Button is clicked
+        /// Switching between scenes
+        /// 1 => 2 NewGameScene to StoryScene1
+        /// 2 => 3 StoryScene1 to StoryScene2
+        /// 3 => 2 StoryScene2 to StoryScene1
         /// </summary>
-        public void NextStory_Click()
+        public void NextPart_Click()
         {
             ActiveScene = ActiveScene switch
             {
@@ -299,7 +315,9 @@ namespace Code
         #region Inputfield Events
 
         /// <summary>
-        /// Handles the event when the user starts writing
+        /// Is triggered, when the value of the input field changes
+        /// Compares the last entered char of the input with the regex string
+        /// if the input does not match, the last entered char is removed
         /// </summary>
         public void InputField_OnValueChanged()
         {
@@ -320,7 +338,8 @@ namespace Code
         }
 
         /// <summary>
-        ///  When the 
+        /// Is triggered when the User submits the Username
+        /// It checks if the input is empty or not
         /// </summary>
         private bool InputField_OnSubmit()
         {
@@ -336,8 +355,8 @@ namespace Code
         /// <summary>
         /// Sets the properties of the MessageBox
         /// </summary>
-        /// <param name="eventMethod"></param>
-        /// <param name="text"></param>
+        /// <param name="eventMethod">Listener to add to the Button</param>
+        /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string text)
         {
             messageBox[0].GetComponent<Button>().onClick.RemoveAllListeners();
@@ -349,6 +368,10 @@ namespace Code
 
         #region Main Menu
 
+        /// <summary>
+        /// Hides the Message Box
+        /// Loads the MainMenu Scene
+        /// </summary>
         public void BackToMainMenu_Click()
         {
             messageBoxGameOver.SetActive(false);
@@ -357,7 +380,7 @@ namespace Code
         }
 
 		/// <summary>
-		/// Loads the next Scene
+		/// Loads the Scene saved in the 'ActiveScene' variable
 		/// </summary>
 		public static void LoadScene()
 		{
@@ -367,24 +390,13 @@ namespace Code
 		#endregion
 
         #region Menu Options
-
+        
         /// <summary>
-        /// Sets the isTextSlowed Property
+        /// Menu Option Property :
+        /// true  : the Story Text will appear letter by letter
+        /// false : the Story Text will appear directly
         /// </summary>
-        /// <param name="isSlowed"></param>
-        public void SetIsTextSlowed(bool isSlowed)
-        {
-            _isTextSlowed = isSlowed;
-        }
-
-        /// <summary>
-        /// Gets the isTextSlowed Property
-        /// </summary>
-        /// <returns></returns>
-        public bool GetIsTextSlowed()
-        {
-            return _isTextSlowed;
-        }
+        public bool IsTextSlowed { get; set; }
 
         #endregion
     }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using Code.Dialogue.Story;
 using UnityEngine;
 using Object = UnityEngine.Object;
+
+using Code.Dialogue.Story;
 
 namespace Code.GameData
 {

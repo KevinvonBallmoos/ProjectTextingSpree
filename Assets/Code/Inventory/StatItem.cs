@@ -1,35 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
-using Code;
 using UnityEngine;
+
+using Code.Controller.GameController;
+using UnityEngine.Serialization;
 
 namespace Code.Inventory
 {
+    /// <summary>
+    /// This class holds the Stat Items
+    /// </summary>
+    /// <para name="author">Kastriot Dulla</para>
+    /// <para name="date">11.01.2023</para>
     [System.Serializable]
     [CreateAssetMenu(fileName = "StatItem", menuName = "Item/statItem")]
     public class StatItem : Item
     {
-        public StatItemType _itemType;
-        public int _amount;
+        public StatItemType itemType;
+        public int amount;
         
         /// <summary>
-        /// Use the actual item. Similar to the baseItem.
+        /// Use the actual item
         /// </summary>
         public override void Use()
         {
             base.Use();
-            InventoryController.instance.OnStatItemUse(_itemType, _amount);
-            Inventory._instance.RemoveItem(this);
+            InventoryController.Ic.OnStatItemUse(itemType, amount);
+            Inventory.Instance.RemoveItem(this);
         }
     }
     
     /// <summary>
-    /// The item types, that can be created.
+    /// Enumeration of several item types, that can be created.
     /// </summary>
     public enum StatItemType
     {
-        HealtItem,
+        HealthItem,
         ThirstItem,
-        FoodItem,
+        FoodItem
     }
 }

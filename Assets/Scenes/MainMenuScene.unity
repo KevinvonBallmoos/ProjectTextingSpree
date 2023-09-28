@@ -613,7 +613,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 868398589}
         m_TargetAssemblyTypeName: Code.SaveManager.SaveManager, Assembly-CSharp
-        m_MethodName: LoadDataIntoSlots
+        m_MethodName: LoadDataIntoPlaceholders
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2045,8 +2045,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69620c1cc3546774cb68e5eff57d4ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chosenCharacter: {fileID: 1785532806}
-  characterTitle: {fileID: 1359107606}
+  character: {fileID: 1785532806}
+  characterName: {fileID: 1359107606}
 --- !u!1 &494401944
 GameObject:
   m_ObjectHideFlags: 0
@@ -2379,8 +2379,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69620c1cc3546774cb68e5eff57d4ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chosenCharacter: {fileID: 1785532806}
-  characterTitle: {fileID: 823264673}
+  character: {fileID: 1785532806}
+  characterName: {fileID: 823264673}
 --- !u!114 &538086273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4006,13 +4006,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadGameText: {fileID: 1745167593}
-  saveSlot1: {fileID: 1233027385}
-  saveSlot2: {fileID: 1063572619}
-  saveSlot3: {fileID: 2067775538}
-  mainMenuScreen: {fileID: 1341287985}
-  messageBoxScreen: {fileID: 158730989}
-  characterPropertiesScreen: {fileID: 1163822378}
-  slotView: {fileID: 1885663667}
+  placeholders:
+  - {fileID: 1233027385}
+  - {fileID: 1063572619}
+  - {fileID: 2067775538}
+  screenObjects:
+  - {fileID: 1341287985}
+  - {fileID: 158730989}
+  - {fileID: 1163822378}
+  placeholderView: {fileID: 1885663667}
 --- !u!4 &868398590
 Transform:
   m_ObjectHideFlags: 0
@@ -4179,8 +4181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69620c1cc3546774cb68e5eff57d4ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chosenCharacter: {fileID: 1785532806}
-  characterTitle: {fileID: 1489612240}
+  character: {fileID: 1785532806}
+  characterName: {fileID: 1489612240}
 --- !u!1 &901522383
 GameObject:
   m_ObjectHideFlags: 0
@@ -7443,8 +7445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69620c1cc3546774cb68e5eff57d4ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chosenCharacter: {fileID: 1785532806}
-  characterTitle: {fileID: 1945978212}
+  character: {fileID: 1785532806}
+  characterName: {fileID: 1945978212}
 --- !u!114 &1372157407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8908,7 +8910,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 868398589}
-        m_TargetAssemblyTypeName: Code.GameData.GameDataController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Code.Controller.GameController.GameDataController,
+          Assembly-CSharp
         m_MethodName: RemoveData_Click
         m_Mode: 1
         m_Arguments:
@@ -10107,7 +10110,7 @@ GameObject:
   - component: {fileID: 1831615818}
   - component: {fileID: 1831615817}
   m_Layer: 5
-  m_Name: LoadingPaper
+  m_Name: SaveSlotPanel
   m_TagString: SaveGame
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10285,7 +10288,7 @@ GameObject:
   - component: {fileID: 1885663668}
   - component: {fileID: 1885663669}
   m_Layer: 5
-  m_Name: Slotview
+  m_Name: PlaceholderView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10643,7 +10646,7 @@ MonoBehaviour:
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

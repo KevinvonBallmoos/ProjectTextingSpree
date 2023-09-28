@@ -2,38 +2,11 @@ using System.Collections.Generic;
 
 namespace Code.Dialogue.Story
 {
-    public class StoryNodeDataProperty
-    {
-        public StoryNodeDataProperty(string nodeId, string labelText, string text, bool isChoiceNode, bool isRootNode, bool isEndOfStory, bool isEndOfChapter, bool isGameOver, string image, string item, string background, List<string> childNodes)
-        {
-            NodeId = nodeId;
-            LabelText = labelText;
-            Text = text;
-            IsChoiceNode = isChoiceNode;
-            IsRootNode = isRootNode;
-            IsEndOfStory = isEndOfStory;
-            IsEndOfChapter = isEndOfChapter;
-            IsGameOver = isGameOver;
-            Image = image;
-            Item = item;
-            Background = background;
-            ChildNodes = childNodes;
-        }
-
-        public string NodeId { get; }
-        public string LabelText { get;}
-        public string Text { get; }
-        public bool IsChoiceNode { get; }
-        public bool IsRootNode { get; }
-        public bool IsEndOfStory { get; }
-        public bool IsEndOfChapter { get; }
-        public bool IsGameOver { get; }
-        public string Image { get; }
-        public string Item { get; }
-        public string Background { get; }
-        public List<string> ChildNodes { get; }
-    }
-    
+    /// <summary>
+    /// Object Class to save the Story nodes
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">15.08.2023</para>
     public class StoryNodeData
     {
         private readonly string _nodeId;
@@ -49,6 +22,10 @@ namespace Code.Dialogue.Story
         private readonly string _background;
         private readonly List<string> _childNodes;
         
+        /// <summary>
+        /// Constructor to save an Object of type StoryNode
+        /// </summary>
+        /// <param name="node">contains all properties</param>
         public StoryNodeData(StoryNode node)
         {
             _nodeId = node.NodeId;
@@ -56,7 +33,7 @@ namespace Code.Dialogue.Story
             _text = node.Text;
             _isChoiceNode = node.IsChoiceNode;
             _isRootNode = node.IsRootNode;
-            _isEndOfStory = node.IsEndOfStory;
+            _isEndOfStory = node.IsEndOfPart;
             _isEndOfChapter = node.IsEndOfChapter;
             _isGameOver = node.IsGameOver;
             _image = node.Image;
