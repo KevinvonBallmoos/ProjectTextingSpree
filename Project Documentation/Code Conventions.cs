@@ -1,11 +1,15 @@
 ﻿// ## 2.1 Using ## //
+
 // Other Libraries
+using NewtonSoft.Json;
 using Unity.Engine;
+using Syste.LINQ;
+
 // Own Class
-// using Other.OwnClass; 
+using Other.OwnClass; 
 
 // Logger Using
-// using Code.Logger;
+using Code.Logger;
 
 // Adjust namespaces, according to Folder structure
 // Curly Brackets are below the Code and not on the same Line
@@ -18,30 +22,41 @@ namespace DefaultNamespace
     /// <para name="date">24.11.2022</para>
     public class Code_Convention
     {
-        // Logger Instantiate
+		// ## 2.2 Class Variables ## //
+
+        // 1. Logger Instantiate, underscore, lowerCamelCase
         private readonly GameLogger _logger = new GameLogger("DialogueEditor");
-        
-        // ## 2.2 Class Variables ## //
-        // Visible only in own class, Variable beginns with a underscore
-        private string _nameOfCar;
-        // Visible in own class and Unity Editor, no underscore
+		
+		// 2. Other class variable, Visible in own class, underscore, lowerCamelCase
+		private OtherClass _newClass;
+
+		// 3. Visible in own class and Unity Editor, no underscore, lowerCamelCase
         [SerializeField] private string nameOfCar;
-        
-        // Readonly: Can be initialized at Compiletime or Runtime
-        private readonly string PathToStoryFile;
-        // Const: Can only be initialized at Compiletime
-        private const int MaxSpeed = 120;
-        // Visible to own class, does not need instance to access, First letter UpperCamelCase
-        private static List<string> StoryNodes;
-        
-        // Visible from other classes bot nut the Unity Editor, UpperCamelCase
+
+		// 4. Visible from other classes bot nut the Unity Editor, UpperCamelCase
         [NonSerialized] public string NewPlayer;
-        // Visible from other classes and Unity Editor, UpperCamelCase
+
+		// 5. Visible from other classes and Unity Editor, UpperCamelCase
         public string NewEnemy;
-        // Visible from other classes, does not need instance to access, UpperCamelCase
+
+        // 6. Visible only in own class, underscore, lowerCamelCase
+        private string _nameOfCar;
+        
+        // 7. Visible from other classes, no underscore, UpperCamelCase
         public static List<string> ChoiceNodes;
         
+        // 7. Visible to own class, First letter, underscore, lowerCamelCase
+        private static List<string> _storyNodes;
+        
+        // 8. Const: Can only be initialized at Compiletime, only use private, no underscore, UpperCamelCase
+        private const int MaxSpeed = 120;
+
+        // 8. Readonly: Can be initialized at Compiletime or Runtime, can be private or public, no underscore, UpperCamelCase
+        private readonly string PathToStoryFile;
+
+        
         // ## 2.3 Methods ## //
+
         // Method Name starts with Verb and UpperCamelCase
         private string GetCarName()
         {

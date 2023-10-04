@@ -43,7 +43,7 @@ namespace Code.Controller.FileControllers
         }
 
         /// <summary>
-        /// Deletes a file
+        /// Deletes a specific file
         /// </summary>
         /// <param name="path">path to the file, that needs to be deleted</param>
         public static void DeleteFile(string path)

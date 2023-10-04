@@ -134,7 +134,7 @@ namespace Code
 
         /// <summary>
         /// Checks if a character was selected and a Name was given
-        /// Starts a new game and checks if a save slot is empty, else asks to override another slot
+        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
         /// </summary>
         public void StartNewGame_Click()
         {

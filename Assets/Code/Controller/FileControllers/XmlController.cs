@@ -29,7 +29,7 @@ namespace Code.Controller.FileControllers
         }
         
         /// <summary>
-        /// Reads the MessageBox Nodes from the OutsourcedStrings/strings.xml
+        /// Reads the Information Nodes from the OutsourcedStrings/strings.xml
         /// </summary>
         /// <param name="index">Determines the node to return</param>
         /// <returns>Information nodes</returns>
