@@ -74,10 +74,10 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Reads the JsonFile that matches the chapter,
-        /// and deserializes each object into a StoryNodeDataProperty
+        /// Reads the Json File that matches the chapter,
+        /// and deserializes each object into a StoryNodeDataProperty object
         /// </summary>
-        /// <param name="path">The path to the json file</param>
+        /// <param name="path">The path to the Json file</param>
         private void ReadJsonFile(string path)
         {
             // Checks if StoryNodes have been read already
@@ -101,7 +101,7 @@ namespace Code.Dialogue.Story
         }
 
         /// <summary>
-        /// Reads the Xml file that matches the chapter and Processes each node
+        /// Reads the Xml file that matches the chapter and processes each node
         /// Remove nodes that ore not needed anymore
         /// Reads the properties of the rest of the nodes
         /// </summary>
@@ -324,7 +324,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="node">Node name</param>
         /// <param name="id">Id Attribute from xml File</param>
-        /// <param name="isChoice">Declares if Node is a choice or not</param>
+        /// <param name="isChoice">Declares if node is a choice or not</param>
         /// <returns>new Node</returns>
         private static StoryNode CreateNode(XmlNode node, string id, bool isChoice)
         {
@@ -431,7 +431,7 @@ namespace Code.Dialogue.Story
         #region Nodes save
         
         /// <summary>
-        /// Writes the nodes in a JSON File
+        /// Writes the nodes in a Json File
         /// </summary>
         private void SaveNodesToJson()
         {

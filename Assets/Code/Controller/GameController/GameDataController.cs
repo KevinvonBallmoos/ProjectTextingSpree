@@ -70,8 +70,6 @@ namespace Code.Controller.GameController
         // Save Time
         private string _saveTime;
         
-        // TODO : GetInstance Method like StoryViewer for Gdc
-
         #region Awake and Start
         
         /// <summary>
@@ -101,7 +99,7 @@ namespace Code.Controller.GameController
         
         #region Button Events
         
-        #region GameStates
+        #region Button Game States
         
         /// <summary>
         /// Starts either a new game or loads a selected one 
@@ -185,8 +183,8 @@ namespace Code.Controller.GameController
         /// <summary>
         /// There is a limit of 3 Savedata files
         /// When a new Game is started, it checks if there are 3 savedata files or not
-        /// If not, the it just creates a new on,
-        /// else the User has to choose an old save to override with the new Game
+        /// If not, it just creates a new one,
+        /// else the User must choose an old save to override with the new Game
         /// </summary>
         public bool NewGame(string player, string background)
         {

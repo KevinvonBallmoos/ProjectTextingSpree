@@ -10,7 +10,7 @@ using Code.Logger;
 namespace Code.Dialogue.Story
 {
     /// <summary>
-    /// Holds the Story
+    /// Holds the Story and provides information about the selected nodes and next nodes
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>

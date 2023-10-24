@@ -86,6 +86,7 @@ namespace Editor.Story
         }
 
         /// <summary>
+        /// Custom menu item
         /// Deletes the asset file and Json file with the same name
         /// </summary>
         [MenuItem("Custom / Delete Asset")]

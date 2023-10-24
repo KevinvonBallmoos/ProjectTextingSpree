@@ -63,7 +63,7 @@ namespace Code.Dialogue.Story
         #region Start
 
 		/// <summary>
-		/// Hands over the current chapter to the Story holder
+		/// Hands over the current chapter to the Story holder,
 		/// adds the next button click Event and updates the UI
 		/// </summary>
 		public void Start()
@@ -339,7 +339,7 @@ namespace Code.Dialogue.Story
 
         /// <summary>
         /// Builds the choice list, depending on the count of the nodes
-        /// Some choices are only visible for Player with the needed background
+        /// Some choices are only visible for players with the required background
         /// </summary>
         /// <param name="isGameOver">if true, then only the choices which haven't been selected are visible</param>
         private void BuildChoiceList(bool isGameOver)
