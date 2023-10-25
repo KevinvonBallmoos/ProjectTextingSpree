@@ -27,7 +27,7 @@ namespace Code.Dialogue.Story
         
 #if UNITY_EDITOR
         /// <summary>
-        /// Sets the Text of the node
+        /// Sets the Text of the nodes
         /// </summary>
         /// <param name="txt"></param>
         public void SetText(string txt)
