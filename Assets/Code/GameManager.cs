@@ -58,8 +58,6 @@ namespace Code
         private string _runPath;
         // Regex Pattern for InputField
         private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
-        
-        // TODO : GetInstance Method like StoryViewer for Gm
 
         #region Awake and Start
 
@@ -100,7 +98,6 @@ namespace Code
             }
             catch (Exception ex)
             {
-                // TODO: Maybe quit Game??
                 _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
@@ -222,7 +219,6 @@ namespace Code
                 LoadNextStoryPart();
             if (IsGameOver)
                 LoadGameOverScreen();
-            // TODO: EndCreditScene
             // if (IsEndOfTale)
             //     LoadEndCreditScene();
         }

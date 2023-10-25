@@ -19,7 +19,6 @@ namespace Code.Controller.GameController
 {
     /// <summary>
     /// This class is used to temporarily store the game data, until it is passed to the GameData class
-    /// TODO: in separate File?
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">30.01.2023</para>
@@ -74,7 +73,6 @@ namespace Code.Controller.GameController
         
         /// <summary>
         /// Sets the language of the game to en-US
-        /// TODO: Why again / reason? // Maybe its the Time spent in Game Line 291
         /// </summary>
         private void Awake()
         {
@@ -125,7 +123,6 @@ namespace Code.Controller.GameController
         /// Button Click to get back to the main menu
         /// [0]: Disables the title screen
         /// [2]: Enables the character properties screen
-        /// TODO : delete when unused
         /// </summary>
         public void BackToMenu_Click()
         {
@@ -329,7 +326,6 @@ namespace Code.Controller.GameController
         /// <summary>
         /// Loads the data for the selected game
         /// In case the deserializing throws an error, the method is executed again
-        /// TODO : Bug Fix: Try catch can result in endless loop
         /// </summary>
         private void LoadSelectedGame()
         {
