@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.View.SaveView
+namespace Code.View.GameDataView
 {
     /// <summary>
     /// Enables the Image on the clicked Save slot
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">05.05.2023</para>
-    public class SavePlaceholderSelectImageView : MonoBehaviour
+    public class PlaceholderSelectImageView : MonoBehaviour
     {
         // Save slot view
         public GameObject slotView;
