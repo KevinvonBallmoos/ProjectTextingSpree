@@ -2,14 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
-using Code.Controller.FileControllers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Code.Logger;
 using Code.Controller.GameController;
+using Code.Controller.NodeController;
 using Code.Inventory;
+using Code.Model.FileModels;
 using UnityEngine.Serialization;
 
 namespace Code.Dialogue.Story
@@ -51,7 +52,7 @@ namespace Code.Dialogue.Story
         // Current story chapter
         public StoryAsset currentChapter;
         // Current node to display
-        private StoryNode _nodeToDisplay;
+        private StoryNodeController _nodeToDisplay;
         // Coroutine for the save status text
         private Coroutine _textCoroutine;
         // Image and Text of save status
@@ -82,7 +83,7 @@ namespace Code.Dialogue.Story
             nextButton.gameObject.SetActive(false);
 
             _nodeToDisplay = _storyHolder.GetCurrentNode();
-            _chapterTitle = XmlController.GetChapterTitle(currentChapter);
+            _chapterTitle = XmlModel.GetChapterTitle(currentChapter);
             
             UpdateUI(isSave, false);
         }
@@ -379,7 +380,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="choice">the choice node, to display</param>
         /// <param name="isSave">true the game is saved, false then not</param>
-        private void SetChoice(StoryNode choice, bool isSave)
+        private void SetChoice(StoryNodeController choice, bool isSave)
         {
             var choiceInstance = Instantiate(choicePrefab, choiceRoot);
             var background = choice.Background;

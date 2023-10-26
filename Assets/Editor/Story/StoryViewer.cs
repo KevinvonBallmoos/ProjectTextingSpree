@@ -4,6 +4,7 @@ using UnityEditor.Callbacks;
 #endif
 using System;
 using System.IO;
+using Code.Controller.NodeController;
 using Code.Dialogue.Story;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -36,7 +37,7 @@ namespace Editor.Story
         [NonSerialized] private GUIStyle _choiceNodeStyle;
         [NonSerialized] private GUIStyle _textAreaStyle;
         // Drag
-        [NonSerialized] private StoryNode _storyNode;
+        [NonSerialized] private StoryNodeController _storyNode;
         [NonSerialized] private bool _dragCanvas;
         [NonSerialized] private Vector2 _dragOffset;
         [NonSerialized] private Vector2 _dragCanvasOffset;
@@ -254,7 +255,7 @@ namespace Editor.Story
         /// Draws the node
         /// </summary>
         /// <param name="node">Next node to draw</param>
-        private void DrawNode(StoryNode node)
+        private void DrawNode(StoryNodeController node)
         {
             var style = _storyNodeStyle;
             if (node.IsChoiceNode)
@@ -274,7 +275,7 @@ namespace Editor.Story
         /// Add Bezier Curve between the nodes to connect parent and child nodes
         /// </summary>
         /// <param name="node"></param>
-        private void DrawConnections(StoryNode node)
+        private void DrawConnections(StoryNodeController node)
         {
             var children = node.ChildNodes;
             if (children.Count == 0) return;
@@ -358,9 +359,9 @@ namespace Editor.Story
         /// </summary>
         /// <param name="point">Point where the Mouse currently is</param>
         /// <returns>node</returns>
-        private StoryNode GetNodeAtPoint(Vector2 point)
+        private StoryNodeController GetNodeAtPoint(Vector2 point)
         {
-            StoryNode selectedNode = null;
+            StoryNodeController selectedNode = null;
             foreach (var node in _selectedChapter.GetAllNodes())
                 if (node.TextRect.Contains(point))
                 {

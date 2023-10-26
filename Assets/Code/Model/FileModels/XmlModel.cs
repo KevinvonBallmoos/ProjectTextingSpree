@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Xml;
+using Code.Dialogue.Story;
 using UnityEngine;
 
-using Code.Dialogue.Story;
-
-namespace Code.Controller.FileControllers
+namespace Code.Model.FileModels
 {
     /// <summary>
     /// This class contains Methods to access Xml Files
@@ -12,7 +11,7 @@ namespace Code.Controller.FileControllers
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">07.05.2023</para>
-    public static class XmlController
+    public static class XmlModel
     {
         /// <summary>
         /// Reads the MessageBox Nodes from the OutsourcedStrings/strings.xml

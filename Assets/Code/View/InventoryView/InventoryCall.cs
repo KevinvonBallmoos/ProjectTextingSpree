@@ -1,10 +1,9 @@
 using System.Collections.Generic;
+using Code.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Code.Inventory;
-
-namespace Code.UI
+namespace Code.View.InventoryView
 {
     public class InventoryCall : MonoBehaviour
     {

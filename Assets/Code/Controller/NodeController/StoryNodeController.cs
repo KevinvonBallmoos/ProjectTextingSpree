@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Code.Dialogue.Story;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Code.Dialogue.Story
+namespace Code.Controller.NodeController
 {
     /// <summary>
     /// Object Class for StoryNode
@@ -10,7 +11,7 @@ namespace Code.Dialogue.Story
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">04.12.2022</para>
     [System.Serializable]
-    public class StoryNode : ScriptableObject
+    public class StoryNodeController : ScriptableObject
     {
         // Text that is in the node
         [Header("Story Text")]
@@ -47,7 +48,7 @@ namespace Code.Dialogue.Story
         /// Initializes a new StoryNode
         /// </summary>
         /// <param name="node">needed to serialize and deserialize the story nodes</param>
-        public void InitializeStoryNode(StoryNodeDataProperty node)
+        public void InitializeStoryNode(StoryNodeDeserializeController node)
         {
             NodeId = node.NodeId;
             LabelText = node.LabelText;

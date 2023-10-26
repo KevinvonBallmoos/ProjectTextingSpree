@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 using Code.Controller.GameController;
+using Code.Controller.NodeController;
 using Code.GameData;
 using Code.Logger;
 
@@ -21,15 +22,15 @@ namespace Code.Dialogue.Story
         // Current Chapter
         [NonSerialized] public StoryAsset CurrentChapter;
         // Current node 
-        [NonSerialized] private StoryNode _currentNode;
+        [NonSerialized] private StoryNodeController _currentNode;
         // Selected choice node
-        [NonSerialized] private StoryNode _selectedChoice;
+        [NonSerialized] private StoryNodeController _selectedChoice;
         // Story node or not
         [NonSerialized] public bool IsStoryNode;
         // Stores all story nodes
-        private StoryNode[] _pastStoryNodes;
+        private StoryNodeController[] _pastStoryNodes;
         // Stores all selected choices
-        private StoryNode[] _selectedChoices;
+        private StoryNodeController[] _selectedChoices;
         // node indexes
         private int _nodeIndex;
         private int _choiceIndex;
@@ -45,8 +46,8 @@ namespace Code.Dialogue.Story
         public bool LoadChapterProperties(StoryAsset chapter)
         {
             _choiceIndex = 0;
-            _pastStoryNodes = Array.Empty<StoryNode>();
-            _selectedChoices = Array.Empty<StoryNode>();
+            _pastStoryNodes = Array.Empty<StoryNodeController>();
+            _selectedChoices = Array.Empty<StoryNodeController>();
             
             if (chapter != null){
                 
@@ -54,9 +55,9 @@ namespace Code.Dialogue.Story
                 CurrentChapter = CurrentChapter.ReadNodes(chapter);
             
                 _currentNode = CurrentChapter.GetRootNode();
-                _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
+                _pastStoryNodes = new StoryNodeController[CurrentChapter.GetAllStoryNodes().Count()];
                 _pastStoryNodes[0] = _currentNode;
-                _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
+                _selectedChoices = new StoryNodeController[CurrentChapter.GetAllNodes().Count()];
                 
                 _nodeIndex = 0;
                 IsStoryNode = false;
@@ -82,8 +83,8 @@ namespace Code.Dialogue.Story
                 }
                 IsStoryNode = saveData.IsStoryNode;
                 
-                _pastStoryNodes = new StoryNode[CurrentChapter.GetAllStoryNodes().Count()];
-                _selectedChoices = new StoryNode[CurrentChapter.GetAllNodes().Count()];
+                _pastStoryNodes = new StoryNodeController[CurrentChapter.GetAllStoryNodes().Count()];
+                _selectedChoices = new StoryNodeController[CurrentChapter.GetAllNodes().Count()];
 
                 var i = 0;
                 foreach (var node in CurrentChapter.GetAllNodes())
@@ -122,7 +123,7 @@ namespace Code.Dialogue.Story
         /// Returns the next story node
         /// </summary>
         /// <param name="selectedChoice">Parent that contains the next choices nodes</param>
-        public StoryNode GetNextNode(StoryNode selectedChoice)
+        public StoryNodeController GetNextNode(StoryNodeController selectedChoice)
         {
             if (!_selectedChoices.Contains(selectedChoice))
             {
@@ -143,7 +144,7 @@ namespace Code.Dialogue.Story
         /// Gets the node that was selected before
         /// </summary>
         /// <returns></returns>
-        public StoryNode GetNodeBefore()
+        public StoryNodeController GetNodeBefore()
         {
             _nodeIndex--;
             return _pastStoryNodes[_nodeIndex];
@@ -155,7 +156,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="choices"></param>
         /// <returns>true if the selected choice was found</returns>
-        public bool CheckSelectedChoices(IEnumerable<StoryNode> choices)
+        public bool CheckSelectedChoices(IEnumerable<StoryNodeController> choices)
         {
             foreach (var c in choices)
             {
@@ -188,7 +189,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="nodeToDisplay">from this node the child nodes are needed</param>
         /// <returns>list of all child nodes from a specific node</returns>
-        public List<StoryNode> HasMoreNodes(StoryNode nodeToDisplay)
+        public List<StoryNodeController> HasMoreNodes(StoryNodeController nodeToDisplay)
         {
             return CurrentChapter.GetAllChildNodes(nodeToDisplay);
         }
@@ -198,7 +199,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="nodeToDisplay">rom this node the choice nodes are needed</param>
         /// <returns>list of all choice nodes from a specific node</returns>
-        public IEnumerable<StoryNode> GetChoices(StoryNode nodeToDisplay)
+        public IEnumerable<StoryNodeController> GetChoices(StoryNodeController nodeToDisplay)
         {
             return CurrentChapter.GetChoiceNodes(nodeToDisplay);
         }
@@ -208,22 +209,22 @@ namespace Code.Dialogue.Story
             return _nodeIndex.ToString();
         }
 
-        public StoryNode[] GetPastStoryNodes()
+        public StoryNodeController[] GetPastStoryNodes()
         {
             return _pastStoryNodes;
         }        
         
-        public StoryNode[] GetSelectedChoices()
+        public StoryNodeController[] GetSelectedChoices()
         {
             return _selectedChoices;
         }
 
-        public StoryNode GetCurrentNode()
+        public StoryNodeController GetCurrentNode()
         {
             return _currentNode;
         }
         
-        public StoryNode GetSelectedChoice()
+        public StoryNodeController GetSelectedChoice()
         {
             return _selectedChoice;
         }
@@ -245,7 +246,7 @@ namespace Code.Dialogue.Story
             return _currentNode.IsGameOver;
         }
 
-        public string GetImage(StoryNode nodeToDisplay)
+        public string GetImage(StoryNodeController nodeToDisplay)
         {
             return nodeToDisplay.Image;
         }

@@ -1,8 +1,8 @@
 using System.IO;
-using Code.Controller.FileControllers;
 using UnityEngine;
 
 using Code.Controller.GameController;
+using Code.Model.FileModels;
 
 namespace Code.GameData
 {
@@ -31,11 +31,11 @@ namespace Code.GameData
                 placeholder = files.Length - 1;
             
             // Deletes the file
-            FileController.DeleteFile(files[placeholder]);
+            FileIOModel.DeleteFile(files[placeholder]);
             // Updates the placeholder view
             GameDataController.Gdc.LoadDataIntoPlaceholders();
             // Sorts the other save files
-            FileController.SortSaveFiles();
+            FileIOModel.SortSaveFiles();
         }
     }
 }

@@ -6,11 +6,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-using Code.Controller.FileControllers;
 using Code.Dialogue.Story;
 using Code.Controller.GameController;
 using Code.Logger;
+using Code.Model.FileModels;
 
 namespace Code
 {
@@ -88,7 +87,7 @@ namespace Code
                 _chapter = 1;
                 ActiveScene = 0;
                 
-                FileController.CreateFolders();
+                FileIOModel.CreateFolders();
                 
                 if (SceneManager.GetActiveScene().buildIndex == 0)
                     GameDataController.Gdc.LoadGame();
@@ -152,7 +151,7 @@ namespace Code
             {
                 GameDataController.Gdc.InitializeSaveDataPanel("NEW GAME", 1);
                 screenObjects[2].SetActive(false);
-                SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlController.GetMessageBoxText(0));
+                SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlModel.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);
             }
         }

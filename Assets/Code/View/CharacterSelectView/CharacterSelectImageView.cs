@@ -2,14 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Controller.ObjectControllers
+namespace Code.View.CharacterSelectView
 {
     /// <summary>
     /// Enables the Image on the clicked Character
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">29.04.23</para>
-    public class CharacterSelectController : MonoBehaviour
+    public class CharacterSelectImageView : MonoBehaviour
     {
         // Character chosen
         [SerializeField] private Text character;

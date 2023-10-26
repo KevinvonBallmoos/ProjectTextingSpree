@@ -6,14 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Code.Controller.NodeController;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-using Code.Controller.FileControllers;
 using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
+using Code.Model.FileModels;
 
 namespace Code.Controller.GameController
 {
@@ -34,8 +34,8 @@ namespace Code.Controller.GameController
         public string ParentNode { get; set; }
         public bool IsStoryNode { get; set; }
         public string NodeIndex { get; set; }
-        public StoryNode[] PastStoryNodes { get; set; }
-        public StoryNode[] SelectedChoices { get; set; }
+        public StoryNodeController[] PastStoryNodes { get; set; }
+        public StoryNodeController[] SelectedChoices { get; set; }
     }
     
     /// <summary>
@@ -166,7 +166,7 @@ namespace Code.Controller.GameController
         /// </summary>
         public void RemoveData_Click()
         {
-            GameManager.Gm.SetMessageBoxProperties(GameDataRemover.RemoveData_Click, XmlController.GetMessageBoxText(1));
+            GameManager.Gm.SetMessageBoxProperties(GameDataRemover.RemoveData_Click, XmlModel.GetMessageBoxText(1));
             screenObjects[1].SetActive(true);
             SetPlaceholderNum();
         }
@@ -223,7 +223,7 @@ namespace Code.Controller.GameController
                     holders[i].enabled = false;
             }
             loadGameText.text = text;
-            placeholderView.GetComponentsInChildren<Text>()[0].text = XmlController.GetInformationText(index);
+            placeholderView.GetComponentsInChildren<Text>()[0].text = XmlModel.GetInformationText(index);
         }
         
         #endregion
