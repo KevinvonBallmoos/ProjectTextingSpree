@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.View.GameDataView
@@ -11,7 +12,7 @@ namespace Code.View.GameDataView
     public class PlaceholderSelectImageView : MonoBehaviour
     {
         // Save slot view
-        public GameObject slotView;
+        public GameObject placeholderView;
 
         /// <summary>
         /// When a save placeholder is selected enables the image
@@ -28,7 +29,7 @@ namespace Code.View.GameDataView
         private void SetImage()
         {
             // Disable all Images
-            var slots = slotView.GetComponentsInChildren<Image>();
+            var slots = placeholderView.GetComponentsInChildren<Image>();
             for (var i = 0; i < slots.Length; i++)
             {
                 if (i is 1 or 3 or 5)
