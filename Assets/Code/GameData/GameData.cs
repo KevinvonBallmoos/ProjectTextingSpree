@@ -1,6 +1,6 @@
 using Code.Controller.GameController;
-using Code.Controller.NodeController;
 using Code.Dialogue.Story;
+using Code.Model.NodeModels;
 
 namespace Code.GameData
 {
@@ -22,8 +22,8 @@ namespace Code.GameData
         public readonly string ParentNode;
         public readonly bool IsStoryNode;
         public readonly string NodeIndex;
-        public readonly StoryNodeController[] PastStoryNodes;
-        public readonly StoryNodeController[] SelectedChoices;
+        public readonly StoryNodeModel[] PastStoryNodes;
+        public readonly StoryNodeModel[] SelectedChoices;
         
 
 		/// <summary>

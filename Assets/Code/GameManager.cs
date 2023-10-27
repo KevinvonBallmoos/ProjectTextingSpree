@@ -10,6 +10,8 @@ using Code.Dialogue.Story;
 using Code.Controller.GameController;
 using Code.Logger;
 using Code.Model.FileModels;
+using Code.View.DialogueViews.StoryView;
+using UnityEngine.Serialization;
 
 namespace Code
 {
@@ -21,11 +23,11 @@ namespace Code
     public class GameManager : MonoBehaviour
     {
         // Logger
-        private readonly GameLogger _logger = new GameLogger("GameManager");
+        //private readonly GameLogger _logger = new GameLogger("GameManager");
         // GameManager instance
         public static GameManager Gm;
         // Story UI
-        private static StoryUI _storyUI;
+        private static StoryUIView _storyUIView;
         // Main Menu, Save and Message Box Objects
         [Header("Main Menu, Save and Message Box Screens")]
         [SerializeField] private GameObject[] screenObjects;
@@ -43,8 +45,9 @@ namespace Code
         [Header("TopBar Buttons")] 
         [SerializeField] private Button[] buttons;
         // StoryUI Script
+        [FormerlySerializedAs("storyUIScript")]
         [Header("Scripts")]
-        [SerializeField] private StoryUI storyUIScript;
+        [SerializeField] private StoryUIView storyUIViewScript;
 		// States of the Game
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
@@ -92,12 +95,12 @@ namespace Code
                 if (SceneManager.GetActiveScene().buildIndex == 0)
                     GameDataController.Gdc.LoadGame();
                 else if (SceneManager.GetActiveScene().buildIndex != 0)
-                    _storyUI = storyUIScript;
+                    _storyUIView = storyUIViewScript;
                     
             }
             catch (Exception ex)
             {
-                _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
+                //_logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
 
@@ -234,8 +237,8 @@ namespace Code
             var storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{storyPath}")) return;
-            _storyUI.currentChapter = Resources.Load<StoryAsset>(storyPath.Replace(".asset", ""));
-            _logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
+            _storyUIView.currentChapter = Resources.Load<StoryAssetModel>(storyPath.Replace(".asset", ""));
+            //_logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
 
         /// <summary>
@@ -245,8 +248,8 @@ namespace Code
         {
             IsEndOfPart = false;
             _part++;
-            _logger.LogEntry("GameManager Log", $"Next Story Part: Story{_part}Chapter{_chapter}",
-                GameLogger.GetLineNumber());
+            //_logger.LogEntry("GameManager Log", $"Next Story Part: Story{_part}Chapter{_chapter}",
+                //GameLogger.GetLineNumber());
         }
 
         /// <summary>
@@ -256,7 +259,7 @@ namespace Code
         {
             IsGameOver = false;
             messageBoxGameOver.SetActive(true);
-            _logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
+            //_logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
         }
 
         /// <summary>
@@ -265,7 +268,7 @@ namespace Code
         /// <returns></returns>
         private static int GetPath()
         {
-            var path = _storyUI.currentChapter.name;
+            var path = _storyUIView.currentChapter.name;
             foreach (var t in path)
             {
                 if (char.IsDigit(t))
@@ -283,7 +286,7 @@ namespace Code
         /// </summary>
         public void NextChapter_Click()
         {
-            _storyUI.Start();
+            _storyUIView.Start();
         }
 
         /// <summary>

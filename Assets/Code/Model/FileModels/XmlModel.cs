@@ -46,7 +46,7 @@ namespace Code.Model.FileModels
         /// </summary>
         /// <param name="currentChapter">Current Chapter that is loaded</param>
         /// <returns>Chapter name</returns>
-        public static string GetChapterTitle(StoryAsset currentChapter)
+        public static string GetChapterTitle(StoryAssetModel currentChapter)
         {
             var xmlDoc = new XmlDocument();
             var filePath = Path.Combine(Application.streamingAssetsPath, $"StoryFiles/{currentChapter.name}.xml");

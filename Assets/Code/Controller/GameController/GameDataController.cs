@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Code.Controller.NodeController;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +13,8 @@ using Code.Dialogue.Story;
 using Code.GameData;
 using Code.Logger;
 using Code.Model.FileModels;
+using Code.Model.NodeModels;
+using Code.View.DialogueViews.StoryView;
 
 namespace Code.Controller.GameController
 {
@@ -34,8 +35,8 @@ namespace Code.Controller.GameController
         public string ParentNode { get; set; }
         public bool IsStoryNode { get; set; }
         public string NodeIndex { get; set; }
-        public StoryNodeController[] PastStoryNodes { get; set; }
-        public StoryNodeController[] SelectedChoices { get; set; }
+        public StoryNodeModel[] PastStoryNodes { get; set; }
+        public StoryNodeModel[] SelectedChoices { get; set; }
     }
     
     /// <summary>
@@ -416,7 +417,7 @@ namespace Code.Controller.GameController
                     ProgressPercentage = progress,
                     TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
                     TimeOfSave = _saveTime,
-                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUI>()
+                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUIView>()
                         .currentChapter
                         .name,
                     ParentNode = save.ParentNode,

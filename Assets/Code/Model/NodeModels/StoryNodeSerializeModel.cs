@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Code.Controller.NodeController
+namespace Code.Model.NodeModels
 {
     /// <summary>
     /// Object Class to save the Story nodes
@@ -9,7 +9,7 @@ namespace Code.Controller.NodeController
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">15.08.2023</para>
     [System.Serializable]
-    public class StoryNodeSerializeController
+    public class StoryNodeSerializeModel
     {
         [JsonProperty] private readonly string _nodeId;
         [JsonProperty] private readonly string _labelText;
@@ -28,7 +28,7 @@ namespace Code.Controller.NodeController
         /// Constructor to save an Object of type StoryNode
         /// </summary>
         /// <param name="node">contains all properties</param>
-        public StoryNodeSerializeController(StoryNodeController node)
+        public StoryNodeSerializeModel(StoryNodeModel node)
         {
             _background = node.Background;
             _childNodes = node.ChildNodes;

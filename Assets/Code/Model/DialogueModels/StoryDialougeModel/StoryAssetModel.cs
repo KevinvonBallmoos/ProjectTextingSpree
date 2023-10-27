@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Code.Controller.NodeController;
 using Code.Model.FileModels;
+using Code.Model.NodeModels;
 using UnityEngine;
 
 namespace Code.Dialogue.Story
@@ -20,7 +20,7 @@ namespace Code.Dialogue.Story
     internal class NodeInfo
     {
         public string NodeId { get; set; }
-        public StoryNodeController Node { get; set; }
+        public StoryNodeModel Node { get; set; }
         public bool IsTrue { get; set; }
     }
 
@@ -31,14 +31,14 @@ namespace Code.Dialogue.Story
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">10.05.2023</para>
     [CreateAssetMenu(fileName = "Chapter", menuName = "StoryViewer", order = 0)]
-    public class StoryAsset : ScriptableObject
+    public class StoryAssetModel : ScriptableObject
     {
         // Current Asset
-        private StoryAsset _currentAsset;
+        private StoryAssetModel _currentAssetModel;
         // Lists with nodes
         private readonly List<NodeInfo> _nodes = new();
         // List Property of all nodes
-        [field: SerializeField] public List<StoryNodeController> StoryNodes { get; private set; } = new();
+        [field: SerializeField] public List<StoryNodeModel> StoryNodes { get; private set; } = new();
         // Boolean that is true when the nodes have been read
         public bool HasReadNodes { get; set; }
 
@@ -50,10 +50,10 @@ namespace Code.Dialogue.Story
         /// Reads the Node Information from the Xml File and puts them in the right order
         /// </summary>
         /// <param name="chapter">The name of the chapter is needed to find the according json file</param>
-        public StoryAsset ReadNodes(StoryAsset chapter)
+        public StoryAssetModel ReadNodes(StoryAssetModel chapter)
         {
             HasReadNodes = false;
-            _currentAsset = chapter;
+            _currentAssetModel = chapter;
             var path = Application.persistentDataPath + "/StoryAssets/" + chapter.name + ".json";
 
             // Check if json file exists
@@ -71,7 +71,7 @@ namespace Code.Dialogue.Story
             SaveNodesToJson();
 
             HasReadNodes = true;
-            return _currentAsset;
+            return _currentAssetModel;
         }
 
         /// <summary>
@@ -88,12 +88,12 @@ namespace Code.Dialogue.Story
                 {
                     var json = File.ReadAllText(path,
                         Encoding.UTF8);
-                    var nodeArray = JsonConvert.DeserializeObject<StoryNodeDeserializeController[]>(json);
+                    var nodeArray = JsonConvert.DeserializeObject<StoryNodeDeserializeModel[]>(json);
                     
                     if (nodeArray == null) return;
                     foreach (var n in nodeArray)
                     {
-                        var node = CreateInstance<StoryNodeController>();
+                        var node = CreateInstance<StoryNodeModel>();
                         node.InitializeStoryNode(n);
                         _nodes.Add(new NodeInfo { Node = node, IsTrue = false});
                     }
@@ -169,6 +169,7 @@ namespace Code.Dialogue.Story
 
                 foreach (var n in _nodes)
                 {
+                    if (n.Node.ChildNodes == null) continue;
                     if (n.Node.ChildNodes.Contains(_nodes[i].Node.name))
                         n.Node.RemoveChildNode(_nodes[i].Node.name);
                 }
@@ -200,7 +201,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="node">Node whose properties must be read</param>
         /// <param name="xmlDoc">The currently opened xml document</param>
-        private void ReadProperties(StoryNodeController node, XmlDocument xmlDoc)
+        private void ReadProperties(StoryNodeModel node, XmlDocument xmlDoc)
         {
             var nodeList = node.IsChoiceNode
                 ? xmlDoc.GetElementsByTagName("Choice")
@@ -251,7 +252,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="node">node to add a child node</param>
         /// <param name="id">comma separated string of all child node ids</param>
-        private void AddStoryChild(StoryNodeController node, string id)
+        private void AddStoryChild(StoryNodeModel node, string id)
         {
             var ids = id.Split(',');
             foreach (var i in ids)
@@ -290,7 +291,7 @@ namespace Code.Dialogue.Story
         /// Sets the Position of all nodes recursive
         /// </summary>
         /// <param name="node">Node to set the position and its children</param>
-        private void SetNodePosition(StoryNodeController node)
+        private void SetNodePosition(StoryNodeModel node)
         {
             var children = node.ChildNodes;
             if (children.Count == 0) return;
@@ -327,9 +328,9 @@ namespace Code.Dialogue.Story
         /// <param name="id">Id Attribute from xml File</param>
         /// <param name="isChoice">Declares if node is a choice or not</param>
         /// <returns>new Node</returns>
-        private static StoryNodeController CreateNode(XmlNode node, string id, bool isChoice)
+        private static StoryNodeModel CreateNode(XmlNode node, string id, bool isChoice)
         {
-            var child = CreateInstance<StoryNodeController>();
+            var child = CreateInstance<StoryNodeModel>();
             child.name = Guid.NewGuid().ToString();
             child.NodeId = id;
             child.LabelText = node.Name;
@@ -347,7 +348,7 @@ namespace Code.Dialogue.Story
         /// Getter to get all nodes
         /// </summary>
         /// <returns>Returns the List of DialogueNodes</returns>
-        public IEnumerable<StoryNodeController> GetAllNodes()
+        public IEnumerable<StoryNodeModel> GetAllNodes()
         {
             return StoryNodes;
         }
@@ -356,7 +357,7 @@ namespace Code.Dialogue.Story
         /// Getter to get only the Story nodes
         /// </summary>
         /// <returns>Returns all StoryNodes</returns>
-        public IEnumerable<StoryNodeController> GetAllStoryNodes()
+        public IEnumerable<StoryNodeModel> GetAllStoryNodes()
         {
             foreach (var node in StoryNodes)
             {
@@ -370,9 +371,9 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="parentNode">Parent Node to get the child nodes from</param>
         /// <returns>Returns all Child nodes from the Parent node</returns>
-        public List<StoryNodeController> GetAllChildNodes(StoryNodeController parentNode)
+        public List<StoryNodeModel> GetAllChildNodes(StoryNodeModel parentNode)
         {
-            var childNodes = new List<StoryNodeController>();
+            var childNodes = new List<StoryNodeModel>();
             foreach (var nodeId in parentNode.ChildNodes)
                 foreach (var node in StoryNodes)
                 {
@@ -388,7 +389,7 @@ namespace Code.Dialogue.Story
         /// Searches the node with the root node attribute = true
         /// </summary>
         /// <returns>Returns the root node if it was found, else returns null </returns>
-        public StoryNodeController GetRootNode()
+        public StoryNodeModel GetRootNode()
         {
             foreach (var node in GetAllNodes())
             {
@@ -404,7 +405,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="node">Current Node to get the choice nodes from</param>
         /// <returns>Returns all Choice nodes from current node</returns>
-        public IEnumerable<StoryNodeController> GetChoiceNodes(StoryNodeController node)
+        public IEnumerable<StoryNodeModel> GetChoiceNodes(StoryNodeModel node)
         {
             foreach (var child in GetAllChildNodes(node))
             {
@@ -418,7 +419,7 @@ namespace Code.Dialogue.Story
         /// </summary>
         /// <param name="node">Current Node to get the story Nodes from</param>
         /// <returns>Returns all Story nodes from current node</returns>
-        public IEnumerable<StoryNodeController> GetStoryNodes(StoryNodeController node)
+        public IEnumerable<StoryNodeModel> GetStoryNodes(StoryNodeModel node)
         {
             foreach (var child in GetAllChildNodes(node))
             {
@@ -436,15 +437,15 @@ namespace Code.Dialogue.Story
         /// </summary>
         private void SaveNodesToJson()
         {
-            var jsonArray = new StoryNodeSerializeController[_nodes.Count];
+            var jsonArray = new StoryNodeSerializeModel[_nodes.Count];
             for (int i = 0;  i < _nodes.Count;i++)
-                jsonArray[i] = new StoryNodeSerializeController(_nodes[i].Node);
+                jsonArray[i] = new StoryNodeSerializeModel(_nodes[i].Node);
             
             var json = JsonConvert.SerializeObject(jsonArray, Formatting.Indented);
             var filename = Application.persistentDataPath + "/StoryAssets";
             Directory.CreateDirectory(filename);
             
-            filename += $"/{_currentAsset.name}.json";
+            filename += $"/{_currentAssetModel.name}.json";
             File.WriteAllText(filename, json);
         }
         

@@ -4,8 +4,8 @@ using UnityEditor.Callbacks;
 #endif
 using System;
 using System.IO;
-using Code.Controller.NodeController;
 using Code.Dialogue.Story;
+using Code.Model.NodeModels;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -21,7 +21,7 @@ namespace Editor.Story
     {
         private static StoryViewer Sv;
         // Story Asset
-        private StoryAsset _selectedChapter;
+        private StoryAssetModel _selectedChapter;
         // Scroll Area / Position
         private Vector2 _scrollPosition;
         private Vector2 _scrollPositionTextArea = Vector2.zero;
@@ -37,7 +37,7 @@ namespace Editor.Story
         [NonSerialized] private GUIStyle _choiceNodeStyle;
         [NonSerialized] private GUIStyle _textAreaStyle;
         // Drag
-        [NonSerialized] private StoryNodeController _storyNode;
+        [NonSerialized] private StoryNodeModel _storyNode;
         [NonSerialized] private bool _dragCanvas;
         [NonSerialized] private Vector2 _dragOffset;
         [NonSerialized] private Vector2 _dragCanvasOffset;
@@ -71,7 +71,7 @@ namespace Editor.Story
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceId)
         {
-            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAsset;
+            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAssetModel;
             if (story == null) return false;
             ShowEditorWindow();
             return true;
@@ -95,7 +95,7 @@ namespace Editor.Story
         {
             var storyViewer = GetInstance();           
             // Selected asset in Unity Editor
-            Object selectedAsset = Selection.activeObject as StoryAsset;
+            Object selectedAsset = Selection.activeObject as StoryAssetModel;
 
             if (selectedAsset == null) return;
             
@@ -166,7 +166,7 @@ namespace Editor.Story
         /// </summary>
         private void OnSelectionChanged()
         {
-            var newChapter = Selection.activeObject as StoryAsset;
+            var newChapter = Selection.activeObject as StoryAssetModel;
             if (newChapter == null || newChapter.name == "") return;
             
             _selectedChapter = null;
@@ -255,7 +255,7 @@ namespace Editor.Story
         /// Draws the node
         /// </summary>
         /// <param name="node">Next node to draw</param>
-        private void DrawNode(StoryNodeController node)
+        private void DrawNode(StoryNodeModel node)
         {
             var style = _storyNodeStyle;
             if (node.IsChoiceNode)
@@ -275,7 +275,7 @@ namespace Editor.Story
         /// Add Bezier Curve between the nodes to connect parent and child nodes
         /// </summary>
         /// <param name="node"></param>
-        private void DrawConnections(StoryNodeController node)
+        private void DrawConnections(StoryNodeModel node)
         {
             var children = node.ChildNodes;
             if (children.Count == 0) return;
@@ -359,9 +359,9 @@ namespace Editor.Story
         /// </summary>
         /// <param name="point">Point where the Mouse currently is</param>
         /// <returns>node</returns>
-        private StoryNodeController GetNodeAtPoint(Vector2 point)
+        private StoryNodeModel GetNodeAtPoint(Vector2 point)
         {
-            StoryNodeController selectedNode = null;
+            StoryNodeModel selectedNode = null;
             foreach (var node in _selectedChapter.GetAllNodes())
                 if (node.TextRect.Contains(point))
                 {

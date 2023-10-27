@@ -57,7 +57,7 @@ namespace Code.GameData
         /// <param name="chapter">The chapter is used to calculate the progress</param>
         public static void CalculateProgress(string chapter)
         { 
-            _stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAsset));
+            _stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetModel));
             _chapterPercentage = GetChapterPercentage(chapter);
             _nodePercentage = Math.Round(_chapterPercentage / GetStoryNodeCount(), 2);
         }
@@ -68,7 +68,7 @@ namespace Code.GameData
         /// <returns></returns>
         public static double GetProgress(string node)
         {
-            var story = (StoryAsset)_stories[_chapterCount];
+            var story = (StoryAssetModel)_stories[_chapterCount];
             return node.Equals(story.StoryNodes[0].name)? _chapterPercentage * (_chapterCount) : _nodePercentage;
         }
 
@@ -94,7 +94,7 @@ namespace Code.GameData
         /// <returns></returns>
         private static int GetStoryNodeCount()
         {
-            var story = (StoryAsset)_stories[_chapterCount];
+            var story = (StoryAssetModel)_stories[_chapterCount];
             var count = 0;
             foreach (var child in story.StoryNodes)
             {

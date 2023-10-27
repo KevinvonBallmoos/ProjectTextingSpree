@@ -1,15 +1,17 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace Code.Controller.NodeController
+namespace Code.Model.NodeModels
 {
     /// <summary>
     /// Object Class to cache the Story nodes
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">15.08.2023</para>
-    public abstract class StoryNodeDeserializeController
+    public class StoryNodeDeserializeModel
     {
-        protected StoryNodeDeserializeController(
+        [JsonConstructor]
+        protected StoryNodeDeserializeModel(
             string nodeId, 
             string labelText, 
             string text, 
