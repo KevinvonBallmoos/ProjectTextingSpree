@@ -13,6 +13,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Code/GameData/GameDataRemover.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -32,6 +35,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "feature/mvcPatternImplementation__14",
+    "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -40,9 +44,9 @@
   },
   "keyToStringList": {
     "rider.external.source.directories": [
-      "C:\\Users\\kevin.vonballmoos\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
-      "C:\\Users\\kevin.vonballmoos\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
-      "C:\\Users\\kevin.vonballmoos\\AppData\\Local\\Symbols\\src"
+      "C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
+      "C:\\Users\\Kevin\\AppData\\Local\\Symbols\\src"
     ]
   }
 }]]></component>
@@ -95,6 +99,7 @@
       <workItem from="1696481093911" duration="2658000" />
       <workItem from="1698122517602" duration="3715000" />
       <workItem from="1698306271852" duration="18000" />
+      <workItem from="1698347679351" duration="117000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />

@@ -9,17 +9,17 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Code.Dialogue.Story;
-using Code.GameData;
 using Code.Logger;
-using Code.Model.FileModels;
-using Code.Model.NodeModels;
-using Code.View.DialogueViews.StoryView;
+using Code.Model.Files;
+using Code.Model.GameData;
+using Code.Model.Node;
+using Code.View.Dialogue.StoryView;
+using Code.View.GameData;
 
 namespace Code.Controller.GameController
 {
     /// <summary>
-    /// This class is used to temporarily store the game data, until it is passed to the GameData class
+    /// This class is used to temporarily store the game data, until it is passed to the GameDataModel class
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">30.01.2023</para>
@@ -167,7 +167,7 @@ namespace Code.Controller.GameController
         /// </summary>
         public void RemoveData_Click()
         {
-            GameManager.Gm.SetMessageBoxProperties(GameDataRemover.RemoveData_Click, XmlModel.GetMessageBoxText(1));
+            GameManager.Gm.SetMessageBoxProperties(GameDataRemoverView.RemoveData_Click, XmlModel.GetMessageBoxText(1));
             screenObjects[1].SetActive(true);
             SetPlaceholderNum();
         }
@@ -368,7 +368,7 @@ namespace Code.Controller.GameController
         private void SaveNewGame()
         {
             _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
-            var gameData = new GameData.GameData(new SaveData
+            var gameData = new GameDataModel(new SaveData
             {
                 PlayerName = PlayerName,
                 PlayerBackground = PlayerBackground, 
@@ -408,7 +408,7 @@ namespace Code.Controller.GameController
             if (progress <= LoadedData[_placeholderNum].ProgressPercentage)
                 progress += Math.Round(LoadedData[_placeholderNum].ProgressPercentage, 2);
             
-            var gameData = new GameData.GameData(
+            var gameData = new GameDataModel(
                 new SaveData
                 {
                     PlayerName = PlayerName,

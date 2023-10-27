@@ -2,10 +2,11 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
 #endif
+
 using System;
 using System.IO;
-using Code.Dialogue.Story;
-using Code.Model.NodeModels;
+using Code.Model.Dialogue.StoryDialogue;
+using Code.Model.Node;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

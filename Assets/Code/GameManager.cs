@@ -4,14 +4,15 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Code.Dialogue.Story;
+
 using Code.Controller.GameController;
 using Code.Logger;
-using Code.Model.FileModels;
-using Code.View.DialogueViews.StoryView;
-using UnityEngine.Serialization;
+using Code.Model.Dialogue.StoryDialogue;
+using Code.Model.Files;
+using Code.View.Dialogue.StoryView;
 
 namespace Code
 {
