@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="" />
+    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Dialogue/Story.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemoverView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemover.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemoverView.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameObject/ObjectRotationView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameObject/ObjectRotationView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,6 +83,14 @@
   }
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../TalesOfRydonia_Build/TalesOfRydonia.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Kevin\Unity Projects\TalesOfRydonia_Build" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\kevin.vonballmoos\MyFolder\Unity Projects\TalesOfRydonia&quot; -debugCodeOptimization" />
@@ -121,6 +141,7 @@
       <workItem from="1698306271852" duration="18000" />
       <workItem from="1698347679351" duration="117000" />
       <workItem from="1698430563850" duration="7233000" />
+      <workItem from="1698441841875" duration="1915000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -146,6 +167,7 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="UserStory 11 Added a table of contents, updated Versioning" />

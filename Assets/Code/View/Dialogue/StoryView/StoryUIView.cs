@@ -9,7 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.View.Dialogue.StoryView
+namespace Code.View.Dialogue.StoryView 
 {
     /// <summary>
     /// Displays the Story in the GUI
