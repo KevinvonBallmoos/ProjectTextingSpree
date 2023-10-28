@@ -167,7 +167,7 @@ namespace Code.Controller.GameController
         /// </summary>
         public void RemoveData_Click()
         {
-            GameManager.Gm.SetMessageBoxProperties(GameDataRemoverView.RemoveData_Click, XmlModel.GetMessageBoxText(1));
+            UIManager.Uim.SetMessageBoxProperties(GameDataRemoverView.RemoveData_Click, XmlModel.GetMessageBoxText(1));
             screenObjects[1].SetActive(true);
             SetPlaceholderNum();
         }

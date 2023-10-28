@@ -29,16 +29,14 @@ namespace Code
         public static GameManager Gm;
         // Story UI
         private static StoryUIView _storyUIView;
-        // Main Menu, Save and Message Box Objects
-        [Header("Main Menu, Save and Message Box Screens")]
+        // Main Menu and Save Objects
+        [Header("Main Menu and Save Screens")]
         [SerializeField] private GameObject[] screenObjects;
-        [SerializeField] private GameObject[] messageBox;
         // Message Box Game Over Screen Object
         [Header("Game over Message Box")]
         [SerializeField] private GameObject messageBoxGameOver;
         // Character
         [Header("Character")] 
-        [SerializeField] private GameObject[] characterPages;
         [SerializeField] public GameObject[] characters;
         [SerializeField] private Text chosenCharacter;
         [SerializeField] private InputField playerName;
@@ -129,7 +127,7 @@ namespace Code
                 scrollbar.value = 1;
             }
             // Adds Listener,to go back to the menu
-            buttons[0].onClick.AddListener(BackToMainMenu_Click);
+            UIManager.Uim.AddButtonListener(buttons[0], BackToMainMenu_Click);
         }
 
         /// <summary>
@@ -155,33 +153,9 @@ namespace Code
             {
                 GameDataController.Gdc.InitializeSaveDataPanel("NEW GAME", 1);
                 screenObjects[2].SetActive(false);
-                SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlModel.GetMessageBoxText(0));
+                UIManager.Uim.SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlModel.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);
             }
-        }
-        
-        #endregion
-
-        #region Page Scroll
-        
-        /// <summary>
-        /// Displays the 2nd Character Page
-        /// </summary>
-        public void ScrollNextCharacterPage_CLick()
-        {
-            characterPages[0].SetActive(false);
-            characterPages[1].SetActive(true);
-            ChangeButtonProperties(ScrollPreviousCharacterPage_CLick, "Go back", false);
-        }
-
-        /// <summary>
-        /// Displays the 1st Character Page
-        /// </summary>
-        private void ScrollPreviousCharacterPage_CLick()
-        {
-            characterPages[0].SetActive(true);
-            characterPages[1].SetActive(false);
-            ChangeButtonProperties(BackToMainMenu_Click, "Back to Menu", true);
         }
         
         #endregion
@@ -347,22 +321,6 @@ namespace Code
             return !playerName.text.Equals("");
         }
         
-        #endregion
-        
-        #region MessageBox
-
-        /// <summary>
-        /// Sets the properties of the MessageBox
-        /// </summary>
-        /// <param name="eventMethod">Listener to add to the Button</param>
-        /// <param name="text">Message Box text</param>
-        public void SetMessageBoxProperties(UnityAction eventMethod, string text)
-        {
-            messageBox[0].GetComponent<Button>().onClick.RemoveAllListeners();
-            messageBox[0].GetComponent<Button>().onClick.AddListener(eventMethod);
-            messageBox[1].GetComponent<Text>().text = text;
-        }
-
         #endregion
 
         #region Main Menu

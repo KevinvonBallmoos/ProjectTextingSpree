@@ -203,6 +203,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5415959}
   m_CullTransparentMesh: 1
+--- !u!1 &42399821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42399822}
+  - component: {fileID: 42399823}
+  - component: {fileID: 42399824}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &42399822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42399821}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 762.7109, y: 533.15625, z: -30.739944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &42399823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42399821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553d073ac2a04f1bb5409e157932c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 996183976}
+  - {fileID: 830336162}
+  characterPages:
+  - {fileID: 494401944}
+  - {fileID: 1006051109}
+  messageBox:
+  - {fileID: 158730989}
+--- !u!114 &42399824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42399821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc00cd1bd8c4b328645e061a583b561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &50168917
 GameObject:
   m_ObjectHideFlags: 0
@@ -3926,8 +3991,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1553586389}
-        m_TargetAssemblyTypeName: Code.GameManager, Assembly-CSharp
+      - m_Target: {fileID: 42399824}
+        m_TargetAssemblyTypeName: Code.View.ControlElements.ControlView, Assembly-CSharp
         m_MethodName: ScrollNextCharacterPage_CLick
         m_Mode: 1
         m_Arguments:
@@ -8285,13 +8350,7 @@ MonoBehaviour:
   - {fileID: 1341287985}
   - {fileID: 158730989}
   - {fileID: 1163822378}
-  messageBox:
-  - {fileID: 1092745925}
-  - {fileID: 956612883}
   messageBoxGameOver: {fileID: 158730989}
-  characterPages:
-  - {fileID: 494401944}
-  - {fileID: 1006051109}
   characters:
   - {fileID: 478221886}
   - {fileID: 874827145}
@@ -8302,7 +8361,7 @@ MonoBehaviour:
   buttons:
   - {fileID: 996183976}
   - {fileID: 830336162}
-  storyUIScript: {fileID: 0}
+  storyUIViewScript: {fileID: 0}
 --- !u!4 &1553586390
 Transform:
   m_ObjectHideFlags: 0

@@ -4,18 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs.meta" afterDir="false" />
+    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="Fixed namespace problem">
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Dialogue/Story.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemoverView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemover.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemoverView.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameObject/ObjectRotationView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameObject/ObjectRotationView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Controller/GameController/GameDataController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Controller/GameController/GameDataController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/GameData.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/GameData/.idea/.idea.GameData.dir/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/GameData/.idea/.idea.GameData.dir/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/GameData/.idea/.idea.GameData.dir/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/GameData/.idea/.idea.GameData.dir/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameObjects.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameObjects/ObjectRotationView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameObjects/ObjectRotationView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/MessageBox.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/MessageBox/MessageBoxHolderView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/MessageBox/MessageBoxHolderView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,13 +41,19 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeSerializeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemover.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameObject/ObjectRotationView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameObjects/ObjectRotationView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/MainMenu/MainMenuHolderView.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/View/MessageBox/MessageBoxHolderView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/View/MessageBox/MessageBoxView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.18/Editor/Collaborate/Views/IChangesView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/EditorPluginInterop.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/IAssemblyNameProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/LastWriteTracker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/PackageManagerTracker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/ProjectPart.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/UnitTesting/SyncTestRunCallback.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/UnitTesting/SyncTestRunEventsHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Image.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/Canvas/CanvasElementsMaintainValidPositionsWhenCameraOrthoSizeIsZero.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -142,6 +154,7 @@
       <workItem from="1698347679351" duration="117000" />
       <workItem from="1698430563850" duration="7233000" />
       <workItem from="1698441841875" duration="1915000" />
+      <workItem from="1698495809416" duration="5222000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -159,7 +172,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698440968153</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed namespace problem">
+      <option name="closed" value="true" />
+      <created>1698496217699</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1698496217699</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,6 +193,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="UserStory 11 Added a table of contents, updated Versioning" />
     <MESSAGE value="UserStory 14 Moved, Renamed Files and Classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="UserStory 14 Moved, Renamed Files and Classes" />
+    <MESSAGE value="Fixed namespace problem" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed namespace problem" />
   </component>
 </project>
