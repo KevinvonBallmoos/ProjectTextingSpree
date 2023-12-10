@@ -255,7 +255,13 @@ MonoBehaviour:
   - {fileID: 494401944}
   - {fileID: 1006051109}
   messageBox:
+  - {fileID: 1092745925}
+  - {fileID: 956612883}
+  screenObjects:
+  - {fileID: 1341287985}
   - {fileID: 158730989}
+  - {fileID: 1163822378}
+  removeData: {fileID: 1628326019}
 --- !u!114 &42399824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3991,8 +3997,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42399824}
-        m_TargetAssemblyTypeName: Code.View.ControlElements.ControlView, Assembly-CSharp
+      - m_Target: {fileID: 42399823}
+        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
         m_MethodName: ScrollNextCharacterPage_CLick
         m_Mode: 1
         m_Arguments:
@@ -4075,10 +4081,6 @@ MonoBehaviour:
   - {fileID: 1233027385}
   - {fileID: 1063572619}
   - {fileID: 2067775538}
-  screenObjects:
-  - {fileID: 1341287985}
-  - {fileID: 158730989}
-  - {fileID: 1163822378}
   placeholderView: {fileID: 1885663667}
 --- !u!4 &868398590
 Transform:
@@ -5435,8 +5437,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 868398589}
-        m_TargetAssemblyTypeName: Code.GameDataManager.GameDataManager, Assembly-CSharp
+      - m_Target: {fileID: 42399823}
+        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
         m_MethodName: Continue_Click
         m_Mode: 1
         m_Arguments:
@@ -8898,7 +8900,7 @@ GameObject:
   - component: {fileID: 1628326019}
   m_Layer: 5
   m_Name: RemoveData
-  m_TagString: Untagged
+  m_TagString: RemoveData
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8968,10 +8970,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 868398589}
-        m_TargetAssemblyTypeName: Code.Controller.GameController.GameDataController,
-          Assembly-CSharp
-        m_MethodName: RemoveData_Click
+      - m_Target: {fileID: 42399823}
+        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
+        m_MethodName: Remove_Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9557,8 +9558,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 868398589}
-        m_TargetAssemblyTypeName: Code.GameDataManager.GameDataManager, Assembly-CSharp
+      - m_Target: {fileID: 42399823}
+        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
         m_MethodName: Cancel_CLick
         m_Mode: 1
         m_Arguments:

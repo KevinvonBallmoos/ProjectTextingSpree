@@ -56,9 +56,6 @@ namespace Code.Controller.GameController
         // Savedata Placeholders
         [Header("Savedata Placeholders")]
         [SerializeField] private GameObject[] placeholders;
-        // Main Menu, Message Box and Character Screen Objects
-        [Header("Main Menu, Message Box and Character Screens")]
-        [SerializeField] private GameObject[] screenObjects;
         // Placeholder view
         [Header("Placeholder view")]
         [SerializeField] private GameObject placeholderView;
@@ -120,58 +117,6 @@ namespace Code.Controller.GameController
             }
         }
         
-        /// <summary>
-        /// Button Click to get back to the main menu
-        /// [0]: Disables the title screen
-        /// [2]: Enables the character properties screen
-        /// </summary>
-        public void BackToMenu_Click()
-        {
-            screenObjects[0].SetActive(true);
-            screenObjects[2].SetActive(false);
-        }
-        
-        #endregion
-        
-        #region Messagebox Buttons
-        
-        /// <summary>
-        /// When continue is clicked, the User can choose a save to override the old data with the new Game
-        /// [0]: Enables the title screen
-        /// [1]: Disables the messagebox
-        /// </summary>
-        public void Continue_Click()
-        {
-            screenObjects[0].SetActive(true);
-            screenObjects[1].SetActive(false);
-        }
-        
-        /// <summary>
-        /// Action to cancel the Messagebox
-        /// [0]: Enables the title screen
-        /// [1]: Disables the messagebox
-        /// </summary>
-        public void Cancel_CLick()
-        {
-            screenObjects[0].SetActive(true);
-            screenObjects[1].SetActive(false);
-        }
-        
-        #endregion
-        
-        #region Remove Data
-        
-        /// <summary>
-        /// Display the messagebox with the according text, to remove a selected save
-        /// [1]: Enables the messagebox
-        /// </summary>
-        public void RemoveData_Click()
-        {
-            UIManager.Uim.SetMessageBoxProperties(GameDataRemoverView.RemoveData_Click, XmlModel.GetMessageBoxText(1));
-            screenObjects[1].SetActive(true);
-            SetPlaceholderNum();
-        }
-        
         #endregion
 
         #endregion
@@ -187,8 +132,8 @@ namespace Code.Controller.GameController
         public bool NewGame(string player, string background)
         {
             _saveTime = "";
-            PlayerName = player;
-            PlayerBackground = background;
+            PlayerInfoModel.PlayerName = player;
+            PlayerInfoModel.PlayerBackground = background;
             var length = Directory.GetFiles(Application.persistentDataPath + "/SaveData").Length;
             if (length == 3)
                 return false;
@@ -228,6 +173,7 @@ namespace Code.Controller.GameController
         }
         
         #endregion
+        
         
         #region Placeholder View
 
@@ -299,22 +245,28 @@ namespace Code.Controller.GameController
         /// <summary>
         /// Checks on which placeholder the check Image is active and saves the number
         /// </summary>
-        /// <returns></returns>
-        private void SetPlaceholderNum()
+        public void SetPlaceholderNum()
         {
             var holders = placeholderView.GetComponentsInChildren<Image>();
-            for (var i = 1; i < holders.Length; i += 2)
+            var holder = holders.Where(h => h.name.Equals("CheckImage")).ToList();
+            var count = 0;
+            foreach (var h in holder)
             {
-                if (!holders[i].enabled) continue;
-                _placeholderNum = (i - 1) / 2;
-                break;
+                count++;
+                if (h.enabled)
+                {
+                    _placeholderNum = count - 1;
+                    break;
+                }
+                if (count == 3 && _placeholderNum != 2)
+                    _placeholderNum = -1;
             }
         }
 
         /// <summary>
         /// Returns the placeholder number
         /// </summary>
-        /// <returns></returns>
+        /// <returns>placeholder number</returns>
         public int GetPlaceholderNum()
         {
             return _placeholderNum;
@@ -344,8 +296,8 @@ namespace Code.Controller.GameController
                 LoadSelectedGame();
             }
 
-            PlayerName = _saveData?.PlayerName;
-            PlayerBackground = _saveData?.PlayerBackground;
+            PlayerInfoModel.PlayerName = _saveData?.PlayerName;
+            PlayerInfoModel.PlayerBackground = _saveData?.PlayerBackground;
             GameManager.LoadScene();
         }
         
@@ -370,8 +322,8 @@ namespace Code.Controller.GameController
             _saveTime = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
             var gameData = new GameDataModel(new SaveData
             {
-                PlayerName = PlayerName,
-                PlayerBackground = PlayerBackground, 
+                PlayerName = PlayerInfoModel.PlayerName,
+                PlayerBackground = PlayerInfoModel.PlayerBackground, 
                 Title = "",
                 ProgressPercentage = 0,
                 TimeSpent = "00.00.00",
@@ -411,8 +363,8 @@ namespace Code.Controller.GameController
             var gameData = new GameDataModel(
                 new SaveData
                 {
-                    PlayerName = PlayerName,
-                    PlayerBackground = PlayerBackground,
+                    PlayerName = PlayerInfoModel.PlayerName,
+                    PlayerBackground = PlayerInfoModel.PlayerBackground,
                     Title = save.Title,
                     ProgressPercentage = progress,
                     TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
@@ -439,28 +391,6 @@ namespace Code.Controller.GameController
             TimeAndProgress.StartTime();
         }
         
-        #endregion
-
-        #region Player and PlayerBackground
-        
-        /// <summary>
-        /// Property for the Player name
-        /// </summary>
-        public string PlayerName
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Property for the Player Background/Character
-        /// </summary>
-        public string PlayerBackground
-        {
-            get;
-            private set;
-        }
-
         #endregion
     }
 }

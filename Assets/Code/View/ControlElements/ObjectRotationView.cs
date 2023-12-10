@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Code.View.GameObjects
+namespace Code.View.ControlElements
 {
     /// <summary>
     /// Rotates an Element around the Z Axis

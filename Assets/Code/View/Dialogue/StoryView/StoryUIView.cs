@@ -5,6 +5,7 @@ using Code.Controller.GameController;
 using Code.Logger;
 using Code.Model.Dialogue.StoryDialogue;
 using Code.Model.Files;
+using Code.Model.GameData;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -188,7 +189,7 @@ namespace Code.View.Dialogue.StoryView
         {
             // Displays Story Text either one letter after another, or the whole text at once
             story.text = "";
-            var text = _storyHolder.GetCurrentNodeText().Replace("{Name}", GameDataController.Gdc.PlayerName);
+            var text = _storyHolder.GetCurrentNodeText().Replace("{Name}", PlayerInfoModel.PlayerName);
             if (GameManager.Gm.IsTextSlowed)
                 _textCoroutine = StartCoroutine(TextSlower(0.02f, text));
             else
@@ -395,7 +396,7 @@ namespace Code.View.Dialogue.StoryView
             // Check if this node can only be used by a certain player
             if (!background.Equals(""))
             {
-                if (background.Equals(GameDataController.Gdc.PlayerBackground))
+                if (background.Equals(PlayerInfoModel.PlayerBackground))
                 {
                     // Set Text
                     var choiceText = choiceInstance.GetComponentInChildren<Text>();

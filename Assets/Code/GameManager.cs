@@ -52,7 +52,8 @@ namespace Code
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfPart;
         // Active Scene
-        [NonSerialized] public static int ActiveScene;
+        public static int ActiveScene { get; set; }
+
         // Chapter, Part and Path
         private int _chapter;
         private int _part;
@@ -153,29 +154,12 @@ namespace Code
             {
                 GameDataController.Gdc.InitializeSaveDataPanel("NEW GAME", 1);
                 screenObjects[2].SetActive(false);
-                UIManager.Uim.SetMessageBoxProperties(GameDataController.Gdc.Continue_Click, XmlModel.GetMessageBoxText(0));
+                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlModel.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);
             }
         }
         
         #endregion
-
-        /// <summary>
-        /// Removes all Listeners on the Button
-        /// Adds a new Listener
-        /// Sets the Button Text
-        /// </summary>
-        /// <param name="eventMethod">Listener Method to add to the Button</param>
-        /// <param name="text">For the Button caption</param>
-        /// <param name="isEnabled">If character page 2 is active, the Button in the top right corner is disabled</param>
-        private void ChangeButtonProperties(UnityAction eventMethod, string text, bool isEnabled)
-        {
-            buttons[0].onClick.RemoveAllListeners();
-            buttons[0].onClick.AddListener(eventMethod);
-            buttons[0].GetComponentInChildren<Text>().text = text;
-            // On Character Page 2 this Button is disabled
-            buttons[1].gameObject.SetActive(isEnabled);
-        }
         
         #endregion
         

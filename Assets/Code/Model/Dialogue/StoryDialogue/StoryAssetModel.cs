@@ -23,7 +23,7 @@ namespace Code.Model.Dialogue.StoryDialogue
         public StoryNodeModel Node { get; set; }
         public bool IsTrue { get; set; }
     }
-
+    
     /// <summary>
     /// This class reads the content of the Story xml files
     /// Creates asset files by saving the node Information in Json Files
@@ -142,23 +142,20 @@ namespace Code.Model.Dialogue.StoryDialogue
         /// <returns>true when the node exists or false when the node is not in the List</returns>
         private bool CheckNodes(string id)
         {
-            foreach (var n in _nodes)
+            foreach (var n in _nodes.Where(n => n.Node.NodeId == id))
             {
-                if (n.Node.NodeId == id)
-                {
-                    n.IsTrue = true;
-                    return true;
-                }
+                n.IsTrue = true; 
+                return true;
             }
             return false;
         }
         
         /// <summary>
-        /// // Remove nodes that ore not needed anymore
+        /// Remove nodes that ore not needed anymore
         /// </summary>
         private void RemoveUnusedNodes()
         {
-            int i = 0;
+            var i = 0;
             while (i < _nodes.Count)
             {
                 if (_nodes[i].IsTrue)
@@ -167,12 +164,13 @@ namespace Code.Model.Dialogue.StoryDialogue
                     continue;
                 }
 
-                foreach (var n in _nodes)
-                {
-                    if (n.Node.ChildNodes == null) continue;
-                    if (n.Node.ChildNodes.Contains(_nodes[i].Node.name))
-                        n.Node.RemoveChildNode(_nodes[i].Node.name);
-                }
+                var nodes = _nodes
+                    .Where(n => n.Node.ChildNodes != null)
+                    .Where(n => n.Node.ChildNodes.Contains(_nodes[i].Node.name)).ToList();
+                
+                foreach (var n in nodes)
+                    n.Node.RemoveChildNode(_nodes[i].Node.name);
+                
                 _nodes.RemoveAt(i);
             }
         }
@@ -207,7 +205,7 @@ namespace Code.Model.Dialogue.StoryDialogue
                 ? xmlDoc.GetElementsByTagName("Choice")
                 : xmlDoc.GetElementsByTagName("Node");
             var xmlNode = nodeList.Cast<XmlNode>().FirstOrDefault(n => node.Text == n.InnerText);
-            int? attributesCount = xmlNode?.Attributes?.Count;
+            var attributesCount = xmlNode?.Attributes?.Count;
 
             if (attributesCount == 0) return;
 
@@ -450,5 +448,6 @@ namespace Code.Model.Dialogue.StoryDialogue
         }
         
         #endregion
+        
     }
 }
