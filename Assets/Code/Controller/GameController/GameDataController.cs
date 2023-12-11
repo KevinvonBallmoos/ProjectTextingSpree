@@ -9,12 +9,12 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 using Code.Logger;
 using Code.Model.Files;
 using Code.Model.GameData;
 using Code.Model.Node;
 using Code.View.Dialogue.StoryView;
-using Code.View.GameData;
 
 namespace Code.Controller.GameController
 {
@@ -53,6 +53,9 @@ namespace Code.Controller.GameController
         // Load save
         [Header("Load Game Text")]
         [SerializeField] private Text loadGameText;
+        // Error Label
+        [Header("Error Label")] 
+        [SerializeField] private TextMeshProUGUI ErrorLabel;
         // Savedata Placeholders
         [Header("Savedata Placeholders")]
         [SerializeField] private GameObject[] placeholders;
@@ -93,32 +96,37 @@ namespace Code.Controller.GameController
         
         #endregion
         
-        #region Button Events
-        
-        #region Button Game States
+        #region Game States
         
         /// <summary>
         /// Starts either a new game or loads a selected one 
         /// </summary>
-        public void LoadGame_Click()
+        public void LoadGame()
         {
             SetPlaceholderNum();
-            
+
+            if (_placeholderNum == -1)
+            {
+                // Add message box with information
+                ErrorLabel.enabled = true;
+                ErrorLabel.text = LocalizationManager.GetLocalizedValue("savefile_errorlabel_override_caption");
+                return;
+            }
+
             switch (loadGameText.text)
             {
                 case "LOAD":
                     GameManager.ActiveScene = 2;
                     LoadSelectedGame();
                     break;
-                case "NEW GAME":
+                case "Override":
                     GameManager.ActiveScene = 1;
                     GameManager.LoadScene();
                     break;
             }
+            //ErrorLabel.enabled = false;
         }
         
-        #endregion
-
         #endregion
 
         #region Game States
@@ -147,7 +155,7 @@ namespace Code.Controller.GameController
         /// <summary>
         /// Initializes the Save panel and loads the data into the placeholders
         /// </summary>
-        public void LoadGame()
+        public void LoadGames()
         {
             InitializeSaveDataPanel("LOAD", 0);
             LoadDataIntoPlaceholders();

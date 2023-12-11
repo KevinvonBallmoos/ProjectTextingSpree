@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using Code.Controller.GameController;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -52,6 +53,18 @@ namespace Code
                 EnableRemoveDataButton();
         }
         
+        #endregion
+        
+        #region LoadGame
+
+        /// <summary>
+        /// Action to load a game
+        /// </summary>
+        public void LoadGame_Click()
+        {
+            GameDataController.Gdc.LoadGame();
+        }
+
         #endregion
         
         #region Character Page Top Bar Buttons
@@ -140,7 +153,6 @@ namespace Code
         private void EnableRemoveDataButton()
         {
             var files = Directory.GetFiles(SaveDataPath);   
-            //removeData = GameObject.FindGameObjectWithTag("RemoveData").GetComponent<Button>();
             removeData.enabled = files.Any();
         }
         

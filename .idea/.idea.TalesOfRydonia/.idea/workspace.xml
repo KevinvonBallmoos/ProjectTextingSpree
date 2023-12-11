@@ -4,23 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/PlayerInfoModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/PlayerInfoModel.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/SaveGameModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/SaveGameModel.cs.meta" afterDir="false" />
+    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="UserStory 14 Added UI Events to UIManager">
+      <change afterPath="$PROJECT_DIR$/Assets/Code/Controller/LocalizationController.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/Controller/LocalizationController/LocalizationDataController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/Controller/LocalizationController/LocalizationDataController.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/LocalizationManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/LocalizationManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Controller/GameController/GameDataController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Controller/GameController/GameDataController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryDialogue/StoryAssetModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryDialogue/StoryAssetModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemoverView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/GameDataRemoverView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +26,14 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4a31731933e0419ca5a995305014ad37157a00/a2/59d0680b/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Controller/DialogueController/StoryDialogueController/StoryHolder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Kevin/Unity Projects/TalesOfRydonia/Assets/Code/Controller/GameController/GameDataController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryDialogue/StoryAssetModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Files/FileIOModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Files/XmlModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeDeserializeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeSerializeModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Kevin/Unity Projects/TalesOfRydonia/Assets/Code/UIManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs" root0="FORCE_HIGHLIGHTING" />
@@ -46,6 +41,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/MainMenu/MainMenuHolderView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/TalesOfRydoniaResources.resx" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.18/Editor/Collaborate/Views/IChangesView.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/EditorPluginInterop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/IAssemblyNameProvider.cs" root0="SKIP_HIGHLIGHTING" />
@@ -56,6 +52,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/UnitTesting/SyncTestRunEventsHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.visualstudio@2.0.15/Editor/Testing/TestRunnerApiListener.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/ExecuteEvents.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/UIBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Image.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/Canvas/CanvasElementsMaintainValidPositionsWhenCameraOrthoSizeIsZero.cs" root0="SKIP_HIGHLIGHTING" />
@@ -88,6 +85,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -133,10 +131,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="28044">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="27260">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="28044" />
+      <option name="pid" value="27260" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -159,7 +157,8 @@
       <workItem from="1698430563850" duration="7233000" />
       <workItem from="1698441841875" duration="1915000" />
       <workItem from="1698495809416" duration="5440000" />
-      <workItem from="1702149880207" duration="15889000" />
+      <workItem from="1702149880207" duration="19837000" />
+      <workItem from="1702295038132" duration="5649000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -193,7 +192,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698503905821</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="UserStory 14 Added UI Events to UIManager">
+      <option name="closed" value="true" />
+      <created>1702168732088</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1702168732088</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,38 +215,56 @@
     <MESSAGE value="UserStory 14 Moved, Renamed Files and Classes" />
     <MESSAGE value="Fixed namespace problem" />
     <MESSAGE value="Created UI Manager&#10;Created ControlView" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created UI Manager&#10;Created ControlView" />
+    <MESSAGE value="UserStory 14 Added UI Events to UIManager" />
+    <option name="LAST_COMMIT_MESSAGE" value="UserStory 14 Added UI Events to UIManager" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/UIManager.cs</url>
-          <line>141</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\UIManager.cs" initialLine="139" containingFunctionPresentation="Method 'EnableRemoveDataButton'">
+          <url>file://$PROJECT_DIR$/Assets/Code/Controller/GameController/GameDataController.cs</url>
+          <line>122</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Controller\GameController\GameDataController.cs" initialLine="111" containingFunctionPresentation="Method 'LoadGame'">
             <startOffsets>
-              <option value="4473" />
+              <option value="3951" />
             </startOffsets>
             <endOffsets>
-              <option value="4518" />
+              <option value="3979" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="14" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/UIManager.cs</url>
-          <line>45</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\UIManager.cs" initialLine="45" containingFunctionPresentation="Method 'Awake'">
+          <url>file://$PROJECT_DIR$/Assets/Code/Controller/GameController/GameDataController.cs</url>
+          <line>105</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Controller\GameController\GameDataController.cs" initialLine="105" containingFunctionPresentation="Method 'LoadGame'">
             <startOffsets>
-              <option value="1385" />
+              <option value="3378" />
             </startOffsets>
             <endOffsets>
-              <option value="1401" />
+              <option value="3398" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="16" />
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/LocalizationManager.cs</url>
+          <line>24</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\LocalizationManager.cs" initialLine="24" containingFunctionPresentation="Method 'LoadLocalizableValues'">
+            <startOffsets>
+              <option value="772" />
+            </startOffsets>
+            <endOffsets>
+              <option value="850" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

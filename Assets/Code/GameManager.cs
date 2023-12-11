@@ -89,11 +89,11 @@ namespace Code
                 _runPath = $"{Application.dataPath}/Resources/";
                 _chapter = 1;
                 ActiveScene = 0;
-                
+                LocalizationManager.LoadLocalizableValues();
                 FileIOModel.CreateFolders();
                 
                 if (SceneManager.GetActiveScene().buildIndex == 0)
-                    GameDataController.Gdc.LoadGame();
+                    GameDataController.Gdc.LoadGames();
                 else if (SceneManager.GetActiveScene().buildIndex != 0)
                     _storyUIView = storyUIViewScript;
                     
@@ -152,7 +152,7 @@ namespace Code
             }
             else
             {
-                GameDataController.Gdc.InitializeSaveDataPanel("NEW GAME", 1);
+                GameDataController.Gdc.InitializeSaveDataPanel("Override", 1);
                 screenObjects[2].SetActive(false);
                 UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlModel.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);
