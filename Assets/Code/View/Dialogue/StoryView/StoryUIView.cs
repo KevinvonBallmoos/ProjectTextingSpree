@@ -189,7 +189,7 @@ namespace Code.View.Dialogue.StoryView
         {
             // Displays Story Text either one letter after another, or the whole text at once
             story.text = "";
-            var text = _storyHolder.GetCurrentNodeText().Replace("{Name}", PlayerInfoModel.PlayerName);
+            var text = _storyHolder.GetCurrentNodeText().Replace("{Name}", GameDataInfoModel.PlayerName);
             if (GameManager.Gm.IsTextSlowed)
                 _textCoroutine = StartCoroutine(TextSlower(0.02f, text));
             else
@@ -218,7 +218,7 @@ namespace Code.View.Dialogue.StoryView
         /// </summary>
         private void SaveGameState()
         {
-            GameDataController.Gdc.SaveGame(new SaveData
+            GameDataModel.SaveRunningGame(new GameDataModel
             {
                 Title = _chapterTitle,
                 ParentNode = _storyHolder.CurrentNode.name,
@@ -396,7 +396,7 @@ namespace Code.View.Dialogue.StoryView
             // Check if this node can only be used by a certain player
             if (!background.Equals(""))
             {
-                if (background.Equals(PlayerInfoModel.PlayerBackground))
+                if (background.Equals(GameDataInfoModel.PlayerBackground))
                 {
                     // Set Text
                     var choiceText = choiceInstance.GetComponentInChildren<Text>();

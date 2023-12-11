@@ -64,7 +64,7 @@ namespace Code.Controller.DialogueController.StoryDialogueController
             }
             else
             {
-                var saveData = GameDataController.GetSaveData();
+                var saveData = GameDataController.Gdc.GetSaveData();
                 var stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetModel)).ToList();
                 foreach (var asset in stories)
                 {

@@ -1,13 +1,17 @@
+using System;
 using System.IO;
 using System.Linq;
-using Code.Controller.GameController;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+using Code.Controller.GameController;
+using Code.Controller.LocalizationController;
 using Code.Model.Files;
+using Code.Model.GameData;
 using Code.View.ControlElements;
-using Code.View.GameData;
+using TMPro;
+using UnityEngine.Serialization;
 
 namespace Code
 {
@@ -30,13 +34,24 @@ namespace Code
         [Header("Main Menu, Message Box and Character Screens")]
         [SerializeField] private GameObject[] screenObjects;
         // Remove data button
-        [Header("Remove Data Button")] [SerializeField]
-        private Button removeData;
-        
+        [Header("Remove Data Button")] 
+        [SerializeField] private Button removeData;
+        // Load save
+        [Header("Load Game Text")]
+        [SerializeField] private Text buttonLoadGameText;
+        // Error Label
+        [Header("Error Label")] 
+        [SerializeField] private TextMeshProUGUI ErrorLabel;
+        // Savedata Placeholders
+        [Header("Savedata Placeholders")]
+        [SerializeField] private GameObject[] placeholders;
+        // Placeholder view
+        [Header("Placeholder view")]
+        [SerializeField] private GameObject placeholderView;
         // Path to the Save files
         private static string SaveDataPath;
         
-        #region Awake
+        #region Awake and Start
 
         /// <summary>
         /// Awake of the UIManager
@@ -48,21 +63,63 @@ namespace Code
                 Uim = this;
             _controlView = gameObject.AddComponent<ControlView>();
             SaveDataPath = Application.persistentDataPath + "/SaveData";
+
+            if (GameManager.ActiveScene != 0) return;
+            EnableRemoveDataButton();
+        }
+
+        /// <summary>
+        /// When the Game is started (buildIndex = 0) -> loads the Save Files and displays them on the Paper Object
+        /// </summary>
+        private void Start()
+        {
+            if (GameManager.ActiveScene != 0) return;
+            LoadGameDataOntoSaveFile("LOAD", 0, true);
+        }
+
+        #endregion
+        
+        #region Load Game Data onto save file
+        
+        /// <summary>
+        /// Action to initializes the Save panel and the placeholders
+        /// </summary>
+        /// <param name="text">Text for the Button, either Load Game or New Game</param>
+        /// <param name="index">Identifies which text from the xml file should be displayed</param>
+        /// <param name="loadData">True => loads data into placeholders, False => only initializes the save data panel</param>
+        public void LoadGameDataOntoSaveFile(string text, int index, bool loadData)
+        {
+            _controlView.InitializeSaveDataPanel(text, index, placeholderView, buttonLoadGameText);
             
-            if (GameManager.ActiveScene == 0)
-                EnableRemoveDataButton();
+            if (loadData)
+                _controlView.LoadDataIntoPlaceholders(placeholders);
         }
         
         #endregion
         
-        #region LoadGame
+        #region LoadOrOverrideSave
 
         /// <summary>
         /// Action to load a game
         /// </summary>
-        public void LoadGame_Click()
+        public void LoadOrOverrideSave_Click()
         {
-            GameDataController.Gdc.LoadGame();
+            var holders = placeholderView.GetComponentsInChildren<Image>();
+            GameDataInfoModel.SetPlaceholderNum(holders);
+
+            if (GameDataInfoModel.Placeholder == -1)
+            {
+                ErrorLabel.enabled = true;
+                var key = buttonLoadGameText.text.Equals("LOAD")? LocalizationKeyController.SaveFileErrorLabelLoadCaptionKey : LocalizationKeyController.SaveFileErrorLabelOverrideCaptionKey;
+                ErrorLabel.text = LocalizationManager.GetLocalizedValue(key);
+                return;
+            }
+            _controlView.LoadOrOverrideSave(buttonLoadGameText.text);
+            
+            if (GameManager.ActiveScene == 2)
+                GameDataController.Gdc.LoadSelectedGame();
+            
+            ErrorLabel.enabled = false;
         }
 
         #endregion
@@ -132,7 +189,8 @@ namespace Code
         public void Remove_Click()
         {
             SetMessageBoxProperties(RemoveData_Click, "Remove Data", XmlModel.GetMessageBoxText(1));
-            _controlView.RemoveDataAction(screenObjects[1]);
+            var holders = placeholderView.GetComponentsInChildren<Image>();
+            _controlView.RemoveDataAction(screenObjects[1], holders);
         }
         
         #endregion
@@ -144,7 +202,7 @@ namespace Code
         /// </summary>
         private void RemoveData_Click()
         {
-            _controlView.RemoveData(SaveDataPath, removeData);
+            _controlView.RemoveData(SaveDataPath, removeData, placeholders);
         }
 
         /// <summary>

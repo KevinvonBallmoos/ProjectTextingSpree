@@ -23,16 +23,16 @@ namespace Code.View.GameData
         
         /// <summary>
         /// Disables the select Image on all saves, when a save is selected
-        /// Enables the select Image on the current save slot game object
+        /// Enables the select Image on the current holders game object
         /// </summary>
         private void SetImage()
         {
             // Disable all Images
-            var slots = placeholderView.GetComponentsInChildren<Image>();
-            for (var i = 0; i < slots.Length; i++)
+            var holders = placeholderView.GetComponentsInChildren<Image>();
+            for (var i = 0; i < holders.Length; i++)
             {
                 if (i is 1 or 3 or 5)
-                    slots[i].enabled = false;
+                    holders[i].enabled = false;
             }
             // Enable Image of current game object 
             gameObject.GetComponentsInChildren<Image>()[1].enabled = true;

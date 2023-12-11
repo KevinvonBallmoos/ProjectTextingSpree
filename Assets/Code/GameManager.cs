@@ -1,15 +1,12 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using Code.Controller.GameController;
-using Code.Logger;
 using Code.Model.Dialogue.StoryDialogue;
 using Code.Model.Files;
 using Code.View.Dialogue.StoryView;
@@ -70,14 +67,13 @@ namespace Code
         private void Awake()
         {
             if (Gm == null)
-                Gm = this;
+                Gm = this; 
         }
 
         /// <summary>
         /// Start of the GameManager
         /// Sets the path, chapter and active scene
         /// Creates necessary Folders
-        /// When the Game is started (buildIndex = 0) -> loads the Save Files and displays them on the Paper Object
         /// When another Scene was loaded (buildIndex = 1 - 3) -> instantiates the story script
         /// This is needed, because the GameManager is existing in all scenes,
         /// this determines from which scene the GameManager is started
@@ -92,9 +88,7 @@ namespace Code
                 LocalizationManager.LoadLocalizableValues();
                 FileIOModel.CreateFolders();
                 
-                if (SceneManager.GetActiveScene().buildIndex == 0)
-                    GameDataController.Gdc.LoadGames();
-                else if (SceneManager.GetActiveScene().buildIndex != 0)
+                if (SceneManager.GetActiveScene().buildIndex != 0)
                     _storyUIView = storyUIViewScript;
                     
             }
@@ -152,7 +146,7 @@ namespace Code
             }
             else
             {
-                GameDataController.Gdc.InitializeSaveDataPanel("Override", 1);
+                UIManager.Uim .LoadGameDataOntoSaveFile("Override", 1, false); //InitializeSaveDataPanel("Override", 1);
                 screenObjects[2].SetActive(false);
                 UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlModel.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);
