@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Code.Controller.LocalizationController;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -109,7 +110,8 @@ namespace Code.Controller.GameController
             {
                 // Add message box with information
                 ErrorLabel.enabled = true;
-                ErrorLabel.text = LocalizationManager.GetLocalizedValue("savefile_errorlabel_override_caption");
+                var key = loadGameText.text.Equals("LOAD")? LocalizationKeyController.SaveFileErrorLabelLoadCaptionKey : LocalizationKeyController.SaveFileErrorLabelOverrideCaptionKey;
+                ErrorLabel.text = LocalizationManager.GetLocalizedValue(key);
                 return;
             }
 

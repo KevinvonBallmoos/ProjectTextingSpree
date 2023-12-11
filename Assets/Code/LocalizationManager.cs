@@ -13,9 +13,9 @@ namespace Code
     public static class LocalizationManager
     {
         // Current language
-        public static string currentLanguage;
+        private static string currentLanguage;
         // Dictionary for strings
-        private static Dictionary<string, Dictionary<string, string>> languages = new ();
+        private static readonly Dictionary<string, Dictionary<string, string>> languages = new ();
         
         /// <summary>
         /// Loads all localizable values from the LocalizedStrings.json files
@@ -23,34 +23,29 @@ namespace Code
         public static void LoadLocalizableValues()
         {
             var jsonFile = Resources.Load<TextAsset>("LocalizedStrings/LocalizedStrings");
+            var localizationData = JsonUtility.FromJson<LocalizationData>(jsonFile.text);
+            currentLanguage = localizationData.languages[0];
 
-            if (jsonFile != null)
+            foreach (var language in localizationData.languages)
             {
-                var localizationData = JsonUtility.FromJson<LocalizationData>(jsonFile.text);
-                currentLanguage = localizationData.languages[0];
+                var languageStrings = new Dictionary<string, string>();
 
-                foreach (var language in localizationData.languages)
+                foreach (var entry in localizationData.table)
                 {
-                    var languageStrings = new Dictionary<string, string>();
-
-                    foreach (var entry in localizationData.table)
+                    foreach (var data in entry.values.Where(data => data.lang == language))
                     {
-                        foreach (var data in entry.values.Where(data => data.lang == language))
-                        {
-                            languageStrings.Add(entry.key, data.value);
-                        }
+                        languageStrings.Add(entry.key, data.value);
                     }
-
-                    languages.Add(language, languageStrings);
                 }
+                languages.Add(language, languageStrings);
             }
-            else
-            {
-                Debug.LogError("Failed to load JSON file.");
-            }
-            
         }
         
+        /// <summary>
+        /// Gets the value from the key
+        /// </summary>
+        /// <param name="key">Key that value is needed</param>
+        /// <returns>value of the key</returns>
         public static string GetLocalizedValue(string key)
         {
             if (languages.TryGetValue(currentLanguage, out var language))
