@@ -94,7 +94,7 @@ namespace Code.Controller.GameController
             
             GameDataInfoModel.PlayerName = _gameData?.PlayerName;
             GameDataInfoModel.PlayerBackground = _gameData?.PlayerBackground;
-            GameManager.LoadScene();
+            GameManager.Gm.LoadScene();
         }
         
         /// <summary>

@@ -26,9 +26,6 @@ namespace Code
         public static GameManager Gm;
         // Story UI
         private static StoryUIView _storyUIView;
-        // Main Menu and Save Objects
-        [Header("Main Menu and Save Screens")]
-        [SerializeField] private GameObject[] screenObjects;
         // Message Box Game Over Screen Object
         [Header("Game over Message Box")]
         [SerializeField] private GameObject messageBoxGameOver;
@@ -49,7 +46,7 @@ namespace Code
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfPart;
         // Active Scene
-        public static int ActiveScene { get; set; }
+        public int ActiveScene { get; set; }
 
         // Chapter, Part and Path
         private int _chapter;
@@ -98,63 +95,6 @@ namespace Code
             }
         }
 
-        #endregion
-
-        #region Game State Button Events
-        
-        #region Game States
-        
-        /// <summary>
-        /// Opens the character select window and disables the select Images
-        /// </summary>
-        public void NewGame_Click()
-        {
-            // TODO: Animation Turns to page 2
-            // Display Character on pages 2 - 3,4 - 5
-            screenObjects[0].SetActive(false);
-            screenObjects[2].SetActive(true);
-            foreach (var c in characters)
-            {
-                var image = c.GetComponentsInChildren<Image>()[2];
-                image.enabled = false;
-                // Sets the scrollbar to the top
-                var scrollbar = c.GetComponentInChildren<Scrollbar>();
-                scrollbar.value = 1;
-            }
-            // Adds Listener,to go back to the menu
-            UIManager.Uim.AddButtonListener(buttons[0], BackToMainMenu_Click);
-        }
-
-        /// <summary>
-        /// Checks if a character was selected and a Name was given
-        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
-        /// </summary>
-        public void StartNewGame_Click()
-        {
-            if (!InputField_OnSubmit()) return;
-            if (chosenCharacter.text.Equals(""))
-            {
-                screenObjects[2].GetComponentsInChildren<Text>()[0].color = Color.red;
-                return;
-            }
-            chosenCharacter.color = Color.white;
-
-            if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
-            {
-                ActiveScene = 1;
-                LoadScene();
-            }
-            else
-            {
-                UIManager.Uim .LoadGameDataOntoSaveFile("Override", 1, false); //InitializeSaveDataPanel("Override", 1);
-                screenObjects[2].SetActive(false);
-                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlModel.GetMessageBoxText(0));
-                screenObjects[1].SetActive(true);
-            }
-        }
-        
-        #endregion
-        
         #endregion
         
         #region Next Chapter / Story or End
@@ -317,7 +257,7 @@ namespace Code
 		/// <summary>
 		/// Loads the Scene saved in the 'ActiveScene' variable
 		/// </summary>
-		public static void LoadScene()
+		public void LoadScene()
 		{
             SceneManager.LoadScene(ActiveScene);
 		}

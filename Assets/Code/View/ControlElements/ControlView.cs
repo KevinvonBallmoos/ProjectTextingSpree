@@ -3,18 +3,101 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Code.Controller.GameController;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 using Code.Model.Files;
 using Code.Model.GameData;
+using Code.View.Base;
 using TMPro;
 
 namespace Code.View.ControlElements
 {
-    public class ControlView : MonoBehaviour
+    public class ControlView : ComponentBase
     {
+        // ControlView instance
+        public static ControlView Cv;
+        
+        #region Start method
+        
+        /// <summary>
+        /// Awake of the UIManager
+        /// Sets a new Instance of the ControlView
+        /// </summary>
+        private void Awake()
+        {
+            if (Cv == null)
+                Cv = this;
+        }
+        
+        private void Start()
+        {
+            if (GameManager.Gm.ActiveScene != 0) return;
+            InitializeSaveDataPanel("LOAD", 0, true);
+        }
+        
+        #endregion
+        
+        #region Game States
+
+        /// <summary>
+        /// Opens the character select window and disables the select Images
+        /// </summary>
+        public void NewGame()
+        {
+            foreach (var c in characters)
+            {
+                var image = c.GetComponentsInChildren<Image>()[2];
+                image.enabled = false;
+                // Sets the scrollbar to the top
+                var scrollbar = c.GetComponentInChildren<Scrollbar>();
+                scrollbar.value = 1;
+            }
+        }
+
+        /// <summary>
+        /// Checks if a character was selected and a Name was given
+        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
+        /// </summary>
+        public void BookButtonStartNewGame()
+        {
+            if (!InputField_OnSubmit()) return;
+            if (chosenCharacter.text.Equals(""))
+            {
+                screenObjects[2].GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            chosenCharacter.color = Color.white;
+            
+            if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
+            {
+                GameManager.Gm.ActiveScene = 1;
+                GameManager.Gm.LoadScene();
+            }
+            else
+            {
+                InitializeSaveDataPanel("Override", 1, false);
+                screenObjects[2].SetActive(false);
+                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlModel.GetMessageBoxText(0));
+                screenObjects[1].SetActive(true);
+            }
+        }
+        
+        /// <summary>
+        /// Is triggered when the User submits the Username
+        /// It checks if the input is empty or not
+        /// </summary>
+        private bool InputField_OnSubmit()
+        {
+            if (playerName.text.Equals(""))
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+            return !playerName.text.Equals("");
+        }
+        
+        #endregion
+        
         #region Load Game Data onto save file
 
         /// <summary>
@@ -24,9 +107,8 @@ namespace Code.View.ControlElements
         /// </summary>
         /// <param name="text">Text for the Button, either Load Game or New Game</param>
         /// <param name="index">Identifies which text from the xml file should be displayed</param>
-        /// <param name="placeholderView">Game object that holds all placeholders</param>
-        /// <param name="buttonLoadGameText">Text control that holds the button text</param>
-        public void InitializeSaveDataPanel(string text, int index,GameObject placeholderView, Text buttonLoadGameText)
+        /// <param name="loadData">True => loads data into placeholders, False => only initializes the save data panel</param>
+        public void InitializeSaveDataPanel(string text, int index, bool loadData)
         {
             var holders = placeholderView.GetComponentsInChildren<Image>();
             for (var i = 0; i < holders.Length; i++)
@@ -36,19 +118,22 @@ namespace Code.View.ControlElements
             }
             buttonLoadGameText.text = text;
             placeholderView.GetComponentsInChildren<Text>()[0].text = XmlModel.GetInformationText(index);
+            
+            if (loadData)
+                LoadDataIntoPlaceholders();
         }
         
 
         /// <summary>
         /// Gets all game data files and stores the data in the placeholders
         /// </summary>
-        public void LoadDataIntoPlaceholders(GameObject[] placeholders)
+        public void LoadDataIntoPlaceholders()
         {
             var loadedGameData= GameDataModel.GetLoadedData();
             
             for (var i = 0; i < 3; i++)
             {
-                UpdatePlaceholderView(placeholders, i, i < loadedGameData.Count ? loadedGameData : null);
+                UpdatePlaceholderView(i, i < loadedGameData.Count ? loadedGameData : null);
             }
         }
 
@@ -56,10 +141,9 @@ namespace Code.View.ControlElements
         /// Updates the Placeholder view with data.
         /// If loaded data is null, then the placeholder is empty
         /// </summary>
-        /// <param name="placeholders">placeholders for the game data</param>
         /// <param name="placeholderNum">Placeholder number where the data has to be placed</param>
         /// <param name="loadedData">List of all loaded data to display</param>
-        private void UpdatePlaceholderView(GameObject[] placeholders, int placeholderNum, IReadOnlyList<GameDataModel> loadedData)
+        private void UpdatePlaceholderView(int placeholderNum, IReadOnlyList<GameDataModel> loadedData)
         {
             var placeholderObject = placeholderNum switch
             {
@@ -104,11 +188,11 @@ namespace Code.View.ControlElements
             switch (loadGameText)
             {
                 case "LOAD":
-                    GameManager.ActiveScene = 2;
+                    GameManager.Gm.ActiveScene = 2;
                     break;
                 case "Override":
-                    GameManager.ActiveScene = 1;
-                    GameManager.LoadScene();
+                    GameManager.Gm.ActiveScene = 1;
+                    GameManager.Gm.LoadScene();
                     break;
             }
         }
@@ -120,11 +204,10 @@ namespace Code.View.ControlElements
         /// <summary>
         /// Sets the properties of the MessageBox
         /// </summary>
-        /// <param name="messageBox"></param>
         /// <param name="eventMethod">Listener to add to the Button</param>
         /// <param name="buttonText">Button left text</param>
         /// <param name="text">Message Box text</param>
-        public void SetMessageBoxProperties(GameObject[] messageBox, UnityAction eventMethod, string buttonText, string text)
+        public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
             messageBox[0].GetComponent<Button>().onClick.RemoveAllListeners();
             messageBox[0].GetComponent<Button>().onClick.AddListener(eventMethod);
@@ -137,8 +220,7 @@ namespace Code.View.ControlElements
         /// [0]: Enables the title screen
         /// [1]: Disables the messagebox
         /// </summary>
-        /// <param name="screenObjects">Main Menu, Message Box and Character Screen Objects</param>
-        public void ContinueAction(GameObject[] screenObjects)
+        public void ContinueAction()
         {
             screenObjects[0].SetActive(true);
             screenObjects[1].SetActive(false);
@@ -149,8 +231,7 @@ namespace Code.View.ControlElements
         /// [0]: Enables the title screen
         /// [1]: Disables the messagebox
         /// </summary>
-        /// <param name="screenObjects">Main Menu, Message Box and Character Screen Objects</param>
-        public void CancelAction(GameObject[] screenObjects)
+        public void CancelAction()
         {
             screenObjects[0].SetActive(true);
             screenObjects[1].SetActive(false);
@@ -181,12 +262,11 @@ namespace Code.View.ControlElements
         /// [0]: First character Page
         /// [1]: Second character Page
         /// </summary>
-        /// <param name="buttons">Character page top bar buttons</param>
-        public void ScrollNextCharacterPage(Button[] buttons)
+        public void ScrollNextCharacterPage()
         {
-            UIManager.Uim.characterPages[0].SetActive(false);
-            UIManager.Uim.characterPages[1].SetActive(true);
-            ChangeButtonProperties(buttons, UIManager.Uim.ScrollPreviousCharacterPage_CLick, "Go back", false);
+            characterPages[0].SetActive(false);
+            characterPages[1].SetActive(true);
+            ChangeButtonProperties(UIManager.Uim.ScrollPreviousCharacterPage_CLick, "Go back", false);
         }
 
         /// <summary>
@@ -194,12 +274,11 @@ namespace Code.View.ControlElements
         /// [0]: First character Page
         /// [1]: Second character Page
         /// </summary>
-        /// <param name="buttons">Character page top bar buttons</param>
-        public void ScrollPreviousCharacterPage(Button[] buttons)
+        public void ScrollPreviousCharacterPage()
         {
-            UIManager.Uim.characterPages[0].SetActive(true);
-            UIManager.Uim.characterPages[1].SetActive(false);
-            ChangeButtonProperties(buttons, GameManager.Gm.BackToMainMenu_Click, "Back to Menu", true);
+            characterPages[0].SetActive(true);
+            characterPages[1].SetActive(false);
+            ChangeButtonProperties(GameManager.Gm.BackToMainMenu_Click, "Back to Menu", true);
         }
 
         /// <summary>
@@ -217,11 +296,10 @@ namespace Code.View.ControlElements
         /// Adds a new Listener
         /// Sets the Button Text
         /// </summary>
-        /// <param name="buttons">TopBar buttons</param>
         /// <param name="eventMethod">Listener Method to add to the Button</param>
         /// <param name="text">For the Button caption</param>
         /// <param name="isEnabled">If character page 2 is active, the Button in the top right corner is disabled</param>
-        private void ChangeButtonProperties(IReadOnlyList<Button> buttons, UnityAction eventMethod, string text, bool isEnabled)
+        private void ChangeButtonProperties(UnityAction eventMethod, string text, bool isEnabled)
         {
             buttons[0].onClick.RemoveAllListeners();
             buttons[0].onClick.AddListener(eventMethod);
@@ -238,9 +316,7 @@ namespace Code.View.ControlElements
         /// Searches the selected Data and deletes the according File
         /// </summary>
         /// <param name="saveDataPath">Path where the save data files are</param>
-        /// <param name="removeData">Remove Data Button</param>
-        /// <param name="placeholders">placeholders for the game data</param>
-        public void RemoveData(string saveDataPath, Button removeData, GameObject[] placeholders)
+        public void RemoveData(string saveDataPath)
         {
             var placeholder = GameDataInfoModel.Placeholder;
             var files = Directory.GetFiles(saveDataPath);
@@ -251,7 +327,7 @@ namespace Code.View.ControlElements
             // Deletes the file
             FileIOModel.DeleteFile(files[placeholder]);
             // Updates the placeholder view
-            LoadDataIntoPlaceholders(placeholders);
+            LoadDataIntoPlaceholders();
             // Sorts the other save files
             FileIOModel.SortSaveFiles();
 

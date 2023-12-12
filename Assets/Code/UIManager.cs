@@ -9,46 +9,15 @@ using Code.Controller.GameController;
 using Code.Controller.LocalizationController;
 using Code.Model.Files;
 using Code.Model.GameData;
+using Code.View.Base;
 using Code.View.ControlElements;
-using TMPro;
-using UnityEngine.Serialization;
 
 namespace Code
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : ComponentBase
     {
         // UI Manager instance
         public static UIManager Uim;
-        // ControlView
-        private ControlView _controlView;
-        // TopBar Buttons
-        [Header("Character Page TopBar Buttons")] 
-        [SerializeField] public Button[] buttons;
-        // Character pages
-        [Header("Character Pages")]
-        [SerializeField] public GameObject[] characterPages;
-        // MessageBox, Button and Text
-        [Header("Messagebox")]
-        [SerializeField] private GameObject[] messageBox;        
-        // Main Menu, Message Box and Character Screen Objects
-        [Header("Main Menu, Message Box and Character Screens")]
-        [SerializeField] private GameObject[] screenObjects;
-        // Remove data button
-        [Header("Remove Data Button")] 
-        [SerializeField] private Button removeData;
-        // Load save
-        [Header("Load Game Text")]
-        [SerializeField] private Text buttonLoadGameText;
-        // Error Label
-        [FormerlySerializedAs("ErrorLabel")]
-        [Header("Error Label")] 
-        [SerializeField] private TextMeshProUGUI errorLabel;
-        // Savedata Placeholders
-        [Header("Savedata Placeholders")]
-        [SerializeField] private GameObject[] placeholders;
-        // Placeholder view
-        [Header("Placeholder view")]
-        [SerializeField] private GameObject placeholderView;
         // Path to the Save files
         private static string _saveDataPath;
         
@@ -62,11 +31,7 @@ namespace Code
         {
             if (Uim == null)
                 Uim = this;
-            _controlView = gameObject.AddComponent<ControlView>();
             _saveDataPath = Application.persistentDataPath + "/SaveData";
-
-            if (GameManager.ActiveScene != 0) return;
-            EnableRemoveDataButton();
         }
 
         /// <summary>
@@ -74,8 +39,8 @@ namespace Code
         /// </summary>
         private void Start()
         {
-            if (GameManager.ActiveScene != 0) return;
-            LoadGameDataOntoSaveFile("LOAD", 0, true);
+            if (GameManager.Gm.ActiveScene != 0) return;
+            EnableRemoveDataButton();
         }
 
         #endregion
@@ -85,37 +50,27 @@ namespace Code
         /// <summary>
         /// Opens the character select window and disables the select Images
         /// </summary>
-        public void NewGame_Click()
+        public void BookButtonNewGame_Click()
         {
+            // TODO: Animation Turns to page 2
+            // Display Character on pages 2 - 3,4 - 5
+            screenObjects[0].SetActive(false);
+            screenObjects[2].SetActive(true);
+            
+            ControlView.Cv.NewGame();
+            // Adds Listener,to go back to the menu
+            ControlView.Cv.AddButtonListener(buttons[0], GameManager.Gm.BackToMainMenu_Click);        
         }
 
         /// <summary>
         /// Checks if a character was selected and a Name was given
         /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
         /// </summary>
-        public void StartNewGame_Click()
+        public void BookButtonStartNewGame_Click()
         {
-
+            ControlView.Cv.BookButtonStartNewGame();
         }
 
-        #endregion
-        
-        #region Load Game Data onto save file
-        
-        /// <summary>
-        /// Action to initializes the Save panel and the placeholders
-        /// </summary>
-        /// <param name="text">Text for the Button, either Load Game or New Game</param>
-        /// <param name="index">Identifies which text from the xml file should be displayed</param>
-        /// <param name="loadData">True => loads data into placeholders, False => only initializes the save data panel</param>
-        public void LoadGameDataOntoSaveFile(string text, int index, bool loadData)
-        {
-            _controlView.InitializeSaveDataPanel(text, index, placeholderView, buttonLoadGameText);
-            
-            if (loadData)
-                _controlView.LoadDataIntoPlaceholders(placeholders);
-        }
-        
         #endregion
         
         #region LoadOrOverrideSave
@@ -135,9 +90,9 @@ namespace Code
                 errorLabel.text = LocalizationManager.GetLocalizedValue(key);
                 return;
             }
-            _controlView.LoadOrOverrideSave(buttonLoadGameText.text);
+            ControlView.Cv.LoadOrOverrideSave(buttonLoadGameText.text);
             
-            if (GameManager.ActiveScene == 2)
+            if (GameManager.Gm.ActiveScene == 2)
                 GameDataController.Gdc.LoadSelectedGame();
             
             errorLabel.enabled = false;
@@ -146,23 +101,13 @@ namespace Code
         #endregion
         
         #region Character Page Top Bar Buttons
-
-        /// <summary>
-        /// Calls the Control view to add the event method to the button
-        /// </summary>
-        /// <param name="button">Button to add the event</param>
-        /// <param name="eventMethod">Event to add to the button</param>
-        public void AddButtonListener(Button button, UnityAction eventMethod)
-        {
-            _controlView.AddButtonListener(button, eventMethod);
-        }
         
         /// <summary>
         /// Displays the 2nd Character Page
         /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
-            _controlView.ScrollNextCharacterPage(buttons);
+            ControlView.Cv.ScrollNextCharacterPage();
         }
 
         /// <summary>
@@ -170,7 +115,7 @@ namespace Code
         /// </summary>
         public void ScrollPreviousCharacterPage_CLick()
         {
-            _controlView.ScrollPreviousCharacterPage(buttons);
+            ControlView.Cv.ScrollPreviousCharacterPage();
         }
         
         #endregion
@@ -185,7 +130,7 @@ namespace Code
         /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
-            _controlView.SetMessageBoxProperties(messageBox, eventMethod, buttonText,text);
+            ControlView.Cv.SetMessageBoxProperties(eventMethod, buttonText,text);
         }
 
         /// <summary>
@@ -193,7 +138,7 @@ namespace Code
         /// </summary>
         public void Continue_Click()
         {
-            _controlView.ContinueAction(screenObjects);
+            ControlView.Cv.ContinueAction();
         }
 
         /// <summary>
@@ -201,7 +146,7 @@ namespace Code
         /// </summary>
         public void Cancel_CLick()
         {
-            _controlView.CancelAction(screenObjects);
+            ControlView.Cv.CancelAction();
         }
         
         /// <summary>
@@ -211,7 +156,7 @@ namespace Code
         {
             SetMessageBoxProperties(RemoveData_Click, "Remove Data", XmlModel.GetMessageBoxText(1));
             var holders = placeholderView.GetComponentsInChildren<Image>();
-            _controlView.RemoveDataAction(screenObjects[1], holders);
+            ControlView.Cv.RemoveDataAction(screenObjects[1], holders);
         }
         
         #endregion
@@ -223,7 +168,7 @@ namespace Code
         /// </summary>
         private void RemoveData_Click()
         {
-            _controlView.RemoveData(_saveDataPath, removeData, placeholders);
+            ControlView.Cv.RemoveData(_saveDataPath);
         }
 
         /// <summary>
