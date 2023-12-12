@@ -182,7 +182,7 @@ namespace Code.View.ControlElements
         /// [1]: Second character Page
         /// </summary>
         /// <param name="buttons">Character page top bar buttons</param>
-        public void ScrollNextCharacterPage_CLick(Button[] buttons)
+        public void ScrollNextCharacterPage(Button[] buttons)
         {
             UIManager.Uim.characterPages[0].SetActive(false);
             UIManager.Uim.characterPages[1].SetActive(true);
@@ -195,7 +195,7 @@ namespace Code.View.ControlElements
         /// [1]: Second character Page
         /// </summary>
         /// <param name="buttons">Character page top bar buttons</param>
-        public void ScrollPreviousCharacterPage_CLick(Button[] buttons)
+        public void ScrollPreviousCharacterPage(Button[] buttons)
         {
             UIManager.Uim.characterPages[0].SetActive(true);
             UIManager.Uim.characterPages[1].SetActive(false);

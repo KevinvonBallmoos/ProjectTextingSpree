@@ -40,8 +40,9 @@ namespace Code
         [Header("Load Game Text")]
         [SerializeField] private Text buttonLoadGameText;
         // Error Label
+        [FormerlySerializedAs("ErrorLabel")]
         [Header("Error Label")] 
-        [SerializeField] private TextMeshProUGUI ErrorLabel;
+        [SerializeField] private TextMeshProUGUI errorLabel;
         // Savedata Placeholders
         [Header("Savedata Placeholders")]
         [SerializeField] private GameObject[] placeholders;
@@ -49,7 +50,7 @@ namespace Code
         [Header("Placeholder view")]
         [SerializeField] private GameObject placeholderView;
         // Path to the Save files
-        private static string SaveDataPath;
+        private static string _saveDataPath;
         
         #region Awake and Start
 
@@ -62,7 +63,7 @@ namespace Code
             if (Uim == null)
                 Uim = this;
             _controlView = gameObject.AddComponent<ControlView>();
-            SaveDataPath = Application.persistentDataPath + "/SaveData";
+            _saveDataPath = Application.persistentDataPath + "/SaveData";
 
             if (GameManager.ActiveScene != 0) return;
             EnableRemoveDataButton();
@@ -75,6 +76,26 @@ namespace Code
         {
             if (GameManager.ActiveScene != 0) return;
             LoadGameDataOntoSaveFile("LOAD", 0, true);
+        }
+
+        #endregion
+        
+        #region Start New Game
+
+        /// <summary>
+        /// Opens the character select window and disables the select Images
+        /// </summary>
+        public void NewGame_Click()
+        {
+        }
+
+        /// <summary>
+        /// Checks if a character was selected and a Name was given
+        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
+        /// </summary>
+        public void StartNewGame_Click()
+        {
+
         }
 
         #endregion
@@ -109,9 +130,9 @@ namespace Code
 
             if (GameDataInfoModel.Placeholder == -1)
             {
-                ErrorLabel.enabled = true;
+                errorLabel.enabled = true;
                 var key = buttonLoadGameText.text.Equals("LOAD")? LocalizationKeyController.SaveFileErrorLabelLoadCaptionKey : LocalizationKeyController.SaveFileErrorLabelOverrideCaptionKey;
-                ErrorLabel.text = LocalizationManager.GetLocalizedValue(key);
+                errorLabel.text = LocalizationManager.GetLocalizedValue(key);
                 return;
             }
             _controlView.LoadOrOverrideSave(buttonLoadGameText.text);
@@ -119,7 +140,7 @@ namespace Code
             if (GameManager.ActiveScene == 2)
                 GameDataController.Gdc.LoadSelectedGame();
             
-            ErrorLabel.enabled = false;
+            errorLabel.enabled = false;
         }
 
         #endregion
@@ -141,7 +162,7 @@ namespace Code
         /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
-            _controlView.ScrollNextCharacterPage_CLick(buttons);
+            _controlView.ScrollNextCharacterPage(buttons);
         }
 
         /// <summary>
@@ -149,7 +170,7 @@ namespace Code
         /// </summary>
         public void ScrollPreviousCharacterPage_CLick()
         {
-            _controlView.ScrollPreviousCharacterPage_CLick(buttons);
+            _controlView.ScrollPreviousCharacterPage(buttons);
         }
         
         #endregion
@@ -202,7 +223,7 @@ namespace Code
         /// </summary>
         private void RemoveData_Click()
         {
-            _controlView.RemoveData(SaveDataPath, removeData, placeholders);
+            _controlView.RemoveData(_saveDataPath, removeData, placeholders);
         }
 
         /// <summary>
@@ -210,7 +231,7 @@ namespace Code
         /// </summary>
         private void EnableRemoveDataButton()
         {
-            var files = Directory.GetFiles(SaveDataPath);   
+            var files = Directory.GetFiles(_saveDataPath);   
             removeData.enabled = files.Any();
         }
         

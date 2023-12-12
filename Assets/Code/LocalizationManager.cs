@@ -13,9 +13,9 @@ namespace Code
     public static class LocalizationManager
     {
         // Current language
-        private static string currentLanguage;
+        private static string _currentLanguage;
         // Dictionary for strings
-        private static readonly Dictionary<string, Dictionary<string, string>> languages = new ();
+        private static readonly Dictionary<string, Dictionary<string, string>> Languages = new ();
         
         /// <summary>
         /// Loads all localizable values from the LocalizedStrings.json files
@@ -24,7 +24,7 @@ namespace Code
         {
             var jsonFile = Resources.Load<TextAsset>("LocalizedStrings/LocalizedStrings");
             var localizationData = JsonUtility.FromJson<LocalizationData>(jsonFile.text);
-            currentLanguage = localizationData.languages[0];
+            _currentLanguage = localizationData.languages[0];
 
             foreach (var language in localizationData.languages)
             {
@@ -37,7 +37,7 @@ namespace Code
                         languageStrings.Add(entry.key, data.value);
                     }
                 }
-                languages.Add(language, languageStrings);
+                Languages.Add(language, languageStrings);
             }
         }
         
@@ -48,7 +48,7 @@ namespace Code
         /// <returns>value of the key</returns>
         public static string GetLocalizedValue(string key)
         {
-            if (languages.TryGetValue(currentLanguage, out var language))
+            if (Languages.TryGetValue(_currentLanguage, out var language))
             {
                 if (language.TryGetValue(key, out var value))
                 {
