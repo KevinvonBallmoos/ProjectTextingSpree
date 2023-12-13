@@ -2,9 +2,11 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
 #endif
+
 using System;
 using System.IO;
-using Code.Dialogue.Story;
+using Code.Controller.DialogueController.StoryDialogueController;
+using Code.Model.Node;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -18,8 +20,9 @@ namespace Editor.Story
     /// <para name="date">10.05.2023</para>
     public class StoryViewer : EditorWindow
     {
+        private static StoryViewer Sv;
         // Story Asset
-        private StoryAsset _selectedChapter;
+        private StoryAssetController _selectedChapter;
         // Scroll Area / Position
         private Vector2 _scrollPosition;
         private Vector2 _scrollPositionTextArea = Vector2.zero;
@@ -35,7 +38,7 @@ namespace Editor.Story
         [NonSerialized] private GUIStyle _choiceNodeStyle;
         [NonSerialized] private GUIStyle _textAreaStyle;
         // Drag
-        [NonSerialized] private StoryNode _storyNode;
+        [NonSerialized] private StoryNodeModel _storyNode;
         [NonSerialized] private bool _dragCanvas;
         [NonSerialized] private Vector2 _dragOffset;
         [NonSerialized] private Vector2 _dragCanvasOffset;
@@ -46,8 +49,20 @@ namespace Editor.Story
         // Text
         private string _textContent;
 
+        private static bool _clearGUI;
+
         #region StoryWindow
 
+        private void Awake()
+        {
+            Sv = this;
+        }
+
+        private static StoryViewer GetInstance()
+        {
+            return Sv;
+        }        
+        
         /// <summary>
         /// Shows the Editor Window, depending if a Story is loaded or not
         /// Asset Callback : In computer programming, a callback is executable code that is passed as an argument to other code.
@@ -57,7 +72,7 @@ namespace Editor.Story
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceId)
         {
-            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAsset;
+            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAssetController;
             if (story == null) return false;
             ShowEditorWindow();
             return true;
@@ -70,6 +85,37 @@ namespace Editor.Story
         public static void ShowEditorWindow()
         {
             GetWindow(typeof(StoryViewer), false, "Story Viewer");
+        }
+
+        /// <summary>
+        /// Custom menu item
+        /// Deletes the asset file and Json file with the same name
+        /// </summary>
+        [MenuItem("Custom / Delete Asset")]
+        public static void DeleteAsset()
+        {
+            var storyViewer = GetInstance();           
+            // Selected asset in Unity Editor
+            Object selectedAsset = Selection.activeObject as StoryAssetController;
+
+            if (selectedAsset == null) return;
+            
+            var jsonPath = Application.persistentDataPath + "/StoryAssets/" + selectedAsset.name + ".json";
+            if (!File.Exists(jsonPath)) return;
+            
+            File.Delete(jsonPath);
+            
+            var assetPath = Path.Combine(Application.dataPath, "Resources", "StoryAssets/" + selectedAsset.name + ".asset");
+            if (File.Exists(assetPath))
+                File.Delete(assetPath);
+
+            if (storyViewer != null)
+            {
+                _clearGUI = true;
+                storyViewer.Repaint();
+            }
+
+            Debug.Log("Asset and Json Deleted successfully!");
         }
 
         /// <summary>
@@ -121,12 +167,11 @@ namespace Editor.Story
         /// </summary>
         private void OnSelectionChanged()
         {
-            var newChapter = Selection.activeObject as StoryAsset;
+            var newChapter = Selection.activeObject as StoryAssetController;
             if (newChapter == null || newChapter.name == "") return;
             
             _selectedChapter = null;
             _storyNode = null;
-            //_xmlFiles = Resources.LoadAll($@"StreamingAssets/StoryFiles/", typeof(TextAsset));
             var directoryPath = Path.Combine(Application.streamingAssetsPath, "StoryFiles");
             _xmlFiles = Directory.GetFiles(directoryPath, "*.xml");
             foreach (var file in _xmlFiles)
@@ -153,25 +198,39 @@ namespace Editor.Story
 		/// </summary>
 		private void OnGUI()
         {
-            if (!_selectedChapter.HasReadNodes) return;
-            
-            // Mouse Events
-            ProcessEvents();
-            
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-            DrawSurface();
-            
-            //if (_selectedChapter.GetAllNodes() == null) return;
-            foreach (var node in _selectedChapter.GetAllNodes())
-                DrawNode(node);
-            
-            foreach (var node in _selectedChapter.GetAllNodes())
+            try
             {
-                if (!node.IsRootNode) continue;
-                DrawConnections(node);
-                break;
+                if (!_selectedChapter.HasReadNodes) return;
+
+                _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+                DrawSurface();
+
+                if (!_clearGUI)
+                {
+                    // Mouse Events
+                    ProcessEvents();
+                    
+                    foreach (var node in _selectedChapter.GetAllNodes())
+                        DrawNode(node);
+
+                    foreach (var node in _selectedChapter.GetAllNodes())
+                    {
+                        if (!node.IsRootNode) continue;
+                        DrawConnections(node);
+                        break;
+                    }
+                }
+                else
+                    _selectedChapter.HasReadNodes = false;
+
+                _clearGUI = false;
+                EditorGUILayout.EndScrollView();
+                
             }
-            EditorGUILayout.EndScrollView();
+            catch (Exception)
+            {
+                // do nothing
+            }
         }
         
         #endregion
@@ -197,7 +256,7 @@ namespace Editor.Story
         /// Draws the node
         /// </summary>
         /// <param name="node">Next node to draw</param>
-        private void DrawNode(StoryNode node)
+        private void DrawNode(StoryNodeModel node)
         {
             var style = _storyNodeStyle;
             if (node.IsChoiceNode)
@@ -217,7 +276,7 @@ namespace Editor.Story
         /// Add Bezier Curve between the nodes to connect parent and child nodes
         /// </summary>
         /// <param name="node"></param>
-        private void DrawConnections(StoryNode node)
+        private void DrawConnections(StoryNodeModel node)
         {
             var children = node.ChildNodes;
             if (children.Count == 0) return;
@@ -301,9 +360,9 @@ namespace Editor.Story
         /// </summary>
         /// <param name="point">Point where the Mouse currently is</param>
         /// <returns>node</returns>
-        private StoryNode GetNodeAtPoint(Vector2 point)
+        private StoryNodeModel GetNodeAtPoint(Vector2 point)
         {
-            StoryNode selectedNode = null;
+            StoryNodeModel selectedNode = null;
             foreach (var node in _selectedChapter.GetAllNodes())
                 if (node.TextRect.Contains(point))
                 {

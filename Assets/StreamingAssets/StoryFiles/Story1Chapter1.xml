@@ -16,6 +16,7 @@
 		<Node id="11" isEndOfChapter="True">Story 1 END</Node>
 		<Node id="12" isGameOver="True">Path 2 Game Over</Node>
 		<Node id="13" isGameOver="True">Path 3 Game Over</Node>
-		<Node id="14" isGameOver="True">Path 4 Game Over</Node>
+		<Node id="14" node="15">Path 4 Continue</Node>
+		<Node id="15" isGameOver="True">Path 4 Game Over</Node>
 	</DialogueStory>
 </Story1Chapter1>

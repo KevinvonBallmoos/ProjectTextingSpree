@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 #endif
 using System;
-using Code.Dialogue.Combat;
+using Code.Model.Dialogue.CombatModel;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

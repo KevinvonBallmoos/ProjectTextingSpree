@@ -447,14 +447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9548a93c5a9244ebfb0afb5fbe6f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemList:
-  - {fileID: 11400000, guid: 08c594da8b028ca44b156b2b718a738f, type: 2}
-  - {fileID: 11400000, guid: b793a0ba0d49da840a4eef3ba31165d6, type: 2}
-  - {fileID: 11400000, guid: 9feb9742a522f7041b70dab6ac212aee, type: 2}
-  - {fileID: 11400000, guid: 5245c784b982dd54a81e3c4acf4e70c5, type: 2}
-  - {fileID: 11400000, guid: c8b93e433aceb3043a793ea46d8bdcaf, type: 2}
-  _inventoryPanel: {fileID: 725999072}
-  _itemInfoPrefab: {fileID: 5900362700406004404, guid: 86df1762ca180e246a48e94cdc92a659, type: 3}
+  itemList: []
+  inventoryPanel: {fileID: 0}
+  itemInfoPrefab: {fileID: 0}
 --- !u!114 &186694794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88e39f468de34142b321113c62a94fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryItemList: []
+  inventoryItemList: []
 --- !u!4 &186694795
 Transform:
   m_ObjectHideFlags: 0
@@ -481,7 +476,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &725999071
 GameObject:
@@ -1307,6 +1302,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021752107}
   m_CullTransparentMesh: 1
+--- !u!1 &1039121651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1039121654}
+  - component: {fileID: 1039121653}
+  - component: {fileID: 1039121652}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1039121652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039121651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc00cd1bd8c4b328645e061a583b561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1039121653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039121651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553d073ac2a04f1bb5409e157932c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 0}
+  - {fileID: 0}
+  characterPages:
+  - {fileID: 0}
+  - {fileID: 0}
+  messageBox:
+  - {fileID: 0}
+  - {fileID: 0}
+  screenObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  removeData: {fileID: 0}
+  buttonLoadGameText: {fileID: 0}
+  ErrorLabel: {fileID: 0}
+  placeholders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  placeholderView: {fileID: 0}
+--- !u!4 &1039121654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039121651}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 762.7109, y: 533.15625, z: -30.739944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1247495490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,7 +1731,7 @@ RectTransform:
   - {fileID: 924129688}
   - {fileID: 1580905152}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1808,15 +1881,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenObjects: []
-  messageBox: []
   messageBoxGameOver: {fileID: 1371551799}
-  characterPages: []
   characters:
   - {fileID: 0}
   chosenCharacter: {fileID: 0}
   playerName: {fileID: 0}
   buttons: []
-  storyUIScript: {fileID: 2592773734813605163}
+  storyUIViewScript: {fileID: 2592773734813605163}
 --- !u!4 &1553586390
 Transform:
   m_ObjectHideFlags: 0
@@ -3545,7 +3616,7 @@ MonoBehaviour:
   - {fileID: 0}
   saveStatus: {fileID: 7585498732195177469}
   messageBoxEndScreen: {fileID: 1371551799}
-  _storyScrollbar: {fileID: 1274101289}
+  storyScrollbar: {fileID: 0}
   currentChapter: {fileID: 11400000, guid: 9b6fcf45dca4f6443b30e002e3d4de42, type: 2}
 --- !u!224 &2625038288853168621
 RectTransform:

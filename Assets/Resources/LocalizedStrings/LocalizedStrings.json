@@ -1,0 +1,23 @@
+{
+    "languages": ["en"],
+    "table": [
+        {
+            "key": "savefile_errorlabel_override_caption",
+            "values": [
+                {"lang": "en", "value": "No save selected to override!"}
+            ]
+        },
+        {
+            "key": "savefile_errorlabel_load_caption",
+            "values": [
+                {"lang": "en", "value": "No save selected to load!"}
+            ]
+        },
+        {
+            "key": "savefile_errorlabel_remove_caption",
+            "values": [
+                {"lang": "en", "value": "No save selected to remove!"}
+            ]
+        }
+    ]
+}
