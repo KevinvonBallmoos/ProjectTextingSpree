@@ -1,25 +1,33 @@
-﻿<!-- Name of Xml File has to be the same as the name of the Dialogue Editor -->
-<!-- 1 Chapter or Section. -->
-<Chapter1>
-	<!-- Root Node is the start. In the Editor mark the first Node as "RootNode" -->
-	<RootNode>Let us start talking</RootNode>
-	<!-- All choices -->
+﻿<!-- Name of Xml File has to be the same as the name of the Dialogue Asset -->
+<!-- 1 Chapter or Part. -->
+<StoryChapter1>
+	<!-- Title node is only to display the current Title of the Chapter in the Game -->
+	<Title>Part 1 Chapter 1</Title>
+	<!-- All choice Nodes -->
 	<DialogueChoices>
-		<!-- The Editor reads from top to bottom. Make sure to have the right sequence -->
-		<Choice id="1">Choice 1</Choice>
-		<Choice id="2">Choice 2</Choice>
-		<Choice id="3">Choice 3</Choice>
-		<Choice id="3">Choice 4</Choice>
+		<!-- The Attribute node represents the children of the Node and it is the first attribute to set -->
+		<!-- The Attribute background is needed, so only a specific character has this choice -->
+		<Choice id="1" node="6">Story Path1</Choice>
+		<Choice id="2" node="7">Story Path2</Choice>
+		<Choice id="3" node="8" background="The Destroyer">Story 1 Go on</Choice>
+		<Choice id="4" node="10">Story 3 Path</Choice>
 	</DialogueChoices>
-	<!-- All NPC Dialogue or Dialogue that isn't a choice -->
-	<DialogueNPC>
-		<!-- The Editor reads from top to bottom. Make sure to have the right sequence -->
-		<Npc id="1">Talk 1</Npc>
-		<Npc id="2">Talk 2</Npc>
-		<Npc id="3">Talk 3</Npc>
-		<Npc id="4">Talk 4</Npc>
-	</DialogueNPC>
-</Chapter1>
-		<!-- Additional TODO:
-			1. Maybe add Dialogue Node for Player, non-choice
-			2. Naming for Speakers -->
+	<!-- All Story Dialogue Nodes -->
+	<DialogueStory>
+		<!-- The first Node has the "isRootNode"-Attribute set to "True" -->
+		<!-- The Attribute choice or node represents the children of the Node -->
+		<!-- The child or node Attribute is the first to set, after that the rest of the attributes can be set in any order -->
+		<Node id="5" choice="1,2" isRootNode="True"> Start Chapter 1 My name is: {Name} El Gigante</Node>
+		<Node id="6" choice="3,4" item="Bread" >Story 1</Node>
+		<Node id="7" isGameOver="True">Story 2 Game Over</Node>
+		<Node id="8" node="9">Story 1 Move Forward</Node>
+		<Node id="9" node="11">Story 1 Continue, Lorem ipsum dolor sit amet, consetetur sadipscing elitr. </Node>
+		<Node id="10" isGameOver="True">Story 3 Game Over </Node>
+		<Node id="11" isEndOfChapter="True">Story 1 END</Node>
+		<!-- There are several more Attributes like item, image, isGameOver, isEndOfChapter -->
+		<!-- item: At this point, the player recieves the item thats filed here e.g. item="Bread" -->
+		<!-- image: When reaching this node, the filed image will be shown, there is no filetype (.png, .jpg, ...) needed, e.g. image="TroopCamp" -->
+		<!-- isGameOver: True - This means, the Player dies at this point -->
+		<!-- isEndOfChapter: True - The chapter or Story has reached the end, either the story is finished or there is another Chapter -->
+	</DialogueStory>
+</StoryChapter1>

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Threading;
+using UnityEngine;
 
 namespace Code.Logger
 {
@@ -18,6 +22,7 @@ namespace Code.Logger
         /// <param name="classname">Class name is needed to create the Logfile</param>
         public GameLogger(string classname)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             CreateLogFile(classname);
         }
 
@@ -53,14 +58,20 @@ namespace Code.Logger
         /// <param name="lineNumber">Current Line Number</param>
         public void LogEntry(string type, string message, int lineNumber)
         {
-            AddLogEntry(new LogEvent{ LogTime = DateTime.Now, Type = type, Message = message, LineNumber = lineNumber});
+            AddLogEntry(new LogEvent
+            {
+                LogTime = DateTime.Now, 
+                Type = type, 
+                Message = message, 
+                LineNumber = lineNumber
+            });
         }
 
         /// <summary>
         /// Returns the Current LineNumber
         /// </summary>
         /// <returns>The Current Line Number</returns>
-        public int GetLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
+        public static int GetLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
         {
             return lineNumber; 
         }
@@ -68,11 +79,44 @@ namespace Code.Logger
         /// <summary>
         /// Appends the Entry into the LogFile
         /// </summary>
-        /// <param name="log"></param>
+        /// <param name="log">Log Event Object</param>
         private void AddLogEntry(LogEvent log)
         {
-            using StreamWriter writer = new StreamWriter(_path, append:true);
-            writer.WriteLine($"LogTime = {log.LogTime} | LogType: {log.Type} \nLogMessage: {log.Message} \nLine Number: {log.LineNumber}");
+            using (var writer = new StreamWriter(_path, append:true)){
+                writer.WriteLine($"LogTime = {log.LogTime} | LogType: {log.Type} \nLogMessage: {log.Message} \nLine Number: {log.LineNumber}");
+            }
+            RemoveLogEntry(_path);
+        }
+
+        /// <summary>
+        /// Removes Log Entry
+        /// </summary>
+        private static void RemoveLogEntry(string path)
+        {
+            var hasEntryToRemove = true;
+            while (hasEntryToRemove)
+            {
+                var readLines = new List<string>();
+                using (var reader = new StreamReader(path))
+                {
+                    while (!reader.EndOfStream)
+                        readLines.Add(reader.ReadLine());
+                }
+
+                var writeLines = new List<string>();
+                if ((DateTime.Now - Convert.ToDateTime(readLines[0].Substring(10, 17))).Days > 5)
+                {
+                    for (int i = 3; i < readLines.Count; i++)
+                        writeLines.Add(readLines[i]);
+                    using var writer = new StreamWriter(path);
+                    foreach (var line in writeLines)
+                        writer.WriteLine(line);
+                }
+                else
+                {
+                    hasEntryToRemove = false;
+                }
+            }
         }
     }
 }
