@@ -1,9 +1,7 @@
+using Code.Controller.GameController;
 using UnityEngine;
 
-using Code.Controller.GameController;
-using UnityEngine.Serialization;
-
-namespace Code.Inventory
+namespace Code.Model.Inventory
 {
     /// <summary>
     /// This class holds the Stat Items
@@ -24,7 +22,7 @@ namespace Code.Inventory
         {
             base.Use();
             InventoryController.Ic.OnStatItemUse(itemType, amount);
-            Inventory.Instance.RemoveItem(this);
+            Model.Inventory.Inventory.Instance.RemoveItem(this);
         }
     }
     

@@ -1,4 +1,4 @@
-﻿namespace Code.Dialogue.Combat
+﻿namespace Code.Model.Dialogue.CombatModel
 {
     public class CombatUI
     {

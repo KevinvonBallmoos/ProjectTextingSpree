@@ -5,7 +5,7 @@ using UnityEditor.Callbacks;
 
 using System;
 using System.IO;
-using Code.Model.Dialogue.StoryDialogue;
+using Code.Controller.DialogueController.StoryDialogueController;
 using Code.Model.Node;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -22,7 +22,7 @@ namespace Editor.Story
     {
         private static StoryViewer Sv;
         // Story Asset
-        private StoryAssetModel _selectedChapter;
+        private StoryAssetController _selectedChapter;
         // Scroll Area / Position
         private Vector2 _scrollPosition;
         private Vector2 _scrollPositionTextArea = Vector2.zero;
@@ -72,7 +72,7 @@ namespace Editor.Story
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceId)
         {
-            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAssetModel;
+            var story = EditorUtility.InstanceIDToObject(instanceId) as StoryAssetController;
             if (story == null) return false;
             ShowEditorWindow();
             return true;
@@ -96,7 +96,7 @@ namespace Editor.Story
         {
             var storyViewer = GetInstance();           
             // Selected asset in Unity Editor
-            Object selectedAsset = Selection.activeObject as StoryAssetModel;
+            Object selectedAsset = Selection.activeObject as StoryAssetController;
 
             if (selectedAsset == null) return;
             
@@ -167,7 +167,7 @@ namespace Editor.Story
         /// </summary>
         private void OnSelectionChanged()
         {
-            var newChapter = Selection.activeObject as StoryAssetModel;
+            var newChapter = Selection.activeObject as StoryAssetController;
             if (newChapter == null || newChapter.name == "") return;
             
             _selectedChapter = null;

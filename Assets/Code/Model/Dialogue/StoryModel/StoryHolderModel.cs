@@ -1,25 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Code.Controller.DialogueController.StoryDialogueController;
+using Code.Controller.GameController;
+using Code.Model.Node;
 using UnityEngine;
 
-using Code.Controller.GameController;
-using Code.Model.Dialogue.StoryDialogue;
-using Code.Model.Node;
-
-namespace Code.Controller.DialogueController.StoryDialogueController
+namespace Code.Model.Dialogue.StoryModel
 {
     /// <summary>
     /// Holds the Story and provides information about the selected nodes and next nodes
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">12.12.2022</para>
-    public class StoryHolder : MonoBehaviour
+    public class StoryHolderModel : MonoBehaviour
     {
         // Logger
         //private readonly GameLogger _logger = new GameLogger("StoryHolder");
         // Current Chapter
-        [NonSerialized] public StoryAssetModel CurrentChapter;
+        [NonSerialized] public StoryAssetController CurrentChapter;
         // Selected choice node
         [NonSerialized] private StoryNodeModel _selectedChoice;
         // Story node or not
@@ -40,7 +39,7 @@ namespace Code.Controller.DialogueController.StoryDialogueController
 		/// </summary>
 		/// <param name="chapter">Is either null or a new chapter</param>
 		/// <returns>True if the chapter is not null, and false if the chapter was null</returns>
-        public bool LoadChapterProperties(StoryAssetModel chapter)
+        public bool LoadChapterProperties(StoryAssetController chapter)
         {
             _choiceIndex = 0;
             _pastStoryNodes = Array.Empty<StoryNodeModel>();
@@ -65,11 +64,11 @@ namespace Code.Controller.DialogueController.StoryDialogueController
             else
             {
                 var saveData = GameDataController.Gdc.GetSaveData();
-                var stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetModel)).ToList();
+                var stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetController)).ToList();
                 foreach (var asset in stories)
                 {
                     if (!asset.name.Equals(saveData.CurrentChapter)) continue;
-                    CurrentChapter = (StoryAssetModel)asset;
+                    CurrentChapter = (StoryAssetController)asset;
                     break;
                 }
 

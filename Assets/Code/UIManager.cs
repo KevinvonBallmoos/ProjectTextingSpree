@@ -1,12 +1,12 @@
 using System.IO;
 using System.Linq;
+using Code.Controller.FileController;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 using Code.Controller.GameController;
 using Code.Controller.LocalizationController;
-using Code.Model.Files;
 using Code.Model.GameData;
 using Code.View.Base;
 using Code.View.ControlElements;
@@ -227,7 +227,7 @@ namespace Code
         /// </summary>
         public void Remove_Click()
         {
-            SetMessageBoxProperties(RemoveData_Click, "Remove Data", XmlModel.GetMessageBoxText(1));
+            SetMessageBoxProperties(RemoveData_Click, "Remove Data", XmlController.GetMessageBoxText(1));
             var holders = placeholderView.GetComponentsInChildren<Image>();
             _controlView.RemoveDataAction(screenObjects[1], holders, errorLabel);
         }

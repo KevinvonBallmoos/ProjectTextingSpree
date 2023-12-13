@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Code.Controller.FileController;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,7 +12,6 @@ using TMPro;
 
 using Code.Controller.GameController;
 using Code.Controller.LocalizationController;
-using Code.Model.Files;
 using Code.Model.GameData;
 
 namespace Code.View.ControlElements
@@ -68,7 +68,7 @@ namespace Code.View.ControlElements
             {
                 InitializeSaveDataPanel("Override", 1, false, placeholderView, buttonLoadGameText, placeholders);
                 screenObjects[2].SetActive(false);
-                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlModel.GetMessageBoxText(0));
+                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlController.GetMessageBoxText(0));
                 screenObjects[1].SetActive(true);
             }
         }
@@ -109,7 +109,7 @@ namespace Code.View.ControlElements
                     holders[i].enabled = false;
             }
             buttonLoadGameText.text = text;
-            placeholderView.GetComponentsInChildren<Text>()[0].text = XmlModel.GetInformationText(index);
+            placeholderView.GetComponentsInChildren<Text>()[0].text = XmlController.GetInformationText(index);
             
             if (loadData)
                 LoadDataIntoPlaceholders(placeholders);
@@ -400,11 +400,11 @@ namespace Code.View.ControlElements
                 placeholder = files.Length - 1;
             
             // Deletes the file
-            FileIOModel.DeleteFile(files[placeholder]);
+            FileIOController.DeleteFile(files[placeholder]);
             // Updates the placeholder view
             LoadDataIntoPlaceholders(placeholders);
             // Sorts the other save files
-            FileIOModel.SortSaveFiles();
+            FileIOController.SortSaveFiles();
 
             screenObject.SetActive(false);
             removeData.enabled = Directory.GetFiles(saveDataPath).Any();

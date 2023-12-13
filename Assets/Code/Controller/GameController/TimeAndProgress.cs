@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using Code.Model.Dialogue.StoryDialogue;
+using Code.Controller.DialogueController.StoryDialogueController;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -56,7 +56,7 @@ namespace Code.Controller.GameController
         /// <param name="chapter">The chapter is used to calculate the progress</param>
         public static void CalculateProgress(string chapter)
         { 
-            _stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetModel));
+            _stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetController));
             _chapterPercentage = GetChapterPercentage(chapter);
             _nodePercentage = Math.Round(_chapterPercentage / GetStoryNodeCount(), 2);
         }
@@ -67,7 +67,7 @@ namespace Code.Controller.GameController
         /// <returns></returns>
         public static double GetProgress(string node)
         {
-            var story = (StoryAssetModel)_stories[_chapterCount];
+            var story = (StoryAssetController)_stories[_chapterCount];
             return node.Equals(story.StoryNodes[0].name)? _chapterPercentage * (_chapterCount) : _nodePercentage;
         }
 
@@ -93,7 +93,7 @@ namespace Code.Controller.GameController
         /// <returns></returns>
         private static int GetStoryNodeCount()
         {
-            var story = (StoryAssetModel)_stories[_chapterCount];
+            var story = (StoryAssetController)_stories[_chapterCount];
             var count = 0;
             foreach (var child in story.StoryNodes)
             {

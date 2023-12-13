@@ -1,14 +1,14 @@
 using System.IO;
 using UnityEngine;
 
-namespace Code.Model.Files
+namespace Code.Controller.FileController
 {
     /// <summary>
     /// Controls the CRUD of Files and Folders
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">11.01.2023</para>
-    public static class FileIOModel
+    public static class FileIOController
     {
         // Path to the Save files
         private static readonly string SaveDataPath = Application.persistentDataPath + "/SaveData";

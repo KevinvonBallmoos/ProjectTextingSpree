@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Inventory
+namespace Code.Model.Inventory
 {
     public class ItemInfo : MonoBehaviour
     {

@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Xml;
-using Code.Model.Dialogue.StoryDialogue;
+using Code.Controller.DialogueController.StoryDialogueController;
 using UnityEngine;
 
-namespace Code.Model.Files
+namespace Code.Controller.FileController
 {
     /// <summary>
     /// This class contains Methods to access Xml Files
@@ -11,7 +11,7 @@ namespace Code.Model.Files
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">07.05.2023</para>
-    public static class XmlModel
+    public static class XmlController
     {
         /// <summary>
         /// Reads the MessageBox Nodes from the OutsourcedStrings/strings.xml
@@ -46,7 +46,7 @@ namespace Code.Model.Files
         /// </summary>
         /// <param name="currentChapter">Current Chapter that is loaded</param>
         /// <returns>Chapter name</returns>
-        public static string GetChapterTitle(StoryAssetModel currentChapter)
+        public static string GetChapterTitle(StoryAssetController currentChapter)
         {
             var xmlDoc = new XmlDocument();
             var filePath = Path.Combine(Application.streamingAssetsPath, $"StoryFiles/{currentChapter.name}.xml");

@@ -1,10 +1,8 @@
+using Code.Controller.GameController;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Code.Controller.GameController;
-using UnityEngine.Serialization;
-
-namespace Code.Inventory
+namespace Code.Model.Inventory
 {
     public class ItemSlot : MonoBehaviour
     {
@@ -46,7 +44,7 @@ namespace Code.Inventory
         public void OnRemoveButtonClicked()
         {
             if (_item != null)
-                Inventory.Instance.RemoveItem(_item);
+                Model.Inventory.Inventory.Instance.RemoveItem(_item);
         }
 
         /// <summary>

@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Code.Model.Files;
+using Code.Controller.FileController;
 using Code.Model.Node;
 using Newtonsoft.Json;
 using UnityEngine;
 using Formatting = Newtonsoft.Json.Formatting;
 
-namespace Code.Model.Dialogue.StoryDialogue
+namespace Code.Controller.DialogueController.StoryDialogueController
 {
     /// <summary>
     /// This class is needed to evaluate if a node needs to be added or removed
@@ -31,10 +31,10 @@ namespace Code.Model.Dialogue.StoryDialogue
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">10.05.2023</para>
     [CreateAssetMenu(fileName = "Chapter", menuName = "StoryViewer", order = 0)]
-    public class StoryAssetModel : ScriptableObject
+    public class StoryAssetController : ScriptableObject
     {
         // Current Asset
-        private StoryAssetModel _currentAssetModel;
+        private StoryAssetController _currentAssetController;
         // Lists with nodes
         private readonly List<NodeInfo> _nodes = new();
         // List Property of all nodes
@@ -50,10 +50,10 @@ namespace Code.Model.Dialogue.StoryDialogue
         /// Reads the Node Information from the Xml File and puts them in the right order
         /// </summary>
         /// <param name="chapter">The name of the chapter is needed to find the according json file</param>
-        public StoryAssetModel ReadNodes(StoryAssetModel chapter)
+        public StoryAssetController ReadNodes(StoryAssetController chapter)
         {
             HasReadNodes = false;
-            _currentAssetModel = chapter;
+            _currentAssetController = chapter;
             var path = Application.persistentDataPath + "/StoryAssets/" + chapter.name + ".json";
 
             // Check if json file exists
@@ -61,7 +61,7 @@ namespace Code.Model.Dialogue.StoryDialogue
                 ReadJsonFile(path);
             
             // Read nodes and properties from xml file
-            var xmlDoc = XmlModel.GetXmlDocOfStoryFile(chapter.name);
+            var xmlDoc = XmlController.GetXmlDocOfStoryFile(chapter.name);
             ReadNodesFromXmlFile(xmlDoc);
 
             // Set the node position
@@ -71,7 +71,7 @@ namespace Code.Model.Dialogue.StoryDialogue
             SaveNodesToJson();
 
             HasReadNodes = true;
-            return _currentAssetModel;
+            return _currentAssetController;
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace Code.Model.Dialogue.StoryDialogue
             var filename = Application.persistentDataPath + "/StoryAssets";
             Directory.CreateDirectory(filename);
             
-            filename += $"/{_currentAssetModel.name}.json";
+            filename += $"/{_currentAssetController.name}.json";
             File.WriteAllText(filename, json);
         }
         

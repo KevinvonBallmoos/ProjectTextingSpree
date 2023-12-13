@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Code.Inventory;
+using Code.Model.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +24,7 @@ namespace Code.View.Inventory
         
         private void Start()
         {
-            Code.Inventory.Inventory.Instance.OnItemChangeDelegate += UpdateInventoryUI;
+            Model.Inventory.Inventory.Instance.OnItemChangeDelegate += UpdateInventoryUI;
             UpdateInventoryUI();
             
             inventoryButton.onClick.AddListener(Inventory_Click);
@@ -38,7 +38,7 @@ namespace Code.View.Inventory
         private void UpdateInventoryUI()
         {
             // First we check the count of the items in our inventory.
-            int currentItemCount = Code.Inventory.Inventory.Instance.inventoryItemList.Count;
+            int currentItemCount = Model.Inventory.Inventory.Instance.inventoryItemList.Count;
             
             // // Check if we have enough item slots.
             if (currentItemCount > _itemSlotList.Count)
@@ -52,7 +52,7 @@ namespace Code.View.Inventory
                 if (i < currentItemCount)
                 {
                     // Update the current item in the slot
-                    _itemSlotList[i].AddItem(Code.Inventory.Inventory.Instance.inventoryItemList[i]);
+                    _itemSlotList[i].AddItem(Model.Inventory.Inventory.Instance.inventoryItemList[i]);
                 }
                 else
                 {

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
-namespace Code.Inventory
+namespace Code.Model.Inventory
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "Item", menuName = "Item/baseItem")]

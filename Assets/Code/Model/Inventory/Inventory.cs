@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Inventory
+namespace Code.Model.Inventory
 {
     /// <summary>
     /// Adds and Removes Items from the Inventory list

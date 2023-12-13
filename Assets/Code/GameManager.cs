@@ -1,14 +1,14 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using Code.Controller.DialogueController.StoryDialogueController;
+using Code.Controller.FileController;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using Code.Controller.GameController;
-using Code.Model.Dialogue.StoryDialogue;
-using Code.Model.Files;
 using Code.View.Dialogue.StoryView;
 
 namespace Code
@@ -78,13 +78,13 @@ namespace Code
                 _chapter = 1;
                 ActiveScene = 0;
                 LocalizationManager.LoadLocalizableValues();
-                FileIOModel.CreateFolders();
+                FileIOController.CreateFolders();
                 
                 if (SceneManager.GetActiveScene().buildIndex != 0)
                     _storyUIView = storyUIViewScript;
                     
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //_logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
@@ -125,7 +125,7 @@ namespace Code
             var storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
             
             if (!File.Exists($@"{_runPath}{storyPath}")) return;
-            _storyUIView.currentChapter = Resources.Load<StoryAssetModel>(storyPath.Replace(".asset", ""));
+            _storyUIView.currentChapter = Resources.Load<StoryAssetController>(storyPath.Replace(".asset", ""));
             //_logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
         }
 

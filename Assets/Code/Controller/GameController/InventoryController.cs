@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using Code.Inventory;
+using Code.Model.Inventory;
 
 namespace Code.Controller.GameController
 {
@@ -52,7 +51,7 @@ namespace Code.Controller.GameController
             {
                 if (i._name.Equals(item))
                 {
-                    Inventory.Inventory.Instance.AddItem(i);
+                    Model.Inventory.Inventory.Instance.AddItem(i);
                 }
             }
         }

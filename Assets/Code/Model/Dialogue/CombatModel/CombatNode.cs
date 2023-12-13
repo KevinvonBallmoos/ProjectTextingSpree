@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Dialogue.Combat
+namespace Code.Model.Dialogue.CombatModel
 {
     /// <summary>
     /// Object Class for CombatNode
