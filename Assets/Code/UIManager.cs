@@ -227,7 +227,7 @@ namespace Code
         /// </summary>
         public void Remove_Click()
         {
-            SetMessageBoxProperties(RemoveData_Click, "Remove Data", XmlController.GetMessageBoxText(1));
+            SetMessageBoxProperties(RemoveData_Click, "Remove Data", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText2CaptionKey));
             var holders = placeholderView.GetComponentsInChildren<Image>();
             _controlView.RemoveDataAction(screenObjects[1], holders, errorLabel);
         }

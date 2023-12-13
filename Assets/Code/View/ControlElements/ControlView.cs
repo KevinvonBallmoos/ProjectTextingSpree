@@ -68,7 +68,7 @@ namespace Code.View.ControlElements
             {
                 InitializeSaveDataPanel("Override", 1, false, placeholderView, buttonLoadGameText, placeholders);
                 screenObjects[2].SetActive(false);
-                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", XmlController.GetMessageBoxText(0));
+                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText1CaptionKey));
                 screenObjects[1].SetActive(true);
             }
         }
@@ -109,7 +109,9 @@ namespace Code.View.ControlElements
                     holders[i].enabled = false;
             }
             buttonLoadGameText.text = text;
-            placeholderView.GetComponentsInChildren<Text>()[0].text = XmlController.GetInformationText(index);
+            
+            placeholderView.GetComponentsInChildren<Text>()[0].text =
+                LocalizationManager.GetLocalizedValue(LocalizationKeyController.InformationKeys[index]);
             
             if (loadData)
                 LoadDataIntoPlaceholders(placeholders);

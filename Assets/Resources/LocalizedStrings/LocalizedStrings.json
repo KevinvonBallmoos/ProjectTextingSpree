@@ -18,6 +18,30 @@
             "values": [
                 {"lang": "en", "value": "No save selected to remove!"}
             ]
+        },
+        {
+            "key": "messagebox_text_1_caption",
+            "values": [
+                {"lang": "en", "value": "All of your game slots are occupied. To start a new Game you have to select a SaveGame to override the status. Do you want to continue?"}
+            ]
+        },
+        {
+            "key": "messagebox_text_2_caption",
+            "values": [
+                {"lang": "en", "value": "Do you really want to delete this game? This action can't be undone."}
+            ]
+        },
+        {
+            "key": "information_text_1_caption",
+            "values": [
+                {"lang": "en", "value": "Select the Game you want to load."}
+            ]
+        },
+        {
+            "key": "information_text_1_caption",
+            "values": [
+                {"lang": "en", "value": "Select the Save you want to override with the new Game."}
+            ]
         }
     ]
 }
