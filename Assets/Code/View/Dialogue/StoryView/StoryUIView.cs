@@ -308,7 +308,7 @@ namespace Code.View.Dialogue.StoryView
                 nextButton.onClick.RemoveAllListeners();
 
                 GameManager.Gm.IsEndOfChapter = true;
-                nextButton.onClick.AddListener(GameManager.Gm.NextChapter_Click);
+                nextButton.onClick.AddListener(UIManager.Uim.NextChapter_Click);
             }
             else  if (_storyHolder.GetIsEndOfStory())
             {
@@ -318,7 +318,7 @@ namespace Code.View.Dialogue.StoryView
                 nextButton.onClick.RemoveAllListeners();
 
                 GameManager.Gm.IsEndOfPart = true;
-                nextButton.onClick.AddListener(GameManager.Gm.NextPart_Click);
+                nextButton.onClick.AddListener(UIManager.Uim.NextPart_Click);
             }
             else if (_storyHolder.GetIsGameOver())
             {

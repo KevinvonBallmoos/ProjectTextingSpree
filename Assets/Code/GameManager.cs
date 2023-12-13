@@ -26,34 +26,29 @@ namespace Code
         public static GameManager Gm;
         // Story UI
         private static StoryUIView _storyUIView;
-        // Message Box Game Over Screen Object
-        [Header("Game over Message Box")]
-        [SerializeField] private GameObject messageBoxGameOver;
-        // Character
-        [Header("Character")] 
-        [SerializeField] public GameObject[] characters;
-        [SerializeField] private Text chosenCharacter;
-        [SerializeField] private InputField playerName;
-        // Buttons
-        [Header("TopBar Buttons")] 
-        [SerializeField] private Button[] buttons;
         // StoryUI Script
-        [FormerlySerializedAs("storyUIScript")]
         [Header("Scripts")]
         [SerializeField] private StoryUIView storyUIViewScript;
 		// States of the Game
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
         [NonSerialized] public bool IsEndOfPart;
-        // Active Scene
-        public int ActiveScene { get; set; }
-
         // Chapter, Part and Path
         private int _chapter;
         private int _part;
         private string _runPath;
-        // Regex Pattern for InputField
-        private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
+
+        #region Properties
+        
+        // Active Scene
+        public int ActiveScene { get; set; }    
+        
+        // Menu Option Property :
+        // true  : the Story Text will appear letter by letter
+        // false : the Story Text will appear directly
+        public bool IsTextSlowed { get; set; }
+        
+        #endregion
 
         #region Awake and Start
 
@@ -151,14 +146,14 @@ namespace Code
         private void LoadGameOverScreen()
         {
             IsGameOver = false;
-            messageBoxGameOver.SetActive(true);
+            UIManager.Uim.EnableOrDisableMessageBoxGameOver(true);
             //_logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
         }
 
         /// <summary>
         /// Returns the Story Part
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the number of the story</returns>
         private static int GetPath()
         {
             var path = _storyUIView.currentChapter.name;
@@ -177,7 +172,7 @@ namespace Code
         /// <summary>
         /// Starts the new Chapter
         /// </summary>
-        public void NextChapter_Click()
+        public void NextChapter()
         {
             _storyUIView.Start();
         }
@@ -188,7 +183,7 @@ namespace Code
         /// 2 => 3 StoryScene1 to StoryScene2
         /// 3 => 2 StoryScene2 to StoryScene1
         /// </summary>
-        public void NextPart_Click()
+        public void NextPart()
         {
             ActiveScene = ActiveScene switch
             {
@@ -202,57 +197,8 @@ namespace Code
         }
         
         #endregion
-        
-        #region Inputfield Events
 
-        /// <summary>
-        /// Is triggered, when the value of the input field changes
-        /// Compares the last entered char of the input with the regex string
-        /// if the input does not match, the last entered char is removed
-        /// </summary>
-        public void InputField_OnValueChanged()
-        {
-            var text = playerName.text;
-            if (text.Equals(""))
-            {
-                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
-                return;
-            }
-
-            var isMatch = Regex.IsMatch(text[^1].ToString(), RegexPattern);
-            if (!isMatch)
-            {
-                playerName.text = text[..^1];
-                return;
-            }
-            playerName.GetComponentsInChildren<Text>()[0].color = Color.white;
-        }
-
-        /// <summary>
-        /// Is triggered when the User submits the Username
-        /// It checks if the input is empty or not
-        /// </summary>
-        private bool InputField_OnSubmit()
-        {
-            if (playerName.text.Equals(""))
-                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
-            return !playerName.text.Equals("");
-        }
-        
-        #endregion
-
-        #region Main Menu
-
-        /// <summary>
-        /// Hides the Message Box
-        /// Loads the MainMenu Scene
-        /// </summary>
-        public void BackToMainMenu_Click()
-        {
-            messageBoxGameOver.SetActive(false);
-            ActiveScene = 0;
-            LoadScene();
-        }
+        #region Load Scene
 
 		/// <summary>
 		/// Loads the Scene saved in the 'ActiveScene' variable
@@ -264,15 +210,5 @@ namespace Code
 
 		#endregion
 
-        #region Menu Options
-        
-        /// <summary>
-        /// Menu Option Property :
-        /// true  : the Story Text will appear letter by letter
-        /// false : the Story Text will appear directly
-        /// </summary>
-        public bool IsTextSlowed { get; set; }
-
-        #endregion
     }
 }

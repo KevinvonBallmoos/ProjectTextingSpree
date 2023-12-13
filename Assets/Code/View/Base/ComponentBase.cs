@@ -6,40 +6,51 @@ namespace Code.View.Base
 {
     public class ComponentBase : MonoBehaviour
     {
+        #region Serialized Fiels Menu
+        
+        [Header("MENU")]
         // TopBar Buttons
         [Header("Character Page TopBar Buttons")] 
-        [SerializeField] protected  Button[] buttons;
+        [SerializeField] protected Button[] buttons;
         // Character pages
         [Header("Character Pages")]
-        [SerializeField] protected  GameObject[] characterPages;
+        [SerializeField] protected GameObject[] characterPages;
         // Character
         [Header("Character")] 
-        [SerializeField] protected  GameObject[] characters;
-        [SerializeField] protected  Text chosenCharacter;
-        [SerializeField] protected  InputField playerName;
+        [SerializeField] protected GameObject[] characters;
+        [SerializeField] protected Text chosenCharacter;
+        [SerializeField] protected InputField playerName;
         // MessageBox, Button and Text
         [Header("Messagebox")]
-        [SerializeField] protected  GameObject[] messageBox;       
-        // Message Box Game Over Screen Object
-        [Header("Game over Message Box")]
-        [SerializeField] protected  GameObject messageBoxGameOver;
+        [SerializeField] protected GameObject[] messageBox;       
         // Main Menu, Message Box, Character Screen object
         [Header("Main Menu, Message Box and Character Screens")]
-        [SerializeField] protected  GameObject[] screenObjects;
+        [SerializeField] protected GameObject[] screenObjects;
         // Remove data button
         [Header("Remove Data Button")] 
-        [SerializeField] protected  Button removeData;
+        [SerializeField] protected Button removeData;
         // Load save
         [Header("Load Game Text")]
-        [SerializeField] protected  Text buttonLoadGameText;
+        [SerializeField] protected Text buttonLoadGameText;
         // Error Label
         [Header("Error Label")] 
-        [SerializeField] protected  TextMeshProUGUI errorLabel;
+        [SerializeField] protected TextMeshProUGUI errorLabel;
         // Savedata Placeholders
         [Header("Savedata Placeholders")]
-        [SerializeField] protected  GameObject[] placeholders;
+        [SerializeField] protected GameObject[] placeholders;
         // Placeholder view
         [Header("Placeholder view")]
-        [SerializeField] protected  GameObject placeholderView;
+        [SerializeField] protected GameObject placeholderView;
+
+        #endregion
+        
+        #region Serialized Fields In Game
+
+        [Header("IN GAME")]
+        // Message Box Game Over Screen Object
+        [Header("Game over Message Box")]
+        [SerializeField] protected GameObject messageBoxGameOver;
+
+        #endregion
     }
 }

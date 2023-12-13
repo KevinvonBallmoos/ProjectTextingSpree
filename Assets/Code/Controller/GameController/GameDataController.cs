@@ -38,8 +38,6 @@ namespace Code.Controller.GameController
             
             if (Gdc == null)
                 Gdc = this;
-            else
-                Destroy(gameObject);
         }
         
         /// <summary>

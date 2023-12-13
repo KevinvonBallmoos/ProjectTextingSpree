@@ -12,6 +12,12 @@
             "values": [
                 {"lang": "en", "value": "No save selected to load!"}
             ]
+        },
+        {
+            "key": "savefile_errorlabel_remove_caption",
+            "values": [
+                {"lang": "en", "value": "No save selected to remove!"}
+            ]
         }
     ]
 }

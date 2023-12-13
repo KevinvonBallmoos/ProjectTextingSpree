@@ -9,7 +9,11 @@ namespace Code.Controller.LocalizationController
     {
         // Save file error label override save
         public const string SaveFileErrorLabelOverrideCaptionKey = "savefile_errorlabel_override_caption";
+
         // Save file error label load save
         public const string SaveFileErrorLabelLoadCaptionKey = "savefile_errorlabel_load_caption";
+
+        // Save file error label load save
+        public const string SaveFileErrorLabelRemoveCaptionKey = "savefile_errorlabel_remove_caption";
     }
 }

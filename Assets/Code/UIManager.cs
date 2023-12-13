@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -18,6 +17,8 @@ namespace Code
     {
         // UI Manager instance
         public static UIManager Uim;
+        // ControlView
+        private ControlView _controlView;
         // Path to the Save files
         private static string _saveDataPath;
         
@@ -31,6 +32,7 @@ namespace Code
         {
             if (Uim == null)
                 Uim = this;
+            _controlView = gameObject.AddComponent<ControlView>();
             _saveDataPath = Application.persistentDataPath + "/SaveData";
         }
 
@@ -41,6 +43,7 @@ namespace Code
         {
             if (GameManager.Gm.ActiveScene != 0) return;
             EnableRemoveDataButton();
+            _controlView.InitializeSaveDataPanel("LOAD", 0, true, placeholderView, buttonLoadGameText, placeholders);
         }
 
         #endregion
@@ -57,9 +60,9 @@ namespace Code
             screenObjects[0].SetActive(false);
             screenObjects[2].SetActive(true);
             
-            ControlView.Cv.NewGame();
+            _controlView.NewGame(characters);
             // Adds Listener,to go back to the menu
-            ControlView.Cv.AddButtonListener(buttons[0], GameManager.Gm.BackToMainMenu_Click);        
+            _controlView.AddButtonListener(buttons[0], BackToMainMenu_Click);        
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace Code
         /// </summary>
         public void BookButtonStartNewGame_Click()
         {
-            ControlView.Cv.BookButtonStartNewGame();
+            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, screenObjects, placeholderView, buttonLoadGameText, placeholders);
         }
 
         #endregion
@@ -90,7 +93,8 @@ namespace Code
                 errorLabel.text = LocalizationManager.GetLocalizedValue(key);
                 return;
             }
-            ControlView.Cv.LoadOrOverrideSave(buttonLoadGameText.text);
+            
+            _controlView.LoadOrOverrideSave(buttonLoadGameText);
             
             if (GameManager.Gm.ActiveScene == 2)
                 GameDataController.Gdc.LoadSelectedGame();
@@ -103,11 +107,22 @@ namespace Code
         #region Character Page Top Bar Buttons
         
         /// <summary>
+        /// Hides the Message Box
+        /// Loads the MainMenu Scene
+        /// </summary>
+        public void BackToMainMenu_Click()
+        {
+            EnableOrDisableMessageBoxGameOver(false);
+            GameManager.Gm.ActiveScene = 0;
+            GameManager.Gm.LoadScene();
+        }
+        
+        /// <summary>
         /// Displays the 2nd Character Page
         /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
-            ControlView.Cv.ScrollNextCharacterPage();
+            _controlView.ScrollNextCharacterPage(buttons, characterPages);
         }
 
         /// <summary>
@@ -115,7 +130,65 @@ namespace Code
         /// </summary>
         public void ScrollPreviousCharacterPage_CLick()
         {
-            ControlView.Cv.ScrollPreviousCharacterPage();
+            _controlView.ScrollPreviousCharacterPage(buttons, characterPages);
+        }
+        
+        #endregion
+
+        #region Characterselect
+
+        /// <summary>
+        /// Sets the character Field, with the title of the selected Character
+        /// </summary>
+        public void Character_Click(GameObject characterGameObject)
+        {
+            _controlView.SetImage(characters, chosenCharacter, characterGameObject);
+        }
+
+        #endregion
+        
+        #region Characterselect Input Field
+
+        /// <summary>
+        /// Is triggered, when the value of the input field changes
+        /// Compares the last entered char of the input with the regex string
+        /// if the input does not match, the last entered char is removed
+        /// </summary>
+        public void InputField_OnValueChanged()
+        {
+            _controlView.ValidateInputField(playerName);
+        }
+
+        /// <summary>
+        /// Is triggered when the User submits the Username
+        /// It checks if the input is empty or not
+        /// </summary>
+        private bool InputField_OnSubmit()
+        {
+            return _controlView.SubmitInputField(playerName);
+        }
+        
+        #endregion
+        
+        #region Next Chapter / Next Part Button Events
+        
+        /// <summary>
+        /// Starts the new Chapter
+        /// </summary>
+        public void NextChapter_Click()
+        {
+            GameManager.Gm.NextChapter();
+        }
+
+        /// <summary>
+        /// Switching between scenes
+        /// 1 => 2 NewGameScene to StoryScene1
+        /// 2 => 3 StoryScene1 to StoryScene2
+        /// 3 => 2 StoryScene2 to StoryScene1
+        /// </summary>
+        public void NextPart_Click()
+        {
+            GameManager.Gm.NextPart();
         }
         
         #endregion
@@ -130,7 +203,7 @@ namespace Code
         /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
-            ControlView.Cv.SetMessageBoxProperties(eventMethod, buttonText,text);
+            _controlView.SetMessageBoxProperties(messageBox, eventMethod, buttonText, text);
         }
 
         /// <summary>
@@ -138,7 +211,7 @@ namespace Code
         /// </summary>
         public void Continue_Click()
         {
-            ControlView.Cv.ContinueAction();
+            _controlView.ContinueAction(screenObjects);
         }
 
         /// <summary>
@@ -146,7 +219,7 @@ namespace Code
         /// </summary>
         public void Cancel_CLick()
         {
-            ControlView.Cv.CancelAction();
+            _controlView.CancelAction(screenObjects);
         }
         
         /// <summary>
@@ -156,7 +229,16 @@ namespace Code
         {
             SetMessageBoxProperties(RemoveData_Click, "Remove Data", XmlModel.GetMessageBoxText(1));
             var holders = placeholderView.GetComponentsInChildren<Image>();
-            ControlView.Cv.RemoveDataAction(screenObjects[1], holders);
+            _controlView.RemoveDataAction(screenObjects[1], holders, errorLabel);
+        }
+
+        /// <summary>
+        /// Enables or disables the messagebox game over screen 
+        /// </summary>
+        /// <param name="enable">true enable, false disable</param>
+        public void EnableOrDisableMessageBoxGameOver(bool enable)
+        {
+            messageBoxGameOver.SetActive(enable);
         }
         
         #endregion
@@ -168,7 +250,7 @@ namespace Code
         /// </summary>
         private void RemoveData_Click()
         {
-            ControlView.Cv.RemoveData(_saveDataPath);
+            _controlView.RemoveData(_saveDataPath, removeData, placeholders, screenObjects[1]);
         }
 
         /// <summary>

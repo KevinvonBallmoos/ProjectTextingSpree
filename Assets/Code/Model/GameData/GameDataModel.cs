@@ -104,8 +104,6 @@ namespace Code.Model.GameData
             foreach (var file in Directory.GetFiles(Application.persistentDataPath + "/SaveData"))
             {
                 var json = File.ReadAllText(file, Encoding.UTF8);
-                Debug.Log(GameDataController.Gdc);
-
                 loadedGameData.Add(GameDataController.Gdc.GetLoadedGameData(json));
             }
 
