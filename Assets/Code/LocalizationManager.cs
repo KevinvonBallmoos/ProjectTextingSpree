@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Code.Controller.LocalizationController;
@@ -25,19 +26,28 @@ namespace Code
             var jsonFile = Resources.Load<TextAsset>("LocalizedStrings/LocalizedStrings");
             var localizationData = JsonUtility.FromJson<LocalizationData>(jsonFile.text);
             _currentLanguage = localizationData.languages[0];
-
+            try
+            {
             foreach (var language in localizationData.languages)
             {
                 var languageStrings = new Dictionary<string, string>();
 
-                foreach (var entry in localizationData.table)
-                {
-                    foreach (var data in entry.values.Where(data => data.lang == language))
+           
+                    foreach (var entry in localizationData.table)
                     {
-                        languageStrings.Add(entry.key, data.value);
+                        foreach (var data in entry.values.Where(data => data.lang == language))
+                        {
+                            languageStrings.Add(entry.key, data.value);
+                        }
                     }
+
+                    Languages.Add(language, languageStrings);
                 }
-                Languages.Add(language, languageStrings);
+         
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);
             }
         }
         

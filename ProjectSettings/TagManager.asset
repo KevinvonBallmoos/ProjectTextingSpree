@@ -22,6 +22,7 @@ TagManager:
   - 
   - Water
   - UI
+  - Parent Layer
   - 
   - 
   - 
@@ -29,8 +30,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Child Layer
   - 
   - 
   - 
@@ -51,4 +51,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Parent Layer
+    uniqueID: 1731580427
+    locked: 0
+  - name: Child Layer
+    uniqueID: 1665064649
     locked: 0
