@@ -53,5 +53,14 @@ namespace Code.Model.GameData
         public static string PlayerBackground { get; set; }
 
         #endregion
+
+        #region Override
+
+        /// <summary>
+        /// Property for the is Override state
+        /// </summary>
+        public static bool IsOverride { get; set; }
+
+        #endregion
     }
 }

@@ -10,6 +10,7 @@ using Code.Controller.LocalizationController;
 using Code.Model.GameData;
 using Code.View.Base;
 using Code.View.ControlElements;
+using TMPro;
 
 namespace Code
 {
@@ -43,7 +44,7 @@ namespace Code
         {
             if (GameManager.Gm.ActiveScene != 0) return;
             EnableRemoveDataButton();
-            _controlView.InitializeSaveDataPanel("LOAD", 0, true, placeholderView, buttonLoadGameText, placeholders);
+            _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0], placeholders);
         }
 
         #endregion
@@ -57,12 +58,13 @@ namespace Code
         {
             // TODO: Animation Turns to page 2
             // Display Character on pages 2 - 3,4 - 5
-            screenObjects[0].SetActive(false);
-            screenObjects[2].SetActive(true);
+            // TODO: Load scene
+            //screenObjects[0].SetActive(false);
+            //screenObjects[2].SetActive(true);
             
             _controlView.NewGame(characters);
             // Adds Listener,to go back to the menu
-            _controlView.AddButtonListener(buttons[0], BackToMainMenu_Click);        
+            _controlView.AddButtonListener(topBarButtons[0], BackToMainMenu_Click);        
         }
 
         /// <summary>
@@ -71,9 +73,33 @@ namespace Code
         /// </summary>
         public void BookButtonStartNewGame_Click()
         {
-            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, screenObjects, placeholderView, buttonLoadGameText, placeholders);
+            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterSelect, placeholderView, gameDataGameObjects[0], placeholders, messageBox);
         }
 
+        #endregion
+        
+        #region GameData Paper
+
+        /// <summary>
+        /// Action to upscale the GameDataPaper
+        /// </summary>
+        public void DisplayLoadingPaper_Click()
+        { 
+            _controlView.DisplayLoadingPaper(mainMenuGameObjects, placeholderView);
+            mainMenuGameObjects[0].GetComponentsInChildren<Image>()[0].material = defaultMaterial;
+            _controlView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, false);
+        }
+
+        /// <summary>
+        /// Action to go back to the main menu view
+        /// </summary>
+        public void BackToTable_Click()
+        {
+            _controlView.BackToTable(mainMenuGameObjects, placeholderView);
+            _controlView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, true);
+        }
+        
+        
         #endregion
         
         #region LoadOrOverrideSave
@@ -84,13 +110,14 @@ namespace Code
         public void LoadOrOverrideSave_Click()
         {
             var holders = placeholderView.GetComponentsInChildren<Image>();
+            var buttonLoadGameText = gameDataGameObjects[0].GetComponentInChildren<Text>();
             GameDataInfoModel.SetPlaceholderNum(holders);
 
             if (GameDataInfoModel.Placeholder == -1)
             {
-                errorLabel.enabled = true;
                 var key = buttonLoadGameText.text.Equals("LOAD")? LocalizationKeyController.SaveFileErrorLabelLoadCaptionKey : LocalizationKeyController.SaveFileErrorLabelOverrideCaptionKey;
-                errorLabel.text = LocalizationManager.GetLocalizedValue(key);
+                errorLabel.GetComponentInChildren<TextMeshProUGUI>().text = LocalizationManager.GetLocalizedValue(key);
+                errorLabel.SetActive(true);
                 return;
             }
             
@@ -99,7 +126,7 @@ namespace Code
             if (GameManager.Gm.ActiveScene == 2)
                 GameDataController.Gdc.LoadSelectedGame();
             
-            errorLabel.enabled = false;
+            errorLabel.SetActive(false);
         }
 
         #endregion
@@ -122,7 +149,7 @@ namespace Code
         /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
-            _controlView.ScrollNextCharacterPage(buttons, characterPages);
+            _controlView.ScrollNextCharacterPage(topBarButtons, characterPages);
         }
 
         /// <summary>
@@ -130,7 +157,7 @@ namespace Code
         /// </summary>
         public void ScrollPreviousCharacterPage_CLick()
         {
-            _controlView.ScrollPreviousCharacterPage(buttons, characterPages);
+            _controlView.ScrollPreviousCharacterPage(topBarButtons, characterPages);
         }
         
         #endregion
@@ -203,7 +230,7 @@ namespace Code
         /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
-            _controlView.SetMessageBoxProperties(messageBox, eventMethod, buttonText, text);
+            _controlView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
         }
 
         /// <summary>
@@ -211,7 +238,7 @@ namespace Code
         /// </summary>
         public void Continue_Click()
         {
-            _controlView.ContinueAction(screenObjects);
+            _controlView.ContinueAction(messageBox);
         }
 
         /// <summary>
@@ -219,7 +246,7 @@ namespace Code
         /// </summary>
         public void Cancel_CLick()
         {
-            _controlView.CancelAction(screenObjects);
+            _controlView.CancelAction(messageBox);
         }
         
         /// <summary>
@@ -229,7 +256,7 @@ namespace Code
         {
             SetMessageBoxProperties(RemoveData_Click, "Remove Data", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText2CaptionKey));
             var holders = placeholderView.GetComponentsInChildren<Image>();
-            _controlView.RemoveDataAction(screenObjects[1], holders, errorLabel);
+            _controlView.RemoveDataAction(messageBox, holders, errorLabel);
         }
 
         /// <summary>
@@ -238,7 +265,7 @@ namespace Code
         /// <param name="enable">true enable, false disable</param>
         public void EnableOrDisableMessageBoxGameOver(bool enable)
         {
-            messageBoxGameOver.SetActive(enable);
+            messageBox.SetActive(enable);
         }
         
         #endregion
@@ -250,7 +277,7 @@ namespace Code
         /// </summary>
         private void RemoveData_Click()
         {
-            _controlView.RemoveData(_saveDataPath, removeData, placeholders, screenObjects[1]);
+            _controlView.RemoveData(_saveDataPath, gameDataGameObjects[1], placeholders, messageBox);
         }
 
         /// <summary>
@@ -259,7 +286,7 @@ namespace Code
         private void EnableRemoveDataButton()
         {
             var files = Directory.GetFiles(_saveDataPath);   
-            removeData.enabled = files.Any();
+            gameDataGameObjects[1].GetComponent<Button>().enabled = files.Any();
         }
         
         #endregion

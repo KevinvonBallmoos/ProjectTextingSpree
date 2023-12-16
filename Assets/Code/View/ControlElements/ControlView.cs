@@ -21,73 +21,7 @@ namespace Code.View.ControlElements
         // Regex Pattern for InputField
         private const string RegexPattern = "^[A-Za-z0-9\\s]+$";
         
-        #region Game States
-
-        /// <summary>
-        /// Opens the character select window and disables the select Images
-        /// </summary>
-        /// <param name="characters">All character objects</param>
-        public void NewGame(GameObject[] characters)
-        {
-            foreach (var c in characters)
-            {
-                var image = c.GetComponentsInChildren<Image>()[2];
-                image.enabled = false;
-                // Sets the scrollbar to the top
-                var scrollbar = c.GetComponentInChildren<Scrollbar>();
-                scrollbar.value = 1;
-            }
-        }
-        
-        /// <summary>
-        /// Checks if a character was selected and a Name was given
-        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
-        /// </summary>
-        /// <param name="playerName">InputField component with the player name</param>
-        /// <param name="chosenCharacter">The chosen character text component</param>
-        /// <param name="screenObjects">Main Menu, Message Box and Character Screen Objects</param>
-        /// <param name="placeholderView">Game object that holds all placeholders"</param>
-        /// <param name="buttonLoadGameText">Text control that holds the button text"</param>
-        /// <param name="placeholders">placeholders for the game data</param>
-        public void BookButtonStartNewGame(InputField playerName, Text chosenCharacter, GameObject[] screenObjects, GameObject placeholderView, Text buttonLoadGameText, GameObject[] placeholders)
-        {
-            if (!InputField_OnSubmit(playerName)) return;
-            if (chosenCharacter.text.Equals(""))
-            {
-                screenObjects[2].GetComponentsInChildren<Text>()[0].color = Color.red;
-                return;
-            }
-            chosenCharacter.color = Color.white;
-            
-            if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
-            {
-                GameManager.Gm.ActiveScene = 1;
-                GameManager.Gm.LoadScene();
-            }
-            else
-            {
-                InitializeSaveDataPanel("Override", 1, false, placeholderView, buttonLoadGameText, placeholders);
-                screenObjects[2].SetActive(false);
-                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText1CaptionKey));
-                screenObjects[1].SetActive(true);
-            }
-        }
-        
-        /// <summary>
-        /// Is triggered when the User submits the Username
-        /// It checks if the input is empty or not
-        /// </summary>
-        /// <param name="playerName">InputField component with the player name</param>
-        private bool InputField_OnSubmit(InputField playerName)
-        {
-            if (playerName.text.Equals(""))
-                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
-            return !playerName.text.Equals("");
-        }
-        
-        #endregion
-        
-        #region Load Game Data onto save file
+        #region GameDataPaper Load Game Data
 
         /// <summary>
         /// Initializes the Savedata panel
@@ -95,23 +29,19 @@ namespace Code.View.ControlElements
         /// Sets the Button text and the overview text
         /// </summary>
         /// <param name="text">Text for the Button, either Load Game or New Game</param>
-        /// <param name="index">Identifies which text from the xml file should be displayed</param>
         /// <param name="loadData">True => loads data into placeholders, False => only initializes the save data panel</param>
         /// <param name="placeholderView">Game object that holds all placeholders"</param>
-        /// <param name="buttonLoadGameText">Text control that holds the button text"</param>
+        /// <param name="buttonLoadGame">button load game object"</param>
         /// <param name="placeholders">placeholders for the game data</param>
-        public void InitializeSaveDataPanel(string text, int index, bool loadData, GameObject placeholderView, Text buttonLoadGameText, GameObject[] placeholders)
+        public void InitializeSaveDataPanel(string text, bool loadData, GameObject placeholderView, GameObject buttonLoadGame, GameObject[] placeholders)
         {
-            var holders = placeholderView.GetComponentsInChildren<Image>();
-            for (var i = 0; i < holders.Length; i++)
+            var holders = placeholderView.GetComponentsInChildren<Image>()
+                .Where(c => c.name.Equals("CheckImage")).ToList();
+            foreach (var t in holders)
             {
-                if (i is 1 or 3 or 5)
-                    holders[i].enabled = false;
+                t.enabled = false;
             }
-            buttonLoadGameText.text = text;
-            
-            placeholderView.GetComponentsInChildren<Text>()[0].text =
-                LocalizationManager.GetLocalizedValue(LocalizationKeyController.InformationKeys[index]);
+            buttonLoadGame.GetComponentInChildren<Text>().text = text;
             
             if (loadData)
                 LoadDataIntoPlaceholders(placeholders);
@@ -173,7 +103,7 @@ namespace Code.View.ControlElements
         
         #endregion
         
-        #region Load or override Save
+        #region GameDataPaper Load or Override Save
 
         /// <summary>
         /// Starts either a new game or loads a selected one 
@@ -195,8 +125,138 @@ namespace Code.View.ControlElements
         
         #endregion
         
-        #region Characterselect
+        #region GameDataPaper Focus
 
+        /// <summary>
+        /// Up scales the GameDataPaper so its interactable and readable
+        /// Sets the game data information text, according to the override state 
+        /// </summary>
+        /// <param name="mainMenuGameObjects">game data paper and game book</param>
+        /// <param name="placeholderView">Game object that holds all placeholders</param>
+        public void DisplayLoadingPaper(GameObject[] mainMenuGameObjects, GameObject placeholderView)
+        {
+            var mainMenuTransform = mainMenuGameObjects[0].GetComponent<RectTransform>();
+            mainMenuTransform.localRotation = new Quaternion(0, 0, 0, 0);
+            mainMenuTransform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+            mainMenuTransform.localPosition = new Vector3(-370, -42, 0);
+            
+            placeholderView.GetComponentsInChildren<Text>().Where(t => t.name.Equals("GameDataInformationText")).ToArray()[0].text =
+                LocalizationManager.GetLocalizedValue(LocalizationKeyController.InformationKeys[!GameDataInfoModel.IsOverride? 0 : 1]);
+        }
+
+        /// <summary>
+        /// Down scales the GameDataPaper, back to origin state
+        /// Main menu view is active
+        /// </summary>
+        /// <param name="mainMenuGameObjects">game data paper and game book</param>
+        /// <param name="placeholderView">Game object that holds all placeholders</param>
+        public void BackToTable(GameObject[] mainMenuGameObjects, GameObject placeholderView)
+        {
+            var mainMenuTransform = mainMenuGameObjects[0].GetComponent<RectTransform>();
+            mainMenuTransform.localRotation = new Quaternion(-2.86f, 0.43f, 25.22f, 112f);
+            mainMenuTransform.localScale = new Vector3(0.35f, 0.41f, 0.5f);
+            mainMenuTransform.localPosition = new Vector3(-634, -282, 0);
+            
+            placeholderView.GetComponentsInChildren<Text>().Where(t => t.name.Equals("GameDataInformationText")).ToArray()[0].text = "Game Data";
+        }
+
+        /// <summary>
+        /// Sets the behavior of the other controls
+        /// </summary>
+        /// <param name="mainMenuGameObjects">game data paper and game book</param>
+        /// <param name="menuGameObjects">button settings and quit, hover label</param>
+        /// <param name="gameDataGameObjects">button load, remove and back</param>
+        /// <param name="placeholders">placeholders for the game data</param>
+        /// <param name="isMenuFocus">true when the menu is focused, false the the game data paper is focused</param>
+        public void SetGameObjectsBehavior(GameObject[] mainMenuGameObjects, GameObject[] menuGameObjects, GameObject[] gameDataGameObjects, GameObject[] placeholders, bool isMenuFocus)
+        {
+            // Main menu game objects 
+            mainMenuGameObjects[0].GetComponent<Button>().enabled = isMenuFocus;
+            mainMenuGameObjects[0].GetComponentInChildren<ObjectHighlightView>().enabled = isMenuFocus;
+            mainMenuGameObjects[1].GetComponent<ObjectHighlightView>().enabled = isMenuFocus;
+            mainMenuGameObjects[1].GetComponentInChildren<Button>().enabled = isMenuFocus;
+            
+            // Menu game objects
+            menuGameObjects[0].GetComponentInChildren<ObjectHighlightView>().enabled = isMenuFocus;
+            menuGameObjects[1].SetActive(isMenuFocus);
+            menuGameObjects[2].SetActive(isMenuFocus);
+            
+            // Game data game objects
+            gameDataGameObjects[0].GetComponent<Image>().raycastTarget = !isMenuFocus;
+            gameDataGameObjects[1].GetComponent<Image>().raycastTarget = !isMenuFocus;
+            gameDataGameObjects[2].SetActive(!isMenuFocus);
+            
+            // Ray cast target, (to enable recognize mouse events)
+            foreach (var p in placeholders)
+                p.GetComponent<Image>().raycastTarget = !isMenuFocus;
+        }
+        
+        #endregion
+        
+        #region GameBook CharacterSelect
+
+        /// <summary>
+        /// Opens the character select window and disables the select Images
+        /// </summary>
+        /// <param name="characters">All character objects</param>
+        public void NewGame(GameObject[] characters)
+        {
+            foreach (var c in characters)
+            {
+                var image = c.GetComponentsInChildren<Image>()[2];
+                image.enabled = false;
+                // Sets the scrollbar to the top
+                var scrollbar = c.GetComponentInChildren<Scrollbar>();
+                scrollbar.value = 1;
+            }
+        }
+
+        /// <summary>
+        /// Checks if a character was selected and a Name was given
+        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
+        /// </summary>
+        /// <param name="playerName">InputField component with the player name</param>
+        /// <param name="chosenCharacter">The chosen character text component</param>
+        /// <param name="characterSelect">Character Select game object</param>
+        /// <param name="placeholderView">Game object that holds all placeholders</param>
+        /// <param name="buttonLoadGame">button load game object</param>
+        /// <param name="placeholders">placeholders for the game data</param>
+        /// <param name="messageBox">message box game object</param>
+        public void BookButtonStartNewGame(InputField playerName, Text chosenCharacter, GameObject characterSelect, GameObject placeholderView, GameObject buttonLoadGame, GameObject[] placeholders, GameObject messageBox)
+        {
+            if (!InputField_OnSubmit(playerName)) return;
+            if (chosenCharacter.text.Equals(""))
+            {
+                characterSelect.GetComponentsInChildren<Text>()[0].color = Color.red;
+                return;
+            }
+            chosenCharacter.color = Color.white;
+            
+            if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
+            {
+                GameManager.Gm.ActiveScene = 1;
+                GameManager.Gm.LoadScene();
+            }
+            else
+            {
+                InitializeSaveDataPanel("Override", false, placeholderView, buttonLoadGame, placeholders);
+                UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText1CaptionKey));
+                messageBox.SetActive(true);
+            }
+        }
+        
+        /// <summary>
+        /// Is triggered when the User submits the Username
+        /// It checks if the input is empty or not
+        /// </summary>
+        /// <param name="playerName">InputField component with the player name</param>
+        private bool InputField_OnSubmit(InputField playerName)
+        {
+            if (playerName.text.Equals(""))
+                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
+            return !playerName.text.Equals("");
+        }
+        
         /// <summary>
         /// Disables the select Image on every character, when a character is selected
         /// Enables the select Image on the current selected Character game object
@@ -257,6 +317,66 @@ namespace Code.View.ControlElements
 
         #endregion
         
+        #region CharacterSelect Top Bar Buttons
+        
+            /// <summary>
+            /// Displays the 2nd Character Page
+            /// [0]: First character Page
+            /// [1]: Second character Page
+            /// </summary>
+            /// <param name="buttons">Character page top bar buttons</param>
+            /// <param name="characterPages">Both character page components</param>
+            public void ScrollNextCharacterPage(Button[] buttons, GameObject[] characterPages)
+            {
+                characterPages[0].SetActive(false);
+                characterPages[1].SetActive(true);
+                ChangeButtonProperties(buttons, UIManager.Uim.ScrollPreviousCharacterPage_CLick, "Go back", false);
+            }
+    
+            /// <summary>
+            /// Displays the 1st Character Page
+            /// [0]: First character Page
+            /// [1]: Second character Page
+            /// </summary>
+            /// <param name="buttons">Character page top bar buttons</param>
+            /// <param name="characterPages">Both character page components</param>
+            public void ScrollPreviousCharacterPage(Button[] buttons, GameObject[] characterPages)
+            {
+                characterPages[0].SetActive(true);
+                characterPages[1].SetActive(false);
+                ChangeButtonProperties(buttons, UIManager.Uim.BackToMainMenu_Click, "Back to Menu", true);
+            }
+    
+            /// <summary>
+            /// Adds a listener to a specific button
+            /// </summary>
+            /// <param name="button">Button to add the event</param>
+            /// <param name="eventMethod">Event to add to the button</param>
+            public void AddButtonListener(Button button, UnityAction eventMethod)
+            {
+                button.onClick.AddListener(eventMethod);
+            }
+    
+            /// <summary>
+            /// Removes all Listeners on the Button
+            /// Adds a new Listener
+            /// Sets the Button Text
+            /// </summary>
+            /// <param name="buttons">TopBar buttons</param>
+            /// <param name="eventMethod">Listener Method to add to the Button</param>
+            /// <param name="text">For the Button caption</param>
+            /// <param name="isEnabled">If character page 2 is active, the Button in the top right corner is disabled</param>
+            private void ChangeButtonProperties(IReadOnlyList<Button> buttons, UnityAction eventMethod, string text, bool isEnabled)
+            {
+                buttons[0].onClick.RemoveAllListeners();
+                buttons[0].onClick.AddListener(eventMethod);
+                buttons[0].GetComponentInChildren<Text>().text = text;
+                // On Character Page 2 this Button is disabled
+                buttons[1].gameObject.SetActive(isEnabled);
+            }
+                
+        #endregion
+                
         #region Messagebox
         
         /// <summary>
@@ -281,105 +401,41 @@ namespace Code.View.ControlElements
         /// [0]: Enables the title screen
         /// [1]: Disables the messagebox
         /// </summary>
-        /// <param name="screenObjects">Main Menu, Message Box and Character Screen Objects</param>
-        public void ContinueAction(GameObject[] screenObjects)
+        /// <param name="messageBox">Message box</param>
+        public void ContinueAction(GameObject messageBox)
         {
-            screenObjects[0].SetActive(true);
-            screenObjects[1].SetActive(false);
+            messageBox.SetActive(false);
+            // Load Main menu scene with loading Paper active
         }
         
         /// <summary>
-        /// Action to cancel the Messagebox
-        /// [0]: Enables the title screen
-        /// [1]: Disables the messagebox
+        /// Action to disable the Messagebox
         /// </summary>
-        /// <param name="screenObjects">Main Menu, Message Box and Character Screen Objects</param>
-        public void CancelAction(GameObject[] screenObjects)
+        /// <param name="messageBox">Message box</param>
+        public void CancelAction(GameObject messageBox)
         {
-            screenObjects[0].SetActive(true);
-            screenObjects[1].SetActive(false);
+            messageBox.SetActive(false);
         }
 
         /// <summary>
-        /// Display the messagebox with the according text, to remove a selected save
-        /// [1]: Enables the messagebox
+        /// Enables the messagebox with the according text, to remove a selected save
         /// </summary>
-        /// <param name="screenObject">Message Box</param>
+        /// <param name="messageBox">Message box</param>
         /// <param name="holders">Controls, that hold images</param>
-        /// <param name="errorLabel">The error label text component</param>
-        public void RemoveDataAction(GameObject screenObject, Image[] holders, TextMeshProUGUI errorLabel)
+        /// <param name="errorLabel">The error label game object</param>
+        public void RemoveDataAction(GameObject messageBox, Image[] holders, GameObject errorLabel)
         {
             GameDataInfoModel.SetPlaceholderNum(holders);
             var placeholder = GameDataInfoModel.Placeholder;
             if (placeholder == -1)
             {
-                errorLabel.enabled = true;
-                errorLabel.text = LocalizationManager.GetLocalizedValue(LocalizationKeyController.SaveFileErrorLabelRemoveCaptionKey);
+                errorLabel.SetActive(true);
+                errorLabel.GetComponentInChildren<TextMeshProUGUI>().text = LocalizationManager.GetLocalizedValue(LocalizationKeyController.SaveFileErrorLabelRemoveCaptionKey);
                 return;
             }
 
-            errorLabel.enabled = false;
-            screenObject.SetActive(true);
-        }
-        
-        #endregion
-        
-        #region Character Page Top Bar Buttons
-
-        /// <summary>
-        /// Displays the 2nd Character Page
-        /// [0]: First character Page
-        /// [1]: Second character Page
-        /// </summary>
-        /// <param name="buttons">Character page top bar buttons</param>
-        /// <param name="characterPages">Both character page components</param>
-        public void ScrollNextCharacterPage(Button[] buttons, GameObject[] characterPages)
-        {
-            characterPages[0].SetActive(false);
-            characterPages[1].SetActive(true);
-            ChangeButtonProperties(buttons, UIManager.Uim.ScrollPreviousCharacterPage_CLick, "Go back", false);
-        }
-
-        /// <summary>
-        /// Displays the 1st Character Page
-        /// [0]: First character Page
-        /// [1]: Second character Page
-        /// </summary>
-        /// <param name="buttons">Character page top bar buttons</param>
-        /// <param name="characterPages">Both character page components</param>
-        public void ScrollPreviousCharacterPage(Button[] buttons, GameObject[] characterPages)
-        {
-            characterPages[0].SetActive(true);
-            characterPages[1].SetActive(false);
-            ChangeButtonProperties(buttons, UIManager.Uim.BackToMainMenu_Click, "Back to Menu", true);
-        }
-
-        /// <summary>
-        /// Adds a listener to a specific button
-        /// </summary>
-        /// <param name="button">Button to add the event</param>
-        /// <param name="eventMethod">Event to add to the button</param>
-        public void AddButtonListener(Button button, UnityAction eventMethod)
-        {
-            button.onClick.AddListener(eventMethod);
-        }
-
-        /// <summary>
-        /// Removes all Listeners on the Button
-        /// Adds a new Listener
-        /// Sets the Button Text
-        /// </summary>
-        /// <param name="buttons">TopBar buttons</param>
-        /// <param name="eventMethod">Listener Method to add to the Button</param>
-        /// <param name="text">For the Button caption</param>
-        /// <param name="isEnabled">If character page 2 is active, the Button in the top right corner is disabled</param>
-        private void ChangeButtonProperties(IReadOnlyList<Button> buttons, UnityAction eventMethod, string text, bool isEnabled)
-        {
-            buttons[0].onClick.RemoveAllListeners();
-            buttons[0].onClick.AddListener(eventMethod);
-            buttons[0].GetComponentInChildren<Text>().text = text;
-            // On Character Page 2 this Button is disabled
-            buttons[1].gameObject.SetActive(isEnabled);
+            errorLabel.SetActive(false);
+            messageBox.SetActive(true);
         }
         
         #endregion
@@ -390,10 +446,10 @@ namespace Code.View.ControlElements
         /// Searches the selected Data and deletes the according File
         /// </summary>
         /// <param name="saveDataPath">Path where the save data files are</param>
-        /// <param name="removeData">Remove Data Button</param>
+        /// <param name="removeData">GameObject Remove Data Button</param>
         /// <param name="placeholders">Placeholders for the game data</param>
-        /// <param name="screenObject">Message Box</param>
-        public void RemoveData(string saveDataPath, Button removeData, GameObject[] placeholders, GameObject screenObject)
+        /// <param name="messageBox">Message box</param>
+        public void RemoveData(string saveDataPath, GameObject removeData, GameObject[] placeholders, GameObject messageBox)
         {
             var placeholder = GameDataInfoModel.Placeholder;
             var files = Directory.GetFiles(saveDataPath);
@@ -408,8 +464,8 @@ namespace Code.View.ControlElements
             // Sorts the other save files
             FileIOController.SortSaveFiles();
 
-            screenObject.SetActive(false);
-            removeData.enabled = Directory.GetFiles(saveDataPath).Any();
+            messageBox.SetActive(false);
+            removeData.GetComponent<Button>().enabled = Directory.GetFiles(saveDataPath).Any();
         }
 
         #endregion

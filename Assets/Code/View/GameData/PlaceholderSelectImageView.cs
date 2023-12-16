@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Code.View.GameData
@@ -28,11 +29,11 @@ namespace Code.View.GameData
         private void SetImage()
         {
             // Disable all Images
-            var holders = placeholderView.GetComponentsInChildren<Image>();
-            for (var i = 0; i < holders.Length; i++)
+            var holders = placeholderView.GetComponentsInChildren<Image>()
+                .Where(c => c.name.Equals("CheckImage")).ToList();
+            foreach (var t in holders)
             {
-                if (i is 1 or 3 or 5)
-                    holders[i].enabled = false;
+                t.enabled = false;
             }
             // Enable Image of current game object 
             gameObject.GetComponentsInChildren<Image>()[1].enabled = true;
