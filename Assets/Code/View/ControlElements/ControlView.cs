@@ -155,7 +155,7 @@ namespace Code.View.ControlElements
             var mainMenuTransform = mainMenuGameObjects[0].GetComponent<RectTransform>();
             mainMenuTransform.localRotation = new Quaternion(-2.86f, 0.43f, 25.22f, 112f);
             mainMenuTransform.localScale = new Vector3(0.35f, 0.41f, 0.5f);
-            mainMenuTransform.localPosition = new Vector3(-634, -282, 0);
+            mainMenuTransform.localPosition = new Vector3(-634, -221, 0);
             
             placeholderView.GetComponentsInChildren<Text>().Where(t => t.name.Equals("GameDataInformationText")).ToArray()[0].text = "Game Data";
         }
@@ -183,7 +183,9 @@ namespace Code.View.ControlElements
             
             // Game data game objects
             gameDataGameObjects[0].GetComponent<Image>().raycastTarget = !isMenuFocus;
+            gameDataGameObjects[0].GetComponentInChildren<Text>().raycastTarget = !isMenuFocus;
             gameDataGameObjects[1].GetComponent<Image>().raycastTarget = !isMenuFocus;
+            gameDataGameObjects[1].GetComponentInChildren<Text>().raycastTarget = !isMenuFocus;
             gameDataGameObjects[2].SetActive(!isMenuFocus);
             
             // Ray cast target, (to enable recognize mouse events)

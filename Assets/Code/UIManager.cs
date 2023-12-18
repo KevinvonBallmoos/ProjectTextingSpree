@@ -11,6 +11,7 @@ using Code.Model.GameData;
 using Code.View.Base;
 using Code.View.ControlElements;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace Code
 {
@@ -42,9 +43,21 @@ namespace Code
         /// </summary>
         private void Start()
         {
-            if (GameManager.Gm.ActiveScene != 0) return;
-            EnableRemoveDataButton();
-            _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0], placeholders);
+            SetActiveScene();
+            if (GameManager.Gm.ActiveScene == 0)
+            {
+                EnableRemoveDataButton();
+                _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
+                    placeholders);
+            }
+        }
+        
+        /// <summary>
+        /// Sets the current active scene index
+        /// </summary>
+        private void SetActiveScene()
+        {
+            GameManager.Gm.ActiveScene = SceneManager.GetActiveScene().buildIndex;
         }
 
         #endregion
@@ -61,10 +74,12 @@ namespace Code
             // TODO: Load scene
             //screenObjects[0].SetActive(false);
             //screenObjects[2].SetActive(true);
+            GameManager.Gm.ActiveScene = 1;
+            GameManager.Gm.LoadScene();
             
-            _controlView.NewGame(characters);
+            //_controlView.NewGame(characters);
             // Adds Listener,to go back to the menu
-            _controlView.AddButtonListener(topBarButtons[0], BackToMainMenu_Click);        
+            //_controlView.AddButtonListener(topBarButtons[0], BackToMainMenu_Click);        
         }
 
         /// <summary>

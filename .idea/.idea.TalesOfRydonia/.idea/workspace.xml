@@ -5,19 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Character.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Characers.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Controller/LocalizationController/LocalizationKeyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Controller/LocalizationController/LocalizationKeyController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/LocalizationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/LocalizationManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataInfoModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataInfoModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectHighlightView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectHighlightView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/LocalizedStrings/LocalizedStrings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/LocalizedStrings/LocalizedStrings.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CharacterSelectScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CharacterSelectScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +45,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeSerializeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/LightFlickerView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
@@ -72,6 +69,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/Canvas/CanvasElementsMaintainValidPositionsWhenCameraOrthoSizeIsZero.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/CanvasRenderer/ChangingHierarchyOfCanvasRenderer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/CanvasRenderer/ParentCanvasIsSane.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Runtime/Canvas/NoActiveCameraInSceneDoesNotCrashEditor.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -89,29 +87,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/animationsandassets__1",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/animationsandassets__1&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
-      "C:\\Users\\Kevin\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Kevin\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../TalesOfRydonia_Build/TalesOfRydonia.exe" />
@@ -147,10 +145,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="3704">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="26540">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="3704" />
+      <option name="pid" value="26540" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -181,7 +179,8 @@
       <workItem from="1702406347239" duration="14513000" />
       <workItem from="1702461519542" duration="15130000" />
       <workItem from="1702544104660" duration="3758000" />
-      <workItem from="1702636436323" duration="20960000" />
+      <workItem from="1702636436323" duration="23117000" />
+      <workItem from="1702914762523" duration="3583000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -247,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702420919883</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Finished with UI for Main menu">
+      <option name="closed" value="true" />
+      <created>1702751311723</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1702751311723</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,26 +273,8 @@
     <MESSAGE value="Added LocalizationManager" />
     <MESSAGE value="Added localizedkeys class and localized string file" />
     <MESSAGE value="Added Component base class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Component base class" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/LocalizationManager.cs</url>
-          <line>64</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\LocalizationManager.cs" initialLine="53" containingFunctionPresentation="Method 'LoadLocalizableValues'">
-            <startOffsets>
-              <option value="2590" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2591" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="91" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Finished with UI for Main menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished with UI for Main menu" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

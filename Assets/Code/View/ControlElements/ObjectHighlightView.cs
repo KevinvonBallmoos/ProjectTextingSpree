@@ -19,7 +19,7 @@ namespace Code.View.ControlElements
         [SerializeField] private string labelText;
         // Image for the outline
         [SerializeField] private Image outlineImage;
-        // Materials
+        // Materials [0] Sprites-Default, [1] Highlight(_2/_3)
         [SerializeField] private Material[] materials;
         // Localized key
         private string localizedKey;
@@ -45,7 +45,7 @@ namespace Code.View.ControlElements
         /// <param name="eventData">event data of the mouse enter</param>
         public void OnPointerEnter(PointerEventData eventData)
         {
-            hoverLabel.text = LocalizationManager.GetLocalizedValue(localizedKey);
+            hoverLabel.text = localizedKey == null ? "" : LocalizationManager.GetLocalizedValue(localizedKey);
             outlineImage.material = materials[1];
         }
 
