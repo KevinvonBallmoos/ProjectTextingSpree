@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Character.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Characers.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectHighlightView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectHighlightView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CharacterSelectScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CharacterSelectScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,11 +34,10 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4a31731933e0419ca5a995305014ad37157a00/18/823c1e74/ReflectionProbe.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/27/b4026bba/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeDeserializeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeSerializeModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/UIManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/CharacterSelect/CharacterSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/LightFlickerView.cs" root0="FORCE_HIGHLIGHTING" />
@@ -145,10 +140,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="26540">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="15860">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="26540" />
+      <option name="pid" value="15860" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -181,6 +176,7 @@
       <workItem from="1702544104660" duration="3758000" />
       <workItem from="1702636436323" duration="23117000" />
       <workItem from="1702914762523" duration="3583000" />
+      <workItem from="1703184228205" duration="6291000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -275,6 +271,51 @@
     <MESSAGE value="Added Component base class" />
     <MESSAGE value="Finished with UI for Main menu" />
     <option name="LAST_COMMIT_MESSAGE" value="Finished with UI for Main menu" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs</url>
+          <line>270</line>
+          <properties documentPath="D:\Unity Project\TalesOfRydonia\Assets\Code\View\ControlElements\ControlView.cs" initialLine="270" containingFunctionPresentation="Method 'SetImage'">
+            <startOffsets>
+              <option value="13171" />
+            </startOffsets>
+            <endOffsets>
+              <option value="13254" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs</url>
+          <line>281</line>
+          <properties documentPath="D:\Unity Project\TalesOfRydonia\Assets\Code\View\ControlElements\ControlView.cs" initialLine="281" containingFunctionPresentation="Method 'DisableCheckImages'">
+            <startOffsets>
+              <option value="13637" />
+            </startOffsets>
+            <endOffsets>
+              <option value="13666" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs</url>
+          <line>379</line>
+          <properties documentPath="D:\Unity Project\TalesOfRydonia\Assets\Code\View\ControlElements\ControlView.cs" initialLine="379" containingFunctionPresentation="Method 'ChangeButtonProperties'">
+            <startOffsets>
+              <option value="17751" />
+            </startOffsets>
+            <endOffsets>
+              <option value="17791" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

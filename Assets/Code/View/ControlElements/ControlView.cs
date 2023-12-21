@@ -268,15 +268,22 @@ namespace Code.View.ControlElements
         /// <param name="characterGameObject">game object of the selected character</param>
         public void SetImage(GameObject[] characters, Text chosenCharacter, GameObject characterGameObject)
         {
-            chosenCharacter.text = characterGameObject.GetComponentsInChildren<TextMeshProUGUI>()[0].text;
-            // Disable all Images
-            foreach (var c in characters)
-            {
-                var image = c.GetComponentsInChildren<Image>()[2];
-                image.enabled = false;
-            }
+            chosenCharacter.text = characterGameObject.GetComponentsInChildren<Text>()[0].text;
+            DisableImages(characters);
             // Enable Image of current game object 
             characterGameObject.GetComponentsInChildren<Image>()[2].enabled = true;
+        }
+
+        /// <summary>
+        /// Disable all check images and scrollbars on each character
+        /// </summary>
+        public void DisableImages(GameObject[] characters)
+        {
+            foreach (var c in characters)
+            {
+                c.GetComponentsInChildren<Image>()[2].enabled = false;
+                c.GetComponentsInChildren<Image>()[3].enabled = false;
+            }
         }
         
         #endregion

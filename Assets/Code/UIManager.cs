@@ -44,11 +44,25 @@ namespace Code
         private void Start()
         {
             SetActiveScene();
-            if (GameManager.Gm.ActiveScene == 0)
+            InitializeUI();
+        }
+
+        /// <summary>
+        /// Initializes UI components, depending on the scene that is loaded.
+        /// </summary>
+        private void InitializeUI()
+        {
+            switch (GameManager.Gm.ActiveScene)
             {
-                EnableRemoveDataButton();
-                _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
-                    placeholders);
+                case 0:
+                    EnableRemoveDataButton();
+                    _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
+                        placeholders);
+                    break;
+                case 1:
+                    _controlView.DisableImages(characters);
+                    _controlView.AddButtonListener(topBarButtons[0], UIManager.Uim.BackToMainMenu_Click);
+                    break;
             }
         }
         
