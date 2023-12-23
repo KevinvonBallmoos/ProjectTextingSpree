@@ -195,24 +195,8 @@ namespace Code.View.ControlElements
         
         #endregion
         
-        #region GameBook CharacterSelect
-
-        /// <summary>
-        /// Opens the character select window and disables the select Images
-        /// </summary>
-        /// <param name="characters">All character objects</param>
-        public void NewGame(GameObject[] characters)
-        {
-            foreach (var c in characters)
-            {
-                var image = c.GetComponentsInChildren<Image>()[2];
-                image.enabled = false;
-                // Sets the scrollbar to the top
-                var scrollbar = c.GetComponentInChildren<Scrollbar>();
-                scrollbar.value = 1;
-            }
-        }
-
+        #region GameBook Character Page
+        
         /// <summary>
         /// Checks if a character was selected and a Name was given
         /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
@@ -220,13 +204,10 @@ namespace Code.View.ControlElements
         /// <param name="playerName">InputField component with the player name</param>
         /// <param name="chosenCharacter">The chosen character text component</param>
         /// <param name="characterSelect">Character Select game object</param>
-        /// <param name="placeholderView">Game object that holds all placeholders</param>
-        /// <param name="buttonLoadGame">button load game object</param>
-        /// <param name="placeholders">placeholders for the game data</param>
         /// <param name="messageBox">message box game object</param>
-        public void BookButtonStartNewGame(InputField playerName, Text chosenCharacter, GameObject characterSelect, GameObject placeholderView, GameObject buttonLoadGame, GameObject[] placeholders, GameObject messageBox)
+        public void BookButtonStartNewGame(InputField playerName, Text chosenCharacter, GameObject characterSelect, GameObject messageBox)
         {
-            if (!InputField_OnSubmit(playerName)) return;
+            if (!SubmitInputField(playerName)) return;
             if (chosenCharacter.text.Equals(""))
             {
                 characterSelect.GetComponentsInChildren<Text>()[0].color = Color.red;
@@ -236,27 +217,14 @@ namespace Code.View.ControlElements
             
             if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
             {
-                GameManager.Gm.ActiveScene = 1;
+                GameManager.Gm.ActiveScene = 2;
                 GameManager.Gm.LoadScene();
             }
             else
             {
-                InitializeSaveDataPanel("Override", false, placeholderView, buttonLoadGame, placeholders);
                 UIManager.Uim.SetMessageBoxProperties(UIManager.Uim.Continue_Click, "Continue", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText1CaptionKey));
                 messageBox.SetActive(true);
             }
-        }
-        
-        /// <summary>
-        /// Is triggered when the User submits the Username
-        /// It checks if the input is empty or not
-        /// </summary>
-        /// <param name="playerName">InputField component with the player name</param>
-        private bool InputField_OnSubmit(InputField playerName)
-        {
-            if (playerName.text.Equals(""))
-                playerName.GetComponentsInChildren<Text>()[0].color = Color.red;
-            return !playerName.text.Equals("");
         }
         
         /// <summary>
@@ -282,13 +250,26 @@ namespace Code.View.ControlElements
             foreach (var c in characters)
             {
                 c.GetComponentsInChildren<Image>()[2].enabled = false;
-                c.GetComponentsInChildren<Image>()[3].enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Sets the scrollbar value to the top
+        /// </summary>
+        /// <param name="characters"></param>
+        public void SetScrollbarValue(GameObject[] characters)
+        {
+            foreach (var c in characters)
+            {
+                // Sets the scrollbar to the top
+                var scrollbar = c.GetComponentInChildren<Scrollbar>();
+                scrollbar.value = 1;
             }
         }
         
         #endregion
         
-        #region Characterselect Input Field
+        #region Character Page Input Field
 
         /// <summary>
         /// Validates the input, matches with a regex string
@@ -326,7 +307,7 @@ namespace Code.View.ControlElements
 
         #endregion
         
-        #region CharacterSelect Top Bar Buttons
+        #region Character Page Top Bar Buttons
         
             /// <summary>
             /// Displays the 2nd Character Page
@@ -407,14 +388,11 @@ namespace Code.View.ControlElements
         
         /// <summary>
         /// When continue is clicked, the User can choose a save to override the old data with the new Game
-        /// [0]: Enables the title screen
-        /// [1]: Disables the messagebox
         /// </summary>
-        /// <param name="messageBox">Message box</param>
-        public void ContinueAction(GameObject messageBox)
+        public void ContinueAction()
         {
-            messageBox.SetActive(false);
-            // Load Main menu scene with loading Paper active
+            GameDataInfoModel.IsOverride = true;
+            GameManager.Gm.LoadScene();
         }
         
         /// <summary>
@@ -477,6 +455,15 @@ namespace Code.View.ControlElements
             removeData.GetComponent<Button>().enabled = Directory.GetFiles(saveDataPath).Any();
         }
 
+        #endregion
+        
+        #region Story Image
+
+        public void SwitchToStoryImage(GameObject[] menuGroupObjects)
+        {
+            menuGroupObjects[0].GetComponent<Image>().enabled = true;
+        }
+        
         #endregion
     }
 }

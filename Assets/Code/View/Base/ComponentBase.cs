@@ -31,17 +31,6 @@ namespace Code.View.Base
         [SerializeField] protected GameObject placeholderView;
         [SerializeField] protected GameObject[] placeholders;
         
-        [Header("GAME BOOK")]
-        // Game book top bar buttons
-        [Header("Character Page TopBar Buttons")] 
-        [SerializeField] protected Button[] topBarButtons;
-        // Game book character game objects
-        [Header("GameObjects Character Pages and Characters, Text chosenCharacter, InputField PlayerName")]
-        [SerializeField] protected GameObject[] characterPages;
-        [SerializeField] protected GameObject[] characters;
-        [SerializeField] protected Text chosenCharacter;
-        [SerializeField] protected InputField playerName;
-        
         [Header("MESSAGE BOX")]
         // MessageBox
         [Header("MessageBox, Button Continue (left one), Message Box Text")]
@@ -52,17 +41,32 @@ namespace Code.View.Base
         // Materials
         [Header("Material")]
         [SerializeField] protected Material defaultMaterial;
-
         
         #endregion
         
-        #region Serialized Fields Game book Character Select
+        #region Serialized Fields GameBook Character Page
         
-        [Header("CHARACTER SELECT Scene")]
+        [Header("CHARACTER Page Scene")]
         // Character select
-        [Header("GameObject Character Select")]
-        [SerializeField] protected GameObject characterSelect;
+        [Header("GameObject Character Page")]
+        [SerializeField] protected GameObject characterPage;
+        // Character Page Top bar buttons
+        [Header("Character Page TopBar Buttons")] 
+        [SerializeField] protected Button[] topBarButtons;
+        // Game book character game objects
+        [Header("GameObjects Character Pages and Characters, Text chosenCharacter, InputField PlayerName")]
+        [SerializeField] protected GameObject[] characterPages;
+        [SerializeField] protected GameObject[] characters;
+        [SerializeField] protected Text chosenCharacter;
+        [SerializeField] protected InputField playerName;
         
+        #endregion
+        
+        #region Serialized Fields GameBook Story
+
+        [Header("NewStory Scene / StoryScene 1 + 2")]
+        [SerializeField] protected GameObject[] menuGroupObjects;
+
         #endregion
     }
 }

@@ -1,14 +1,10 @@
 using System;
 using System.IO;
-using System.Text.RegularExpressions;
 using Code.Controller.DialogueController.StoryDialogueController;
 using Code.Controller.FileController;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-using Code.Controller.GameController;
 using Code.View.Dialogue.StoryView;
 
 namespace Code
@@ -29,6 +25,10 @@ namespace Code
         // StoryUI Script
         [Header("Scripts")]
         [SerializeField] private StoryUIView storyUIViewScript;
+        // Framerate and sync count
+        [Header("Framerate")]
+        [SerializeField] private int targetFrameRate;        
+        [SerializeField] private int vSyncCount;
 		// States of the Game
 		[NonSerialized] public bool IsGameOver;
         [NonSerialized] public bool IsEndOfChapter;
@@ -44,6 +44,7 @@ namespace Code
         public int ActiveScene { get; set; }    
         
         // Menu Option Property :
+        // TODO: Create Settings Model, also include FPS Settings (recommendation, with explanation) and Size
         // true  : the Story Text will appear letter by letter
         // false : the Story Text will appear directly
         public bool IsTextSlowed { get; set; }
@@ -74,6 +75,9 @@ namespace Code
         {
             try
             {
+                Application.targetFrameRate = targetFrameRate;
+                QualitySettings.vSyncCount = vSyncCount;
+                
                 _runPath = $"{Application.dataPath}/Resources/";
                 _chapter = 1;
                 ActiveScene = 0;

@@ -62,5 +62,14 @@ namespace Code.Model.GameData
         public static bool IsOverride { get; set; }
 
         #endregion
+        
+        #region StoryImage 
+
+        /// <summary>
+        /// Property for the is StoryImage state
+        /// </summary>
+        public static bool IsStoryImageActive { get; set; }
+
+        #endregion
     }
 }

@@ -43,7 +43,7 @@ namespace Code
         /// </summary>
         private void Start()
         {
-            SetActiveScene();
+            SetActiveScene(null);
             InitializeUI();
         }
 
@@ -62,6 +62,7 @@ namespace Code
                 case 1:
                     _controlView.DisableImages(characters);
                     _controlView.AddButtonListener(topBarButtons[0], UIManager.Uim.BackToMainMenu_Click);
+                    _controlView.SetScrollbarValue(characters);
                     break;
             }
         }
@@ -69,9 +70,9 @@ namespace Code
         /// <summary>
         /// Sets the current active scene index
         /// </summary>
-        private void SetActiveScene()
+        private void SetActiveScene(int? index)
         {
-            GameManager.Gm.ActiveScene = SceneManager.GetActiveScene().buildIndex;
+            GameManager.Gm.ActiveScene = index ?? SceneManager.GetActiveScene().buildIndex;
         }
 
         #endregion
@@ -85,15 +86,8 @@ namespace Code
         {
             // TODO: Animation Turns to page 2
             // Display Character on pages 2 - 3,4 - 5
-            // TODO: Load scene
-            //screenObjects[0].SetActive(false);
-            //screenObjects[2].SetActive(true);
-            GameManager.Gm.ActiveScene = 1;
+            SetActiveScene(1);
             GameManager.Gm.LoadScene();
-            
-            //_controlView.NewGame(characters);
-            // Adds Listener,to go back to the menu
-            //_controlView.AddButtonListener(topBarButtons[0], BackToMainMenu_Click);        
         }
 
         /// <summary>
@@ -102,7 +96,7 @@ namespace Code
         /// </summary>
         public void BookButtonStartNewGame_Click()
         {
-            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterSelect, placeholderView, gameDataGameObjects[0], placeholders, messageBox);
+            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
         }
 
         #endregion
@@ -179,6 +173,7 @@ namespace Code
         public void ScrollNextCharacterPage_CLick()
         {
             _controlView.ScrollNextCharacterPage(topBarButtons, characterPages);
+            _controlView.SetScrollbarValue(characters);
         }
 
         /// <summary>
@@ -187,11 +182,12 @@ namespace Code
         public void ScrollPreviousCharacterPage_CLick()
         {
             _controlView.ScrollPreviousCharacterPage(topBarButtons, characterPages);
+            _controlView.SetScrollbarValue(characters);
         }
         
         #endregion
 
-        #region Characterselect
+        #region Character Click
 
         /// <summary>
         /// Sets the character Field, with the title of the selected Character
@@ -203,7 +199,7 @@ namespace Code
 
         #endregion
         
-        #region Characterselect Input Field
+        #region Character Page Input Field
 
         /// <summary>
         /// Is triggered, when the value of the input field changes
@@ -219,7 +215,7 @@ namespace Code
         /// Is triggered when the User submits the Username
         /// It checks if the input is empty or not
         /// </summary>
-        private bool InputField_OnSubmit()
+        public bool InputField_OnSubmit()
         {
             return _controlView.SubmitInputField(playerName);
         }
@@ -267,7 +263,8 @@ namespace Code
         /// </summary>
         public void Continue_Click()
         {
-            _controlView.ContinueAction(messageBox);
+            SetActiveScene(0);
+            _controlView.ContinueAction();
         }
 
         /// <summary>
@@ -316,6 +313,15 @@ namespace Code
         {
             var files = Directory.GetFiles(_saveDataPath);   
             gameDataGameObjects[1].GetComponent<Button>().enabled = files.Any();
+        }
+        
+        #endregion
+        
+        #region Story Image
+
+        public void SwitchToStoryImage_OnClick()
+        {
+            _controlView.SwitchToStoryImage(menuGroupObjects);
         }
         
         #endregion
