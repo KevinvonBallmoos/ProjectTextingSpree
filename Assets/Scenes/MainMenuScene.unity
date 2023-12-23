@@ -284,7 +284,8 @@ MonoBehaviour:
   - {fileID: 0}
   chosenCharacter: {fileID: 0}
   playerName: {fileID: 0}
-  MenuGroupObjects: []
+  menuGroupObjects: []
+  controlView: {fileID: 0}
 --- !u!114 &42399824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1118,7 +1119,7 @@ RectTransform:
   - {fileID: 1730870068}
   - {fileID: 956612884}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2749,8 +2750,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42399823}
-        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1863746669}
+        m_TargetAssemblyTypeName: Code.View.SceneUIManager.MainMenuUIManager, Assembly-CSharp
         m_MethodName: BackToTable_Click
         m_Mode: 1
         m_Arguments:
@@ -3942,7 +3943,7 @@ RectTransform:
   - {fileID: 116884812}
   - {fileID: 1371529995}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4827,8 +4828,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42399823}
-        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1863746669}
+        m_TargetAssemblyTypeName: Code.View.SceneUIManager.MainMenuUIManager, Assembly-CSharp
         m_MethodName: LoadOrOverrideSave_Click
         m_Mode: 1
         m_Arguments:
@@ -5650,9 +5651,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42399823}
+      - m_Target: {fileID: 1863746668}
         m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
-        m_MethodName: Remove_Click
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6611,8 +6612,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42399823}
-        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1863746669}
+        m_TargetAssemblyTypeName: Code.View.SceneUIManager.MainMenuUIManager, Assembly-CSharp
         m_MethodName: DisplayLoadingPaper_Click
         m_Mode: 1
         m_Arguments:
@@ -6623,6 +6624,72 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1863746668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1863746670}
+  - component: {fileID: 1863746669}
+  m_Layer: 0
+  m_Name: MainMenuUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1863746669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863746668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de3f9b3eaf94cdbb43e0bd63d87b4af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuGameObjects:
+  - {fileID: 116884811}
+  - {fileID: 1371529994}
+  - {fileID: 1143333708}
+  mainMenuGameObjects:
+  - {fileID: 1831615811}
+  - {fileID: 84377924}
+  gameDataGameObjects:
+  - {fileID: 1440290208}
+  - {fileID: 1628326017}
+  - {fileID: 1053382063}
+  errorLabel: {fileID: 1245364901}
+  placeholderView: {fileID: 1885663667}
+  placeholders:
+  - {fileID: 1233027385}
+  - {fileID: 1063572619}
+  - {fileID: 2067775538}
+  messageBox: {fileID: 158730989}
+  messageBoxGameObjects:
+  - {fileID: 1092745925}
+  - {fileID: 956612883}
+  defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+--- !u!4 &1863746670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863746668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1090.9556, y: 473.61282, z: 0.36430073}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1885663667
 GameObject:
   m_ObjectHideFlags: 0

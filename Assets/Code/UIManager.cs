@@ -1,28 +1,26 @@
-using System.IO;
-using System.Linq;
-using Code.Controller.FileController;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-using Code.Controller.GameController;
 using Code.Controller.LocalizationController;
-using Code.Model.GameData;
 using Code.View.Base;
 using Code.View.ControlElements;
-using TMPro;
+using Code.View.SceneUIManager;
 using UnityEngine.SceneManagement;
 
 namespace Code
 {
+    /// <summary>
+    /// This class handles all UI Events
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">23.12.2023</para>
     public class UIManager : ComponentBase
     {
         // UI Manager instance
         public static UIManager Uim;
         // ControlView
-        private ControlView _controlView;
-        // Path to the Save files
-        private static string _saveDataPath;
+        public ControlView controlView;
         
         #region Awake and Start
 
@@ -34,8 +32,7 @@ namespace Code
         {
             if (Uim == null)
                 Uim = this;
-            _controlView = gameObject.AddComponent<ControlView>();
-            _saveDataPath = Application.persistentDataPath + "/SaveData";
+            controlView = gameObject.AddComponent<ControlView>();
         }
 
         /// <summary>
@@ -55,14 +52,12 @@ namespace Code
             switch (GameManager.Gm.ActiveScene)
             {
                 case 0:
-                    EnableRemoveDataButton();
-                    _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
-                        placeholders);
+                    MainMenuUIManager.MmUim.InitializeUI();
                     break;
                 case 1:
-                    _controlView.DisableImages(characters);
-                    _controlView.AddButtonListener(topBarButtons[0], UIManager.Uim.BackToMainMenu_Click);
-                    _controlView.SetScrollbarValue(characters);
+                    controlView.DisableImages(characters);
+                    controlView.AddButtonListener(topBarButtons[0], UIManager.Uim.BackToMainMenu_Click);
+                    controlView.SetScrollbarValue(characters);
                     break;
             }
         }
@@ -96,60 +91,7 @@ namespace Code
         /// </summary>
         public void BookButtonStartNewGame_Click()
         {
-            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
-        }
-
-        #endregion
-        
-        #region GameData Paper
-
-        /// <summary>
-        /// Action to upscale the GameDataPaper
-        /// </summary>
-        public void DisplayLoadingPaper_Click()
-        { 
-            _controlView.DisplayLoadingPaper(mainMenuGameObjects, placeholderView);
-            mainMenuGameObjects[0].GetComponentsInChildren<Image>()[0].material = defaultMaterial;
-            _controlView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, false);
-        }
-
-        /// <summary>
-        /// Action to go back to the main menu view
-        /// </summary>
-        public void BackToTable_Click()
-        {
-            _controlView.BackToTable(mainMenuGameObjects, placeholderView);
-            _controlView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, true);
-        }
-        
-        
-        #endregion
-        
-        #region LoadOrOverrideSave
-
-        /// <summary>
-        /// Action to load a game
-        /// </summary>
-        public void LoadOrOverrideSave_Click()
-        {
-            var holders = placeholderView.GetComponentsInChildren<Image>();
-            var buttonLoadGameText = gameDataGameObjects[0].GetComponentInChildren<Text>();
-            GameDataInfoModel.SetPlaceholderNum(holders);
-
-            if (GameDataInfoModel.Placeholder == -1)
-            {
-                var key = buttonLoadGameText.text.Equals("LOAD")? LocalizationKeyController.SaveFileErrorLabelLoadCaptionKey : LocalizationKeyController.SaveFileErrorLabelOverrideCaptionKey;
-                errorLabel.GetComponentInChildren<TextMeshProUGUI>().text = LocalizationManager.GetLocalizedValue(key);
-                errorLabel.SetActive(true);
-                return;
-            }
-            
-            _controlView.LoadOrOverrideSave(buttonLoadGameText);
-            
-            if (GameManager.Gm.ActiveScene == 2)
-                GameDataController.Gdc.LoadSelectedGame();
-            
-            errorLabel.SetActive(false);
+            controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
         }
 
         #endregion
@@ -172,8 +114,8 @@ namespace Code
         /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
-            _controlView.ScrollNextCharacterPage(topBarButtons, characterPages);
-            _controlView.SetScrollbarValue(characters);
+            controlView.ScrollNextCharacterPage(topBarButtons, characterPages);
+            controlView.SetScrollbarValue(characters);
         }
 
         /// <summary>
@@ -181,8 +123,8 @@ namespace Code
         /// </summary>
         public void ScrollPreviousCharacterPage_CLick()
         {
-            _controlView.ScrollPreviousCharacterPage(topBarButtons, characterPages);
-            _controlView.SetScrollbarValue(characters);
+            controlView.ScrollPreviousCharacterPage(topBarButtons, characterPages);
+            controlView.SetScrollbarValue(characters);
         }
         
         #endregion
@@ -194,7 +136,7 @@ namespace Code
         /// </summary>
         public void Character_Click(GameObject characterGameObject)
         {
-            _controlView.SetImage(characters, chosenCharacter, characterGameObject);
+            controlView.SetImage(characters, chosenCharacter, characterGameObject);
         }
 
         #endregion
@@ -208,7 +150,7 @@ namespace Code
         /// </summary>
         public void InputField_OnValueChanged()
         {
-            _controlView.ValidateInputField(playerName);
+            controlView.ValidateInputField(playerName);
         }
 
         /// <summary>
@@ -217,7 +159,7 @@ namespace Code
         /// </summary>
         public bool InputField_OnSubmit()
         {
-            return _controlView.SubmitInputField(playerName);
+            return controlView.SubmitInputField(playerName);
         }
         
         #endregion
@@ -255,7 +197,7 @@ namespace Code
         /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
-            _controlView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
+            controlView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
         }
 
         /// <summary>
@@ -264,7 +206,7 @@ namespace Code
         public void Continue_Click()
         {
             SetActiveScene(0);
-            _controlView.ContinueAction();
+            controlView.ContinueAction();
         }
 
         /// <summary>
@@ -272,7 +214,7 @@ namespace Code
         /// </summary>
         public void Cancel_CLick()
         {
-            _controlView.CancelAction(messageBox);
+            controlView.CancelAction(messageBox);
         }
         
         /// <summary>
@@ -280,9 +222,9 @@ namespace Code
         /// </summary>
         public void Remove_Click()
         {
-            SetMessageBoxProperties(RemoveData_Click, "Remove Data", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText2CaptionKey));
+            SetMessageBoxProperties(MainMenuUIManager.MmUim.RemoveData_Click, "Remove Data", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText2CaptionKey));
             var holders = placeholderView.GetComponentsInChildren<Image>();
-            _controlView.RemoveDataAction(messageBox, holders, errorLabel);
+            controlView.RemoveDataAction(messageBox, holders, errorLabel);
         }
 
         /// <summary>
@@ -296,32 +238,11 @@ namespace Code
         
         #endregion
         
-        #region Remove Data
-        
-        /// <summary>
-        /// Action to remove data
-        /// </summary>
-        private void RemoveData_Click()
-        {
-            _controlView.RemoveData(_saveDataPath, gameDataGameObjects[1], placeholders, messageBox);
-        }
-
-        /// <summary>
-        /// Enables the Remove Button in theSave slot panel when there are any 
-        /// </summary>
-        private void EnableRemoveDataButton()
-        {
-            var files = Directory.GetFiles(_saveDataPath);   
-            gameDataGameObjects[1].GetComponent<Button>().enabled = files.Any();
-        }
-        
-        #endregion
-        
         #region Story Image
 
         public void SwitchToStoryImage_OnClick()
         {
-            _controlView.SwitchToStoryImage(menuGroupObjects);
+            controlView.SwitchToStoryImage(menuGroupObjects);
         }
         
         #endregion

@@ -5,16 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/GameManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/IComponentBase.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/IComponentBase.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/MainMenuComponents.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/MainMenuComponents.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,10 +152,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="14044">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="2836">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="14044" />
+      <option name="pid" value="2836" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -183,6 +190,7 @@
       <workItem from="1702914762523" duration="3583000" />
       <workItem from="1703184228205" duration="6291000" />
       <workItem from="1703270736344" duration="8249000" />
+      <workItem from="1703338919102" duration="18323000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -282,43 +290,42 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/UIManager.cs</url>
-          <line>98</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\UIManager.cs" initialLine="98" containingFunctionPresentation="Method 'BookButtonStartNewGame_Click'">
-            <startOffsets>
-              <option value="3098" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3192" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs</url>
-          <line>209</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\ControlElements\ControlView.cs" initialLine="209" containingFunctionPresentation="Method 'BookButtonStartNewGame'">
-            <startOffsets>
-              <option value="10254" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10288" />
-            </endOffsets>
-          </properties>
+          <line>200</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\ControlElements\ControlView.cs" initialLine="209" containingFunctionPresentation="Method 'BookButtonStartNewGame'" />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Code/Controller/GameController/GameDataController.cs</url>
           <line>63</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Controller\GameController\GameDataController.cs" initialLine="63" containingFunctionPresentation="Method 'NewGame'">
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Controller\GameController\GameDataController.cs" initialLine="63" containingFunctionPresentation="Method 'NewGame'" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/UIManager.cs</url>
+          <line>36</line>
+          <properties documentPath="D:\Unity Project\TalesOfRydonia\Assets\Code\UIManager.cs" initialLine="36" containingFunctionPresentation="Method 'Awake'">
             <startOffsets>
-              <option value="1879" />
+              <option value="949" />
             </startOffsets>
             <endOffsets>
-              <option value="1893" />
+              <option value="965" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="10" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs</url>
+          <line>36</line>
+          <properties documentPath="D:\Unity Project\TalesOfRydonia\Assets\Code\View\SceneUIManager\MainMenuUIManager.cs" initialLine="36" containingFunctionPresentation="Method 'Awake'">
+            <startOffsets>
+              <option value="1071" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1089" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
