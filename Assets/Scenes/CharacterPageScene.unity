@@ -472,8 +472,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1938684090}
-        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1938684091}
+        m_TargetAssemblyTypeName: Code.View.SceneUIManager.CharacterPageUIManager,
+          Assembly-CSharp
         m_MethodName: ScrollNextCharacterPage_CLick
         m_Mode: 1
         m_Arguments:
@@ -4928,8 +4929,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1938684090}
-        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1938684091}
+        m_TargetAssemblyTypeName: Code.View.SceneUIManager.CharacterPageUIManager,
+          Assembly-CSharp
         m_MethodName: InputField_OnValueChanged
         m_Mode: 1
         m_Arguments:
@@ -6214,6 +6216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1938684089}
   - component: {fileID: 1938684090}
+  - component: {fileID: 1938684091}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -6273,7 +6276,34 @@ MonoBehaviour:
   - {fileID: 2031243199}
   chosenCharacter: {fileID: 1387449874}
   playerName: {fileID: 1456414558}
-  MenuGroupObjects: []
+  menuGroupObjects: []
+  controlView: {fileID: 0}
+--- !u!114 &1938684091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938684088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf63a62d7fa418592abb8eb43c6841e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterPage: {fileID: 229190909}
+  topBarButtons:
+  - {fileID: 787026137}
+  - {fileID: 91012524}
+  characterPages:
+  - {fileID: 1220956615}
+  - {fileID: 1429347615}
+  characters:
+  - {fileID: 962517552}
+  - {fileID: 475031679}
+  - {fileID: 592443536}
+  - {fileID: 2031243199}
+  chosenCharacter: {fileID: 1387449874}
+  playerName: {fileID: 1456414558}
 --- !u!1 &1954594089
 GameObject:
   m_ObjectHideFlags: 0
