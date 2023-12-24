@@ -13,9 +13,13 @@ using TMPro;
 using Code.Controller.GameController;
 using Code.Controller.LocalizationController;
 using Code.Model.GameData;
+using Code.View.SceneUIManager;
 
 namespace Code.View.ControlElements
 {
+    /// <summary>
+    /// This class handles all
+    /// </summary>
     public class ControlView : MonoBehaviour
     {
         // Regex Pattern for InputField
@@ -320,7 +324,7 @@ namespace Code.View.ControlElements
             {
                 characterPages[0].SetActive(false);
                 characterPages[1].SetActive(true);
-                ChangeButtonProperties(buttons, UIManager.Uim.ScrollPreviousCharacterPage_CLick, "Go back", false);
+                ChangeButtonProperties(buttons, CharacterPageUIManager.CpUim.ScrollPreviousCharacterPage_CLick, "Go back", false);
             }
     
             /// <summary>
@@ -334,7 +338,7 @@ namespace Code.View.ControlElements
             {
                 characterPages[0].SetActive(true);
                 characterPages[1].SetActive(false);
-                ChangeButtonProperties(buttons, UIManager.Uim.BackToMainMenu_Click, "Back to Menu", true);
+                ChangeButtonProperties(buttons, CharacterPageUIManager.CpUim.BackToMainMenu_Click, "Back to Menu", true);
             }
     
             /// <summary>

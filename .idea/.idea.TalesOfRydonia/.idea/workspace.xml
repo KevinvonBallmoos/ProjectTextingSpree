@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/IComponentBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/IComponentBase.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/MainMenuComponents.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/MainMenuComponents.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-    </list>
+    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -190,7 +172,7 @@
       <workItem from="1702914762523" duration="3583000" />
       <workItem from="1703184228205" duration="6291000" />
       <workItem from="1703270736344" duration="8249000" />
-      <workItem from="1703338919102" duration="18323000" />
+      <workItem from="1703338919102" duration="19695000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -264,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702751311723</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added UI classes for each Scene&#10;Added Interface and abstract classes for the serialized fields">
+      <option name="closed" value="true" />
+      <created>1703367667577</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1703367667577</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,7 +274,8 @@
     <MESSAGE value="Added localizedkeys class and localized string file" />
     <MESSAGE value="Added Component base class" />
     <MESSAGE value="Finished with UI for Main menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished with UI for Main menu" />
+    <MESSAGE value="Added UI classes for each Scene&#10;Added Interface and abstract classes for the serialized fields" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added UI classes for each Scene&#10;Added Interface and abstract classes for the serialized fields" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -300,32 +291,6 @@
           <line>63</line>
           <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Controller\GameController\GameDataController.cs" initialLine="63" containingFunctionPresentation="Method 'NewGame'" />
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/UIManager.cs</url>
-          <line>36</line>
-          <properties documentPath="D:\Unity Project\TalesOfRydonia\Assets\Code\UIManager.cs" initialLine="36" containingFunctionPresentation="Method 'Awake'">
-            <startOffsets>
-              <option value="949" />
-            </startOffsets>
-            <endOffsets>
-              <option value="965" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs</url>
-          <line>36</line>
-          <properties documentPath="D:\Unity Project\TalesOfRydonia\Assets\Code\View\SceneUIManager\MainMenuUIManager.cs" initialLine="36" containingFunctionPresentation="Method 'Awake'">
-            <startOffsets>
-              <option value="1071" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1089" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

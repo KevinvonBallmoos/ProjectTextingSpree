@@ -20,8 +20,6 @@ namespace Code.View.SceneUIManager
     {
         // MainMenu UI Manager instance
         public static MainMenuUIManager MmUim;
-        // UI Manager instance
-        private static UIManager Uim;
         // ControlView
         private ControlView _controlView;
         // Path to the Save files

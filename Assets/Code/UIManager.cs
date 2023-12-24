@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -55,9 +54,7 @@ namespace Code
                     MainMenuUIManager.MmUim.InitializeUI();
                     break;
                 case 1:
-                    controlView.DisableImages(characters);
-                    controlView.AddButtonListener(topBarButtons[0], UIManager.Uim.BackToMainMenu_Click);
-                    controlView.SetScrollbarValue(characters);
+                    CharacterPageUIManager.CpUim.InitializeUI();
                     break;
             }
         }
@@ -65,7 +62,7 @@ namespace Code
         /// <summary>
         /// Sets the current active scene index
         /// </summary>
-        private void SetActiveScene(int? index)
+        public void SetActiveScene(int? index)
         {
             GameManager.Gm.ActiveScene = index ?? SceneManager.GetActiveScene().buildIndex;
         }
@@ -94,74 +91,6 @@ namespace Code
             controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
         }
 
-        #endregion
-        
-        #region Character Page Top Bar Buttons
-        
-        /// <summary>
-        /// Hides the Message Box
-        /// Loads the MainMenu Scene
-        /// </summary>
-        public void BackToMainMenu_Click()
-        {
-            EnableOrDisableMessageBoxGameOver(false);
-            GameManager.Gm.ActiveScene = 0;
-            GameManager.Gm.LoadScene();
-        }
-        
-        /// <summary>
-        /// Displays the 2nd Character Page
-        /// </summary>
-        public void ScrollNextCharacterPage_CLick()
-        {
-            controlView.ScrollNextCharacterPage(topBarButtons, characterPages);
-            controlView.SetScrollbarValue(characters);
-        }
-
-        /// <summary>
-        /// Displays the 1st Character Page
-        /// </summary>
-        public void ScrollPreviousCharacterPage_CLick()
-        {
-            controlView.ScrollPreviousCharacterPage(topBarButtons, characterPages);
-            controlView.SetScrollbarValue(characters);
-        }
-        
-        #endregion
-
-        #region Character Click
-
-        /// <summary>
-        /// Sets the character Field, with the title of the selected Character
-        /// </summary>
-        public void Character_Click(GameObject characterGameObject)
-        {
-            controlView.SetImage(characters, chosenCharacter, characterGameObject);
-        }
-
-        #endregion
-        
-        #region Character Page Input Field
-
-        /// <summary>
-        /// Is triggered, when the value of the input field changes
-        /// Compares the last entered char of the input with the regex string
-        /// if the input does not match, the last entered char is removed
-        /// </summary>
-        public void InputField_OnValueChanged()
-        {
-            controlView.ValidateInputField(playerName);
-        }
-
-        /// <summary>
-        /// Is triggered when the User submits the Username
-        /// It checks if the input is empty or not
-        /// </summary>
-        public bool InputField_OnSubmit()
-        {
-            return controlView.SubmitInputField(playerName);
-        }
-        
         #endregion
         
         #region Next Chapter / Next Part Button Events
