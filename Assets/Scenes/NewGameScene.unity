@@ -1642,7 +1642,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1461150913}
   m_HandleRect: {fileID: 1461150912}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0.5
   m_Size: 0.64
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3662,7 +3662,7 @@ GameObject:
   - component: {fileID: 7036869247479614625}
   - component: {fileID: 5905970914761983933}
   m_Layer: 0
-  m_Name: QuitButton
+  m_Name: BackToMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3891,7 +3891,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 260.65, y: -312.5}
+  m_AnchoredPosition: {x: 260.65, y: -200}
   m_SizeDelta: {x: 520.55, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3647473519805999971
@@ -4001,7 +4001,7 @@ GameObject:
   - component: {fileID: 3936853833451173879}
   - component: {fileID: 1781504439453003244}
   m_Layer: 0
-  m_Name: QuitButtonText
+  m_Name: BackToMenuButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4852,8 +4852,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1553586389}
-        m_TargetAssemblyTypeName: Code.GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1039121653}
+        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
         m_MethodName: BackToMainMenu_Click
         m_Mode: 1
         m_Arguments:

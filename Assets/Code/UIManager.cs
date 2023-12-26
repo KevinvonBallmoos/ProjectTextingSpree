@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Code.View.Base;
 using Code.View.ControlElements;
 using Code.View.SceneUIManager;
+using UnityEngine;
 
 namespace Code
 {
@@ -145,6 +146,31 @@ namespace Code
         public void EnableOrDisableMessageBoxGameOver(bool enable)
         {
             messageBox.SetActive(enable);
+        }
+        
+        #endregion
+        
+        #region Quit Game
+
+        /// <summary>
+        /// Return back to the main menu
+        /// </summary>
+        public void BackToMainMenu_Click()
+        {
+            SetActiveScene(0);
+            GameManager.Gm.LoadScene();
+        }
+
+        /// <summary>
+        /// Quits the game, and returns to the desktop
+        /// </summary>
+        public void QuitGame_Click()
+        {
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            #else
+            Application.Quit();
+            #endif
         }
         
         #endregion
