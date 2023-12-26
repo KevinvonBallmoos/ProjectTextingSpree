@@ -1,13 +1,14 @@
 using System.IO;
 using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
 using Code.Controller.GameController;
 using Code.Controller.LocalizationController;
 using Code.Model.GameData;
 using Code.View.Base;
 using Code.View.ControlElements;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace Code.View.SceneUIManager
 {
@@ -79,7 +80,7 @@ namespace Code.View.SceneUIManager
         
         #endregion
         
-        #region LoadOrOverrideSave
+        #region GameDataPaper LoadOrOverrideSave
 
         /// <summary>
         /// Action to load a game
@@ -108,12 +109,22 @@ namespace Code.View.SceneUIManager
 
         #endregion
         
-        #region Remove Data
+        #region GameDataPaper Remove Data
+        
+        /// <summary>
+        /// Action to set the Message box for removing data
+        /// </summary>
+        public void Remove_Click()
+        {
+            UIManager.Uim.SetMessageBoxProperties(RemoveData_Click, "Remove Data", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText2CaptionKey));
+            var holders = placeholderView.GetComponentsInChildren<Image>();
+            _controlView.RemoveDataAction(MessageBox, holders, errorLabel);
+        }
         
         /// <summary>
         /// Action to remove data
         /// </summary>
-        public void RemoveData_Click()
+        private void RemoveData_Click()
         {
             _controlView.RemoveData(_saveDataPath, gameDataGameObjects[1], placeholders, MessageBox);
         }

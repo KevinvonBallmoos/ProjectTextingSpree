@@ -1,6 +1,7 @@
+using UnityEngine;
+
 using Code.View.Base;
 using Code.View.ControlElements;
-using UnityEngine;
 
 namespace Code.View.SceneUIManager
 {
@@ -109,6 +110,19 @@ namespace Code.View.SceneUIManager
         public bool InputField_OnSubmit()
         {
             return _controlView.SubmitInputField(playerName);
+        }
+        
+        #endregion
+        
+        #region Character Page New Game
+        
+        /// <summary>
+        /// Checks if a character was selected and a Name was given
+        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
+        /// </summary>
+        public void BookButtonStartNewGame_Click()
+        {
+            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, MessageBox);
         }
         
         #endregion

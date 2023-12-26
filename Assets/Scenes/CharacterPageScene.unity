@@ -3623,8 +3623,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1938684090}
-        m_TargetAssemblyTypeName: Code.UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1938684091}
+        m_TargetAssemblyTypeName: Code.View.SceneUIManager.CharacterPageUIManager,
+          Assembly-CSharp
         m_MethodName: BookButtonStartNewGame_Click
         m_Mode: 1
         m_Arguments:
@@ -6251,32 +6252,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553d073ac2a04f1bb5409e157932c474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuGameObjects: []
-  mainMenuGameObjects: []
-  gameDataGameObjects: []
-  errorLabel: {fileID: 0}
-  placeholderView: {fileID: 0}
-  placeholders: []
   messageBox: {fileID: 639452642}
   messageBoxGameObjects:
   - {fileID: 2043619955}
   - {fileID: 1101454627}
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  characterPage: {fileID: 0}
-  topBarButtons:
-  - {fileID: 787026137}
-  - {fileID: 91012524}
-  characterPages:
-  - {fileID: 1220956615}
-  - {fileID: 1429347615}
-  characters:
-  - {fileID: 962517552}
-  - {fileID: 475031679}
-  - {fileID: 592443536}
-  - {fileID: 2031243199}
-  chosenCharacter: {fileID: 1387449874}
-  playerName: {fileID: 1456414558}
-  menuGroupObjects: []
   controlView: {fileID: 0}
 --- !u!114 &1938684091
 MonoBehaviour:

@@ -25,7 +25,7 @@ namespace Code.View.Dialogue.StoryView
         private StoryHolderModel _storyHolderModel;
         // Text Control that holds the story text
         [Header("Story Text")]
-        [SerializeField] private TextMeshProUGUI story;
+        [SerializeField] private Text story;
         // Choice objects
         [Header("Choice Root and Prefab")]
         [SerializeField] private Transform choiceRoot;

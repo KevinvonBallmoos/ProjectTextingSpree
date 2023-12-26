@@ -129,6 +129,36 @@ namespace Code.View.ControlElements
         
         #endregion
         
+        #region GameDataPaper Remove Data
+
+        /// <summary>
+        /// Searches the selected Data and deletes the according File
+        /// </summary>
+        /// <param name="saveDataPath">Path where the save data files are</param>
+        /// <param name="removeData">GameObject Remove Data Button</param>
+        /// <param name="placeholders">Placeholders for the game data</param>
+        /// <param name="messageBox">Message box</param>
+        public void RemoveData(string saveDataPath, GameObject removeData, GameObject[] placeholders, GameObject messageBox)
+        {
+            var placeholder = GameDataInfoModel.Placeholder;
+            var files = Directory.GetFiles(saveDataPath);
+            
+            if (placeholder >= files.Length)
+                placeholder = files.Length - 1;
+            
+            // Deletes the file
+            FileIOController.DeleteFile(files[placeholder]);
+            // Updates the placeholder view
+            LoadDataIntoPlaceholders(placeholders);
+            // Sorts the other save files
+            FileIOController.SortSaveFiles();
+
+            messageBox.SetActive(false);
+            removeData.GetComponent<Button>().enabled = Directory.GetFiles(saveDataPath).Any();
+        }
+
+        #endregion
+        
         #region GameDataPaper Focus
 
         /// <summary>
@@ -431,37 +461,7 @@ namespace Code.View.ControlElements
         
         #endregion
         
-        #region Remove Data
-
-        /// <summary>
-        /// Searches the selected Data and deletes the according File
-        /// </summary>
-        /// <param name="saveDataPath">Path where the save data files are</param>
-        /// <param name="removeData">GameObject Remove Data Button</param>
-        /// <param name="placeholders">Placeholders for the game data</param>
-        /// <param name="messageBox">Message box</param>
-        public void RemoveData(string saveDataPath, GameObject removeData, GameObject[] placeholders, GameObject messageBox)
-        {
-            var placeholder = GameDataInfoModel.Placeholder;
-            var files = Directory.GetFiles(saveDataPath);
-            
-            if (placeholder >= files.Length)
-                placeholder = files.Length - 1;
-            
-            // Deletes the file
-            FileIOController.DeleteFile(files[placeholder]);
-            // Updates the placeholder view
-            LoadDataIntoPlaceholders(placeholders);
-            // Sorts the other save files
-            FileIOController.SortSaveFiles();
-
-            messageBox.SetActive(false);
-            removeData.GetComponent<Button>().enabled = Directory.GetFiles(saveDataPath).Any();
-        }
-
-        #endregion
-        
-        #region Story Image
+        #region GameBook Story Image
 
         public void SwitchToStoryImage(GameObject[] menuGroupObjects)
         {

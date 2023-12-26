@@ -1,11 +1,9 @@
 using UnityEngine.Events;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-using Code.Controller.LocalizationController;
 using Code.View.Base;
 using Code.View.ControlElements;
 using Code.View.SceneUIManager;
-using UnityEngine.SceneManagement;
 
 namespace Code
 {
@@ -56,6 +54,9 @@ namespace Code
                 case 1:
                     CharacterPageUIManager.CpUim.InitializeUI();
                     break;
+                case 2 or 3 or 4:
+                    StoryUIManager.SUim.InitializeUI();
+                    break;
             }
         }
         
@@ -69,7 +70,7 @@ namespace Code
 
         #endregion
         
-        #region Start New Game
+        #region Character Page Start New Game
 
         /// <summary>
         /// Opens the character select window and disables the select Images
@@ -80,15 +81,6 @@ namespace Code
             // Display Character on pages 2 - 3,4 - 5
             SetActiveScene(1);
             GameManager.Gm.LoadScene();
-        }
-
-        /// <summary>
-        /// Checks if a character was selected and a Name was given
-        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
-        /// </summary>
-        public void BookButtonStartNewGame_Click()
-        {
-            controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
         }
 
         #endregion
@@ -145,16 +137,6 @@ namespace Code
         {
             controlView.CancelAction(messageBox);
         }
-        
-        /// <summary>
-        /// Action to set the Message box for removing data
-        /// </summary>
-        public void Remove_Click()
-        {
-            SetMessageBoxProperties(MainMenuUIManager.MmUim.RemoveData_Click, "Remove Data", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText2CaptionKey));
-            var holders = placeholderView.GetComponentsInChildren<Image>();
-            controlView.RemoveDataAction(messageBox, holders, errorLabel);
-        }
 
         /// <summary>
         /// Enables or disables the messagebox game over screen 
@@ -163,15 +145,6 @@ namespace Code
         public void EnableOrDisableMessageBoxGameOver(bool enable)
         {
             messageBox.SetActive(enable);
-        }
-        
-        #endregion
-        
-        #region Story Image
-
-        public void SwitchToStoryImage_OnClick()
-        {
-            controlView.SwitchToStoryImage(menuGroupObjects);
         }
         
         #endregion
