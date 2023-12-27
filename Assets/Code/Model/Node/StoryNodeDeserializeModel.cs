@@ -21,6 +21,7 @@ namespace Code.Model.Node
             bool isEndOfChapter, 
             bool isGameOver, 
             string image, 
+            string imageTitle, 
             string item, 
             string background, 
             List<string> childNodes)
@@ -34,6 +35,7 @@ namespace Code.Model.Node
             IsEndOfChapter = isEndOfChapter;
             IsGameOver = isGameOver;
             Image = image;
+            ImageTitle = imageTitle;
             Item = item;
             Background = background;
             ChildNodes = childNodes;
@@ -48,6 +50,7 @@ namespace Code.Model.Node
         public bool IsEndOfChapter { get; }
         public bool IsGameOver { get; }
         public string Image { get; }
+        public string ImageTitle { get; }
         public string Item { get; }
         public string Background { get; }
         public List<string> ChildNodes { get; }

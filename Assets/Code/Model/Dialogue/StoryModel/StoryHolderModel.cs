@@ -280,9 +280,14 @@ namespace Code.Model.Dialogue.StoryModel
             return CurrentNode.IsGameOver;
         }
 
-        public string GetImage(StoryNodeModel nodeToDisplay)
+        public string GetImage()
         {
-            return nodeToDisplay.Image;
+            return CurrentNode.Image;
+        }
+        
+        public string GetImageTitle()
+        {
+            return CurrentNode.ImageTitle;
         }
         
         public string GetItem()

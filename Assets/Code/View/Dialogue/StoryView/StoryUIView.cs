@@ -172,7 +172,7 @@ namespace Code.View.Dialogue.StoryView
             // Displays Story Text either one letter after another, or the whole text at once
             var story = _storyUIManager.GetStoryObjects()[0].GetComponent<Text>();
             var scrollbar = _storyUIManager.GetStoryObjects()[1].GetComponent<Scrollbar>();
-            var imageObjects = _storyUIManager.GetImageObjects();
+            var imageObjects = _storyUIManager.GetMenuGroupObjects();
             story.text = "";
             var text = _storyHolderModel.GetCurrentNodeText().Replace("{Name}", GameDataInfoModel.PlayerName);
             if (GameManager.Gm.IsTextSlowed)
@@ -181,17 +181,20 @@ namespace Code.View.Dialogue.StoryView
                 story.text = text;
             
             // Displays Image
-            var image = _storyHolderModel.GetImage(_storyHolderModel.CurrentNode);
+            var image = _storyHolderModel.GetImage();
             if (!image.Equals(""))
             {
-                imageObjects[0].SetActive(false);
+                imageObjects[0].GetComponent<Text>().text = _storyHolderModel.GetImageTitle();
                 imageObjects[1].SetActive(true);
-                imageObjects[1].GetComponent<Image>().sprite = Resources.Load <Sprite>("Images/StoryImages/" + image);
+                imageObjects[2].SetActive(false);
+                imageObjects[3].SetActive(true);
+                imageObjects[3].GetComponent<Image>().sprite = Resources.Load <Sprite>("Images/StoryImages/" + image);
             }
             else
             {
                 imageObjects[1].SetActive(false);
-                imageObjects[0].SetActive(true);
+                imageObjects[2].SetActive(true);
+                imageObjects[3].SetActive(false);
             }
             
             // Displays Chapter Title
@@ -233,7 +236,6 @@ namespace Code.View.Dialogue.StoryView
                     story.text += c;
                     yield return new WaitForSeconds(time);
                 }
-
                 story.text += " ";
             }
             

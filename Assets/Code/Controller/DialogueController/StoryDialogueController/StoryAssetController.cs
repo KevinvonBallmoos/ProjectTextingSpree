@@ -223,6 +223,9 @@ namespace Code.Controller.DialogueController.StoryDialogueController
                     case "image":
                         node.Image = xmlNode.Attributes[attribute].Value;
                         break;
+                    case "imageTitle":
+                        node.ImageTitle = xmlNode.Attributes[attribute].Value;
+                        break;
                     case "item":
                         node.Item = xmlNode.Attributes[attribute].Value;
                         break;

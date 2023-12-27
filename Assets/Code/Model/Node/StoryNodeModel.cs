@@ -29,6 +29,7 @@ namespace Code.Model.Node
         // Image, item and Player Character
         [Header("Image, item and Player Character")]
         [SerializeField] internal string image;
+        [SerializeField] internal string imageTitle;
         [SerializeField] internal string item = "";
         [SerializeField] internal string background = "";
         // Combat (Not yet developed)
@@ -58,6 +59,7 @@ namespace Code.Model.Node
             IsEndOfChapter = node.IsEndOfChapter;
             IsGameOver = node.IsGameOver;
             Image = node.Image;
+            ImageTitle = node.ImageTitle;
             Item = node.Item;
             Background = node.Background;
             ChildNodes = node.ChildNodes;
@@ -119,6 +121,12 @@ namespace Code.Model.Node
         {
             get => image is null or "" ? "" : "image";
             set => image = value;
+        }
+        
+        public string ImageTitle
+        {
+            get => imageTitle;
+            set => imageTitle = value;
         }
 
         public string Item

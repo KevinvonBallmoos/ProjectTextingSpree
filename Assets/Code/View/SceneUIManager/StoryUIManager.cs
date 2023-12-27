@@ -153,9 +153,9 @@ namespace Code.View.SceneUIManager
         /// Gets the map and story image game object
         /// </summary>
         /// <returns>map and story image game object</returns>
-        public GameObject[] GetImageObjects()
+        public GameObject[] GetMenuGroupObjects()
         {
-            return new[] { menuGroupObjects[2], menuGroupObjects[3] };
+            return menuGroupObjects;
         }
         
         #endregion
