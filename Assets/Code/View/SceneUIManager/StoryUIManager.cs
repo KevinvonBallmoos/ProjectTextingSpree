@@ -1,5 +1,8 @@
 using Code.View.Base;
 using Code.View.ControlElements;
+using Code.View.Dialogue.StoryView;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Code.View.SceneUIManager
 {
@@ -14,6 +17,8 @@ namespace Code.View.SceneUIManager
         public static StoryUIManager SUim;
         // ControlView
         private ControlView _controlView;
+        // StoryUIView
+        private StoryUIView _storyUIView;
         
         #region Awake and Start
 
@@ -25,7 +30,8 @@ namespace Code.View.SceneUIManager
         {
             if (SUim == null)
                 SUim = this;
-            _controlView = UIManager.Uim.controlView; 
+            _controlView = UIManager.Uim.ControlView;
+            _storyUIView = UIManager.Uim.StoryUIView;
         }
         
         #endregion
@@ -58,6 +64,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         private void Next_Click()
         {
+            _storyUIView.ButtonNext();
         }
         
         /// <summary>
@@ -65,6 +72,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void ScrollBack_Click()
         {
+            _storyUIView.ScrollBack();
         }
 
         /// <summary>
@@ -72,7 +80,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void ScrollBackGameOver_Click()
         {
-            
+            _storyUIView.ScrollBackGameOver(MessageBox);
         }
         
         #endregion
@@ -82,6 +90,73 @@ namespace Code.View.SceneUIManager
         #endregion
         
         #region Story Part
+        
+        #endregion
+        
+        #region Component Getters
+
+        /// <summary>
+        /// Gets the next button game object
+        /// </summary>
+        /// <returns>next button</returns>
+        public GameObject GetButtonNext()
+        {
+            return storyButtonObjects[0];
+        }
+        
+        /// <summary>
+        /// Gets the page back button game object
+        /// </summary>
+        /// <returns>page back button</returns>
+        public GameObject GetButtonPageBack()
+        {
+            return storyButtonObjects[1];
+        }
+
+        /// <summary>
+        /// Gets the Status game object
+        /// </summary>
+        /// <returns>status game object</returns>
+        public GameObject GetSaveStatusObject()
+        {
+            return saveStatus;
+        }
+
+        /// <summary>
+        /// Gets the choice root transform
+        /// </summary>
+        /// <returns>choice root transform</returns>
+        public Transform GetChoiceRoot()
+        {
+            return choiceRoot;
+        }
+        
+        /// <summary>
+        /// Gets the choice button prefab game object
+        /// </summary>
+        /// <returns>choice button prefab game object</returns>
+        public GameObject GetChoiceButtonPrefab()
+        {
+            return choicePrefab;
+        }
+
+        /// <summary>
+        /// Gets the story objects
+        /// </summary>
+        /// <returns>story and scrollbar game objects</returns>
+        public GameObject[] GetStoryObjects()
+        {
+            return storyObjects;
+        }
+
+        /// <summary>
+        /// Gets the map and story image game object
+        /// </summary>
+        /// <returns>map and story image game object</returns>
+        public GameObject[] GetImageObjects()
+        {
+            return new[] { menuGroupObjects[2], menuGroupObjects[3] };
+        }
         
         #endregion
     }

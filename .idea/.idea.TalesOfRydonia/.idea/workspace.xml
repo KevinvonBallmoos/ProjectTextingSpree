@@ -4,49 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
+    <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="Added Quit function">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/NewGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/NewGameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Maps/Map.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Story/Maps/Map.jpg.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done).meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/344-3449803_preview-spell-book-open-png.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/344-3449803_preview-spell-book-open-png.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Background_02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Background_02.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Background_06.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Background_06.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Button_05.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Button_05.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/New LightmapParameters.giparams" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/New LightmapParameters.giparams.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Ribbon_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Ribbon_1.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Ribbon_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Ribbon_2.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Ribbon_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/Ribbon_3.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/bookmark_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/bookmark_1.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/bookmark_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/bookmark_2.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/bookmark_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/bookmark_3.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/frame.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/frame.jpg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/template-green-wooden-menu-graphical-user-interface-buttons_172107-1166.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/template-green-wooden-menu-graphical-user-interface-buttons_172107-1166.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/wood_arrow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI (delete when done)/wood_arrow.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +41,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeSerializeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/UIManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Kevin/Unity Projects/TalesOfRydonia/Assets/Code/View/ControlElements/ControlView.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/LightFlickerView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs" root0="FORCE_HIGHLIGHTING" />
@@ -83,6 +48,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/MainMenu/MainMenuHolderView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Unity Project/TalesOfRydonia/Assets/Scenes/MainMenuScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.18/Editor/Collaborate/Views/IChangesView.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/EditorPluginInterop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/IAssemblyNameProvider.cs" root0="SKIP_HIGHLIGHTING" />
@@ -216,6 +182,7 @@
       <workItem from="1703184228205" duration="6291000" />
       <workItem from="1703270736344" duration="8249000" />
       <workItem from="1703338919102" duration="19695000" />
+      <workItem from="1703614492130" duration="11169000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -297,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703367667577</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Added Quit function">
+      <option name="closed" value="true" />
+      <created>1703629831618</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1703629831618</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +293,8 @@
     <MESSAGE value="Added Component base class" />
     <MESSAGE value="Finished with UI for Main menu" />
     <MESSAGE value="Added UI classes for each Scene&#10;Added Interface and abstract classes for the serialized fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added UI classes for each Scene&#10;Added Interface and abstract classes for the serialized fields" />
+    <MESSAGE value="Added Quit function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Quit function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

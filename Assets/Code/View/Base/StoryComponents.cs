@@ -16,17 +16,17 @@ namespace Code.View.Base
         [SerializeField] protected GameObject[] menuGroupObjects;
         // Text Control that holds the story text
         [Header("Story Text, Scrollbar")]
-        [SerializeField] private GameObject[] storyObjects;
+        [SerializeField] protected GameObject[] storyObjects;
         // Choice objects
         [Header("Choice Root and Choice Button Prefab")]
-        [SerializeField] private Transform choiceRoot;
-        [SerializeField] private GameObject choicePrefab;
+        [SerializeField] protected Transform choiceRoot;
+        [SerializeField] protected GameObject choicePrefab;
         // Buttons
         [Header("Next Button, Page Back Button")] 
-        [SerializeField] private GameObject[] storyButtonObjects;
+        [SerializeField] protected GameObject[] storyButtonObjects;
         // Object for the save animation
         [Header("Save Status")]
-        [SerializeField] private GameObject saveStatus;
+        [SerializeField] protected GameObject saveStatus;
         
         #region Inherited from IComponentBase
         

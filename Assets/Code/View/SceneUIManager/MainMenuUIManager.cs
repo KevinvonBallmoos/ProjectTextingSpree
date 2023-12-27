@@ -36,7 +36,7 @@ namespace Code.View.SceneUIManager
         {
             if (MmUim == null)
                 MmUim = this;
-            _controlView = UIManager.Uim.controlView;
+            _controlView = UIManager.Uim.ControlView;
             _saveDataPath = Application.persistentDataPath + "/SaveData";
         }
         

@@ -27,7 +27,7 @@ namespace Code.View.SceneUIManager
         {
             if (CpUim == null)
                 CpUim = this;
-            _controlView = UIManager.Uim.controlView; 
+            _controlView = UIManager.Uim.ControlView; 
         }
         
         #endregion

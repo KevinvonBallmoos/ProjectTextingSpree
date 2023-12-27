@@ -2419,7 +2419,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2592773734813605163}
         m_TargetAssemblyTypeName: Code.Dialogue.Story.StoryUI, Assembly-CSharp
-        m_MethodName: ScrollBack_Click
+        m_MethodName: ScrollBack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

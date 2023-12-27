@@ -1,8 +1,10 @@
+using System;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 using Code.View.Base;
 using Code.View.ControlElements;
+using Code.View.Dialogue.StoryView;
 using Code.View.SceneUIManager;
 using UnityEngine;
 
@@ -18,7 +20,9 @@ namespace Code
         // UI Manager instance
         public static UIManager Uim;
         // ControlView
-        public ControlView controlView;
+        [NonSerialized] public ControlView ControlView;
+        // StoryUIView
+        [NonSerialized] public StoryUIView StoryUIView;
         
         #region Awake and Start
 
@@ -30,7 +34,7 @@ namespace Code
         {
             if (Uim == null)
                 Uim = this;
-            controlView = gameObject.AddComponent<ControlView>();
+            ControlView = gameObject.AddComponent<ControlView>();
         }
 
         /// <summary>
@@ -56,6 +60,7 @@ namespace Code
                     CharacterPageUIManager.CpUim.InitializeUI();
                     break;
                 case 2 or 3 or 4:
+                    StoryUIView = gameObject.AddComponent<StoryUIView>();
                     StoryUIManager.SUim.InitializeUI();
                     break;
             }
@@ -119,7 +124,7 @@ namespace Code
         /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
-            controlView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
+            ControlView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
         }
 
         /// <summary>
@@ -128,7 +133,7 @@ namespace Code
         public void Continue_Click()
         {
             SetActiveScene(0);
-            controlView.ContinueAction();
+            ControlView.ContinueAction();
         }
 
         /// <summary>
@@ -136,7 +141,7 @@ namespace Code
         /// </summary>
         public void Cancel_CLick()
         {
-            controlView.CancelAction(messageBox);
+            ControlView.CancelAction(messageBox);
         }
 
         /// <summary>

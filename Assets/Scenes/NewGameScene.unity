@@ -1553,12 +1553,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd44172cd2f3460b87a983832101596a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuGroupObjects: []
-  storyObjects: []
-  choiceRoot: {fileID: 0}
-  choicePrefab: {fileID: 0}
-  storyButtonObjects: []
-  saveStatus: {fileID: 0}
+  menuGroupObjects:
+  - {fileID: 167231071}
+  - {fileID: 999813771}
+  - {fileID: 9091628666081473585}
+  - {fileID: 6391130409799642662}
+  - {fileID: 725999071}
+  storyObjects:
+  - {fileID: 1115395410831626624}
+  - {fileID: 1274101287}
+  choiceRoot: {fileID: 4397975218108829854}
+  choicePrefab: {fileID: 8986135665163562379, guid: 9bd1b65d6f85ec246a59608d6358ffc8, type: 3}
+  storyButtonObjects:
+  - {fileID: 8595478647031076847}
+  - {fileID: 1739034125}
+  saveStatus: {fileID: 7585498732195177469}
 --- !u!1 &1274101287
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,7 +2288,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2592773734813605163}
         m_TargetAssemblyTypeName: Code.Dialogue.Story.StoryUI, Assembly-CSharp
-        m_MethodName: ScrollBack_Click
+        m_MethodName: ScrollBack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
