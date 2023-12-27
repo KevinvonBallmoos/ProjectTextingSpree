@@ -1524,8 +1524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messageBox: {fileID: 1371551799}
   messageBoxGameObjects: []
-  defaultMaterial: {fileID: 0}
-  controlView: {fileID: 0}
+  defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
 --- !u!4 &1039121654
 Transform:
   m_ObjectHideFlags: 0
@@ -3506,18 +3505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aca06a56aac4a63975c98ba8bbae914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  story: {fileID: 0}
-  choiceRoot: {fileID: 4397975218108829854}
-  choicePrefab: {fileID: 8986135665163562379, guid: 9bd1b65d6f85ec246a59608d6358ffc8, type: 3}
-  nextButton: {fileID: 7665558944600782740}
-  pageBackButton: {fileID: 1739034127}
-  imageHolder:
-  - {fileID: 9091628666081473585}
-  - {fileID: 6391130409799642662}
-  - {fileID: 0}
-  saveStatus: {fileID: 7585498732195177469}
-  messageBoxEndScreen: {fileID: 1371551799}
-  storyScrollbar: {fileID: 0}
   currentChapter: {fileID: 11400000, guid: 9b6fcf45dca4f6443b30e002e3d4de42, type: 2}
 --- !u!224 &2625038288853168621
 RectTransform:
