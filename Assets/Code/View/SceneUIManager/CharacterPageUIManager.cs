@@ -55,8 +55,7 @@ namespace Code.View.SceneUIManager
         public void BackToMainMenu_Click()
         {
             UIManager.Uim.EnableOrDisableMessageBoxGameOver(false);
-            UIManager.Uim.SetActiveScene(0);
-            GameManager.Gm.LoadScene();
+            GameManager.Gm.SetActiveScene(0, true);
         }
         
         /// <summary>
@@ -122,7 +121,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void BookButtonStartNewGame_Click()
         {
-            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, MessageBox);
+            UIManager.Uim.StartNewGame(playerName, chosenCharacter, characterPage);
         }
         
         #endregion

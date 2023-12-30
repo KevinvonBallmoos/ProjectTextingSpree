@@ -7,6 +7,7 @@ using Code.View.ControlElements;
 using Code.View.Dialogue.StoryView;
 using Code.View.SceneUIManager;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Code
 {
@@ -42,7 +43,7 @@ namespace Code
         /// </summary>
         private void Start()
         {
-            SetActiveScene(null);
+            GameManager.Gm.SetActiveScene(null, false);
             InitializeUI();
         }
 
@@ -59,19 +60,25 @@ namespace Code
                 case 1:
                     CharacterPageUIManager.CpUim.InitializeUI();
                     break;
-                case 2 or 3 or 4:
+                case 2 or 3:
                     StoryUIView = gameObject.AddComponent<StoryUIView>();
-                    StoryUIManager.SUim.InitializeUI();
+                    StoryUIManager.SUim.InitializeUI(StoryUIView);
                     break;
             }
         }
+
+        #endregion
         
+        #region GameBook Open Book
+
         /// <summary>
-        /// Sets the current active scene index
+        /// Opens the character select window and disables the select Images
         /// </summary>
-        public void SetActiveScene(int? index)
+        public void ButtonOpenBook_Click()
         {
-            GameManager.Gm.ActiveScene = index ?? SceneManager.GetActiveScene().buildIndex;
+            // TODO: Animation Turns to page 2
+            // Display Character on pages 2 - 3,4 - 5
+            GameManager.Gm.SetActiveScene(1, true);
         }
 
         #endregion
@@ -79,16 +86,16 @@ namespace Code
         #region Character Page Start New Game
 
         /// <summary>
-        /// Opens the character select window and disables the select Images
+        /// Action to check, to start a new game
         /// </summary>
-        public void BookButtonNewGame_Click()
+        /// <param name="playerName">The player name input field</param>
+        /// <param name="chosenCharacter">The chosen character text component</param>
+        /// <param name="characterPage">The Character page game object</param>
+        public void StartNewGame(InputField playerName, Text chosenCharacter, GameObject characterPage)
         {
-            // TODO: Animation Turns to page 2
-            // Display Character on pages 2 - 3,4 - 5
-            SetActiveScene(1);
-            GameManager.Gm.LoadScene();
+            ControlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
         }
-
+        
         #endregion
         
         #region Next Chapter / Next Part Button Events
@@ -98,7 +105,7 @@ namespace Code
         /// </summary>
         public void NextChapter_Click()
         {
-            GameManager.Gm.NextChapter();
+            StoryUIManager.SUim.InitializeUI(StoryUIView);
         }
 
         /// <summary>
@@ -132,7 +139,7 @@ namespace Code
         /// </summary>
         public void Continue_Click()
         {
-            SetActiveScene(0);
+            GameManager.Gm.SetActiveScene(0, false);
             ControlView.ContinueAction();
         }
 
@@ -162,8 +169,7 @@ namespace Code
         /// </summary>
         public void BackToMainMenu_Click()
         {
-            SetActiveScene(0);
-            GameManager.Gm.LoadScene();
+            GameManager.Gm.SetActiveScene(0, true);
         }
 
         /// <summary>

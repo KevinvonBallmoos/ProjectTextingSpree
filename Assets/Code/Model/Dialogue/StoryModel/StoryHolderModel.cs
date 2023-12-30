@@ -48,7 +48,7 @@ namespace Code.Model.Dialogue.StoryModel
             if (chapter != null){
                 
                 CurrentChapter = chapter;
-                CurrentChapter = CurrentChapter.ReadNodes(chapter);
+                CurrentChapter.ReadNodes(chapter.name);
             
                 CurrentNode = CurrentChapter.GetRootNode();
                 _pastStoryNodes = new StoryNodeModel[CurrentChapter.GetAllStoryNodes().Count()];

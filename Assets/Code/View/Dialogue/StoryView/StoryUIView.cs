@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.IO;
 using System.Linq;
 using Code.Controller.DialogueController.StoryDialogueController;
 using Code.Controller.FileController;
@@ -9,6 +11,7 @@ using Code.Model.GameData;
 using Code.View.SceneUIManager;
 using UnityEngine;
 using UnityEngine.UI;
+using GameObject = UnityEngine.GameObject;
 
 namespace Code.View.Dialogue.StoryView 
 {
@@ -41,10 +44,13 @@ namespace Code.View.Dialogue.StoryView
 		/// Hands over the current chapter to the Story holder,
 		/// adds the next button click Event and updates the UI
 		/// </summary>
-		public void Start()
+		public void InitializeStoryUI()
         {
             _storyUIManager = StoryUIManager.SUim;
             _storyHolderModel = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolderModel>();
+            if (currentChapter == null)
+                currentChapter = StoryAssetModel.StoryAssets[0].Asset;
+            
             var isSave = _storyHolderModel.LoadChapterProperties(currentChapter);
             
             currentChapter = _storyHolderModel.CurrentChapter;
@@ -57,7 +63,8 @@ namespace Code.View.Dialogue.StoryView
             nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
             nextButton.GetComponent<Button>().onClick.AddListener(ButtonNext);
             nextButton.GetComponentInChildren<Text>().text = "Next";
-            nextButton.gameObject.SetActive(false);
+            //nextButton.gameObject.SetActive(false);
+            nextButton.SetActive(false);
             
             _chapterTitle = XmlController.GetChapterTitle(currentChapter);
             
@@ -121,7 +128,7 @@ namespace Code.View.Dialogue.StoryView
         private void UpdateUI(bool isSave, bool isGameOver)
         {
             var pageBackButton = _storyUIManager.GetButtonPageBack();
-            pageBackButton.gameObject.SetActive(!_storyHolderModel.GetRootNode());
+            pageBackButton.SetActive(!_storyHolderModel.GetRootNode());
             
             DisplayNodeProperties(); 
             UpdateNodeChoice(isGameOver);
@@ -145,20 +152,20 @@ namespace Code.View.Dialogue.StoryView
                 // if the children are choice nodes
                 if (_storyHolderModel.IsChoiceNode(_storyHolderModel.CurrentNode))
                 {
-                    nextButton.gameObject.SetActive(false);
+                    nextButton.SetActive(false);
                     choiceRoot.gameObject.SetActive(true);
                     BuildChoiceList(isGameOver);
                 }
                 else
                 {
-                    nextButton.gameObject.SetActive(true);
+                    nextButton.SetActive(true);
                     choiceRoot.gameObject.SetActive(false);
                 }
             }
             else
             {
                 // When no more Nodes are available, continue with the next Chapter or Next Story or Ending
-                nextButton.gameObject.SetActive(true);
+                nextButton.SetActive(true);
                 choiceRoot.gameObject.SetActive(false);
                 NextChapter();
             }
@@ -198,7 +205,7 @@ namespace Code.View.Dialogue.StoryView
             }
             
             // Displays Chapter Title
-            gameObject.GetComponentsInChildren<Text>()[0].text = _chapterTitle;
+            _storyUIManager.GetStoryObjects()[2].GetComponent<Text>().text = _chapterTitle;
         }
 
         /// <summary>
@@ -297,7 +304,7 @@ namespace Code.View.Dialogue.StoryView
                 nextButton.GetComponentInChildren<Text>().text = "Next Chapter";
                 nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
 
-                GameManager.Gm.IsEndOfChapter = true;
+                LoadNextChapter();
                 nextButton.GetComponent<Button>().onClick.AddListener(UIManager.Uim.NextChapter_Click);
             }
             else  if (_storyHolderModel.GetIsEndOfStory())
@@ -307,15 +314,16 @@ namespace Code.View.Dialogue.StoryView
                 nextButton.GetComponentInChildren<Text>().text = "Next Part";
                 nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
 
-                GameManager.Gm.IsEndOfPart = true;
+                LoadNextStoryPart();
                 nextButton.GetComponent<Button>().onClick.AddListener(UIManager.Uim.NextPart_Click);
             }
             else if (_storyHolderModel.GetIsGameOver())
             {
                 _logger.LogEntry("UI log", "Game Over reached.", GameLogger.GetLineNumber());
-                nextButton.gameObject.SetActive(false);
+                nextButton.SetActive(false);
 
                 GameManager.Gm.IsGameOver = true;
+                EnableGameOverMessageBox();
             }
             // else if (_storyHolder.GetIsEndOfTale())
             // {
@@ -323,6 +331,51 @@ namespace Code.View.Dialogue.StoryView
             //
             //      GameManager.GM.IsEndOfTale = true;
             // }
+        }
+        
+        /// <summary>
+        /// Sets the Path for the next Chapter
+        /// Loads next chapter
+        /// </summary>
+        private void LoadNextChapter()
+        {
+            var chapter = StoryUIManager.SUim.Chapter++;
+            var part = StoryUIManager.SUim.Part = GetPath();
+            var storyPath = $@"StoryAssets/Story{part}Chapter{chapter}.asset";
+            
+            if (!File.Exists($@"{GameManager.Gm.RunPath}{storyPath}")) return;
+            currentChapter = StoryAssetModel.GetAsset(storyPath);
+            // Resources.Load<StoryAssetController>(storyPath.Replace(".asset", ""));
+        }
+        
+        /// <summary>
+        /// Load next Story / next scene
+        /// </summary>
+        private void LoadNextStoryPart()
+        {
+            StoryUIManager.SUim.Part++;
+        }
+        
+        /// <summary>
+        /// Load GameOver Screen
+        /// </summary>
+        private void EnableGameOverMessageBox()
+        {
+            UIManager.Uim.EnableOrDisableMessageBoxGameOver(true);
+        }
+        
+        /// <summary>
+        /// Returns the Story Part
+        /// </summary>
+        /// <returns>the number of the story</returns>
+        private int GetPath()
+        {
+            foreach (var t in currentChapter.name)
+            {
+                if (char.IsDigit(t))
+                    return int.Parse(t.ToString());
+            }
+            return 0;
         }
         
         #endregion
@@ -337,7 +390,7 @@ namespace Code.View.Dialogue.StoryView
         private void BuildChoiceList(bool isGameOver)
         {
             var choiceRoot = _storyUIManager.GetChoiceRoot();
-            foreach (Transform item in choiceRoot)
+            foreach (Transform item in choiceRoot.transform)
                 Destroy(item.gameObject);
             var choices = _storyHolderModel.GetChoices(_storyHolderModel.CurrentNode).ToList();
 
@@ -382,7 +435,7 @@ namespace Code.View.Dialogue.StoryView
         private void SetChoice(bool isSave, int index)
         {
             var choicePrefab = _storyUIManager.GetChoiceButtonPrefab();
-            var choiceRoot = _storyUIManager.GetChoiceRoot();
+            var choiceRoot = _storyUIManager.GetChoiceRoot().transform;
             var choiceInstance = Instantiate(choicePrefab, choiceRoot);
             var background = _storyHolderModel.GetBackground(_storyHolderModel.ChoiceNodes[index]);
 

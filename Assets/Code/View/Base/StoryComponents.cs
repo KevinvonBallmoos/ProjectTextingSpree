@@ -15,11 +15,11 @@ namespace Code.View.Base
         // Menu group objects
         [SerializeField] protected GameObject[] menuGroupObjects;
         // Text Control that holds the story text
-        [Header("Story Text, Scrollbar")]
+        [Header("Story Text, Scrollbar, Chapter Title")]
         [SerializeField] protected GameObject[] storyObjects;
         // Choice objects
-        [Header("Choice Root and Choice Button Prefab")]
-        [SerializeField] protected Transform choiceRoot;
+        [Header("Choice Root GameObject and Choice Button Prefab")]
+        [SerializeField] protected GameObject choiceRoot;
         [SerializeField] protected GameObject choicePrefab;
         // Buttons
         [Header("Next Button, Page Back Button")] 

@@ -51,7 +51,6 @@ namespace Code.View.ControlElements
                 LoadDataIntoPlaceholders(placeholders);
         }
         
-
         /// <summary>
         /// Gets all game data files and stores the data in the placeholders
         /// </summary>
@@ -237,22 +236,21 @@ namespace Code.View.ControlElements
         /// </summary>
         /// <param name="playerName">InputField component with the player name</param>
         /// <param name="chosenCharacter">The chosen character text component</param>
-        /// <param name="characterSelect">Character Select game object</param>
-        /// <param name="messageBox">message box game object</param>
-        public void BookButtonStartNewGame(InputField playerName, Text chosenCharacter, GameObject characterSelect, GameObject messageBox)
+        /// <param name="characterPage">The Character page game object</param>
+        /// <param name="messageBox">Message box game object</param>
+        public void BookButtonStartNewGame(InputField playerName, Text chosenCharacter, GameObject characterPage, GameObject messageBox)
         {
             if (!SubmitInputField(playerName)) return;
             if (chosenCharacter.text.Equals(""))
             {
-                characterSelect.GetComponentsInChildren<Text>()[0].color = Color.red;
+                characterPage.GetComponentsInChildren<Text>()[0].color = Color.red;
                 return;
             }
             chosenCharacter.color = Color.white;
             
             if (GameDataController.Gdc.NewGame(playerName.text, chosenCharacter.text))
             {
-                GameManager.Gm.ActiveScene = 2;
-                GameManager.Gm.LoadScene();
+                GameManager.Gm.SetActiveScene(2, true);
             }
             else
             {

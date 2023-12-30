@@ -71,28 +71,37 @@ namespace Code.Model.GameData
             var progress = TimeAndProgress.GetProgress(gameDataModel.ParentNode);
             if (progress <= loadedGameData[placeHolderNum].ProgressPercentage)
                 progress += Math.Round(loadedGameData[placeHolderNum].ProgressPercentage, 2);
+
+            try
+            {
+
+                var gameData = new GameDataSerializeModel(
+                    new GameDataModel
+                    {
+                        PlayerName = GameDataInfoModel.PlayerName,
+                        PlayerBackground = GameDataInfoModel.PlayerBackground,
+                        Title = gameDataModel.Title,
+                        ProgressPercentage = progress,
+                        TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
+                        TimeOfSave = GameDataController.Gdc.SaveTime,
+                        CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUIView>()
+                            .currentChapter
+                            .name,
+                        ParentNode = gameDataModel.ParentNode,
+                        IsStoryNode = gameDataModel.IsStoryNode,
+                        NodeIndex = gameDataModel.NodeIndex,
+                        PastStoryNodes = gameDataModel.PastStoryNodes,
+                        SelectedChoices = gameDataModel.SelectedChoices,
+                        // TODO : More Variables for Inventory
+                    }
+                );
+                GameDataController.Gdc.SaveRunningGame(gameData);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);    
+            }
             
-            var gameData = new GameDataSerializeModel(
-                new GameDataModel
-                {
-                    PlayerName = GameDataInfoModel.PlayerName,
-                    PlayerBackground = GameDataInfoModel.PlayerBackground,
-                    Title = gameDataModel.Title,
-                    ProgressPercentage = progress,
-                    TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
-                    TimeOfSave = GameDataController.Gdc.SaveTime,
-                    CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUIView>()
-                        .currentChapter
-                        .name,
-                    ParentNode = gameDataModel.ParentNode,
-                    IsStoryNode = gameDataModel.IsStoryNode,
-                    NodeIndex = gameDataModel.NodeIndex,
-                    PastStoryNodes = gameDataModel.PastStoryNodes,
-                    SelectedChoices = gameDataModel.SelectedChoices,
-                    // TODO : More Variables for Inventory
-                }
-            );
-            GameDataController.Gdc.SaveRunningGame(gameData);
         }
         
         /// <summary>

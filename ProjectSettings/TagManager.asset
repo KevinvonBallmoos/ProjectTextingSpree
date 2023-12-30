@@ -15,6 +15,7 @@ TagManager:
   - Title
   - SaveStatus
   - RemoveData
+  - Choice
   layers:
   - Default
   - TransparentFX

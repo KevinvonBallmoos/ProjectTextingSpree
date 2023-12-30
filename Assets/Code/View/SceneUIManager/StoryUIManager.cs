@@ -19,7 +19,10 @@ namespace Code.View.SceneUIManager
         private ControlView _controlView;
         // StoryUIView
         private StoryUIView _storyUIView;
-        
+
+        public int Chapter { get; set; }
+        public int Part { get; set; }
+
         #region Awake and Start
 
         /// <summary>
@@ -41,9 +44,14 @@ namespace Code.View.SceneUIManager
         /// <summary>
         /// Initializes UI components, depending on the scene that is loaded.
         /// </summary>
-        public void InitializeUI()
+        public void InitializeUI(StoryUIView storyUIView)
         {
-
+            if (GameManager.Gm.ActiveScene is 2 or 3)
+            {
+                Chapter = 1;
+                _storyUIView = storyUIView;
+                _storyUIView.InitializeStoryUI();
+            }
         }
         
         #endregion
@@ -126,7 +134,7 @@ namespace Code.View.SceneUIManager
         /// Gets the choice root transform
         /// </summary>
         /// <returns>choice root transform</returns>
-        public Transform GetChoiceRoot()
+        public GameObject GetChoiceRoot()
         {
             return choiceRoot;
         }

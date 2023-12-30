@@ -50,8 +50,18 @@ namespace Code.View.SceneUIManager
         public void InitializeUI()
         {
             EnableRemoveDataButton();
-            _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
-                placeholders);
+            
+            if (GameDataInfoModel.IsOverride)
+            {
+                _controlView.InitializeSaveDataPanel("NEW GAME", true, placeholderView, gameDataGameObjects[0],
+                    placeholders);
+                DisplayLoadingPaper_Click();
+            }
+            else
+            {
+                _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
+                    placeholders);
+            }
         }
 
         #endregion

@@ -1,11 +1,11 @@
 using System;
-using System.IO;
-using Code.Controller.DialogueController.StoryDialogueController;
-using Code.Controller.FileController;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Code.View.Dialogue.StoryView;
+using Code.Controller.FileController;
+using Code.Logger;
+using Code.Model.Dialogue.StoryModel;
 
 namespace Code
 {
@@ -17,31 +17,24 @@ namespace Code
     public class GameManager : MonoBehaviour
     {
         // Logger
-        //private readonly GameLogger _logger = new GameLogger("GameManager");
-        // GameManager instance
+        private readonly GameLogger _logger = new GameLogger("GameManager");
+        // Game Manager instance
         public static GameManager Gm;
-        // Story UI
-        private static StoryUIView _storyUIView;
-        // StoryUI Script
-        [Header("Scripts")]
-        [SerializeField] private StoryUIView storyUIViewScript;
         // Framerate and sync count
         [Header("Framerate")]
         [SerializeField] private int targetFrameRate;        
         [SerializeField] private int vSyncCount;
-		// States of the Game
-		[NonSerialized] public bool IsGameOver;
-        [NonSerialized] public bool IsEndOfChapter;
-        [NonSerialized] public bool IsEndOfPart;
-        // Chapter, Part and Path
-        private int _chapter;
-        private int _part;
-        private string _runPath;
 
         #region Properties
         
         // Active Scene
-        public int ActiveScene { get; set; }    
+        public int ActiveScene { get; set; } 
+        
+        // Run Path
+        public string RunPath { get; set; }
+        
+		// Is Game over
+		public bool IsGameOver { get; set; }
         
         // Menu Option Property :
         // TODO: Create Settings Model, also include FPS Settings (recommendation, with explanation) and Size
@@ -65,11 +58,9 @@ namespace Code
 
         /// <summary>
         /// Start of the GameManager
-        /// Sets the path, chapter and active scene
+        /// Sets the run path and active scene
+        /// Loads all localizable strings
         /// Creates necessary Folders
-        /// When another Scene was loaded (buildIndex = 1 - 3) -> instantiates the story script
-        /// This is needed, because the GameManager is existing in all scenes,
-        /// this determines from which scene the GameManager is started
         /// </summary>
         private void Start()
         {
@@ -78,109 +69,53 @@ namespace Code
                 Application.targetFrameRate = targetFrameRate;
                 QualitySettings.vSyncCount = vSyncCount;
                 
-                _runPath = $"{Application.dataPath}/Resources/";
-                _chapter = 1;
-                ActiveScene = 0;
+                RunPath = $"{Application.dataPath}/Resources/";
+                SetActiveScene(null, false);
+                StoryAssetModel.GetAllStoryFiles();
                 LocalizationManager.LoadLocalizableValues();
                 FileIOController.CreateFolders();
-                
-                if (SceneManager.GetActiveScene().buildIndex != 0)
-                    _storyUIView = storyUIViewScript;
-                    
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //_logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
+                _logger.LogEntry("Exception Log", ex.Message, new StackTrace(ex, true).GetFrame(0).GetFileLineNumber());
             }
         }
 
         #endregion
         
-        #region Next Chapter / Story or End
+        #region Update 
         
         /// <summary>
         /// Checks the status of the Game every frame
-        /// 1. End of the current Chapter
-        /// 2. End of the current Story Part
-        /// 3. Game over
-        /// 4. The Game is finished
+        /// 1. Game over
+        /// 2. The Game is finished
         /// </summary>
         private void Update()
         {
-            if (IsEndOfChapter)
-                LoadNextChapter();
-            if (IsEndOfPart)
-                LoadNextStoryPart();
             if (IsGameOver)
-                LoadGameOverScreen();
+            {
+            }
             // if (IsEndOfTale)
             //     LoadEndCreditScene();
-        }
-
-        /// <summary>
-        /// Sets the Path for the next Chapter
-        /// Loads next chapter
-        /// </summary>
-        private void LoadNextChapter()
-        {
-            IsEndOfChapter = false;
-            _part = GetPath();
-            _chapter++;
-            var storyPath = $@"StoryAssets/Story{_part}Chapter{_chapter}.asset";
-            
-            if (!File.Exists($@"{_runPath}{storyPath}")) return;
-            _storyUIView.currentChapter = Resources.Load<StoryAssetController>(storyPath.Replace(".asset", ""));
-            //_logger.LogEntry("GameManager Log", $"Next chapter: Story{_part}Chapter{_chapter}", GameLogger.GetLineNumber());
-        }
-
-        /// <summary>
-        /// Load next Story / next scene
-        /// </summary>
-        private void LoadNextStoryPart()
-        {
-            IsEndOfPart = false;
-            _part++;
-            //_logger.LogEntry("GameManager Log", $"Next Story Part: Story{_part}Chapter{_chapter}",
-                //GameLogger.GetLineNumber());
-        }
-
-        /// <summary>
-        /// Load GameOver Screen
-        /// </summary>
-        private void LoadGameOverScreen()
-        {
-            IsGameOver = false;
-            UIManager.Uim.EnableOrDisableMessageBoxGameOver(true);
-            //_logger.LogEntry("GameManager Log", $"Game Over! ", GameLogger.GetLineNumber());
-        }
-
-        /// <summary>
-        /// Returns the Story Part
-        /// </summary>
-        /// <returns>the number of the story</returns>
-        private static int GetPath()
-        {
-            var path = _storyUIView.currentChapter.name;
-            foreach (var t in path)
-            {
-                if (char.IsDigit(t))
-                    return int.Parse(t.ToString());
-            }
-            return 0;
         }
         
         #endregion
         
-        #region Next Chapter / Next Part Button Events
+        #region Load Scene / Active Scene
         
         /// <summary>
-        /// Starts the new Chapter
+        /// Sets the current active scene index
+        /// <param name="index">null or index of the current active scene</param>
+        /// <param name="loadScene">true when scene needs to be loaded after setting the current active scen</param>
         /// </summary>
-        public void NextChapter()
+        public void SetActiveScene(int? index, bool loadScene)
         {
-            _storyUIView.Start();
-        }
+            ActiveScene = index ?? SceneManager.GetActiveScene().buildIndex;
 
+            if (loadScene)
+                LoadScene();
+        }
+        
         /// <summary>
         /// Switching between scenes
         /// 1 => 2 NewGameScene to StoryScene1
@@ -191,18 +126,13 @@ namespace Code
         {
             ActiveScene = ActiveScene switch
             {
-                1 => 2,
                 2 => 3,
                 3 => 2,
                 _ => ActiveScene
             };
 
-            SceneManager.LoadScene(ActiveScene);
+            LoadScene();
         }
-        
-        #endregion
-
-        #region Load Scene
 
 		/// <summary>
 		/// Loads the Scene saved in the 'ActiveScene' variable
@@ -213,6 +143,5 @@ namespace Code
 		}
 
 		#endregion
-
     }
 }

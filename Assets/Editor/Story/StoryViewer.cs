@@ -182,7 +182,7 @@ namespace Editor.Story
             }
             if (_selectedChapter == null) return;
             
-            _selectedChapter.ReadNodes(_selectedChapter);
+            _selectedChapter.ReadNodes(_selectedChapter.name);
 
             Repaint();
             
@@ -245,7 +245,7 @@ namespace Editor.Story
             // Draws canvas
             var canvas = GUILayoutUtility.GetRect(CanvasSize, CanvasSize);
             // Draw Background
-            var backGroundTex = Resources.Load("Editor/background") as Texture2D;
+            var backGroundTex = Resources.Load("Sprites/Editor/background") as Texture2D;
             // Width and Height are how many times the images has to appear (tile)
             var texCoords = new Rect(0,0, CanvasSize / BackGround, CanvasSize / BackGround);
             // Draw Surface

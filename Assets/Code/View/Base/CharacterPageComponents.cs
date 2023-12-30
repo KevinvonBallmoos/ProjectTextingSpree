@@ -29,12 +29,31 @@ namespace Code.View.Base
         [field: Header("MESSAGE BOX")]
         // MessageBox
         [field: Header("MessageBox, Button Continue (left one), Message Box Text")]
-        public GameObject MessageBox { get; set; }
-        public GameObject[] MessageBoxGameObjects { get; set; }
+        [SerializeField] 
+        private GameObject messageBox;
+        public GameObject MessageBox
+        {
+            get => messageBox; 
+            set => messageBox = value;
+        }
+        [SerializeField] 
+        private GameObject[] messageBoxGameObjects;
+        public GameObject[] MessageBoxGameObjects
+        {
+            get => messageBoxGameObjects;
+            set => messageBoxGameObjects = value;
+        }
+        
         [field: Header("MATERIALS")]
         // Materials
         [field: Header("Material")]
-        public Material DefaultMaterial { get; set; }
+        [SerializeField] 
+        private Material defaultMaterial;
+        public Material DefaultMaterial
+        {
+            get => defaultMaterial;
+            set => defaultMaterial = value;
+        }
         
         #endregion
     }
