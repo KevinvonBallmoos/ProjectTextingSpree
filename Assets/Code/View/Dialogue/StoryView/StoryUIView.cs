@@ -49,8 +49,11 @@ namespace Code.View.Dialogue.StoryView
             _storyUIManager = StoryUIManager.SUim;
             _storyHolderModel = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolderModel>();
             if (currentChapter == null)
+            {
                 currentChapter = StoryAssetModel.StoryAssets[0].Asset;
-            
+                StoryAssetModel.CurrentAsset = currentChapter;
+            }
+
             var isSave = _storyHolderModel.LoadChapterProperties(currentChapter);
             
             currentChapter = _storyHolderModel.CurrentChapter;
@@ -345,7 +348,6 @@ namespace Code.View.Dialogue.StoryView
             
             if (!File.Exists($@"{GameManager.Gm.RunPath}{storyPath}")) return;
             currentChapter = StoryAssetModel.GetAsset(storyPath);
-            // Resources.Load<StoryAssetController>(storyPath.Replace(".asset", ""));
         }
         
         /// <summary>

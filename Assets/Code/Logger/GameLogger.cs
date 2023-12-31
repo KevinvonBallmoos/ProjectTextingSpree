@@ -104,7 +104,7 @@ namespace Code.Logger
                 }
 
                 var writeLines = new List<string>();
-                if ((DateTime.Now - Convert.ToDateTime(readLines[0].Substring(10, 17))).Days > 5)
+                if ((DateTime.Now - Convert.ToDateTime(readLines[0].Substring(10, 20))).Days > 5)
                 {
                     for (int i = 3; i < readLines.Count; i++)
                         writeLines.Add(readLines[i]);

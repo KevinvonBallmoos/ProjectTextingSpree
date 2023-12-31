@@ -20,6 +20,11 @@ namespace Code.Model.Dialogue.StoryModel
         }
 
         /// <summary>
+        /// The Current active asset
+        /// </summary>
+        public static StoryAssetController CurrentAsset { get; set; }
+
+        /// <summary>
         /// Story files property
         /// </summary>
         public static List<StoryAssetModelObject> StoryAssets { get; set; } = new ();
@@ -42,8 +47,10 @@ namespace Code.Model.Dialogue.StoryModel
         /// <returns>asset file</returns>
         public static StoryAssetController GetAsset(string assetName)
         {
-            return (from asset in StoryAssets where asset.Filename.Equals(assetName) select asset.Asset)
+            var currentAsset = (from asset in StoryAssets where asset.Filename.Equals(assetName) select asset.Asset)
                 .FirstOrDefault();
+            CurrentAsset = currentAsset;
+            return currentAsset;
         }
     }
 }

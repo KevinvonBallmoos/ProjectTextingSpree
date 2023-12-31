@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 
 using Code.Controller.GameController;
+using Code.Model.Dialogue.StoryModel;
 using Code.Model.Node;
 using Code.View.Dialogue.StoryView;
 
@@ -84,9 +85,7 @@ namespace Code.Model.GameData
                         ProgressPercentage = progress,
                         TimeSpent = TimeSpan.FromSeconds(elapsedTime).ToString(),
                         TimeOfSave = GameDataController.Gdc.SaveTime,
-                        CurrentChapter = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryUIView>()
-                            .currentChapter
-                            .name,
+                        CurrentChapter = StoryAssetModel.CurrentAsset.name,
                         ParentNode = gameDataModel.ParentNode,
                         IsStoryNode = gameDataModel.IsStoryNode,
                         NodeIndex = gameDataModel.NodeIndex,

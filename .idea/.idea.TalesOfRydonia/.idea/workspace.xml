@@ -6,9 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Controller/DialogueController/StoryDialogueController/StoryAssetController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Controller/DialogueController/StoryDialogueController/StoryAssetController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/LocalizationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/LocalizationManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Logger/GameLogger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Logger/GameLogger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Logger/Log Files/GameManager.log" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Logger/Log Files/GameManager.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryAssetModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryAssetModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryHolderModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryHolderModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,10 +154,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="32036">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="32036" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -340,69 +349,43 @@
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs</url>
-          <line>48</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\SceneUIManager\StoryUIManager.cs" initialLine="48" containingFunctionPresentation="Method 'InitializeUI'">
-            <startOffsets>
-              <option value="1391" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1432" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/UIManager.cs</url>
-          <line>64</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\UIManager.cs" initialLine="64" containingFunctionPresentation="Method 'InitializeUI'">
-            <startOffsets>
-              <option value="1931" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1977" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs</url>
-          <line>463</line>
+          <line>465</line>
           <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\Dialogue\StoryView\StoryUIView.cs" initialLine="463" containingFunctionPresentation="Lambda expression inside Method 'SetChoice'">
             <startOffsets>
-              <option value="17705" />
+              <option value="17698" />
             </startOffsets>
             <endOffsets>
-              <option value="17773" />
+              <option value="17766" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryHolderModel.cs</url>
-          <line>123</line>
+          <line>118</line>
           <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Model\Dialogue\StoryModel\StoryHolderModel.cs" initialLine="123" containingFunctionPresentation="Method 'SetNextNode'">
             <startOffsets>
-              <option value="4781" />
+              <option value="4521" />
             </startOffsets>
             <endOffsets>
-              <option value="4828" />
+              <option value="4568" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs</url>
-          <line>129</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\Dialogue\StoryView\StoryUIView.cs" initialLine="129" containingFunctionPresentation="Method 'UpdateUI'">
+          <url>file://$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataModel.cs</url>
+          <line>62</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Model\GameData\GameDataModel.cs" initialLine="61" containingFunctionPresentation="Method 'SaveRunningGame'">
             <startOffsets>
-              <option value="4677" />
+              <option value="2318" />
             </startOffsets>
             <endOffsets>
-              <option value="4734" />
+              <option value="2397" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="28" />
+          <option name="timeStamp" value="78" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

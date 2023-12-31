@@ -57,7 +57,7 @@ namespace Code
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //Debug.Log(ex.Message);
                 }

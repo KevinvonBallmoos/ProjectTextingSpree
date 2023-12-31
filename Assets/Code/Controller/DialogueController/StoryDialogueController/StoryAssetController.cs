@@ -114,8 +114,6 @@ namespace Code.Controller.DialogueController.StoryDialogueController
             foreach (XmlNode story in xmlDoc.GetElementsByTagName("Node"))
                 ProcessNode(story, false);
             
-            // Remove nodes that ore not needed anymore
-            //RemoveUnusedNodes();
             ReadXmlAttributes(xmlDoc);
         }
 
@@ -128,50 +126,8 @@ namespace Code.Controller.DialogueController.StoryDialogueController
         private void ProcessNode(XmlNode node, bool isChoice)
         {
             var id = node.Attributes?[0].Value;
-            //if (CheckNodes(id)) return;
-
             var newNode = CreateNode(node, id, isChoice);
             _nodes.Add(new NodeInfo { NodeId = id, Node = newNode, IsTrue = true});
-        }
-        
-        /// <summary>
-        /// Checks if the node already exists 
-        /// </summary>
-        /// <param name="id">the id to check if its existing in the _nodes List</param>
-        /// <returns>true when the node exists or false when the node is not in the List</returns>
-        private bool CheckNodes(string id)
-        {
-            foreach (var n in _nodes.Where(n => n.Node.NodeId == id))
-            {
-                n.IsTrue = true; 
-                return true;
-            }
-            return false;
-        }
-        
-        /// <summary>
-        /// Remove nodes that ore not needed anymore
-        /// </summary>
-        private void RemoveUnusedNodes()
-        {
-            var i = 0;
-            while (i < _nodes.Count)
-            {
-                if (_nodes[i].IsTrue)
-                {
-                    i++;
-                    continue;
-                }
-
-                var nodes = _nodes
-                    .Where(n => n.Node.ChildNodes != null)
-                    .Where(n => n.Node.ChildNodes.Contains(_nodes[i].Node.name)).ToList();
-                
-                foreach (var n in nodes)
-                    n.Node.RemoveChildNode(_nodes[i].Node.name);
-                
-                _nodes.RemoveAt(i);
-            }
         }
         
         #endregion
@@ -450,6 +406,5 @@ namespace Code.Controller.DialogueController.StoryDialogueController
         }
         
         #endregion
-        
     }
 }

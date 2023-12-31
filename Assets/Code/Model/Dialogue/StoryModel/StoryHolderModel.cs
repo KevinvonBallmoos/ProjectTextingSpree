@@ -64,13 +64,8 @@ namespace Code.Model.Dialogue.StoryModel
             else
             {
                 var saveData = GameDataController.Gdc.GetSaveData();
-                var stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetController)).ToList();
-                foreach (var asset in stories)
-                {
-                    if (!asset.name.Equals(saveData.CurrentChapter)) continue;
-                    CurrentChapter = (StoryAssetController)asset;
-                    break;
-                }
+                CurrentChapter = StoryAssetModel.GetAsset(saveData.CurrentChapter);
+                
 
                 foreach (var node in CurrentChapter.GetAllNodes())
                 {
