@@ -5,119 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryAssetModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryAssetModel.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Controller/DialogueController/StoryDialogueController/StoryAssetController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Controller/DialogueController/StoryDialogueController/StoryAssetController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Logger/Log Files/GameManager.log" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Logger/Log Files/GameManager.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryHolderModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryHolderModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/Story/StoryViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/Story/StoryViewer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceMenuGroup.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceMenuGroup.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/EventSystem.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/EventSystem.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/MenuGroup.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/MenuGroup.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/StoryAssets/Story1Chapter1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/StoryAssets/Story1Chapter1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/StoryAssets/Story1Chapter1.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/StoryAssets/Story1Chapter1.asset.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CharacterPageScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/NewGameScene.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/NewGameScene.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Animations.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Animations/Book_Anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Animations/Book_Anim/UIAssets0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Animations/Book_Anim/UIAssets0001.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Character.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Character/Champ#1.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Character/Champ#1.JPG.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Character/Champ#2.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Character/Champ#2.JPG.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Character/Champ#3.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Character/Champ#3.JPG.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Arrow_Layout.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Arrow_Layout.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Book_GameScene_Cropped.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Book_GameScene_Cropped.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Button_Layout.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Button_Layout.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Button_Layout_cropped.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Button_Layout_cropped.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Character_Page.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Character_Page.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/GameBook_Open.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/GameBook_Open.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Game_Book.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Game_Book.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Loading_Paper.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Loading_Paper.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/MenuPanel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/MenuPanel.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Ribbon_blue.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Ribbon_blue.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Ribbon_green.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Ribbon_green.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Ribbon_red.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Ribbon_red.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Settings.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Controls/Settings.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Editor.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Editor/background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Editor/background.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/arrowhead.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/arrowhead.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/battered-axe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/battered-axe.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/battle-axe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/battle-axe.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/bread.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/bread.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/broadhead-arrow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/broadhead-arrow.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/high-shot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/high-shot.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/log.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/log.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/round-potion.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/round-potion.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/steak.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Inventory/Items/steak.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Settings.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Settings/settings_gear.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Settings/settings_gear.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Settings/settings_icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Settings/settings_icon.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Maps.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Maps/Map.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Maps/Map.jpg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Ambience.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Ambience/3tGames_Charcoal_drawing_on_parchment_of_a_former_battelfield.__f1f00c61-8f47-4467-b91d-83ff285fe5bc.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Ambience/3tGames_Charcoal_drawing_on_parchment_of_a_former_battelfield.__f1f00c61-8f47-4467-b91d-83ff285fe5bc.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Ambience/Legion_Camp_Nightfall.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Ambience/Legion_Camp_Nightfall.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Story/Soldier_Prologue/Characers.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,30 +82,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.35493827",
-    "git-widget-placeholder": "feature/animationsandassets__1",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.35493827&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/animationsandassets__1&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
-      "C:\\Users\\Kevin\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Kevin\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Kevin\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../TalesOfRydonia_Build/TalesOfRydonia.exe" />
@@ -253,10 +141,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="39472">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="39472" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -295,6 +183,8 @@
       <workItem from="1703614492130" duration="11169000" />
       <workItem from="1703673221764" duration="834000" />
       <workItem from="1703755507650" duration="38893000" />
+      <workItem from="1703970017686" duration="251000" />
+      <workItem from="1703981789099" duration="1433000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
