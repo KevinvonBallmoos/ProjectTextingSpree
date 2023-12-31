@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 2.unity.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +47,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/MainMenu/MainMenuHolderView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Kevin/Unity Projects/TalesOfRydonia/Assets/Scenes/StoryScene 1.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.18/Editor/Collaborate/Views/IChangesView.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/EditorPluginInterop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/IAssemblyNameProvider.cs" root0="SKIP_HIGHLIGHTING" />
@@ -185,6 +189,7 @@
       <workItem from="1703755507650" duration="38893000" />
       <workItem from="1703970017686" duration="251000" />
       <workItem from="1703981789099" duration="1433000" />
+      <workItem from="1704022562938" duration="1433000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -348,19 +353,6 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs</url>
-          <line>48</line>
-          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\Dialogue\StoryView\StoryUIView.cs" initialLine="47" containingFunctionPresentation="Method 'Start'">
-            <startOffsets>
-              <option value="1510" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1548" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Code/UIManager.cs</url>
           <line>64</line>
           <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\UIManager.cs" initialLine="64" containingFunctionPresentation="Method 'InitializeUI'">
@@ -372,6 +364,45 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs</url>
+          <line>463</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\Dialogue\StoryView\StoryUIView.cs" initialLine="463" containingFunctionPresentation="Lambda expression inside Method 'SetChoice'">
+            <startOffsets>
+              <option value="17705" />
+            </startOffsets>
+            <endOffsets>
+              <option value="17773" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/Model/Dialogue/StoryModel/StoryHolderModel.cs</url>
+          <line>123</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Model\Dialogue\StoryModel\StoryHolderModel.cs" initialLine="123" containingFunctionPresentation="Method 'SetNextNode'">
+            <startOffsets>
+              <option value="4781" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4828" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs</url>
+          <line>129</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\View\Dialogue\StoryView\StoryUIView.cs" initialLine="129" containingFunctionPresentation="Method 'UpdateUI'">
+            <startOffsets>
+              <option value="4677" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4734" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
