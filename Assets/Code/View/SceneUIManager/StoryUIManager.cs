@@ -1,6 +1,6 @@
 using Code.View.Base;
 using Code.View.ControlElements;
-using Code.View.Dialogue.StoryView;
+using Code.View.SceneUIViews;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +16,7 @@ namespace Code.View.SceneUIManager
         // Story UI Manager instance
         public static StoryUIManager SUim;
         // ControlView
-        private ControlView _controlView;
+        private ComponentView _componentView;
         // StoryUIView
         private StoryUIView _storyUIView;
 
@@ -33,7 +33,7 @@ namespace Code.View.SceneUIManager
         {
             if (SUim == null)
                 SUim = this;
-            _controlView = UIManager.Uim.ControlView;
+            _componentView = UIManager.Uim.ComponentView;
             _storyUIView = UIManager.Uim.StoryUIView;
         }
         
@@ -60,7 +60,7 @@ namespace Code.View.SceneUIManager
 
         public void SwitchToStoryImage_OnClick()
         {
-            _controlView.SwitchToStoryImage(menuGroupObjects);
+            _componentView.SwitchToStoryImage(menuGroupObjects);
         }
         
         #endregion
@@ -88,7 +88,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void ScrollBackGameOver_Click()
         {
-            _storyUIView.ScrollBackGameOver(MessageBox);
+            _storyUIView.ScrollBackGameOver(UIManager.Uim.messageBox);
         }
         
         #endregion

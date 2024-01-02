@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Code.View.Base;
 using Code.View.ControlElements;
+using Code.View.SceneUIViews;
 
 namespace Code.View.SceneUIManager
 {
@@ -15,7 +16,9 @@ namespace Code.View.SceneUIManager
         // MainMenu UI Manager instance
         public static CharacterPageUIManager CpUim;
         // ControlView
-        private ControlView _controlView;
+        private ComponentView _componentView;
+        // ControlView
+        private CharacterPageUIView _characterPageUIView;
         
         #region Awake and Start
 
@@ -27,7 +30,7 @@ namespace Code.View.SceneUIManager
         {
             if (CpUim == null)
                 CpUim = this;
-            _controlView = UIManager.Uim.ControlView; 
+            _componentView = UIManager.Uim.ComponentView;
         }
         
         #endregion
@@ -39,9 +42,10 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void InitializeUI()
         {
-            _controlView.DisableImages(characters);
-            _controlView.AddButtonListener(topBarButtons[0], BackToMainMenu_Click);
-            _controlView.SetScrollbarValue(characters);
+            _characterPageUIView = UIManager.Uim.CharacterPageUIView;
+            _characterPageUIView.DisableImages(characters);
+            _characterPageUIView.AddButtonListener(topBarButtons[0], BackToMainMenu_Click);
+            _characterPageUIView.SetScrollbarValue(characters);
         }
         
         #endregion
@@ -63,8 +67,8 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void ScrollNextCharacterPage_CLick()
         {
-            _controlView.ScrollNextCharacterPage(topBarButtons, characterPages);
-            _controlView.SetScrollbarValue(characters);
+            _characterPageUIView.ScrollNextCharacterPage(topBarButtons, characterPages);
+            _characterPageUIView.SetScrollbarValue(characters);
         }
 
         /// <summary>
@@ -72,8 +76,8 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void ScrollPreviousCharacterPage_CLick()
         {
-            _controlView.ScrollPreviousCharacterPage(topBarButtons, characterPages);
-            _controlView.SetScrollbarValue(characters);
+            _characterPageUIView.ScrollPreviousCharacterPage(topBarButtons, characterPages);
+            _characterPageUIView.SetScrollbarValue(characters);
         }
         
         #endregion
@@ -85,7 +89,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void Character_Click(GameObject characterGameObject)
         {
-            _controlView.SetImage(characters, chosenCharacter, characterGameObject);
+            _characterPageUIView.SetImage(characters, chosenCharacter, characterGameObject);
         }
 
         #endregion
@@ -99,7 +103,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void InputField_OnValueChanged()
         {
-            _controlView.ValidateInputField(playerName);
+            _characterPageUIView.ValidateInputField(playerName);
         }
 
         /// <summary>
@@ -108,7 +112,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public bool InputField_OnSubmit()
         {
-            return _controlView.SubmitInputField(playerName);
+            return _characterPageUIView.SubmitInputField(playerName);
         }
         
         #endregion

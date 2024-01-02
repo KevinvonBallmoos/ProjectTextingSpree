@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.View.Base
 {
@@ -7,7 +8,7 @@ namespace Code.View.Base
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">23.12.2023</para>
-    public abstract class MainMenuComponents : MonoBehaviour, IComponentBase    
+    public abstract class MainMenuComponents : MonoBehaviour    
     {
         [Header("MAIN MENU Scene")]
         
@@ -30,38 +31,13 @@ namespace Code.View.Base
         [Header("PlaceholderView and Placeholders")]
         [SerializeField] protected GameObject placeholderView;
         [SerializeField] protected GameObject[] placeholders; 
-        
-        #region Inherited from IComponentBase
-        
-        [field: Header("MESSAGE BOX")]
-        // MessageBox
-        [field: Header("MessageBox, Button Continue (left one), Message Box Text")]
-        [SerializeField] 
-        private GameObject messageBox;
-        public GameObject MessageBox
-        {
-            get => messageBox; 
-            set => messageBox = value;
-        }
-        [SerializeField] 
-        private GameObject[] messageBoxGameObjects;
-        public GameObject[] MessageBoxGameObjects
-        {
-            get => messageBoxGameObjects;
-            set => messageBoxGameObjects = value;
-        }
-        
-        [field: Header("MATERIALS")]
-        // Materials
-        [field: Header("Material")]
-        [SerializeField] 
-        private Material defaultMaterial;
-        public Material DefaultMaterial
-        {
-            get => defaultMaterial;
-            set => defaultMaterial = value;
-        }
-        
-        #endregion
+        // Settings panel
+        [FormerlySerializedAs("SettingsPanel")]
+        [Header("Settings Panel")]
+        [SerializeField] protected GameObject settingsPanel;
+        // Settings prefabs
+        [Header("Settings Properties Root, Bool Prefab, Input Prefab")] 
+        [SerializeField] protected GameObject settingsPropertiesRoot;
+        [SerializeField] protected GameObject[] settingsPrefabs;
     }
 }

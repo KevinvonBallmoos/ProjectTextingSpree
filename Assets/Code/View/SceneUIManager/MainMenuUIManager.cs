@@ -7,8 +7,9 @@ using UnityEngine.UI;
 using Code.Controller.GameController;
 using Code.Controller.LocalizationController;
 using Code.Model.GameData;
+using Code.Model.Settings;
 using Code.View.Base;
-using Code.View.ControlElements;
+using Code.View.SceneUIViews;
 
 namespace Code.View.SceneUIManager
 {
@@ -21,8 +22,10 @@ namespace Code.View.SceneUIManager
     {
         // MainMenu UI Manager instance
         public static MainMenuUIManager MmUim;
-        // ControlView
-        private ControlView _controlView;
+        // ComponentView
+        private ComponentView _componentView;
+        // MainMenuUIView
+        private MainMenuUIView _mainMenuUIView;
         // Path to the Save files
         private static string _saveDataPath;
         
@@ -36,7 +39,7 @@ namespace Code.View.SceneUIManager
         {
             if (MmUim == null)
                 MmUim = this;
-            _controlView = UIManager.Uim.ControlView;
+            _componentView = UIManager.Uim.ComponentView;
             _saveDataPath = Application.persistentDataPath + "/SaveData";
         }
         
@@ -50,16 +53,16 @@ namespace Code.View.SceneUIManager
         public void InitializeUI()
         {
             EnableRemoveDataButton();
-            
+            _mainMenuUIView = UIManager.Uim.MainMenuUIView;
             if (GameDataInfoModel.IsOverride)
             {
-                _controlView.InitializeSaveDataPanel("NEW GAME", true, placeholderView, gameDataGameObjects[0],
+                _mainMenuUIView.InitializeSaveDataPanel("NEW GAME", true, placeholderView, gameDataGameObjects[0],
                     placeholders);
                 DisplayLoadingPaper_Click();
             }
             else
             {
-                _controlView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
+                _mainMenuUIView.InitializeSaveDataPanel("LOAD", true, placeholderView, gameDataGameObjects[0],
                     placeholders);
             }
         }
@@ -73,9 +76,9 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void DisplayLoadingPaper_Click()
         { 
-            _controlView.DisplayLoadingPaper(mainMenuGameObjects, placeholderView);
-            mainMenuGameObjects[0].GetComponentsInChildren<Image>()[0].material = DefaultMaterial;
-            _controlView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, false);
+            _mainMenuUIView.DisplayLoadingPaper(mainMenuGameObjects, placeholderView);
+            mainMenuGameObjects[0].GetComponentsInChildren<Image>()[0].material = UIManager.Uim.defaultMaterial;
+            _mainMenuUIView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, false);
         }
 
         /// <summary>
@@ -83,8 +86,8 @@ namespace Code.View.SceneUIManager
         /// </summary>
         public void BackToTable_Click()
         {
-            _controlView.BackToTable(mainMenuGameObjects, placeholderView);
-            _controlView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, true);
+            _mainMenuUIView.BackToTable(mainMenuGameObjects, placeholderView);
+            _mainMenuUIView.SetGameObjectsBehavior(mainMenuGameObjects, menuGameObjects, gameDataGameObjects, placeholders, true);
         }
         
         
@@ -109,7 +112,7 @@ namespace Code.View.SceneUIManager
                 return;
             }
             
-            _controlView.LoadOrOverrideSave(buttonLoadGameText);
+            _mainMenuUIView.LoadOrOverrideSave(buttonLoadGameText);
             
             if (GameManager.Gm.ActiveScene == 2)
                 GameDataController.Gdc.LoadSelectedGame();
@@ -128,7 +131,7 @@ namespace Code.View.SceneUIManager
         {
             UIManager.Uim.SetMessageBoxProperties(RemoveData_Click, "Remove Data", LocalizationManager.GetLocalizedValue(LocalizationKeyController.MessageBoxText2CaptionKey));
             var holders = placeholderView.GetComponentsInChildren<Image>();
-            _controlView.RemoveDataAction(MessageBox, holders, errorLabel);
+            _componentView.RemoveDataAction(UIManager.Uim.messageBox, holders, errorLabel);
         }
         
         /// <summary>
@@ -136,7 +139,7 @@ namespace Code.View.SceneUIManager
         /// </summary>
         private void RemoveData_Click()
         {
-            _controlView.RemoveData(_saveDataPath, gameDataGameObjects[1], placeholders, MessageBox);
+            _mainMenuUIView.RemoveData(_saveDataPath, gameDataGameObjects[1], placeholders, UIManager.Uim.messageBox);
         }
 
         /// <summary>
@@ -146,6 +149,61 @@ namespace Code.View.SceneUIManager
         {
             var files = Directory.GetFiles(_saveDataPath);   
             gameDataGameObjects[1].GetComponent<Button>().enabled = files.Any();
+        }
+        
+        #endregion
+        
+        #region Settings
+
+        /// <summary>
+        /// Action to open the settings pnael
+        /// </summary>
+        public void OpenSettings_Click()
+        {
+            _mainMenuUIView.OpenSettings(settingsPanel, mainMenuGameObjects, menuGameObjects);
+            SettingsModel.LoadSettings();
+            DisplayAudioSettings_Click();
+        }
+        
+        /// <summary>
+        /// Action to close the settings panel
+        /// </summary>
+        public void CloseSettings_Click()
+        {
+            _mainMenuUIView.CloseSettings(settingsPanel, mainMenuGameObjects, menuGameObjects);
+        }
+        
+        /// <summary>
+        /// Action to save the settings
+        /// </summary>
+        public void SaveSettings_Click()
+        {
+            // Method to set the properties ?
+            SettingsModel.SaveSettings();
+        }
+
+        /// <summary>
+        /// Action to display the in game settings
+        /// </summary>
+        public void DisplayInGameSettings_Click()
+        {
+            _mainMenuUIView.DisplayInGameSettings(settingsPropertiesRoot, settingsPrefabs);
+        }
+
+        /// <summary>
+        /// Action to display the video settings
+        /// </summary>
+        public void DisplayVideoSettings_Click()
+        {
+            _mainMenuUIView.DisplayVideoSettings(settingsPropertiesRoot, settingsPrefabs);
+        }
+        
+        /// <summary>
+        /// Action to display the audio settings
+        /// </summary>
+        public void DisplayAudioSettings_Click()
+        {
+            _mainMenuUIView.DisplayAudioSettings(settingsPropertiesRoot, settingsPrefabs);
         }
         
         #endregion

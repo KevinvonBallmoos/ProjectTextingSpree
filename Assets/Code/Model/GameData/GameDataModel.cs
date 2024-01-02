@@ -7,7 +7,6 @@ using UnityEngine;
 using Code.Controller.GameController;
 using Code.Model.Dialogue.StoryModel;
 using Code.Model.Node;
-using Code.View.Dialogue.StoryView;
 
 namespace Code.Model.GameData
 {

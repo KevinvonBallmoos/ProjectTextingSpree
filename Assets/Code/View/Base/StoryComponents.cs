@@ -8,7 +8,7 @@ namespace Code.View.Base
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">23.12.2023</para>
-    public abstract class StoryComponents : MonoBehaviour, IComponentBase
+    public abstract class StoryComponents : MonoBehaviour
     {
         [Header("NewStory Scene / StoryScene 1 + 2")]
         [Header("Image Title, SwitchImages Button, Map, StoryImage, Inventory")]
@@ -28,18 +28,5 @@ namespace Code.View.Base
         [Header("Save Status")]
         [SerializeField] protected GameObject saveStatus;
         
-        #region Inherited from IComponentBase
-        
-        [field: Header("MESSAGE BOX")]
-        // MessageBox
-        [field: Header("MessageBox, Button Continue (left one), Message Box Text")]
-        public GameObject MessageBox { get; set; }
-        public GameObject[] MessageBoxGameObjects { get; set; }
-        [field: Header("MATERIALS")]
-        // Materials
-        [field: Header("Material")]
-        public Material DefaultMaterial { get; set; }
-        
-        #endregion
     }
 }

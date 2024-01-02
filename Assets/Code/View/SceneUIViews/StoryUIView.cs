@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.IO;
 using System.Linq;
 using Code.Controller.DialogueController.StoryDialogueController;
@@ -13,7 +12,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GameObject = UnityEngine.GameObject;
 
-namespace Code.View.Dialogue.StoryView 
+namespace Code.View.SceneUIViews 
 {
     /// <summary>
     /// Displays the Story in the GUI

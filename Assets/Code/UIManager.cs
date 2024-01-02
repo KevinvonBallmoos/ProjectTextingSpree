@@ -1,11 +1,10 @@
 using System;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 using Code.View.Base;
 using Code.View.ControlElements;
-using Code.View.Dialogue.StoryView;
 using Code.View.SceneUIManager;
+using Code.View.SceneUIViews;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,9 +20,13 @@ namespace Code
         // UI Manager instance
         public static UIManager Uim;
         // ControlView
-        [NonSerialized] public ControlView ControlView;
+        [NonSerialized] public ComponentView ComponentView;
+        // CharacterPageUIView
+        [NonSerialized] public CharacterPageUIView CharacterPageUIView;
+        // MainMenuUIView
+        [NonSerialized] public MainMenuUIView MainMenuUIView;
         // StoryUIView
-        [NonSerialized] public StoryUIView StoryUIView;
+        [NonSerialized] public StoryUIView StoryUIView;        
         
         #region Awake and Start
 
@@ -35,7 +38,7 @@ namespace Code
         {
             if (Uim == null)
                 Uim = this;
-            ControlView = gameObject.AddComponent<ControlView>();
+            ComponentView = gameObject.AddComponent<ComponentView>();
         }
 
         /// <summary>
@@ -55,9 +58,11 @@ namespace Code
             switch (GameManager.Gm.ActiveScene)
             {
                 case 0:
+                    MainMenuUIView = gameObject.AddComponent<MainMenuUIView>();
                     MainMenuUIManager.MmUim.InitializeUI();
                     break;
                 case 1:
+                    CharacterPageUIView = gameObject.AddComponent<CharacterPageUIView>();
                     CharacterPageUIManager.CpUim.InitializeUI();
                     break;
                 case 2 or 3:
@@ -93,7 +98,7 @@ namespace Code
         /// <param name="characterPage">The Character page game object</param>
         public void StartNewGame(InputField playerName, Text chosenCharacter, GameObject characterPage)
         {
-            ControlView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
+            CharacterPageUIView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
         }
         
         #endregion
@@ -131,7 +136,7 @@ namespace Code
         /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
-            ControlView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
+            ComponentView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
         }
 
         /// <summary>
@@ -140,7 +145,7 @@ namespace Code
         public void Continue_Click()
         {
             GameManager.Gm.SetActiveScene(0, false);
-            ControlView.ContinueAction();
+            ComponentView.ContinueAction();
         }
 
         /// <summary>
@@ -148,7 +153,7 @@ namespace Code
         /// </summary>
         public void Cancel_CLick()
         {
-            ControlView.CancelAction(messageBox);
+            ComponentView.CancelAction(messageBox);
         }
 
         /// <summary>

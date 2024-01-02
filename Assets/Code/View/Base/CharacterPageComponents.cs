@@ -8,7 +8,7 @@ namespace Code.View.Base
     /// </summary>
     /// <para name="author">Kevin von Ballmoos</para>
     /// <para name="date">23.12.2023</para>
-    public abstract class CharacterPageComponents : MonoBehaviour, IComponentBase
+    public abstract class CharacterPageComponents : MonoBehaviour
     {
         [Header("CHARACTER Page Scene")]
         // Character select
@@ -23,38 +23,5 @@ namespace Code.View.Base
         [SerializeField] protected GameObject[] characters;
         [SerializeField] protected Text chosenCharacter;
         [SerializeField] protected InputField playerName;
-        
-        #region Inherited from IComponentBase
-        
-        [field: Header("MESSAGE BOX")]
-        // MessageBox
-        [field: Header("MessageBox, Button Continue (left one), Message Box Text")]
-        [SerializeField] 
-        private GameObject messageBox;
-        public GameObject MessageBox
-        {
-            get => messageBox; 
-            set => messageBox = value;
-        }
-        [SerializeField] 
-        private GameObject[] messageBoxGameObjects;
-        public GameObject[] MessageBoxGameObjects
-        {
-            get => messageBoxGameObjects;
-            set => messageBoxGameObjects = value;
-        }
-        
-        [field: Header("MATERIALS")]
-        // Materials
-        [field: Header("Material")]
-        [SerializeField] 
-        private Material defaultMaterial;
-        public Material DefaultMaterial
-        {
-            get => defaultMaterial;
-            set => defaultMaterial = value;
-        }
-        
-        #endregion
     }
 }

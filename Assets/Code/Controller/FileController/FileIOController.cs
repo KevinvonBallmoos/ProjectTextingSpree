@@ -20,10 +20,10 @@ namespace Code.Controller.FileController
         /// </summary>
         public static void CreateFolders()
         {
-            var folders = new [] { "/SaveData", "/StoryAssets" };
+            var folders = new [] { "/SaveData", "/Settings", "/StoryAssets" };
             foreach (var f in folders)
             {
-                if (Directory.Exists(Application.persistentDataPath + f)) return;
+                if (Directory.Exists(Application.persistentDataPath + f)) continue;
                 Directory.CreateDirectory(Application.persistentDataPath + f);
             }
         }

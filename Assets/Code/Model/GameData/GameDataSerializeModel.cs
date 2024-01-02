@@ -23,7 +23,6 @@ namespace Code.Model.GameData
         public readonly string NodeIndex;
         public readonly StoryNodeModel[] PastStoryNodes;
         public readonly StoryNodeModel[] SelectedChoices;
-        
 
 		/// <summary>
 		/// Constructor to game an Object of type GameDataSerializeModel
@@ -44,5 +43,5 @@ namespace Code.Model.GameData
             PastStoryNodes = gameData.PastStoryNodes;
             SelectedChoices = gameData.SelectedChoices;
         }
-   }
+    }
 }
