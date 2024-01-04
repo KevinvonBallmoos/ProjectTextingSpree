@@ -27,6 +27,9 @@ namespace Code.View.Base
         // Object for the save animation
         [Header("Save Status")]
         [SerializeField] protected GameObject saveStatus;
-        
+                
+        [Header("Settings Panel")]
+        // Settings panel
+        [SerializeField] protected GameObject settingsPanel;
     }
 }

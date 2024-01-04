@@ -7,6 +7,7 @@ using Code.Controller.GameController;
 using Code.Logger;
 using Code.Model.Dialogue.StoryModel;
 using Code.Model.GameData;
+using Code.Model.Settings;
 using Code.View.SceneUIManager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +46,8 @@ namespace Code.View.SceneUIViews
 		/// </summary>
 		public void InitializeStoryUI()
         {
+            SettingsModel.LoadSettings();
+            
             _storyUIManager = StoryUIManager.SUim;
             _storyHolderModel = GameObject.FindGameObjectWithTag("Story").GetComponent<StoryHolderModel>();
             if (currentChapter == null)
@@ -184,8 +187,11 @@ namespace Code.View.SceneUIViews
             var imageObjects = _storyUIManager.GetMenuGroupObjects();
             story.text = "";
             var text = _storyHolderModel.GetCurrentNodeText().Replace("{Name}", GameDataInfoModel.PlayerName);
-            if (GameManager.Gm.IsTextSlowed)
+            if (SettingsInfoModel.IsTextSlowed.SettingValue){
                 _textCoroutine = StartCoroutine(TextSlower(0.02f, text, story, scrollbar));
+                // Set scrollbar handle to the top
+                scrollbar.value = 1;
+            }
             else
                 story.text = text;
             
@@ -247,9 +253,6 @@ namespace Code.View.SceneUIViews
                 }
                 story.text += " ";
             }
-            
-            // Set Scroll view Position
-            storyScrollbar.value = 1;
         }
         
         /// <summary>
@@ -465,6 +468,46 @@ namespace Code.View.SceneUIViews
                 _storyHolderModel.SetNextNode(_storyHolderModel.ChoiceNodes[index]);
                 UpdateUI(isSave, false);
             });
+        }
+
+        #endregion
+        
+        #region Settings Panel Focus
+        
+        /// <summary>
+        /// Opens the settings and disables the hover and click events of
+        /// the game book, game data paper, quit and settings game object
+        /// </summary>
+        /// <param name="settingsPanel">settings panel</param>
+        /// <param name="mainMenuGameObjects">game data paper and game book</param>
+        /// <param name="menuGameObjects">button settings and quit, hover label</param>
+        public void OpenSettings(GameObject settingsPanel, GameObject[] mainMenuGameObjects, GameObject[] menuGameObjects)
+        {
+            SetGameObjectsBehavior(settingsPanel, mainMenuGameObjects, menuGameObjects, false);
+        }
+
+        /// <summary>
+        /// Down scales the GameDataPaper, back to origin state
+        /// Main menu view is active
+        /// </summary>
+        /// <param name="settingsPanel">settings panel</param>
+        /// <param name="mainMenuGameObjects">game data paper and game book</param>
+        /// <param name="menuGameObjects">button settings and quit, hover label</param>
+        public void CloseSettings(GameObject settingsPanel, GameObject[] mainMenuGameObjects, GameObject[] menuGameObjects)
+        {
+            SetGameObjectsBehavior(settingsPanel, mainMenuGameObjects, menuGameObjects, true);
+        }
+
+        /// <summary>
+        /// Sets the behavior of the other controls
+        /// </summary>
+        /// <param name="settingsPanel">settings panel</param>
+        /// <param name="mainMenuGameObjects">game data paper and game book</param>
+        /// <param name="menuGameObjects">button settings and quit, hover label</param>
+        /// <param name="isActive">true the settings panel will be visible, false it will be hidden</param>
+        private void SetGameObjectsBehavior(GameObject settingsPanel, GameObject[] mainMenuGameObjects, GameObject[] menuGameObjects, bool isActive)
+        {
+            settingsPanel.SetActive(!isActive);
         }
 
         #endregion

@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Text;
 using Code.Model.Settings;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Code.Controller.FileController
@@ -23,7 +25,7 @@ namespace Code.Controller.FileController
         /// <param name="serializableSettings">setting properties</param>
         public static void SaveSettings(SettingsSerializeModel serializableSettings)
         {
-            var json = JsonUtility.ToJson(serializableSettings);
+            var json = JsonConvert.SerializeObject(serializableSettings, Formatting.Indented);
             var path = Application.persistentDataPath + "/Settings/Settings.json";
             File.WriteAllText(path, json);
         }
@@ -36,10 +38,12 @@ namespace Code.Controller.FileController
         {
             try
             {
-                return JsonUtility.FromJson<SettingsSerializeModel>(SettingsPath);
+                var json = File.ReadAllText(SettingsPath, Encoding.UTF8);
+                return JsonConvert.DeserializeObject<SettingsSerializeModel>(json);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.Log(ex.Message);
                 return null;
             }
         }

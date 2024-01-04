@@ -156,13 +156,13 @@ namespace Code.View.SceneUIManager
         #region Settings
 
         /// <summary>
-        /// Action to open the settings pnael
+        /// Action to open the settings panel
         /// </summary>
         public void OpenSettings_Click()
         {
             _mainMenuUIView.OpenSettings(settingsPanel, mainMenuGameObjects, menuGameObjects);
             SettingsModel.LoadSettings();
-            DisplayAudioSettings_Click();
+            UIManager.Uim.DisplayInGameSettings_Click();
         }
         
         /// <summary>
@@ -171,39 +171,6 @@ namespace Code.View.SceneUIManager
         public void CloseSettings_Click()
         {
             _mainMenuUIView.CloseSettings(settingsPanel, mainMenuGameObjects, menuGameObjects);
-        }
-        
-        /// <summary>
-        /// Action to save the settings
-        /// </summary>
-        public void SaveSettings_Click()
-        {
-            // Method to set the properties ?
-            SettingsModel.SaveSettings();
-        }
-
-        /// <summary>
-        /// Action to display the in game settings
-        /// </summary>
-        public void DisplayInGameSettings_Click()
-        {
-            _mainMenuUIView.DisplayInGameSettings(settingsPropertiesRoot, settingsPrefabs);
-        }
-
-        /// <summary>
-        /// Action to display the video settings
-        /// </summary>
-        public void DisplayVideoSettings_Click()
-        {
-            _mainMenuUIView.DisplayVideoSettings(settingsPropertiesRoot, settingsPrefabs);
-        }
-        
-        /// <summary>
-        /// Action to display the audio settings
-        /// </summary>
-        public void DisplayAudioSettings_Click()
-        {
-            _mainMenuUIView.DisplayAudioSettings(settingsPropertiesRoot, settingsPrefabs);
         }
         
         #endregion

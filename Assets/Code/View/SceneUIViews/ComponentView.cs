@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Code.Controller.GameController;
+using System.Linq;
 using Code.Controller.LocalizationController;
 using Code.Model.GameData;
-using Code.View.SceneUIManager;
+using Code.Model.Settings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,6 +18,8 @@ namespace Code.View.SceneUIViews
     /// <para name="date">02.01.2024</para>
     public class ComponentView : MonoBehaviour
     {
+        private readonly List<string> WindowSizes = new () { "800x600", "1920x1080" , "3840x2160" };
+        
         #region Messagebox
         
         /// <summary>
@@ -83,6 +85,111 @@ namespace Code.View.SceneUIViews
         public void SwitchToStoryImage(GameObject[] menuGroupObjects)
         {
             menuGroupObjects[0].GetComponent<Image>().enabled = true;
+        }
+        
+        #endregion
+        
+        #region Settings Properties
+
+        /// <summary>
+        /// Creates prefabs for the Audio Setting
+        /// </summary>
+        /// <param name="settingsPropertiesRoot">root of the all setting prefabs</param>
+        /// <param name="settingsPrefabs">prefab variants</param>
+        public void DisplayInGameSettings(GameObject settingsPropertiesRoot, GameObject[] settingsPrefabs)
+        {
+            foreach (Transform item in settingsPropertiesRoot.transform)
+                Destroy(item.gameObject);
+            
+            foreach (var setting in SettingsInfoModel.inGameList.Settings)
+            {
+                var settingInstance = Instantiate(settingsPrefabs[0], settingsPropertiesRoot.transform);
+                // Text
+                var textComponents = settingInstance.GetComponentsInChildren<Text>();
+                textComponents[0].text = setting.SettingName;
+                textComponents[1].text = setting.InfoLabelText;
+                textComponents[2].text = setting.SettingValue.ToString();
+                // Toggle
+                var toggle = settingInstance.GetComponentInChildren<Toggle>();
+                toggle.isOn = setting.SettingValue;
+                toggle.onValueChanged.AddListener(newValue =>
+                {
+                    setting.SettingValue = newValue;
+                    textComponents[2].text = setting.SettingValue.ToString();
+                    // AppendNewValueToGame(setting.SettingName);
+                });
+            }
+        }
+        
+        /// <summary>
+        /// Creates prefabs for the Audio Setting
+        /// </summary>
+        /// <param name="settingsPropertiesRoot">root of the all setting prefabs</param>
+        /// <param name="settingsPrefabs">prefab variants</param>
+        public void DisplayVideoSettings(GameObject settingsPropertiesRoot, GameObject[] settingsPrefabs)
+        {
+            foreach (Transform item in settingsPropertiesRoot.transform)
+                Destroy(item.gameObject);
+            
+            foreach (var setting in SettingsInfoModel.videoList.Settings)
+            {
+                var settingInstance = Instantiate(settingsPrefabs[1], settingsPropertiesRoot.transform);
+                var textComponents = settingInstance.GetComponentsInChildren<Text>();
+                textComponents[0].text = setting.SettingName;
+                textComponents[1].text = setting.InfoLabelText;
+                textComponents[2].text = setting.SettingValue.ToString();
+            }
+            foreach (var setting in SettingsInfoModel.videoList2.Settings)
+            {
+                var settingInstance = Instantiate(settingsPrefabs[3], settingsPropertiesRoot.transform);
+                // Text
+                var textComponents = settingInstance.GetComponentsInChildren<Text>();
+                textComponents[0].text = setting.SettingName;
+                textComponents[1].text = setting.InfoLabelText;
+                //textComponents[2].text = setting.SettingValue;
+                // Dropdown
+                var dropDown = settingInstance.GetComponentInChildren<Dropdown>();
+                dropDown.ClearOptions();
+                
+                List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
+                foreach (var option in WindowSizes)
+                {
+                    options.Add(new Dropdown.OptionData(text: option));
+                }
+                //var options = WindowSizes.Select(option => new Dropdown.OptionData(option, Resources.Load<Sprite>("Sprites/Controls/Button_Layout_cropped"))).ToList();
+                dropDown.AddOptions(options);
+                dropDown.value = WindowSizes.IndexOf(setting.SettingValue);
+            }
+        }
+        
+        /// <summary>
+        /// Creates prefabs for the Audio Setting
+        /// </summary>
+        /// <param name="settingsPropertiesRoot">root of the all setting prefabs</param>
+        /// <param name="settingsPrefabs">prefab variants</param>
+        public void DisplayAudioSettings(GameObject settingsPropertiesRoot, GameObject[] settingsPrefabs)
+        {
+            foreach (Transform item in settingsPropertiesRoot.transform)
+                Destroy(item.gameObject);
+            
+            foreach (var setting in SettingsInfoModel.audioList.Settings)
+            {
+                var settingInstance = Instantiate(settingsPrefabs[2], settingsPropertiesRoot.transform);
+                // Text
+                var textComponents = settingInstance.GetComponentsInChildren<Text>();
+                textComponents[0].text = setting.SettingName;
+                textComponents[1].text = setting.InfoLabelText;
+                textComponents[2].text = setting.SettingValue.ToString();
+                // Slider
+                var slider = settingInstance.GetComponentInChildren<Slider>();
+                slider.value = setting.SettingValue;
+                slider.onValueChanged.AddListener(newValue  =>
+                {
+                    textComponents[2].text = Convert.ToInt32(newValue).ToString();
+                    setting.SettingValue = Convert.ToInt32(newValue);
+                    // Adjust the loudness // TODO Create VolumeControl class
+                });
+            }
         }
         
         #endregion

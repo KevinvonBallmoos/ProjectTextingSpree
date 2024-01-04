@@ -1,4 +1,5 @@
 using System;
+using Code.Model.Settings;
 using UnityEngine.Events;
 
 using Code.View.Base;
@@ -122,6 +123,42 @@ namespace Code
         public void NextPart_Click()
         {
             GameManager.Gm.NextPart();
+        }
+        
+        #endregion
+        
+        #region Settings
+        
+        /// <summary>
+        /// Action to save the settings
+        /// </summary>
+        public void SaveSettings_Click()
+        {
+            SettingsModel.SaveSettings();
+        }
+
+        /// <summary>
+        /// Action to display the in game settings
+        /// </summary>
+        public void DisplayInGameSettings_Click()
+        {
+            ComponentView.DisplayInGameSettings(settingsPropertiesRoot, settingsPrefabs);
+        }
+
+        /// <summary>
+        /// Action to display the video settings
+        /// </summary>
+        public void DisplayVideoSettings_Click()
+        {
+            ComponentView.DisplayVideoSettings(settingsPropertiesRoot, settingsPrefabs);
+        }
+        
+        /// <summary>
+        /// Action to display the audio settings
+        /// </summary>
+        public void DisplayAudioSettings_Click()
+        {
+            ComponentView.DisplayAudioSettings(settingsPropertiesRoot, settingsPrefabs);
         }
         
         #endregion

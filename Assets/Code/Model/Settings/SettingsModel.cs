@@ -45,31 +45,100 @@ namespace Code.Model.Settings
             }
 
             // Video
-            SettingsInfoModel.FpsValue = settings.FpsValue;
-            SettingsInfoModel.WindowSize = settings.WindowSize;
+            SettingsInfoModel.FpsValue = new SettingsInfoModel.Setting<int>
+            {
+                SettingName = settings.FpsValue.SettingName, 
+                InfoLabelText = settings.FpsValue.InfoLabelText, 
+                SettingValue = settings.FpsValue.SettingValue
+            };
+            SettingsInfoModel.WindowSize = new SettingsInfoModel.Setting<string>
+            {
+                SettingName = settings.WindowSize.SettingName, 
+                InfoLabelText = settings.WindowSize.InfoLabelText, 
+                SettingValue = settings.WindowSize.SettingValue
+            };
             // Audio
-            SettingsInfoModel.AllVolume.SettingValue = 100;
-            SettingsInfoModel.VfxVolume.SettingValue = 100;
-            SettingsInfoModel.MusicVolume.SettingValue =100;
+            SettingsInfoModel.AllVolume = new SettingsInfoModel.Setting<int>            
+            {
+                SettingName = settings.AllVolume.SettingName, 
+                InfoLabelText = settings.AllVolume.InfoLabelText, 
+                SettingValue = settings.AllVolume.SettingValue
+            };
+            SettingsInfoModel.VfxVolume = new SettingsInfoModel.Setting<int>            
+            {
+                SettingName = settings.VfxVolume.SettingName, 
+                InfoLabelText = settings.VfxVolume.InfoLabelText, 
+                SettingValue = settings.VfxVolume.SettingValue
+            };
+            SettingsInfoModel.MusicVolume = new SettingsInfoModel.Setting<int>            
+            {
+                SettingName = settings.MusicVolume.SettingName, 
+                InfoLabelText = settings.MusicVolume.InfoLabelText, 
+                SettingValue = settings.MusicVolume.SettingValue
+            };
             // In Game
-            SettingsInfoModel.IsTextSlowed = settings.IsTextSlowed;
-            SettingsInfoModel.LightFlicker = settings.LightFlicker;
-
+            SettingsInfoModel.IsTextSlowed = new SettingsInfoModel.Setting<bool>            
+            {
+                SettingName = settings.IsTextSlowed.SettingName, 
+                InfoLabelText = settings.IsTextSlowed.InfoLabelText, 
+                SettingValue = settings.IsTextSlowed.SettingValue
+            };
+            SettingsInfoModel.LightFlicker =new SettingsInfoModel.Setting<bool>           
+            {
+                SettingName = settings.LightFlicker.SettingName, 
+                InfoLabelText = settings.LightFlicker.InfoLabelText, 
+                SettingValue = settings.LightFlicker.SettingValue
+            };
             FillLists();
         }
 
         private static void InitializeDefaultValues()
         {
             // Video
-            SettingsInfoModel.FpsValue = new SettingsInfoModel.Setting<int>{SettingName = nameof(SettingsInfoModel.FpsValue), InfoLabelText = "Recommended", SettingValue = 240};
-            SettingsInfoModel.WindowSize = new SettingsInfoModel.Setting<string>{SettingName = nameof(SettingsInfoModel.WindowSize), InfoLabelText = "Recommended", SettingValue = "1920x1080"};
+            SettingsInfoModel.FpsValue = new SettingsInfoModel.Setting<int>
+                {
+                    SettingName = nameof(SettingsInfoModel.FpsValue), 
+                    InfoLabelText = "Recommended", 
+                    SettingValue = 240
+                };
+            SettingsInfoModel.WindowSize = new SettingsInfoModel.Setting<string>
+            {
+                SettingName = nameof(SettingsInfoModel.WindowSize), 
+                InfoLabelText = "Recommended", 
+                SettingValue = "1920x1080"
+            };
             // Audio
-            SettingsInfoModel.AllVolume = new SettingsInfoModel.Setting<int>{SettingName = nameof(SettingsInfoModel.AllVolume), InfoLabelText = "Recommended", SettingValue = 100};
-            SettingsInfoModel.VfxVolume = new SettingsInfoModel.Setting<int>{SettingName = nameof(SettingsInfoModel.VfxVolume), InfoLabelText = "Recommended", SettingValue = 100};
-            SettingsInfoModel.MusicVolume = new SettingsInfoModel.Setting<int>{SettingName = nameof(SettingsInfoModel.MusicVolume), InfoLabelText = "Recommended", SettingValue = 100};
+            SettingsInfoModel.AllVolume = new SettingsInfoModel.Setting<int>
+            {
+                SettingName = nameof(SettingsInfoModel.AllVolume), 
+                InfoLabelText = "Recommended", 
+                SettingValue = 100
+            };
+            SettingsInfoModel.VfxVolume = new SettingsInfoModel.Setting<int>
+            {
+                SettingName = nameof(SettingsInfoModel.VfxVolume), 
+                InfoLabelText = "Recommended", 
+                SettingValue = 100
+            };
+            SettingsInfoModel.MusicVolume = new SettingsInfoModel.Setting<int>
+            {
+                SettingName = nameof(SettingsInfoModel.MusicVolume), 
+                InfoLabelText = "Recommended", 
+                SettingValue = 100
+            };
             // In Game
-            SettingsInfoModel.IsTextSlowed = new SettingsInfoModel.Setting<bool>{SettingName = nameof(SettingsInfoModel.IsTextSlowed), InfoLabelText = "Recommended", SettingValue = false};
-            SettingsInfoModel.LightFlicker =new SettingsInfoModel.Setting<bool>{SettingName = nameof(SettingsInfoModel.LightFlicker), InfoLabelText = "Recommended", SettingValue = false};
+            SettingsInfoModel.IsTextSlowed = new SettingsInfoModel.Setting<bool>
+            {
+                SettingName = nameof(SettingsInfoModel.IsTextSlowed), 
+                InfoLabelText = "Recommended", 
+                SettingValue = false
+            };
+            SettingsInfoModel.LightFlicker =new SettingsInfoModel.Setting<bool>
+            {
+                SettingName = nameof(SettingsInfoModel.LightFlicker), 
+                InfoLabelText = "Recommended", 
+                SettingValue = false
+            };
         }
         
         #region PropertyLists
@@ -111,7 +180,6 @@ namespace Code.Model.Settings
                 }
             };
         }
-        
         #endregion
     }
 }

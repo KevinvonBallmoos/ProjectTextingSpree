@@ -1,8 +1,7 @@
+using Code.Model.Settings;
 using Code.View.Base;
-using Code.View.ControlElements;
 using Code.View.SceneUIViews;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Code.View.SceneUIManager
 {
@@ -164,6 +163,28 @@ namespace Code.View.SceneUIManager
         public GameObject[] GetMenuGroupObjects()
         {
             return menuGroupObjects;
+        }
+        
+        #endregion
+        
+        #region Settings
+
+        /// <summary>
+        /// Action to open the settings panel
+        /// </summary>
+        public void OpenSettings_Click()
+        {
+            _storyUIView.OpenSettings(settingsPanel, null, null);
+            SettingsModel.LoadSettings();
+            UIManager.Uim.DisplayInGameSettings_Click();
+        }
+        
+        /// <summary>
+        /// Action to close the settings panel
+        /// </summary>
+        public void CloseSettings_Click()
+        {
+            _storyUIView.CloseSettings(settingsPanel, null, null);
         }
         
         #endregion

@@ -36,12 +36,6 @@ namespace Code
 		// Is Game over
 		public bool IsGameOver { get; set; }
         
-        // Menu Option Property :
-        // TODO: Create Settings Model, also include FPS Settings (recommendation, with explanation) and Size
-        // true  : the Story Text will appear letter by letter
-        // false : the Story Text will appear directly
-        public bool IsTextSlowed { get; set; }
-        
         #endregion
 
         #region Awake and Start

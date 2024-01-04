@@ -5,44 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="723c4139-6cf9-421b-807c-78815e48442e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Controller/FileController/JsonController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Controller/FileController/JsonController.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Settings.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Settings/SettingsInfoModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Settings/SettingsInfoModel.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Settings/SettingsModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Settings/SettingsModel.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Settings/SettingsSerializeModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Model/Settings/SettingsSerializeModel.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/CharacterPageUIView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/CharacterPageUIView.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/MainMenuUIView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TalesOfRydonia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Controller/FileController/FileIOController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Controller/FileController/FileIOController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataSerializeModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Model/GameData/GameDataSerializeModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Controller/FileController/JsonController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Controller/FileController/JsonController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/CharacterPageComponents.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/ComponentBase.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/MainMenuComponents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/MainMenuComponents.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/Base/StoryComponents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/ComponentView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/ControlElements/ControlView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/ComponentView.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/StoryUIView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/Dialogue/StoryView/StoryUIView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/StoryUIView.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/MainMenu/MainMenuHolderView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/View/MainMenu/MainMenuHolderView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/MainMenuUIView.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/CharacterPageUIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIManager/StoryUIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/OutlineMaterial/Highlight_3.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/OutlineMaterial/Highlight_3.mat.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/ChoiceButton.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/ComponentView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/ComponentView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/MainMenuUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/MainMenuUIView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/StoryUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/View/SceneUIViews/StoryUIView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/Settings/BoolPropertyPrefab.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameUI/Settings/BoolPropertyPrefab.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StoryScene 1.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,14 +53,19 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Model/Node/StoryNodeSerializeModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/UIManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Kevin/Unity Projects/TalesOfRydonia/Assets/Code/View/Base/MainMenuComponents.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Kevin/Unity Projects/TalesOfRydonia/Assets/Code/View/Base/MainMenuComponents.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/LightFlickerView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/ControlElements/ObjectRotationView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/GameData/PlaceholderSelectImageView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/Inventory/InventoryCall.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Kevin/Unity Projects/TalesOfRydonia/Assets/Code/View/SceneUIManager/MainMenuUIManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/SceneUIViews/ComponentView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/SceneUIViews/MainMenuUIView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/View/SceneUIViews/StoryUIView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.18/Editor/Collaborate/Views/IChangesView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.18/Editor/PlasticSCM/Developer/UpdateReport/UpdateReportDialog.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.18/Editor/PlasticSCM/UI/PlasticDialog.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/EditorPluginInterop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/IAssemblyNameProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/ProjectGeneration/LastWriteTracker.cs" root0="SKIP_HIGHLIGHTING" />
@@ -100,10 +84,12 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Dropdown.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Image.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/Canvas/AssertionFailureOnOutputVertexCount.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/Canvas/CanvasElementsMaintainValidPositionsWhenCameraOrthoSizeIsZero.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/CanvasRenderer/ChangingHierarchyOfCanvasRenderer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/CanvasRenderer/ParentCanvasIsSane.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Runtime/Canvas/NoActiveCameraInSceneDoesNotCrashEditor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Runtime/ScrollRect/ScrollRectClamp.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -180,10 +166,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="34140">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="53852">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="34140" />
+      <option name="pid" value="53852" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -225,7 +211,8 @@
       <workItem from="1703970017686" duration="251000" />
       <workItem from="1703981789099" duration="1433000" />
       <workItem from="1704022562938" duration="1433000" />
-      <workItem from="1704150792460" duration="13974000" />
+      <workItem from="1704150792460" duration="15254000" />
+      <workItem from="1704370049052" duration="9118000" />
     </task>
     <task id="LOCAL-00001" summary="UserStory 11 Added a table of contents, updated Versioning">
       <option name="closed" value="true" />
@@ -323,7 +310,23 @@
       <option name="project" value="LOCAL" />
       <updated>1703673957809</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added Settings panel and function">
+      <option name="closed" value="true" />
+      <created>1704206102016</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1704206102016</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added prefabs for settings">
+      <option name="closed" value="true" />
+      <created>1704206161834</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1704206161835</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -357,7 +360,9 @@
     <MESSAGE value="Added UI classes for each Scene&#10;Added Interface and abstract classes for the serialized fields" />
     <MESSAGE value="Added Quit function" />
     <MESSAGE value="Added ImageTitle Attribute" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ImageTitle Attribute" />
+    <MESSAGE value="Added Settings panel and function" />
+    <MESSAGE value="Added prefabs for settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added prefabs for settings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -387,6 +392,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Code/Controller/FileController/JsonController.cs</url>
+          <line>39</line>
+          <properties documentPath="C:\Users\Kevin\Unity Projects\TalesOfRydonia\Assets\Code\Controller\FileController\JsonController.cs" initialLine="39" containingFunctionPresentation="Method 'LoadSettings'">
+            <startOffsets>
+              <option value="1276" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1351" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
