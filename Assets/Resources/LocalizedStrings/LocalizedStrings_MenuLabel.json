@@ -1,0 +1,29 @@
+{
+    "languages": ["en"],
+    "table": [
+        {
+            "key": "menu_informationlabel_newgame_caption",
+            "values": [
+                {"lang": "en", "value": "Start a new game and uncover the secrets of the Rydonian Empire!"}
+            ]
+        },
+        {
+            "key": "menu_informationlabel_loadgame_caption",
+            "values": [
+                {"lang": "en", "value": "Load an already started campaign, or remove an old save file."}
+            ]
+        },
+        {
+            "key": "menu_informationlabel_settings_caption",
+            "values": [
+                {"lang": "en", "value": "Adjust the visual and audio settings of the game."}
+            ]
+        },
+        {
+            "key": "menu_informationlabel_quit_caption",
+            "values": [
+                {"lang": "en", "value": "Quit the Game."}
+            ]
+        }
+    ]
+}

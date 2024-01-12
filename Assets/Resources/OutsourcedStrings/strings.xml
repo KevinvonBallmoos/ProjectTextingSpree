@@ -1,6 +1,0 @@
-﻿<OutsourcedStrings>
-	<MessageBoxText>All of your game slots are occupied. To start a new Game you have to select a SaveGame to override the status. Do you want to continue? </MessageBoxText>
-    <MessageBoxText>Do you really want to delete this game? This action can't be undone.</MessageBoxText>
-    <Information>Select the Game you want to load.</Information>
-    <Information>Select the Save you want to override with the new Game.</Information>
-</OutsourcedStrings>

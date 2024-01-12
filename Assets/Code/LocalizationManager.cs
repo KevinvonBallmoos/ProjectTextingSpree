@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Code.Controller.LocalizationController;
+using UnityEditor;
 using UnityEngine;
 
 namespace Code
@@ -22,22 +24,43 @@ namespace Code
         /// </summary>
         public static void LoadLocalizableValues()
         {
-            var jsonFile = Resources.Load<TextAsset>("LocalizedStrings/LocalizedStrings");
-            var localizationData = JsonUtility.FromJson<LocalizationData>(jsonFile.text);
-            _currentLanguage = localizationData.languages[0];
-
-            foreach (var language in localizationData.languages)
+            var jsonFiles = Resources.LoadAll<TextAsset>("LocalizedStrings");
+            foreach (var file in jsonFiles)
             {
-                var languageStrings = new Dictionary<string, string>();
-
-                foreach (var entry in localizationData.table)
+                var localizationData = JsonUtility.FromJson<LocalizationData>(file.text);
+                _currentLanguage = localizationData.languages[0];
+                try
                 {
-                    foreach (var data in entry.values.Where(data => data.lang == language))
+                    foreach (var language in localizationData.languages)
                     {
-                        languageStrings.Add(entry.key, data.value);
+                        foreach (var entry in localizationData.table)
+                        {
+                            foreach (var data in entry.values.Where(data => data.lang == language))
+                            {
+                                // Check if the language key already exists
+                                if (Languages.TryGetValue(language, out var lan))
+                                {
+                                    // If it does, add the new string to the existing entry
+                                    lan.Add(entry.key, data.value);
+                                }
+                                else
+                                {
+                                    // If it doesn't, create a new entry for that language
+                                    var newLanguageStrings = new Dictionary<string, string>
+                                    {
+                                        { entry.key, data.value }
+                                    };
+                                    Languages.Add(language, newLanguageStrings);
+                                }
+                            }
+                        }
                     }
+
                 }
-                Languages.Add(language, languageStrings);
+                catch (Exception)
+                {
+                    //Debug.Log(ex.Message);
+                }
             }
         }
         

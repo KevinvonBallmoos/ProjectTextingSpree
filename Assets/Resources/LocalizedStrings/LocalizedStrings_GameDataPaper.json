@@ -1,0 +1,17 @@
+{
+    "languages": ["en"],
+    "table": [
+        {
+            "key": "information_text_1_caption",
+            "values": [
+                {"lang": "en", "value": "Select the Game you want to load."}
+            ]
+        },
+        {
+            "key": "information_text_2_caption",
+            "values": [
+                {"lang": "en", "value": "Select the Save you want to override with the new Game."}
+            ]
+        }
+    ]
+}

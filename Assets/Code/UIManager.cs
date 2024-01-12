@@ -1,26 +1,32 @@
-using System.IO;
-using System.Linq;
-using Code.Controller.FileController;
-using UnityEngine;
+using System;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
-using Code.Controller.GameController;
-using Code.Controller.LocalizationController;
-using Code.Model.GameData;
 using Code.View.Base;
 using Code.View.ControlElements;
+using Code.View.SceneUIManager;
+using Code.View.SceneUIViews;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Code
 {
+    /// <summary>
+    /// This class handles all UI Events
+    /// </summary>
+    /// <para name="author">Kevin von Ballmoos</para>
+    /// <para name="date">23.12.2023</para>
     public class UIManager : ComponentBase
     {
         // UI Manager instance
         public static UIManager Uim;
         // ControlView
-        private ControlView _controlView;
-        // Path to the Save files
-        private static string _saveDataPath;
+        [NonSerialized] public ComponentView ComponentView;
+        // CharacterPageUIView
+        [NonSerialized] public CharacterPageUIView CharacterPageUIView;
+        // MainMenuUIView
+        [NonSerialized] public MainMenuUIView MainMenuUIView;
+        // StoryUIView
+        [NonSerialized] public StoryUIView StoryUIView;        
         
         #region Awake and Start
 
@@ -32,8 +38,7 @@ namespace Code
         {
             if (Uim == null)
                 Uim = this;
-            _controlView = gameObject.AddComponent<ControlView>();
-            _saveDataPath = Application.persistentDataPath + "/SaveData";
+            ComponentView = gameObject.AddComponent<ComponentView>();
         }
 
         /// <summary>
@@ -41,131 +46,59 @@ namespace Code
         /// </summary>
         private void Start()
         {
-            if (GameManager.Gm.ActiveScene != 0) return;
-            EnableRemoveDataButton();
-            _controlView.InitializeSaveDataPanel("LOAD", 0, true, placeholderView, buttonLoadGameText, placeholders);
+            GameManager.Gm.SetActiveScene(null, false);
+            InitializeUI();
+        }
+
+        /// <summary>
+        /// Initializes UI components, depending on the scene that is loaded.
+        /// </summary>
+        private void InitializeUI()
+        {
+            switch (GameManager.Gm.ActiveScene)
+            {
+                case 0:
+                    MainMenuUIView = gameObject.AddComponent<MainMenuUIView>();
+                    MainMenuUIManager.MmUim.InitializeUI();
+                    break;
+                case 1:
+                    CharacterPageUIView = gameObject.AddComponent<CharacterPageUIView>();
+                    CharacterPageUIManager.CpUim.InitializeUI();
+                    break;
+                case 2 or 3:
+                    StoryUIView = gameObject.AddComponent<StoryUIView>();
+                    StoryUIManager.SUim.InitializeUI(StoryUIView);
+                    break;
+            }
         }
 
         #endregion
         
-        #region Start New Game
+        #region GameBook Open Book
 
         /// <summary>
         /// Opens the character select window and disables the select Images
         /// </summary>
-        public void BookButtonNewGame_Click()
+        public void ButtonOpenBook_Click()
         {
             // TODO: Animation Turns to page 2
             // Display Character on pages 2 - 3,4 - 5
-            screenObjects[0].SetActive(false);
-            screenObjects[2].SetActive(true);
-            
-            _controlView.NewGame(characters);
-            // Adds Listener,to go back to the menu
-            _controlView.AddButtonListener(buttons[0], BackToMainMenu_Click);        
-        }
-
-        /// <summary>
-        /// Checks if a character was selected and a Name was given
-        /// Starts a new game and checks if a save placeholder is empty, else asks to override another placeholder
-        /// </summary>
-        public void BookButtonStartNewGame_Click()
-        {
-            _controlView.BookButtonStartNewGame(playerName, chosenCharacter, screenObjects, placeholderView, buttonLoadGameText, placeholders);
+            GameManager.Gm.SetActiveScene(1, true);
         }
 
         #endregion
         
-        #region LoadOrOverrideSave
+        #region Character Page Start New Game
 
         /// <summary>
-        /// Action to load a game
+        /// Action to check, to start a new game
         /// </summary>
-        public void LoadOrOverrideSave_Click()
+        /// <param name="playerName">The player name input field</param>
+        /// <param name="chosenCharacter">The chosen character text component</param>
+        /// <param name="characterPage">The Character page game object</param>
+        public void StartNewGame(InputField playerName, Text chosenCharacter, GameObject characterPage)
         {
-            var holders = placeholderView.GetComponentsInChildren<Image>();
-            GameDataInfoModel.SetPlaceholderNum(holders);
-
-            if (GameDataInfoModel.Placeholder == -1)
-            {
-                errorLabel.enabled = true;
-                var key = buttonLoadGameText.text.Equals("LOAD")? LocalizationKeyController.SaveFileErrorLabelLoadCaptionKey : LocalizationKeyController.SaveFileErrorLabelOverrideCaptionKey;
-                errorLabel.text = LocalizationManager.GetLocalizedValue(key);
-                return;
-            }
-            
-            _controlView.LoadOrOverrideSave(buttonLoadGameText);
-            
-            if (GameManager.Gm.ActiveScene == 2)
-                GameDataController.Gdc.LoadSelectedGame();
-            
-            errorLabel.enabled = false;
-        }
-
-        #endregion
-        
-        #region Character Page Top Bar Buttons
-        
-        /// <summary>
-        /// Hides the Message Box
-        /// Loads the MainMenu Scene
-        /// </summary>
-        public void BackToMainMenu_Click()
-        {
-            EnableOrDisableMessageBoxGameOver(false);
-            GameManager.Gm.ActiveScene = 0;
-            GameManager.Gm.LoadScene();
-        }
-        
-        /// <summary>
-        /// Displays the 2nd Character Page
-        /// </summary>
-        public void ScrollNextCharacterPage_CLick()
-        {
-            _controlView.ScrollNextCharacterPage(buttons, characterPages);
-        }
-
-        /// <summary>
-        /// Displays the 1st Character Page
-        /// </summary>
-        public void ScrollPreviousCharacterPage_CLick()
-        {
-            _controlView.ScrollPreviousCharacterPage(buttons, characterPages);
-        }
-        
-        #endregion
-
-        #region Characterselect
-
-        /// <summary>
-        /// Sets the character Field, with the title of the selected Character
-        /// </summary>
-        public void Character_Click(GameObject characterGameObject)
-        {
-            _controlView.SetImage(characters, chosenCharacter, characterGameObject);
-        }
-
-        #endregion
-        
-        #region Characterselect Input Field
-
-        /// <summary>
-        /// Is triggered, when the value of the input field changes
-        /// Compares the last entered char of the input with the regex string
-        /// if the input does not match, the last entered char is removed
-        /// </summary>
-        public void InputField_OnValueChanged()
-        {
-            _controlView.ValidateInputField(playerName);
-        }
-
-        /// <summary>
-        /// Is triggered when the User submits the Username
-        /// It checks if the input is empty or not
-        /// </summary>
-        private bool InputField_OnSubmit()
-        {
-            return _controlView.SubmitInputField(playerName);
+            CharacterPageUIView.BookButtonStartNewGame(playerName, chosenCharacter, characterPage, messageBox);
         }
         
         #endregion
@@ -177,7 +110,7 @@ namespace Code
         /// </summary>
         public void NextChapter_Click()
         {
-            GameManager.Gm.NextChapter();
+            StoryUIManager.SUim.InitializeUI(StoryUIView);
         }
 
         /// <summary>
@@ -203,7 +136,7 @@ namespace Code
         /// <param name="text">Message Box text</param>
         public void SetMessageBoxProperties(UnityAction eventMethod, string buttonText, string text)
         {
-            _controlView.SetMessageBoxProperties(messageBox, eventMethod, buttonText, text);
+            ComponentView.SetMessageBoxProperties(messageBoxGameObjects, eventMethod, buttonText, text);
         }
 
         /// <summary>
@@ -211,7 +144,8 @@ namespace Code
         /// </summary>
         public void Continue_Click()
         {
-            _controlView.ContinueAction(screenObjects);
+            GameManager.Gm.SetActiveScene(0, false);
+            ComponentView.ContinueAction();
         }
 
         /// <summary>
@@ -219,17 +153,7 @@ namespace Code
         /// </summary>
         public void Cancel_CLick()
         {
-            _controlView.CancelAction(screenObjects);
-        }
-        
-        /// <summary>
-        /// Action to set the Message box for removing data
-        /// </summary>
-        public void Remove_Click()
-        {
-            SetMessageBoxProperties(RemoveData_Click, "Remove Data", XmlController.GetMessageBoxText(1));
-            var holders = placeholderView.GetComponentsInChildren<Image>();
-            _controlView.RemoveDataAction(screenObjects[1], holders, errorLabel);
+            ComponentView.CancelAction(messageBox);
         }
 
         /// <summary>
@@ -238,28 +162,31 @@ namespace Code
         /// <param name="enable">true enable, false disable</param>
         public void EnableOrDisableMessageBoxGameOver(bool enable)
         {
-            messageBoxGameOver.SetActive(enable);
+            messageBox.SetActive(enable);
         }
         
         #endregion
         
-        #region Remove Data
-        
+        #region Quit Game
+
         /// <summary>
-        /// Action to remove data
+        /// Return back to the main menu
         /// </summary>
-        private void RemoveData_Click()
+        public void BackToMainMenu_Click()
         {
-            _controlView.RemoveData(_saveDataPath, removeData, placeholders, screenObjects[1]);
+            GameManager.Gm.SetActiveScene(0, true);
         }
 
         /// <summary>
-        /// Enables the Remove Button in theSave slot panel when there are any 
+        /// Quits the game, and returns to the desktop
         /// </summary>
-        private void EnableRemoveDataButton()
+        public void QuitGame_Click()
         {
-            var files = Directory.GetFiles(_saveDataPath);   
-            removeData.enabled = files.Any();
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            #else
+            Application.Quit();
+            #endif
         }
         
         #endregion

@@ -34,9 +34,9 @@ namespace Code.Controller.DialogueController.StoryDialogueController
     public class StoryAssetController : ScriptableObject
     {
         // Current Asset
-        private StoryAssetController _currentAssetController;
+        private string _currentAssetControllerTitle;
         // Lists with nodes
-        private readonly List<NodeInfo> _nodes = new();
+        private List<NodeInfo> _nodes;
         // List Property of all nodes
         [field: SerializeField] public List<StoryNodeModel> StoryNodes { get; private set; } = new();
         // Boolean that is true when the nodes have been read
@@ -49,19 +49,19 @@ namespace Code.Controller.DialogueController.StoryDialogueController
         /// <summary>
         /// Reads the Node Information from the Xml File and puts them in the right order
         /// </summary>
-        /// <param name="chapter">The name of the chapter is needed to find the according json file</param>
-        public StoryAssetController ReadNodes(StoryAssetController chapter)
+        /// <param name="chapterTitle">The name of the chapter is needed to find the according json file</param>
+        public void ReadNodes(string chapterTitle)
         {
             HasReadNodes = false;
-            _currentAssetController = chapter;
-            var path = Application.persistentDataPath + "/StoryAssets/" + chapter.name + ".json";
+            _currentAssetControllerTitle = chapterTitle;
+            var path = Application.persistentDataPath + "/StoryAssets/" + chapterTitle + ".json";
 
             // Check if json file exists
-            if (File.Exists(path))
-                ReadJsonFile(path);
-            
+            // if (File.Exists(path))
+            //     ReadJsonFile(path);
+            _nodes = new List<NodeInfo>();
             // Read nodes and properties from xml file
-            var xmlDoc = XmlController.GetXmlDocOfStoryFile(chapter.name);
+            var xmlDoc = XmlController.GetXmlDocOfStoryFile(chapterTitle);
             ReadNodesFromXmlFile(xmlDoc);
 
             // Set the node position
@@ -71,7 +71,6 @@ namespace Code.Controller.DialogueController.StoryDialogueController
             SaveNodesToJson();
 
             HasReadNodes = true;
-            return _currentAssetController;
         }
 
         /// <summary>
@@ -115,8 +114,6 @@ namespace Code.Controller.DialogueController.StoryDialogueController
             foreach (XmlNode story in xmlDoc.GetElementsByTagName("Node"))
                 ProcessNode(story, false);
             
-            // Remove nodes that ore not needed anymore
-            RemoveUnusedNodes();
             ReadXmlAttributes(xmlDoc);
         }
 
@@ -129,50 +126,8 @@ namespace Code.Controller.DialogueController.StoryDialogueController
         private void ProcessNode(XmlNode node, bool isChoice)
         {
             var id = node.Attributes?[0].Value;
-            if (CheckNodes(id)) return;
-
             var newNode = CreateNode(node, id, isChoice);
             _nodes.Add(new NodeInfo { NodeId = id, Node = newNode, IsTrue = true});
-        }
-        
-        /// <summary>
-        /// Checks if the node already exists 
-        /// </summary>
-        /// <param name="id">the id to check if its existing in the _nodes List</param>
-        /// <returns>true when the node exists or false when the node is not in the List</returns>
-        private bool CheckNodes(string id)
-        {
-            foreach (var n in _nodes.Where(n => n.Node.NodeId == id))
-            {
-                n.IsTrue = true; 
-                return true;
-            }
-            return false;
-        }
-        
-        /// <summary>
-        /// Remove nodes that ore not needed anymore
-        /// </summary>
-        private void RemoveUnusedNodes()
-        {
-            var i = 0;
-            while (i < _nodes.Count)
-            {
-                if (_nodes[i].IsTrue)
-                {
-                    i++;
-                    continue;
-                }
-
-                var nodes = _nodes
-                    .Where(n => n.Node.ChildNodes != null)
-                    .Where(n => n.Node.ChildNodes.Contains(_nodes[i].Node.name)).ToList();
-                
-                foreach (var n in nodes)
-                    n.Node.RemoveChildNode(_nodes[i].Node.name);
-                
-                _nodes.RemoveAt(i);
-            }
         }
         
         #endregion
@@ -222,6 +177,9 @@ namespace Code.Controller.DialogueController.StoryDialogueController
                         break;
                     case "image":
                         node.Image = xmlNode.Attributes[attribute].Value;
+                        break;
+                    case "imageTitle":
+                        node.ImageTitle = xmlNode.Attributes[attribute].Value;
                         break;
                     case "item":
                         node.Item = xmlNode.Attributes[attribute].Value;
@@ -443,11 +401,10 @@ namespace Code.Controller.DialogueController.StoryDialogueController
             var filename = Application.persistentDataPath + "/StoryAssets";
             Directory.CreateDirectory(filename);
             
-            filename += $"/{_currentAssetController.name}.json";
+            filename += $"/{_currentAssetControllerTitle}.json";
             File.WriteAllText(filename, json);
         }
         
         #endregion
-        
     }
 }

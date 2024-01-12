@@ -48,7 +48,7 @@ namespace Code.Model.Dialogue.StoryModel
             if (chapter != null){
                 
                 CurrentChapter = chapter;
-                CurrentChapter = CurrentChapter.ReadNodes(chapter);
+                CurrentChapter.ReadNodes(chapter.name);
             
                 CurrentNode = CurrentChapter.GetRootNode();
                 _pastStoryNodes = new StoryNodeModel[CurrentChapter.GetAllStoryNodes().Count()];
@@ -64,13 +64,8 @@ namespace Code.Model.Dialogue.StoryModel
             else
             {
                 var saveData = GameDataController.Gdc.GetSaveData();
-                var stories = Resources.LoadAll($@"StoryAssets/", typeof(StoryAssetController)).ToList();
-                foreach (var asset in stories)
-                {
-                    if (!asset.name.Equals(saveData.CurrentChapter)) continue;
-                    CurrentChapter = (StoryAssetController)asset;
-                    break;
-                }
+                CurrentChapter = StoryAssetModel.GetAsset(saveData.CurrentChapter);
+                
 
                 foreach (var node in CurrentChapter.GetAllNodes())
                 {
@@ -280,9 +275,14 @@ namespace Code.Model.Dialogue.StoryModel
             return CurrentNode.IsGameOver;
         }
 
-        public string GetImage(StoryNodeModel nodeToDisplay)
+        public string GetImage()
         {
-            return nodeToDisplay.Image;
+            return CurrentNode.Image;
+        }
+        
+        public string GetImageTitle()
+        {
+            return CurrentNode.ImageTitle;
         }
         
         public string GetItem()

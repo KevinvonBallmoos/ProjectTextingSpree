@@ -1,0 +1,27 @@
+LogTime = 12/29/2023 10:38:42 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 35
+LogTime = 12/29/2023 10:46:13 PM | LogType: Exception Log 
+LogMessage: Object reference not set to an instance of an object 
+Line Number: 35
+LogTime = 12/30/2023 5:05:12 PM | LogType: UI log 
+LogMessage: Game Over reached. 
+Line Number: 322
+LogTime = 12/31/2023 1:35:25 PM | LogType: UI log 
+LogMessage: End of Chapter reached. 
+Line Number: 302
+LogTime = 12/31/2023 1:38:36 PM | LogType: UI log 
+LogMessage: End of Chapter reached. 
+Line Number: 302
+LogTime = 12/31/2023 1:49:27 PM | LogType: UI log 
+LogMessage: Game Over reached. 
+Line Number: 322
+LogTime = 12/31/2023 1:53:03 PM | LogType: UI log 
+LogMessage: End of Chapter reached. 
+Line Number: 302
+LogTime = 12/31/2023 1:53:18 PM | LogType: UI log 
+LogMessage: End of Chapter reached. 
+Line Number: 302
+LogTime = 12/31/2023 2:29:36 PM | LogType: UI log 
+LogMessage: Game Over reached. 
+Line Number: 325
